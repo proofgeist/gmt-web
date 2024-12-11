@@ -1,7 +1,7 @@
 {
   "appType": "browser",
   "auth": {
-    "type": "none"
+    "type": "proofkit"
   },
   "envFile": ".env",
   "dataSources": [
@@ -15,5 +15,5 @@
       }
     }
   ],
-  "tanstackQuery": false
+  "tanstackQuery": true
 }

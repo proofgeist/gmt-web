@@ -13,8 +13,12 @@ import {
   Title,
 } from "@mantine/core";
 import { IconBrandGithub, IconExternalLink } from "@tabler/icons-react";
+import { redirect } from "next/navigation";
 
 export default function Home() {
+  //redirect the user to the bookings report page
+  redirect("/my-shipments");
+
   return (
     <>
       <Container mt="5rem">
