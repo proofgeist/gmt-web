@@ -17,7 +17,7 @@ import { redirect } from "next/navigation";
 
 export default function Home() {
   //redirect the user to the bookings report page
-  redirect("/my-shipments");
+  // redirect("/my-shipments");
 
   return (
     <>
