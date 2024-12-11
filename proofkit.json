@@ -1,0 +1,19 @@
+{
+  "appType": "browser",
+  "auth": {
+    "type": "none"
+  },
+  "envFile": ".env",
+  "dataSources": [
+    {
+      "type": "fm",
+      "name": "filemaker",
+      "envNames": {
+        "database": "FM_DATABASE",
+        "server": "FM_SERVER",
+        "apiKey": "OTTO_API_KEY"
+      }
+    }
+  ],
+  "tanstackQuery": false
+}
