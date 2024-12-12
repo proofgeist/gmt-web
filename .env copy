@@ -1,9 +1,0 @@
-# When adding additional environment variables, the schema in "/src/config/env.ts"
-# should be updated accordingly.
-
-FM_DATABASE=GMT_Web.fmp12
-FM_SERVER=https://otto-public.dev.mygmt.com
-OTTO_API_KEY=dk_IkRFHRvADInDR28IFcvs5KbqkhhZ9sFd
-    
-RESEND_API_KEY=re_fDhBZnX7_6FAj1h47yxWYvuHsgrHKBPJR
-    
