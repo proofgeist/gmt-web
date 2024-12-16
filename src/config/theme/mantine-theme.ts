@@ -20,3 +20,5 @@ export const theme = createTheme({
     brand: brandColor,
   },
 });
+
+export const headerColor = "#003366";
