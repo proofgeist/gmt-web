@@ -1,20 +1,21 @@
 "use client";
 
-import { type ProofKitRoute } from "@/app/navigation";
+import { type Route } from "@/app/navigation";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 import classes from "./Header.module.css";
 
-export default function HeaderNavLink(route: ProofKitRoute) {
+export default function HeaderNavLink(route: Route) {
   const pathname = usePathname();
 
   if (route.type === "function") {
     return <a className={classes.link}>{route.label}</a>;
   }
 
-  const isActive = route.exactMatch
-    ? pathname === route.href
+  const isActive =
+    route.exactMatch ?
+      pathname === route.href
     : pathname.startsWith(route.href);
 
   if (route.type === "link") {

@@ -18,9 +18,9 @@ export interface RouteFunction {
   visibility?: "public" | "private" | "all" | "none";
 }
 
-export type ProofKitRoute = RouteLink | RouteFunction;
+export type Route = RouteLink | RouteFunction;
 
-export const primaryRoutes: ProofKitRoute[] = [
+export const primaryRoutes: Route[] = [
   {
     label: "Dashboard",
     type: "link",
@@ -36,4 +36,4 @@ export const primaryRoutes: ProofKitRoute[] = [
   },
 ];
 
-export const secondaryRoutes: ProofKitRoute[] = [];
+export const secondaryRoutes: Route[] = [];
