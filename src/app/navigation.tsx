@@ -8,12 +8,13 @@ export const primaryRoutes: ProofKitRoute[] = [
     type: "link",
     href: "/",
     exactMatch: true,
-    isPublic: true,
+    visibility: "none",
   },
   {
     label: "My Shipments",
     type: "link",
     href: "/my-shipments",
+    visibility: "private",
   },
 ];
 
