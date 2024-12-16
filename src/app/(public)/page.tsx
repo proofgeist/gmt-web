@@ -1,94 +1,139 @@
 import {
-  ActionIcon,
   Anchor,
   AppShellFooter,
   Box,
-  Code,
+  Button,
+  Card,
   Container,
+  Flex,
+  Grid,
+  GridCol,
   Group,
   Image,
-  px,
   Stack,
   Text,
   Title,
 } from "@mantine/core";
-import { IconBrandGithub, IconExternalLink } from "@tabler/icons-react";
-import { redirect } from "next/navigation";
+import {
+  IconBrandInstagram,
+  IconBrandLinkedin,
+  IconMail,
+  IconPhone,
+} from "@tabler/icons-react";
+import Services from "./services";
 
 export default function Home() {
-  //redirect the user to the bookings report page
-  // redirect("/my-shipments");
-
   return (
     <>
-      <Container mt="5rem">
-        <Stack gap="xl" ta="center">
-          <Image
-            src="https://raw.githubusercontent.com/proofgeist/proofkit/dde6366c529104658dfba67a8fc2910a8644fc64/docs/src/assets/proofkit.png"
-            alt="ProofKit"
-            style={{
-              marginRight: "auto",
-              marginLeft: "auto",
-            }}
-            w={"auto"}
-            mah={px("16rem")}
-          />
-          <Title order={1}>Welcome!</Title>
+      <Container mt="2rem" h={"100vh"}>
+        {/* Hero Section */}
+        <Card bg={"gray.1"}>
+          <Container>
+            <Grid justify="center" align="center">
+              <GridCol span={6} py={"30px"} h={"100%"}>
+                <Flex
+                  gap="md"
+                  justify="space-between"
+                  h={"100%"}
+                  direction="column"
+                >
+                  <Title
+                    order={1}
+                    style={{ color: "#003366", fontWeight: 700 }}
+                  >
+                    Your Trusted Shipping Partner For a Connected World
+                  </Title>
+                  <Text size="lg" color="dimmed">
+                    Superior customer service and the most competitive shipping
+                    rates. At Global Marine, we believe in strong and lasting
+                    relationships, superior customer service, and scheduling
+                    transparency.
+                  </Text>
+                  <Button size="md" variant="filled">
+                    Learn More
+                  </Button>
+                </Flex>
+              </GridCol>
+              <GridCol span={6} h={"100%"}>
+                <Image
+                  src="/shipping-hero.jpg"
+                  alt="Shipping hero image"
+                  fit="cover"
+                  w={"100%"}
+                  h={"320px"}
+                  radius={"sm"}
+                />
+              </GridCol>
+            </Grid>
+          </Container>
+        </Card>
 
-          <Text style={{ textWrap: "balance" }}>
-            This is the base template home page. To add more pages, components,
-            or other features, run the ProofKit CLI from within your project.
-          </Text>
-          <Code block>pnpm proofkit</Code>
+        {/* Services Section */}
+        <Services />
 
-          <Text style={{ textWrap: "balance" }}>
-            To change this page, open <Code>src/app/(main)/page.tsx</Code>
-          </Text>
-          <Box>
-            <Anchor
-              href="https://proofkit.dev"
-              target="_blank"
-              rel="proofkit-app"
-              style={{ display: "inline-flex", alignItems: "center", gap: 4 }}
-            >
-              ProofKit Docs <IconExternalLink size={px("1rem")} />
-            </Anchor>
+        {/* Footer Section */}
+        <AppShellFooter>
+          <Box component="section" py={"30px"} bg={"#003366"} c={"white"}>
+            <Container>
+              <Grid align="center">
+                <GridCol span={8}>
+                  <Stack gap="md">
+                    <Title order={4} c="white">
+                      Contact Us:
+                    </Title>
+                    <Anchor href="tel:1-212-717-7754" c="white">
+                      <Group gap="xs">
+                        <IconPhone size={20} />
+                        <Text c="white">Phone: 1-212-717-7754</Text>
+                      </Group>
+                    </Anchor>
+                    <Anchor
+                      href="mailto:GMT-bookings@globalmarinetransportation.com"
+                      c="white"
+                    >
+                      <Group gap="xs">
+                        <IconMail size={20} />
+                        <Text c="white">
+                          GMT-bookings@globalmarinetransportation.com
+                        </Text>
+                      </Group>
+                    </Anchor>
+                  </Stack>
+                </GridCol>
+                <GridCol span={4}>
+                  <Stack gap="md">
+                    <Title order={4} c="white">
+                      Follow us on:
+                    </Title>
+                    <Anchor
+                      href="https://www.instagram.com/globalmarinetransportation/"
+                      target="_blank"
+                      underline="hover"
+                      c="white"
+                    >
+                      <Group gap="xs">
+                        <IconBrandInstagram size={20} />
+                        <Text>Instagram</Text>
+                      </Group>
+                    </Anchor>
+                    <Anchor
+                      href="https://www.linkedin.com/company/global-marine-transportation-inc/?viewAsMember=true"
+                      target="_blank"
+                      underline="hover"
+                      c="white"
+                    >
+                      <Group gap="xs">
+                        <IconBrandLinkedin size={20} />
+                        <Text>LinkedIn</Text>
+                      </Group>
+                    </Anchor>
+                  </Stack>
+                </GridCol>
+              </Grid>
+            </Container>
           </Box>
-        </Stack>
+        </AppShellFooter>
       </Container>
-      <AppShellFooter withBorder={false}>
-        <Container h="100%" mb="1rem">
-          <Group justify="space-between">
-            <Group>
-              <Text size="sm" c="dimmed">
-                Sponsored by{" "}
-                <Anchor
-                  href="https://proofgeist.com"
-                  target="_blank"
-                  rel="proofkit-app"
-                >
-                  Proof+Geist
-                </Anchor>{" "}
-                and{" "}
-                <Anchor
-                  href="https://ottomatic.cloud"
-                  target="_blank"
-                  rel="proofkit-app"
-                >
-                  Ottomatic
-                </Anchor>
-              </Text>
-            </Group>
-            <Group>
-              <a href="https://github.com/proofgeist/proofkit" target="_blank">
-                <ActionIcon variant="subtle" color="gray" size="lg">
-                  <IconBrandGithub size={px("1.25rem")} />
-                </ActionIcon>
-              </a>
-            </Group>
-          </Group>
-        </Container>
-      </AppShellFooter>
     </>
   );
 }
