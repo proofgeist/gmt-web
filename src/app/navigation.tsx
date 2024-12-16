@@ -15,6 +15,7 @@ export interface RouteFunction {
   onClick: () => void;
   /** If true, the route will only be considered active if the path is exactly this value. */
   exactMatch?: boolean;
+  visibility?: "public" | "private" | "all" | "none";
 }
 
 export type ProofKitRoute = RouteLink | RouteFunction;

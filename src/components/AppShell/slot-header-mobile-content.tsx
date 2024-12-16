@@ -3,6 +3,8 @@
 import { primaryRoutes } from "@/app/navigation";
 import { Menu } from "@mantine/core";
 import { useRouter } from "next/navigation";
+import { useUser } from "../auth/use-user";
+import { UserMobileMenu } from "../auth/user-menu";
 
 /**
  * DO NOT REMOVE / RENAME THIS FILE
@@ -18,24 +20,33 @@ export function SlotHeaderMobileMenuContent({
   closeMenu: () => void;
 }) {
   const router = useRouter();
+  const { session } = useUser();
   return (
     <>
-      {primaryRoutes.map((route) => (
-        <Menu.Item
-          key={route.label}
-          leftSection={route.icon}
-          onClick={() => {
-            closeMenu();
-            if (route.type === "function") {
-              route.onClick();
-            } else if (route.type === "link") {
-              router.push(route.href);
-            }
-          }}
-        >
-          {route.label}
-        </Menu.Item>
-      ))}
+      {primaryRoutes
+        .filter(
+          (route) =>
+            (session && route.visibility === "private") ||
+            (!session && route.visibility === "public") ||
+            route.visibility === "all"
+        )
+        .map((route) => (
+          <Menu.Item
+            key={route.label}
+            leftSection={route.icon}
+            onClick={() => {
+              closeMenu();
+              if (route.type === "function") {
+                route.onClick();
+              } else if (route.type === "link") {
+                router.push(route.href);
+              }
+            }}
+          >
+            {route.label}
+          </Menu.Item>
+        ))}
+      <UserMobileMenu />
     </>
   );
 }
