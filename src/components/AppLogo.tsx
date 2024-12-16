@@ -6,10 +6,10 @@ export default function AppLogo() {
   return (
     <Group gap="xs">
       <Image src="/gmt_logo.png" alt="ProofKit" width={32} height={32} />
-      <Title visibleFrom="md" order={2} c={"brand"}>
+      <Title visibleFrom="md" order={2} c={"brand.1"}>
         Global Marine Transportation
       </Title>
-      <Title hiddenFrom="md" order={2} c={"brand"}>
+      <Title hiddenFrom="md" order={2} c={"brand.1"}>
         GMT
       </Title>
     </Group>
