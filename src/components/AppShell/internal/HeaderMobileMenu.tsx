@@ -17,7 +17,13 @@ export default function HeaderMobileMenu() {
       radius="md"
     >
       <Menu.Target>
-        <Burger opened={opened} hiddenFrom="sm" onClick={toggle} size="sm" />
+        <Burger
+          opened={opened}
+          hiddenFrom="sm"
+          onClick={toggle}
+          size="sm"
+          color="brand.1"
+        />
       </Menu.Target>
       <Menu.Dropdown w={"90%"}>
         <SlotHeaderMobileMenuContent closeMenu={toggle} />
