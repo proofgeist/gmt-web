@@ -24,10 +24,10 @@ export function Header() {
           <Box visibleFrom="md">
             <SlotHeaderCenter />
           </Box>
-          <Box visibleFrom="md">
+          <Box visibleFrom="sm">
             <SlotHeaderRight />
           </Box>
-          <Box hiddenFrom="md">
+          <Box hiddenFrom="sm">
             <HeaderMobileMenu />
           </Box>
         </Group>
