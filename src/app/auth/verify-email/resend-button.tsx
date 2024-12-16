@@ -1,5 +1,5 @@
 "use client";
-import { Alert, Anchor, Button, Group, Stack, Text } from "@mantine/core";
+import { Alert, Button, Group, Stack, Text } from "@mantine/core";
 import { resendEmailVerificationAction } from "./actions";
 import { useAction } from "next-safe-action/hooks";
 
@@ -9,7 +9,7 @@ export default function ResendButton() {
     <Stack>
       <Group gap={4} justify="center" mt={5}>
         <Text c="dimmed" size="sm">
-          Didn't receive the email?
+          {"Didn't receive the email?"}
         </Text>
         <Button
           size="compact-sm"
