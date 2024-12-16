@@ -7,7 +7,7 @@ import { IconShip, IconTruck, IconShieldCheck, IconBriefcase, IconPackage, IconB
 export default function Services() {
   const theme = useMantineTheme();
   return (
-    <Box component="section" pt={"30px"} pb={"200px"}>
+    <Box pt={"30px"}>
       <Container>
         <Title order={2} ta="center" style={{ marginBottom: "30px" }}>
           Our Services
