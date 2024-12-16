@@ -65,6 +65,7 @@ export function UserMobileMenu() {
   }
   return (
     <>
+      <Menu.Divider />
       <Menu.Item
         component={Link}
         href="/auth/profile"
@@ -72,7 +73,6 @@ export function UserMobileMenu() {
       >
         My Profile
       </Menu.Item>
-      <Menu.Divider />
       <Menu.Item
         leftSection={<IconLogout size={px("1rem")} />}
         onClick={logout}
