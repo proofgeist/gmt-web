@@ -15,7 +15,7 @@ export default function ResendButton() {
           size="compact-sm"
           variant="subtle"
           disabled={action.isPending}
-          onClick={() => action.execute()}
+          onClick={() => action.execute({})}
         >
           Resend
         </Button>
