@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import AppLogo from "../AppLogo";
+import { Anchor } from "@mantine/core";
 
 /**
  * DO NOT REMOVE / RENAME THIS FILE
@@ -13,9 +14,9 @@ import AppLogo from "../AppLogo";
 export function SlotHeaderLeft() {
   return (
     <>
-      <Link href="/" style={{ display: "inline-flex", alignItems: "center" }}>
+      <Anchor component={Link} href="/" underline={"never"} c={"inherit"}>
         <AppLogo />
-      </Link>
+      </Anchor>
     </>
   );
 }

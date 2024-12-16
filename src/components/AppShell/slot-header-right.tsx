@@ -19,9 +19,16 @@ export async function SlotHeaderRight() {
     <>
       <Group>
         <Group gap={5} visibleFrom="xs">
-          {primaryRoutes.filter((route) => route.isPublic || session).map((route) => (
-            <HeaderNavLink key={route.label} {...route} />
-          ))}
+          {primaryRoutes
+            .filter(
+              (route) =>
+                (session && route.visibility === "private") ||
+                (!session && route.visibility === "public") ||
+                route.visibility === "all"
+            )
+            .map((route) => (
+              <HeaderNavLink key={route.label} {...route} />
+            ))}
         </Group>
         <UserMenu />
       </Group>
