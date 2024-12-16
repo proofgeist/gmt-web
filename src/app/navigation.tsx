@@ -1,8 +1,12 @@
-import { type ProofKitRoute } from "@proofgeist/kit";
+import { ProofKitRoute, type RouteLink } from "@proofgeist/kit";
 
+interface Route extends Omit<RouteLink, 'type'> {
+  type: "link";
+  visibility?: "public" | "private" | "all" | "none";
+}
+type VisibleRoute = Route | ProofKitRoute;
 
-
-export const primaryRoutes: ProofKitRoute[] = [
+export const primaryRoutes: VisibleRoute[] = [
   {
     label: "Dashboard",
     type: "link",
