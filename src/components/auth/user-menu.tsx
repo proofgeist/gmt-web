@@ -9,11 +9,18 @@ export default function UserMenu() {
   const { state, session, user, logout } = useUser();
 
   if (state === "loading") {
-    return <Skeleton w={100} h={20} />;
+    return <Skeleton w={100} h={20} color="brand.1" />;
   }
   if (state === "unauthenticated") {
     return (
-      <Button component="a" href="/auth/login" variant="subtle" size="sm">
+      <Button
+        component="a"
+        href="/auth/login"
+        variant="white"
+        size="sm"
+        c="brand.7"
+        // bg="gray.1"
+      >
         Sign in
       </Button>
     );
@@ -24,7 +31,7 @@ export default function UserMenu() {
         <Button
           variant="subtle"
           size="sm"
-          color="gray"
+          color="gray.1"
           rightSection={<IconChevronDown size={px("1rem")} />}
         >
           {user.email}
