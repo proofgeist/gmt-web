@@ -11,7 +11,7 @@ export default function MainAppShell({
 }) {
   return (
     <AppShell header={{ height: headerHeight }} padding="md">
-      <AppShellHeader>
+      <AppShellHeader withBorder={false}>
         <Header />
       </AppShellHeader>
 

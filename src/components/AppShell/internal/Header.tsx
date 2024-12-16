@@ -9,8 +9,11 @@ import HeaderMobileMenu from "./HeaderMobileMenu";
 
 export function Header() {
   return (
-    <header className={classes.header} style={{ height: headerHeight }}>
-      <Container size="md" className={classes.inner} style={{ height: "100%" }}>
+    <header
+      className={classes.header}
+      style={{ height: headerHeight, border: "none" }}
+    >
+      <Container size="xl" className={classes.inner} style={{ height: "100%" }}>
         <Group
           justify="space-between"
           align="center"
