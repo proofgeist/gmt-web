@@ -1,12 +1,25 @@
-import { ProofKitRoute, type RouteLink } from "@proofgeist/kit";
-
-interface Route extends Omit<RouteLink, 'type'> {
+export interface RouteLink {
+  label: string;
   type: "link";
+  href: string;
+  icon?: React.ReactNode;
+  /** If true, the route will only be considered active if the path is exactly this value. */
+  exactMatch?: boolean;
   visibility?: "public" | "private" | "all" | "none";
 }
-type VisibleRoute = Route | ProofKitRoute;
 
-export const primaryRoutes: VisibleRoute[] = [
+export interface RouteFunction {
+  label: string;
+  type: "function";
+  icon?: React.ReactNode;
+  onClick: () => void;
+  /** If true, the route will only be considered active if the path is exactly this value. */
+  exactMatch?: boolean;
+}
+
+export type ProofKitRoute = RouteLink | RouteFunction;
+
+export const primaryRoutes: ProofKitRoute[] = [
   {
     label: "Dashboard",
     type: "link",
