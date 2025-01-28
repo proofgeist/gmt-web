@@ -9,7 +9,7 @@ import "@mantine/notifications/styles.css";
 import "@mantine/dates/styles.css";
 import "mantine-react-table/styles.css";
 import "@/config/theme/globals.css";
-
+import "@mantine/carousel/styles.css";
 import { type Metadata } from "next";
 import QueryProvider from "@/config/query-provider";
 
@@ -24,15 +24,13 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <Suspense>
-          <ColorSchemeScript defaultColorScheme="auto" />
-        </Suspense>
+        <ColorSchemeScript defaultColorScheme="light" />
       </head>
       <body>
         <QueryProvider>
-          <MantineProvider defaultColorScheme="auto" theme={theme}>
+          <MantineProvider defaultColorScheme="light" theme={theme}>
             <Notifications />
             <ModalsProvider>{children}</ModalsProvider>
           </MantineProvider>

@@ -2,7 +2,14 @@
 
 import { useMantineTheme } from "@mantine/core";
 import { Box, Container, Title, Text, Card, SimpleGrid } from "@mantine/core";
-import { IconShip, IconTruck, IconShieldCheck, IconBriefcase, IconPackage, IconBoxMultiple } from "@tabler/icons-react";
+import {
+  IconShip,
+  IconTruck,
+  IconShieldCheck,
+  IconBriefcase,
+  IconPackage,
+  IconBoxMultiple,
+} from "@tabler/icons-react";
 
 export default function Services() {
   const theme = useMantineTheme();

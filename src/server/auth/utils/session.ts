@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 import { cache } from "react";
 import type { User } from "./user";
 
-import { sessionsLayout } from "../db/client";
+import { sessionsLayout } from "../db/client/index";
 import { Tsessions as _Session } from "../db/sessions";
 
 /**
@@ -96,6 +96,7 @@ export async function validateSessionToken(
     email: fmResult["proofkit_auth_users::email"],
     emailVerified: Boolean(fmResult["proofkit_auth_users::emailVerified"]),
     username: fmResult["proofkit_auth_users::username"],
+    company_id: fmResult["proofkit_auth_users::company_id"],
   };
 
   // delete session if it has expired
@@ -144,7 +145,7 @@ export async function invalidateUserSessions(userId: string): Promise<void> {
   const sessions = await sessionsLayout.findAll({
     query: { id_user: `==${userId}` },
   });
-  
+
   // Use regular for...of since sessions is a regular array
   for (const session of sessions) {
     await sessionsLayout.delete({ recordId: session.recordId });

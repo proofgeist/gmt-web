@@ -24,7 +24,7 @@ export async function SlotHeaderRight() {
               (route) =>
                 (session && route.visibility === "private") ||
                 (!session && route.visibility === "public") ||
-                route.visibility === "all"
+                route.visibility === "all",
             )
             .map((route) => (
               <HeaderNavLink key={route.label} {...route} />

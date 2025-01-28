@@ -11,8 +11,8 @@ const brandColor: MantineColorsTuple = [
   "#5474b4",
   "#44639f",
   "#3a5890",
-  "#2c4b80"
-]
+  "#2c4b80",
+];
 
 export const theme = createTheme({
   primaryColor: "brand",

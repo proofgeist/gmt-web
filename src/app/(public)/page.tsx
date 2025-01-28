@@ -1,4 +1,3 @@
-
 import {
   Anchor,
   AppShellFooter,
@@ -22,6 +21,7 @@ import {
   IconPhone,
 } from "@tabler/icons-react";
 import Services from "./services";
+import HeroCarousel from "@/app/(public)/components/carousel";
 
 export default function Home() {
   return (
@@ -56,14 +56,7 @@ export default function Home() {
                 </Flex>
               </GridCol>
               <GridCol span={{ base: 12, sm: 6 }} h={"100%"}>
-                <Image
-                  src="/shipping-hero.jpg"
-                  alt="Shipping hero image"
-                  fit="cover"
-                  w={"100%"}
-                  h={"320px"}
-                  radius={"sm"}
-                />
+                <HeroCarousel />
               </GridCol>
             </Grid>
           </Container>

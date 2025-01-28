@@ -13,9 +13,8 @@ export default function HeaderNavLink(route: Route) {
     return <a className={classes.link}>{route.label}</a>;
   }
 
-  const isActive =
-    route.exactMatch ?
-      pathname === route.href
+  const isActive = route.exactMatch
+    ? pathname === route.href
     : pathname.startsWith(route.href);
 
   if (route.type === "link") {

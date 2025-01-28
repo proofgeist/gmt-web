@@ -28,7 +28,7 @@ export function SlotHeaderMobileMenuContent({
           (route) =>
             (session && route.visibility === "private") ||
             (!session && route.visibility === "public") ||
-            route.visibility === "all"
+            route.visibility === "all",
         )
         .map((route) => (
           <Menu.Item
