@@ -6,7 +6,7 @@ import { validateLogin } from "@/server/auth/utils/user";
 import { generateSessionToken } from "@/server/auth/utils/session";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { sendVerificationCode } from "../mfa/mfa";
+import { sendVerificationCodeAction } from "../mfa/actions";
 
 export const loginAction = actionClient
   .schema(loginSchema)
@@ -27,7 +27,11 @@ export const loginAction = actionClient
     const phoneNumber = "+17047715079"; // This should come from user.phone_number
 
     try {
-      await sendVerificationCode(phoneNumber);
+      const result = await sendVerificationCodeAction({ phoneNumber });
+
+      if (!result || "error" in result) {
+        return { error: "Failed to send verification code: " + result?.error };
+      }
 
       // Store user ID and phone number for MFA verification
       const cookieStore = await cookies();

@@ -49,11 +49,10 @@ export default function LoginForm() {
               Forgot password?
             </Anchor>
           </Group>
-          {action.result.data?.error ? (
+          {action.result?.data?.error && (
             <Text c="red">{action.result.data.error}</Text>
-          ) : action.hasErrored ? (
-            <Text c="red">An error occured</Text>
-          ) : null}
+          )}
+          {action.hasErrored && <Text c="red">An error occurred</Text>}
           <Button fullWidth type="submit" loading={action.isPending}>
             Sign in
           </Button>

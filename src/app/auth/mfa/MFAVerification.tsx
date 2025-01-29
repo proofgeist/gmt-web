@@ -5,7 +5,7 @@ import { verifyMFAAction } from "./actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button, Paper, PinInput, Stack, Text } from "@mantine/core";
-import { sendVerificationCode } from "./mfa";
+import { sendVerificationCodeAction } from "./actions";
 
 const verifyMFASchema = z.object({
   code: z.string().length(6),
@@ -24,7 +24,7 @@ export default function MFAVerificationForm({
 
   const handleResendCode = async () => {
     try {
-      await sendVerificationCode(phoneNumber);
+      await sendVerificationCodeAction({ phoneNumber });
     } catch (error) {
       console.error("Error resending code:", error);
     }
