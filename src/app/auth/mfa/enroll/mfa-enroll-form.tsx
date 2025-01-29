@@ -59,12 +59,8 @@ export default function MFAEnrollForm() {
             </Stack>
           )}
 
-          {(
-            action.result &&
-            typeof action.result === "object" &&
-            "error" in action.result
-          ) ?
-            <Text c="red">{String(action.result.error)}</Text>
+          {action.result?.data && "error" in action.result.data ?
+            <Text c="red">{action.result.data.error}</Text>
           : action.hasErrored ?
             <Text c="red">An error occurred</Text>
           : null}
