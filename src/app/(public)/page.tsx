@@ -1,25 +1,13 @@
 import {
-  Anchor,
-  AppShellFooter,
-  Box,
   Button,
   Card,
   Container,
   Flex,
   Grid,
   GridCol,
-  Group,
-  Image,
-  Stack,
   Text,
   Title,
 } from "@mantine/core";
-import {
-  IconBrandInstagram,
-  IconBrandLinkedin,
-  IconMail,
-  IconPhone,
-} from "@tabler/icons-react";
 import Services from "./services";
 import HeroCarousel from "@/app/(public)/components/carousel";
 

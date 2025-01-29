@@ -1,6 +1,4 @@
 import { Container, Text, Title } from "@mantine/core";
-import { getCurrentSession } from "@/server/auth/utils/session";
-import { redirect } from "next/navigation";
 import MFAEnrollForm from "./mfa-enroll-form";
 
 export default async function Page() {

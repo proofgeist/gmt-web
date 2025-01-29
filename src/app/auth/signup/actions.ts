@@ -8,11 +8,6 @@ import {
   getWebEnabledContactID,
 } from "@/server/auth/utils/user";
 import { verifyPasswordStrength } from "@/server/auth/utils/password";
-import {
-  createSession,
-  setSessionTokenCookie,
-} from "@/server/auth/utils/session";
-import { generateSessionToken } from "@/server/auth/utils/session";
 import { redirect } from "next/navigation";
 import {
   createEmailVerificationRequest,

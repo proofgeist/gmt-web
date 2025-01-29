@@ -6,7 +6,7 @@ import Link from "next/link";
 import { IconChevronDown, IconLogout, IconUser } from "@tabler/icons-react";
 
 export default function UserMenu() {
-  const { state, session, user, logout } = useUser();
+  const { state, user, logout } = useUser();
 
   if (state === "loading") {
     return <Skeleton w={100} h={20} color="brand.1" />;
@@ -58,7 +58,7 @@ export default function UserMenu() {
 }
 
 export function UserMobileMenu() {
-  const { state, session, user, logout } = useUser();
+  const { state,logout } = useUser();
 
   if (state === "loading") {
     return <Skeleton w={100} h={20} />;

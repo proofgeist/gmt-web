@@ -3,14 +3,7 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { updateEmailSchema } from "./schema";
 import { updateEmailAction } from "./actions";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Anchor,
-  Button,
-  Group,
-  Paper,
-  PasswordInput,
-  Text,
-} from "@mantine/core";
+import { Button, Group, Text } from "@mantine/core";
 import { TextInput } from "@mantine/core";
 import { Stack } from "@mantine/core";
 

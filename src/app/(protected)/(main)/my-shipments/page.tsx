@@ -8,6 +8,7 @@ import { getCurrentSession } from "@/server/auth/utils/session";
 export default async function TablePage() {
   const { user } = await getCurrentSession();
   // this function is limited to 100 records by default. To load more, see the other table templates from the docs
+  
   const data = await BookingsLayout.findAll({
     query: {
       reportReferenceCustomer: user?.reportReferenceCustomer,

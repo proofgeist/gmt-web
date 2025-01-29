@@ -3,7 +3,6 @@
 import { actionClient } from "@/server/safe-action";
 import { loginSchema } from "./schema";
 import { validateLogin } from "@/server/auth/utils/user";
-import { generateSessionToken } from "@/server/auth/utils/session";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { sendVerificationCodeAction } from "../mfa/actions";

@@ -20,7 +20,7 @@ import { getRedirectCookie } from "@/server/auth/utils/redirect";
 
 export const verifyEmailAction = actionClient
   .schema(emailVerificationSchema)
-  .action(async ({ parsedInput, ctx }) => {
+  .action(async ({ parsedInput }) => {
     const { session, user } = await getCurrentSession();
     if (session === null) {
       return {

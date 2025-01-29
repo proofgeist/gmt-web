@@ -1,6 +1,5 @@
-import { Alert, Anchor, Container, Text, Title } from "@mantine/core";
+import { Anchor, Container, Text, Title } from "@mantine/core";
 import VerifyEmailForm from "./verify-email-form";
-import { env } from "@/config/env";
 import { validatePasswordResetSessionRequest } from "@/server/auth/utils/password-reset";
 import { redirect } from "next/navigation";
 

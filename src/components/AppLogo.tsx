@@ -1,4 +1,3 @@
-import { IconInfinity } from "@tabler/icons-react";
 import { Group, Image, Title } from "@mantine/core";
 import React from "react";
 

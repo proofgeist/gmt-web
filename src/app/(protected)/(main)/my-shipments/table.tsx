@@ -1,6 +1,6 @@
 "use client";
 
-import { TBookings } from "@/config/schemas/filemaker/Bookings";
+import type { TBookings } from "@/config/schemas/filemaker/Bookings";
 import { Text } from "@mantine/core";
 import {
   MantineReactTable,

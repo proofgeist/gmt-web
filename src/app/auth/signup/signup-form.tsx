@@ -5,11 +5,9 @@ import { signupAction } from "./actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema } from "./schema";
 import {
-  Anchor,
   PasswordInput,
   TextInput,
   Button,
-  Group,
   Stack,
   Paper,
   Text,

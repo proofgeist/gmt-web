@@ -19,7 +19,6 @@ import {
   setEmailVerificationRequestCookie,
 } from "@/server/auth/utils/email-verification";
 import { redirect } from "next/navigation";
-import { verifyPasswordHash } from "@/server/auth/utils/password";
 import { verifyPasswordStrength } from "@/server/auth/utils/password";
 
 export const updateEmailAction = actionClient
@@ -56,7 +55,7 @@ export const updateEmailAction = actionClient
 export const updatePasswordAction = actionClient
   .schema(updatePasswordSchema)
   .action(async ({ parsedInput }) => {
-    const { confirmNewPassword, currentPassword, newPassword } = parsedInput;
+    const { currentPassword, newPassword } = parsedInput;
 
     const { session, user } = await getCurrentSession();
     if (session === null) {

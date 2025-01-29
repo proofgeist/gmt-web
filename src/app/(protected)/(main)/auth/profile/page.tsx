@@ -1,5 +1,5 @@
 import { getCurrentSession } from "@/server/auth/utils/session";
-import { Anchor, Container, Paper, Stack, Text, Title } from "@mantine/core";
+import { Container, Paper, Stack, Title } from "@mantine/core";
 import { redirect } from "next/navigation";
 import UpdateEmailForm from "./profile-form";
 import UpdatePasswordForm from "./reset-password-form";
