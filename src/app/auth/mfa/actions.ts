@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 // import { verifyCode } from "./mfa";
 import { redirect } from "next/navigation";
 import { getRedirectCookie } from "@/server/auth/utils/redirect";
-import { createSession, generateSessionToken, setSessionTokenCookie } from "@/server/auth/utils/session";
+import { createSession, generateSessionToken, getCurrentSession, setSessionTokenCookie } from "@/server/auth/utils/session";
 import twilio from "twilio";
 
 const client = twilio(
@@ -77,6 +77,15 @@ export const verifyMFAAction = actionClient
       const sessionToken = generateSessionToken();
       const session = await createSession(sessionToken, userId);
       setSessionTokenCookie(sessionToken, session.expiresAt);
+
+      // Check if the user is verified
+      const { user } = await getCurrentSession();
+      if (user === null) {
+        return { error: "User not found" };
+      }
+      if (!user.emailVerified) {
+        return redirect("/auth/verify-email");
+      }
 
       // Get and clear redirect cookie, then redirect
       const redirectTo = await getRedirectCookie();

@@ -54,5 +54,5 @@ export const signupAction = actionClient
     const session = await createSession(sessionToken, user.id);
     setSessionTokenCookie(sessionToken, session.expiresAt);
 
-    return redirect("/auth/verify-email");
+    return redirect("/auth/mfa");
   });
