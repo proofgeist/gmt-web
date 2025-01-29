@@ -35,11 +35,15 @@ export const loginAction = actionClient
       const result = await sendVerificationCodeAction({ phoneNumber });
 
       if (!result || "error" in result) {
-        return { error: "Failed to send verification code: " + result?.error };
+        return {
+          error:
+            typeof result?.error === "string" ?
+              result.error
+            : "An error occurred",
+        };
       }
 
       // Store user ID and phone number for MFA verification
-
       cookieStore.set("pending_phone_number", phoneNumber, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -49,7 +53,7 @@ export const loginAction = actionClient
 
       return redirect("/auth/mfa");
     } catch (error) {
-      if (error && (error as any).digest?.includes("NEXT_REDIRECT")) {
+      if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
         throw error;
       }
       console.error("Error sending MFA code:", error);

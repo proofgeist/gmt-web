@@ -7,7 +7,7 @@ const client = twilio(
 
 export async function sendVerificationCode(phoneNumber: string) {
   try {
-    const verification = await client.verify.v2
+    await client.verify.v2
       .services(process.env.TWILIO_VERIFY_SERVICE_SID!)
       .verifications.create({
         to: phoneNumber,

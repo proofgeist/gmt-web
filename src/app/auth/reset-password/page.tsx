@@ -4,7 +4,7 @@ import { validatePasswordResetSessionRequest } from "@/server/auth/utils/passwor
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-  const { session, user } = await validatePasswordResetSessionRequest();
+  const { session } = await validatePasswordResetSessionRequest();
   if (session === null) {
     return redirect("/auth/forgot-password");
   }

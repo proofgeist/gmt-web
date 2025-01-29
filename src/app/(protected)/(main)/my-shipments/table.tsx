@@ -20,7 +20,7 @@ const columns: MRT_ColumnDef<TData>[] = [
   {
     accessorKey: "ETDDatePort",
     header: "ETD Port",
-    filterFn: (row, _, filterValue) => {
+    filterFn: (row, _, filterValue: string) => {
       return dayjs(row.original.ETDDatePort).isSame(dayjs(filterValue));
     },
     sortingFn: (a, b) => {
@@ -30,16 +30,16 @@ const columns: MRT_ColumnDef<TData>[] = [
       );
     },
     Cell: ({ cell }) => {
-      return (
-        <Text>{dayjs(cell.getValue() as string).format("M/DD/YYYY")}</Text>
-      );
+      const value = cell.getValue<string | null>();
+      if (!value) return <Text>-</Text>;
+      return <Text>{dayjs(value).format("M/DD/YYYY")}</Text>;
     },
     filterVariant: "date",
   },
   {
     accessorKey: "ETADatePort",
     header: "ETA Port",
-    filterFn: (row, _, filterValue) => {
+    filterFn: (row, _, filterValue: string) => {
       return dayjs(row.original.ETADatePort).isSame(dayjs(filterValue));
     },
     sortingFn: (a, b) => {
@@ -49,9 +49,9 @@ const columns: MRT_ColumnDef<TData>[] = [
       );
     },
     Cell: ({ cell }) => {
-      return (
-        <Text>{dayjs(cell.getValue() as string).format("M/DD/YYYY")}</Text>
-      );
+      const value = cell.getValue<string | null>();
+      if (!value) return <Text>-</Text>;
+      return <Text>{dayjs(value).format("M/DD/YYYY")}</Text>;
     },
     filterVariant: "date",
   },

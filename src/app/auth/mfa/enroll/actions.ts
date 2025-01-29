@@ -36,7 +36,10 @@ export const mfaEnrollAction = actionClient
 
         if (!result || "error" in result) {
           return {
-            error: "Failed to send verification code: " + result?.error,
+            error:
+              typeof result?.error === "string" ?
+                result.error
+              : "An error occurred",
           };
         }
 
@@ -49,7 +52,10 @@ export const mfaEnrollAction = actionClient
 
         return { codeSent: true };
       } catch (error) {
-        console.error("Error sending verification code:", error);
+        if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
+          throw error;
+        }
+        console.error("Error sending MFA code:", error);
         return { error: "Failed to send verification code" };
       }
     }
@@ -97,7 +103,7 @@ export const mfaEnrollAction = actionClient
       const redirectTo = await getRedirectCookie();
       return redirect(redirectTo);
     } catch (error) {
-      if (error && (error as any).digest?.includes("NEXT_REDIRECT")) {
+      if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
         throw error;
       }
       console.error("Error verifying code:", error);

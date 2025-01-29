@@ -83,6 +83,7 @@ export async function setUserAsEmailVerifiedIfEmailMatches(
     await usersLayout.update({ recordId, fieldData: { emailVerified: 1 } });
     return true;
   } catch (error) {
+    console.error("Error setting user as email verified:", error);
     return false;
   }
 }
@@ -139,6 +140,7 @@ export async function validateLogin(
     };
     return user;
   } catch (error) {
+    console.error("Error validating login:", error);
     return null;
   }
 }

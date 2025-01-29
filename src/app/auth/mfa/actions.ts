@@ -39,7 +39,10 @@ export const sendVerificationCodeAction = actionClient
 
       return { success: true };
     } catch (error) {
-      console.error("Error sending verification:", error);
+      if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
+        throw error;
+      }
+      console.error("Error sending MFA code:", error);
       return { error: "Failed to send verification code" };
     }
   });
@@ -91,7 +94,7 @@ export const verifyMFAAction = actionClient
       const redirectTo = await getRedirectCookie();
       return redirect(redirectTo);
     } catch (error) {
-      if (error && (error as any).digest?.includes("NEXT_REDIRECT")) {
+      if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
         throw error;
       }
       console.error("Error verifying code:", error);

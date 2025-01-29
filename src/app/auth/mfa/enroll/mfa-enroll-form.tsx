@@ -6,9 +6,8 @@ import { Button, Paper, Stack, Text, TextInput, PinInput } from "@mantine/core";
 import { mfaEnrollSchema } from "./schema";
 import { mfaEnrollAction } from "./actions";
 import { useState, useEffect } from "react";
-import { z } from "zod";
 
-type FormSchema = z.infer<typeof mfaEnrollSchema>;
+
 
 export default function MFAEnrollForm() {
   const [codeSent, setCodeSent] = useState(false);

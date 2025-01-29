@@ -137,12 +137,12 @@ const paragraph = {
   textAlign: "center" as const,
 };
 
-const link = {
+const _link = {
   color: "#444",
   textDecoration: "underline",
 };
 
-const footer = {
+const _footer = {
   color: "#000",
   fontSize: "12px",
   fontWeight: 800,

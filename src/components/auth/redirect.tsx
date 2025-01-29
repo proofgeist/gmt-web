@@ -16,7 +16,7 @@ export default function AuthRedirect({ path }: { path: string }) {
       });
       redirect(path);
     }
-  }, []);
+  }, [path]);
 
   return (
     <Center h="100vh">
