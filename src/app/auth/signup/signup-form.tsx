@@ -28,7 +28,7 @@ export default function SignupForm() {
         <Stack>
           <TextInput
             label="Email"
-            placeholder="you@proofkit.dev"
+            placeholder="you@globmar.com"
             required
             withAsterisk={false}
             {...form.register("email")}
