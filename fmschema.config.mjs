@@ -8,6 +8,11 @@ export const config = [
         schemaName: "BookingsReport",
         valueLists: "allowEmpty",
       },
+      {
+        layout: "api.Contacts",
+        schemaName: "Contacts",
+        valueLists: "allowEmpty",
+      },
     ],
     clearOldFiles: true,
     path: "./src/config/schemas/filemaker",
