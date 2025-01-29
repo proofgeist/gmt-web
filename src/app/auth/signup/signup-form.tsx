@@ -34,14 +34,6 @@ export default function SignupForm() {
             {...form.register("email")}
             error={form.formState.errors.email?.message}
           />
-          <TextInput
-            label="Phone Number"
-            placeholder="+1 (234) 555-6789"
-            required
-            withAsterisk={false}
-            {...form.register("phoneNumber")}
-            error={form.formState.errors.phoneNumber?.message}
-          />
           <PasswordInput
             label="Password"
             placeholder="Your password"
@@ -60,11 +52,11 @@ export default function SignupForm() {
             {...form.register("confirmPassword")}
             error={form.formState.errors.confirmPassword?.message}
           />
-          {action.result.data?.error ? (
+          {action.result.data?.error ?
             <Text c="red">{action.result.data.error}</Text>
-          ) : action.hasErrored ? (
+          : action.hasErrored ?
             <Text c="red">An error occured</Text>
-          ) : null}
+          : null}
           <Button fullWidth type="submit" loading={action.isPending}>
             Create Account
           </Button>
