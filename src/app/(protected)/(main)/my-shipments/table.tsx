@@ -1,6 +1,6 @@
 "use client";
 
-import { TBookingsReport } from "@/config/schemas/filemaker/BookingsReport";
+import { TBookings } from "@/config/schemas/filemaker/Bookings";
 import { Text } from "@mantine/core";
 import {
   MantineReactTable,
@@ -10,7 +10,7 @@ import {
 import React from "react";
 import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
-type TData = TBookingsReport;
+type TData = TBookings;
 
 const columns: MRT_ColumnDef<TData>[] = [
   {

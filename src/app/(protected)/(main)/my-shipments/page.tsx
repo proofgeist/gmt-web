@@ -1,4 +1,4 @@
-import { BookingsReportLayout } from "@/config/schemas/filemaker/client";
+import { BookingsLayout } from "@/config/schemas/filemaker/client";
 import { Stack, Title } from "@mantine/core";
 import React from "react";
 
@@ -8,9 +8,9 @@ import { getCurrentSession } from "@/server/auth/utils/session";
 export default async function TablePage() {
   const { user } = await getCurrentSession();
   // this function is limited to 100 records by default. To load more, see the other table templates from the docs
-  const data = await BookingsReportLayout.findAll({
+  const data = await BookingsLayout.findAll({
     query: {
-      _kfnShipperCompanyID: user?.company_id,
+      reportReferenceCustomer: user?.reportReferenceCustomer,
     },
     fetch: { next: { revalidate: 120 } }, // only call the database at most once every 60 seconds
   });
