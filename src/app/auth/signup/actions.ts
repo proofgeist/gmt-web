@@ -2,7 +2,11 @@
 
 import { actionClient } from "@/server/safe-action";
 import { signupSchema } from "./schema";
-import { checkEmailAvailability, createUser } from "@/server/auth/utils/user";
+import {
+  checkEmailAvailability,
+  createUser,
+  isContactWebEnabled,
+} from "@/server/auth/utils/user";
 import { verifyPasswordStrength } from "@/server/auth/utils/password";
 import {
   createSession,
@@ -28,6 +32,11 @@ export const signupAction = actionClient
     const passwordStrong = await verifyPasswordStrength(password);
     if (!passwordStrong) {
       return { error: "Password is too weak" };
+    }
+
+    const contactWebEnabled = await isContactWebEnabled(email);
+    if (!contactWebEnabled) {
+      return { error: "Web access is not enabled for this email" };
     }
 
     const user = await createUser(email, password, phoneNumber);
