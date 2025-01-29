@@ -17,10 +17,7 @@ export const loginAction = actionClient
     if (user === null) {
       return { error: "Invalid email or password" };
     }
-
-    if (!user.emailVerified) {
-      return redirect("/auth/verify-email");
-    }
+    console.log("user", user);
 
     if (!user.phone_number_mfa) {
       return { error: "No phone number found for MFA" };

@@ -134,6 +134,7 @@ export async function validateLogin(
       email: fieldData.email,
       emailVerified: Boolean(fieldData.emailVerified),
       username: fieldData.username,
+      phone_number_mfa: fieldData.phone_number_mfa,
     };
     return user;
   } catch (error) {

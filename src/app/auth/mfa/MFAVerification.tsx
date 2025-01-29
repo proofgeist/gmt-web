@@ -33,7 +33,7 @@ export default function MFAVerificationForm({
   return (
     <form onSubmit={handleSubmitWithAction}>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <Stack>
+        <Stack align="center">
           <PinInput
             length={6}
             autoFocus
