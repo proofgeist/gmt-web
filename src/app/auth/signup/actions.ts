@@ -19,11 +19,12 @@ import {
   sendVerificationEmail,
   setEmailVerificationRequestCookie,
 } from "@/server/auth/utils/email-verification";
+import { cookies } from "next/headers";
 
 export const signupAction = actionClient
   .schema(signupSchema)
   .action(async ({ parsedInput }) => {
-    const { email, password, phoneNumber } = parsedInput;
+    const { email, password } = parsedInput;
     const emailAvailable = await checkEmailAvailability(email);
     if (!emailAvailable) {
       return { error: "Email already in use" };
@@ -43,7 +44,7 @@ export const signupAction = actionClient
       };
     }
 
-    const user = await createUser(email, password, phoneNumber, contactID);
+    const user = await createUser(email, password, contactID);
     const emailVerificationRequest = await createEmailVerificationRequest(
       user.id,
       user.email
@@ -54,9 +55,14 @@ export const signupAction = actionClient
     );
     await setEmailVerificationRequestCookie(emailVerificationRequest);
 
-    const sessionToken = generateSessionToken();
-    const session = await createSession(sessionToken, user.id);
-    setSessionTokenCookie(sessionToken, session.expiresAt);
+    // Store user ID and phone number for MFA verification
+    const cookieStore = await cookies();
+    cookieStore.set("pending_user_id", user.id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+    });
 
-    return redirect("/auth/mfa");
+    return redirect("/auth/mfa/enroll");
   });
