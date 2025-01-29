@@ -2,19 +2,19 @@
 
 import { actionClient } from "@/server/safe-action";
 import { signupSchema } from "./schema";
-import { checkEmailAvailability, createUser } from "@/server/auth/utils/user";
-import { verifyPasswordStrength } from "@/server/auth/utils/password";
 import {
-  createSession,
-  setSessionTokenCookie,
-} from "@/server/auth/utils/session";
-import { generateSessionToken } from "@/server/auth/utils/session";
+  checkEmailAvailability,
+  createUser,
+  getWebEnabledContactID,
+} from "@/server/auth/utils/user";
+import { verifyPasswordStrength } from "@/server/auth/utils/password";
 import { redirect } from "next/navigation";
 import {
   createEmailVerificationRequest,
   sendVerificationEmail,
   setEmailVerificationRequestCookie,
 } from "@/server/auth/utils/email-verification";
+import { cookies } from "next/headers";
 
 export const signupAction = actionClient
   .schema(signupSchema)
@@ -30,20 +30,34 @@ export const signupAction = actionClient
       return { error: "Password is too weak" };
     }
 
-    const user = await createUser(email, password);
+    let contactID: string;
+    try {
+      contactID = await getWebEnabledContactID(email);
+    } catch (error) {
+      return {
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
+    }
+
+    const user = await createUser(email, password, contactID);
     const emailVerificationRequest = await createEmailVerificationRequest(
       user.id,
-      user.email,
+      user.email
     );
     await sendVerificationEmail(
       emailVerificationRequest.email,
-      emailVerificationRequest.code,
+      emailVerificationRequest.code
     );
     await setEmailVerificationRequestCookie(emailVerificationRequest);
 
-    const sessionToken = generateSessionToken();
-    const session = await createSession(sessionToken, user.id);
-    setSessionTokenCookie(sessionToken, session.expiresAt);
+    // Store user ID and phone number for MFA verification
+    const cookieStore = await cookies();
+    cookieStore.set("pending_user_id", user.id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+    });
 
-    return redirect("/auth/verify-email");
+    return redirect("/auth/mfa/enroll");
   });

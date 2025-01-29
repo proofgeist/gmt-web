@@ -3,13 +3,9 @@
 import { actionClient } from "@/server/safe-action";
 import { loginSchema } from "./schema";
 import { validateLogin } from "@/server/auth/utils/user";
-import {
-  createSession,
-  generateSessionToken,
-  setSessionTokenCookie,
-} from "@/server/auth/utils/session";
 import { redirect } from "next/navigation";
-import { getRedirectCookie } from "@/server/auth/utils/redirect";
+import { cookies } from "next/headers";
+import { sendVerificationCodeAction } from "../mfa/actions";
 
 export const loginAction = actionClient
   .schema(loginSchema)
@@ -20,15 +16,43 @@ export const loginAction = actionClient
     if (user === null) {
       return { error: "Invalid email or password" };
     }
+    console.log("user", user);
 
-    const sessionToken = generateSessionToken();
-    const session = await createSession(sessionToken, user.id);
-    setSessionTokenCookie(sessionToken, session.expiresAt);
-
-    if (!user.emailVerified) {
-      return redirect("/auth/verify-email");
+    const cookieStore = await cookies();
+    cookieStore.set("pending_user_id", user.id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+    });
+    if (!user.phone_number_mfa) {
+      redirect("/auth/mfa/enroll");
     }
 
-    const redirectTo = await getRedirectCookie();
-    return redirect(redirectTo);
+    const phoneNumber = user.phone_number_mfa; // This should come from user.phone_number
+
+    try {
+      const result = await sendVerificationCodeAction({ phoneNumber });
+
+      if (!result || "error" in result) {
+        return { error: "Failed to send verification code: " + result?.error };
+      }
+
+      // Store user ID and phone number for MFA verification
+
+      cookieStore.set("pending_phone_number", phoneNumber, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+      });
+
+      return redirect("/auth/mfa");
+    } catch (error) {
+      if (error && (error as any).digest?.includes("NEXT_REDIRECT")) {
+        throw error;
+      }
+      console.error("Error sending MFA code:", error);
+      return { error: "Failed to send verification code" };
+    }
   });

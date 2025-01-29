@@ -5,11 +5,9 @@ import { signupAction } from "./actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema } from "./schema";
 import {
-  Anchor,
   PasswordInput,
   TextInput,
   Button,
-  Group,
   Stack,
   Paper,
   Text,
@@ -28,7 +26,7 @@ export default function SignupForm() {
         <Stack>
           <TextInput
             label="Email"
-            placeholder="you@proofkit.dev"
+            placeholder="you@globmar.com"
             required
             withAsterisk={false}
             {...form.register("email")}
@@ -52,11 +50,11 @@ export default function SignupForm() {
             {...form.register("confirmPassword")}
             error={form.formState.errors.confirmPassword?.message}
           />
-          {action.result.data?.error ? (
+          {action.result.data?.error ?
             <Text c="red">{action.result.data.error}</Text>
-          ) : action.hasErrored ? (
+          : action.hasErrored ?
             <Text c="red">An error occured</Text>
-          ) : null}
+          : null}
           <Button fullWidth type="submit" loading={action.isPending}>
             Create Account
           </Button>

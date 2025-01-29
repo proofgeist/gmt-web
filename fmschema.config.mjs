@@ -4,8 +4,13 @@ export const config = [
     clientSuffix: "Layout",
     schemas: [
       {
-        layout: "api.BookingsReport",
-        schemaName: "BookingsReport",
+        layout: "api.Bookings",
+        schemaName: "Bookings",
+        valueLists: "allowEmpty",
+      },
+      {
+        layout: "api.Contacts",
+        schemaName: "Contacts",
         valueLists: "allowEmpty",
       },
     ],

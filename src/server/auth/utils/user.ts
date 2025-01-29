@@ -1,3 +1,4 @@
+import { ContactsLayout } from "@/config/schemas/filemaker/client";
 import { usersLayout } from "../db/client";
 import { Tusers as _User } from "../db/users";
 
@@ -23,6 +24,7 @@ async function fetchUser(userId: string) {
 export async function createUser(
   email: string,
   password: string,
+  contactID: string
 ): Promise<User> {
   const password_hash = await hashPassword(password);
   const { recordId } = await usersLayout.create({
@@ -30,6 +32,7 @@ export async function createUser(
       email,
       password_hash,
       emailVerified: 0,
+      contact_id: contactID,
     },
   });
   const fmResult = await usersLayout.get({ recordId });
@@ -40,6 +43,7 @@ export async function createUser(
     email,
     emailVerified: false,
     username: "",
+    contact_id: contactID,
   };
   return user;
 }
@@ -47,7 +51,7 @@ export async function createUser(
 /** Update a user's password in the database. */
 export async function updateUserPassword(
   userId: string,
-  password: string,
+  password: string
 ): Promise<void> {
   const password_hash = await hashPassword(password);
   const { recordId } = await fetchUser(userId);
@@ -57,7 +61,7 @@ export async function updateUserPassword(
 
 export async function updateUserEmailAndSetEmailAsVerified(
   userId: string,
-  email: string,
+  email: string
 ): Promise<void> {
   const { recordId } = await fetchUser(userId);
   await usersLayout.update({
@@ -68,7 +72,7 @@ export async function updateUserEmailAndSetEmailAsVerified(
 
 export async function setUserAsEmailVerifiedIfEmailMatches(
   userId: string,
-  email: string,
+  email: string
 ): Promise<boolean> {
   try {
     const {
@@ -110,7 +114,7 @@ export async function getUserFromEmail(email: string): Promise<User | null> {
  */
 export async function validateLogin(
   email: string,
-  password: string,
+  password: string
 ): Promise<User | null> {
   try {
     const {
@@ -121,7 +125,7 @@ export async function validateLogin(
 
     const validPassword = await verifyPasswordHash(
       fieldData.password_hash,
-      password,
+      password
     );
     if (!validPassword) {
       return null;
@@ -131,6 +135,7 @@ export async function validateLogin(
       email: fieldData.email,
       emailVerified: Boolean(fieldData.emailVerified),
       username: fieldData.username,
+      phone_number_mfa: fieldData.phone_number_mfa,
     };
     return user;
   } catch (error) {
@@ -144,4 +149,26 @@ export async function checkEmailAvailability(email: string): Promise<boolean> {
     ignoreEmptyResult: true,
   });
   return data.length === 0;
+}
+
+export async function getWebEnabledContactID(email: string): Promise<string> {
+  const { data } = await ContactsLayout.find({
+    query: { Email1: `==${email}`, hasWebAccess: `==1` },
+  });
+  if (data.length === 0)
+    throw new Error("Web access is not enabled for this email");
+  else if (data.length > 1)
+    throw new Error("Multiple web enabled contacts found");
+  return data[0].fieldData.__kpnID;
+}
+
+export async function updateUserPhoneNumber(
+  userId: string,
+  phoneNumber: string
+): Promise<void> {
+  const { recordId } = await fetchUser(userId);
+  await usersLayout.update({
+    recordId,
+    fieldData: { phone_number_mfa: phoneNumber },
+  });
 }

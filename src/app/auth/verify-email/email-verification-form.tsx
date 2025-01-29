@@ -16,25 +16,25 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmitWithAction}>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <Stack>
+        <Stack align="center">
           <PinInput
-            length={8}
+            length={6}
             autoFocus
             oneTimeCode
             {...form.register("code")}
             onChange={(value) => {
               form.setValue("code", value);
-              if (value.length === 8) {
+              if (value.length === 6) {
                 handleSubmitWithAction();
               }
             }}
           />
 
-          {action.result.data?.error ? (
+          {action.result.data?.error ?
             <Text c="red">{action.result.data.error}</Text>
-          ) : action.hasErrored ? (
+          : action.hasErrored ?
             <Text c="red">An error occured</Text>
-          ) : null}
+          : null}
           <Button fullWidth type="submit" loading={action.isPending}>
             Verify email
           </Button>

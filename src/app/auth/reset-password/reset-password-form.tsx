@@ -2,14 +2,7 @@
 
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  TextInput,
-  Button,
-  Stack,
-  Paper,
-  Text,
-  PasswordInput,
-} from "@mantine/core";
+import { Button, Paper, Stack, Text, PasswordInput } from "@mantine/core";
 import { resetPasswordAction } from "./actions";
 import { resetPasswordSchema } from "./schema";
 

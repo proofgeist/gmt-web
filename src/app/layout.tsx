@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { theme } from "@/config/theme/mantine-theme";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
