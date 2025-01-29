@@ -9,10 +9,9 @@
   // @generated
   // prettier-ignore
   /* eslint-disable */
-  export const ZBookingsReport = z.object({
+  export const ZBookings = z.object({
       "_GMT#": z.string(),
       "_Booking#": z.string(),
-      "_shipperReference#": z.string(),
       "portOfDischargeCity": z.string(),
       "portOfDischargeCountry": z.string(),
       "placeOfDeliveryCity": z.string(),
@@ -20,6 +19,7 @@
       "ETDDatePort": z.string(),
       "ETADatePort": z.string(),
       "ETADateCity": z.string(),
+      "reportReferenceCustomer": z.string(),
   });
 
-  export type TBookingsReport = z.infer<typeof ZBookingsReport>;
+  export type TBookings = z.infer<typeof ZBookings>;

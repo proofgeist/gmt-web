@@ -10,8 +10,7 @@
   // prettier-ignore
   /* eslint-disable */
   export const ZContacts = z.object({
-      "Email1": z.string(),
-      "hasWebAccess": z.union([z.string(), z.number()]),
+      "__kpnID": z.string(),
   });
 
   export type TContacts = z.infer<typeof ZContacts>;
