@@ -10,6 +10,10 @@ import type { User } from "./user";
 import { sessionsLayout } from "../db/client/index";
 import { Tsessions as _Session } from "../db/sessions";
 
+export interface UserSession extends User {
+  reportReferenceCustomer: string;
+}
+
 /**
  * Generate a random session token with sufficient entropy for a session ID.
  * @returns The session token.
@@ -27,10 +31,7 @@ export function generateSessionToken(): string {
  * @param userId - The ID of the user.
  * @returns The session.
  */
-export async function createSession(
-  token: string,
-  userId: string,
-): Promise<Session> {
+export async function createSession(token: string, userId: string): Promise<Session> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session: Session = {
     id: sessionId,
@@ -70,7 +71,7 @@ export async function invalidateSession(sessionId: string): Promise<void> {
  * @returns The session, or null if it doesn't exist.
  */
 export async function validateSessionToken(
-  token: string,
+  token: string
 ): Promise<SessionValidationResult> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 
@@ -86,17 +87,19 @@ export async function validateSessionToken(
   const session: Session = {
     id: fmResult.id,
     id_user: fmResult.id_user,
-    expiresAt: fmResult.expiresAt
-      ? new Date(fmResult.expiresAt * 1000)
+    expiresAt:
+      fmResult.expiresAt ?
+        new Date(fmResult.expiresAt * 1000)
       : new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
   };
 
-  const user: User = {
+  const user: UserSession = {
     id: session.id_user,
     email: fmResult["proofkit_auth_users::email"],
     emailVerified: Boolean(fmResult["proofkit_auth_users::emailVerified"]),
     username: fmResult["proofkit_auth_users::username"],
-    company_id: fmResult["proofkit_auth_users::company_id"],
+    contact_id: fmResult["proofkit_auth_users::contact_id"],
+    reportReferenceCustomer: fmResult["pka_company::reportReferenceCustomer"],
   };
 
   // delete session if it has expired
@@ -134,7 +137,7 @@ export const getCurrentSession = cache(
     }
     const result = await validateSessionToken(token);
     return result;
-  },
+  }
 );
 
 /**
@@ -159,7 +162,7 @@ export async function invalidateUserSessions(userId: string): Promise<void> {
  */
 export async function setSessionTokenCookie(
   token: string,
-  expiresAt: Date,
+  expiresAt: Date
 ): Promise<void> {
   (await cookies()).set("session", token, {
     httpOnly: true,
@@ -190,5 +193,5 @@ export interface Session {
 }
 
 type SessionValidationResult =
-  | { session: Session; user: User }
+  | { session: Session; user: UserSession }
   | { session: null; user: null };
