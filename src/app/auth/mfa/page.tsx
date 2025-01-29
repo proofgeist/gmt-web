@@ -1,5 +1,5 @@
 import { Container, Text, Title } from "@mantine/core";
-import MFAVerificationForm from "./MFAVerification";
+import MFAVerificationForm from "./mfa-form";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import {
