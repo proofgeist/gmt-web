@@ -1,3 +1,4 @@
+import { ContactsLayout } from "@/config/schemas/filemaker/client";
 import { usersLayout } from "../db/client";
 import { Tusers as _User } from "../db/users";
 
@@ -146,4 +147,12 @@ export async function checkEmailAvailability(email: string): Promise<boolean> {
     ignoreEmptyResult: true,
   });
   return data.length === 0;
+}
+
+export async function isContactWebEnabled(email: string): Promise<boolean> {
+  const { data } = await ContactsLayout.find({
+    query: { Email1: `==${email}`, hasWebAccess: `==1` },
+    ignoreEmptyResult: true,
+  });
+  return data.length > 0;
 }
