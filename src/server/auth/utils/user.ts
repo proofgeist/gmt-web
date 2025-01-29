@@ -25,6 +25,7 @@ export async function createUser(
   email: string,
   password: string,
   phoneNumber: string,
+  contactID: string,
 ): Promise<User> {
   const password_hash = await hashPassword(password);
   const { recordId } = await usersLayout.create({
@@ -33,6 +34,7 @@ export async function createUser(
       password_hash,
       emailVerified: 0,
       phone_number_mfa: phoneNumber,
+      contact_id: contactID,
     },
   });
   const fmResult = await usersLayout.get({ recordId });
@@ -43,6 +45,7 @@ export async function createUser(
     email,
     emailVerified: false,
     username: "",
+    contact_id: contactID,
   };
   return user;
 }
@@ -150,10 +153,14 @@ export async function checkEmailAvailability(email: string): Promise<boolean> {
   return data.length === 0;
 }
 
-export async function isContactWebEnabled(email: string): Promise<boolean> {
+export async function getWebEnabledContactID(
+  email: string
+): Promise<string> {
   const { data } = await ContactsLayout.find({
     query: { Email1: `==${email}`, hasWebAccess: `==1` },
-    ignoreEmptyResult: true,
   });
-  return data.length > 0;
+  if (data.length === 0)
+    throw new Error("Web access is not enabled for this email");
+  else if (data.length > 1) throw new Error("Multiple web enabled contacts found");
+  return data[0].fieldData.__kpnID;
 }

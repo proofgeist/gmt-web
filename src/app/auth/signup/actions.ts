@@ -5,7 +5,7 @@ import { signupSchema } from "./schema";
 import {
   checkEmailAvailability,
   createUser,
-  isContactWebEnabled,
+  getWebEnabledContactID,
 } from "@/server/auth/utils/user";
 import { verifyPasswordStrength } from "@/server/auth/utils/password";
 import {
@@ -34,19 +34,23 @@ export const signupAction = actionClient
       return { error: "Password is too weak" };
     }
 
-    const contactWebEnabled = await isContactWebEnabled(email);
-    if (!contactWebEnabled) {
-      return { error: "Web access is not enabled for this email" };
+    let contactID: string;
+    try {
+      contactID = await getWebEnabledContactID(email);
+    } catch (error) {
+      return {
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
     }
 
-    const user = await createUser(email, password, phoneNumber);
+    const user = await createUser(email, password, phoneNumber, contactID);
     const emailVerificationRequest = await createEmailVerificationRequest(
       user.id,
-      user.email,
+      user.email
     );
     await sendVerificationEmail(
       emailVerificationRequest.email,
-      emailVerificationRequest.code,
+      emailVerificationRequest.code
     );
     await setEmailVerificationRequestCookie(emailVerificationRequest);
 

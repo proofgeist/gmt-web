@@ -15,5 +15,6 @@
       "proofkit_auth_users::email": string,
       "proofkit_auth_users::emailVerified": number | null,
       "proofkit_auth_users::username": string,
-      "proofkit_auth_users::company_id": string,
+      "proofkit_auth_users::contact_id": string,
+      "pka_company::reportReferenceCustomer": string,
   };

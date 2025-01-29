@@ -14,6 +14,6 @@
       "emailVerified": number | null,
       "username": string,
       "password_hash": string,
-      "company_id": string,
+      "contact_id": string,
       "phone_number_mfa": string,
   };
