@@ -31,7 +31,7 @@ export default function Home() {
         <Card bg={"gray.1"}>
           <Container>
             <Grid justify="center" align="center">
-              <GridCol span={{ base: 12, sm: 6 }} py={"30px"} h={"100%"}>
+              <GridCol span={{ base: 12, sm: 6, lg: 5 }} py={"30px"} h={"100%"}>
                 <Flex
                   gap="md"
                   justify="space-between"
@@ -55,7 +55,7 @@ export default function Home() {
                   </Button>
                 </Flex>
               </GridCol>
-              <GridCol span={{ base: 12, sm: 6 }} h={"100%"}>
+              <GridCol span={{ base: 12, sm: 6, lg: 7 }} h={"100%"}>
                 <HeroCarousel />
               </GridCol>
             </Grid>
