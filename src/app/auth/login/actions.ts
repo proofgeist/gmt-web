@@ -19,8 +19,15 @@ export const loginAction = actionClient
     }
     console.log("user", user);
 
+    const cookieStore = await cookies();
+    cookieStore.set("pending_user_id", user.id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+    });
     if (!user.phone_number_mfa) {
-      return { error: "No phone number found for MFA" };
+      redirect("/auth/mfa/enroll");
     }
 
     const phoneNumber = user.phone_number_mfa; // This should come from user.phone_number
@@ -33,13 +40,6 @@ export const loginAction = actionClient
       }
 
       // Store user ID and phone number for MFA verification
-      const cookieStore = await cookies();
-      cookieStore.set("pending_user_id", user.id, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
-      });
 
       cookieStore.set("pending_phone_number", phoneNumber, {
         httpOnly: true,
