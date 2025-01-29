@@ -69,8 +69,7 @@ export const verifyEmailAction = actionClient
     );
     await deleteEmailVerificationRequestCookie();
 
-    const redirectTo = await getRedirectCookie();
-    return redirect(redirectTo);
+    return redirect("/auth/mfa")
   });
 
 export const resendEmailVerificationAction = actionClient.action(async () => {

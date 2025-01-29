@@ -34,6 +34,14 @@ export default function SignupForm() {
             {...form.register("email")}
             error={form.formState.errors.email?.message}
           />
+          <TextInput
+            label="Phone Number"
+            placeholder="+1 (234) 555-6789"
+            required
+            withAsterisk={false}
+            {...form.register("phoneNumber")}
+            error={form.formState.errors.phoneNumber?.message}
+          />
           <PasswordInput
             label="Password"
             placeholder="Your password"

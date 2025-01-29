@@ -22,9 +22,11 @@ export const loginAction = actionClient
       return redirect("/auth/verify-email");
     }
 
-    // TODO: Once phone_number is added to user table, check if it exists
-    // For now, hardcode a test number for development
-    const phoneNumber = "+17047715079"; // This should come from user.phone_number
+    if (!user.phone_number_mfa) {
+      return { error: "No phone number found for MFA" };
+    }
+
+    const phoneNumber = user.phone_number_mfa; // This should come from user.phone_number
 
     try {
       const result = await sendVerificationCodeAction({ phoneNumber });
