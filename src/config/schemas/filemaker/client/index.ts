@@ -1,1 +1,1 @@
-export { client as BookingsReportLayout } from "./BookingsReport";
+  export { client as BookingsReportLayout } from "./BookingsReport";

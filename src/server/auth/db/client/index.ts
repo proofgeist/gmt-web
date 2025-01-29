@@ -1,4 +1,4 @@
-export { client as sessionsLayout } from "./sessions";
-export { client as usersLayout } from "./users";
-export { client as emailVerificationLayout } from "./emailVerification";
-export { client as passwordResetLayout } from "./passwordReset";
+  export { client as sessionsLayout } from "./sessions";
+  export { client as usersLayout } from "./users";
+  export { client as emailVerificationLayout } from "./emailVerification";
+  export { client as passwordResetLayout } from "./passwordReset";
