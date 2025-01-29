@@ -51,9 +51,9 @@ export const verifyMFAAction = actionClient
     const cookieStore = await cookies();
 
     const phoneNumber = cookieStore.get("pending_phone_number")?.value;
-    const userId = cookieStore.get("pending_user_id")?.value;
+    const pendingUserID = cookieStore.get("pending_user_id")?.value;
 
-    if (!phoneNumber || !userId) {
+    if (!phoneNumber || !pendingUserID) {
       return { error: "Session expired. Please login again." };
     }
 
@@ -75,7 +75,7 @@ export const verifyMFAAction = actionClient
 
       // Set the actual session cookie
       const sessionToken = generateSessionToken();
-      const session = await createSession(sessionToken, userId);
+      const session = await createSession(sessionToken, pendingUserID);
       setSessionTokenCookie(sessionToken, session.expiresAt);
 
       // Check if the user is verified
