@@ -24,22 +24,25 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
   // NOTE: You may need to use `X-Forwarded-Host` instead
   const hostHeader = request.headers.get("Host");
   if (originHeader === null || hostHeader === null) {
-    return new NextResponse(null, {
-      status: 403,
-    });
+    return NextResponse.json(
+      { error: "Missing Origin or Host header" },
+      { status: 403 }
+    );
   }
   let origin: URL;
   try {
     origin = new URL(originHeader);
   } catch {
-    return new NextResponse(null, {
-      status: 403,
-    });
+    return NextResponse.json(
+      { error: "Invalid Origin header format" },
+      { status: 403 }
+    );
   }
   if (origin.host !== hostHeader) {
-    return new NextResponse(null, {
-      status: 403,
-    });
+    return NextResponse.json(
+      { error: "Origin does not match Host" },
+      { status: 403 }
+    );
   }
   return NextResponse.next();
 }
