@@ -5,7 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev --turbopack",
-    "email:preview": "email dev --port 3010 --dir=src/emails",
+    "email:preview": "cp .env ./node_modules/react-email/dist/preview && email dev --port 3010 --dir=src/emails",
     "lint": "next lint",
     "proofkit": "proofkit",
     "start": "next start",
@@ -35,6 +35,7 @@
     "embla-carousel-react": "^7.1.0",
     "jiti": "^2.4.1",
     "js-cookie": "^3.0.5",
+    "libphonenumber-js": "^1.11.18",
     "mantine-react-table": "2.0.0-beta.7",
     "next": "15.1.0",
     "next-safe-action": "^7.10.0",
