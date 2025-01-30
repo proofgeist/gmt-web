@@ -12,13 +12,24 @@ import {
   Paper,
   Text,
 } from "@mantine/core";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 export default function SignupForm() {
+  const searchParams = useSearchParams();
+  const emailFromUrl = searchParams.get("email");
+
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     signupAction,
     zodResolver(signupSchema),
-    {},
+    {}
   );
+
+  useEffect(() => {
+    if (emailFromUrl) {
+      form.setValue("email", emailFromUrl);
+    }
+  }, [emailFromUrl, form]);
 
   return (
     <form onSubmit={handleSubmitWithAction}>
@@ -31,6 +42,7 @@ export default function SignupForm() {
             withAsterisk={false}
             {...form.register("email")}
             error={form.formState.errors.email?.message}
+            disabled={!!emailFromUrl}
           />
           <PasswordInput
             label="Password"
