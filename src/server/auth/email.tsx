@@ -1,5 +1,6 @@
 import { AuthCodeEmail } from "@/emails/auth-code";
 import { resend } from "../services/resend";
+import { EMAIL_FROM } from "@/config/email";
 
 export async function sendEmail({
   to,
@@ -14,8 +15,7 @@ export async function sendEmail({
     type === "verification" ? "Verify Your Email" : "Reset Your Password";
 
   await resend.emails.send({
-    // TODO: Change this to our own email after verifying your domain with Resend
-    from: "ProofKit <onboarding@resend.dev>",
+    from: EMAIL_FROM,
     to,
     subject,
     react: <AuthCodeEmail validationCode={code} type={type} />,

@@ -7,42 +7,86 @@ import {
   Img,
   Section,
   Text,
+  Link,
 } from "@react-email/components";
 import * as React from "react";
+import { env } from "@/config/env";
+import { emailStyles } from "./styles";
+
+const BASE_URL =
+  env.NODE_ENV === "production" ?
+    "https://gmt-web.vercel.app/"
+  : "http://localhost:3000";
 
 interface AuthCodeEmailProps {
   validationCode: string;
   type: "verification" | "password-reset";
 }
 
+// Additional styles specific to auth code email
+const authCodeStyles = {
+  codeContainer: {
+    background: "rgba(0,0,0,.05)",
+    borderRadius: "4px",
+    margin: "16px auto 14px",
+    verticalAlign: "middle",
+    width: "280px",
+  },
+
+  code: {
+    color: "#000",
+    display: "inline-block",
+    fontFamily: "HelveticaNeue-Bold",
+    fontSize: "32px",
+    fontWeight: 700,
+    letterSpacing: "6px",
+    lineHeight: "40px",
+    paddingBottom: "8px",
+    paddingTop: "8px",
+    margin: "0 auto",
+    width: "100%",
+    textAlign: "center" as const,
+  },
+};
+
 export const AuthCodeEmail = ({ validationCode, type }: AuthCodeEmailProps) => (
   <Html>
     <Head />
-    <Body style={main}>
-      <Container style={container}>
+    <Body style={emailStyles.main}>
+      <Container style={emailStyles.container}>
         <Img
           // TODO: Replace with your logo
-          src="https://proofkit.dev/_astro/proofkit.DNcFg0_B_1JN3Dz.webp"
+          src="https://gmt-web.vercel.app/gmt_logo.png"
           width="238"
           height="175"
-          alt="ProofKit"
-          style={logo}
+          alt="Global Marine"
+          style={emailStyles.logo}
         />
-        <Text style={tertiary}>
-          {type === "verification"
-            ? "Verify Your Email"
-            : "Reset Your Password"}
+        <Text style={emailStyles.tertiary}>
+          {type === "verification" ?
+            "Verify Your Email"
+          : "Reset Your Password"}
         </Text>
-        <Heading style={secondary}>
+        <Heading style={emailStyles.secondary}>
           Enter the following code to{" "}
-          {type === "verification"
-            ? "verify your email"
-            : "reset your password"}
+          {type === "verification" ?
+            "verify your email"
+          : "reset your password"}
         </Heading>
-        <Section style={codeContainer}>
-          <Text style={code}>{validationCode}</Text>
+        <Section style={authCodeStyles.codeContainer}>
+          <Text style={authCodeStyles.code}>{validationCode}</Text>
         </Section>
-        <Text style={paragraph}>
+        {type === "verification" && (
+          <Section style={{ textAlign: "center", marginTop: "20px" }}>
+            <Link
+              href={`${BASE_URL}/auth/verify-email?code=${validationCode}`}
+              style={emailStyles.button}
+            >
+              Click to Verify Email
+            </Link>
+          </Section>
+        )}
+        <Text style={emailStyles.paragraph}>
           If you did not request this code, you can ignore this email.
         </Text>
       </Container>
@@ -56,101 +100,3 @@ AuthCodeEmail.PreviewProps = {
 } as AuthCodeEmailProps;
 
 export default AuthCodeEmail;
-
-const main = {
-  backgroundColor: "#ffffff",
-  fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
-};
-
-const container = {
-  backgroundColor: "#ffffff",
-  border: "1px solid #eee",
-  borderRadius: "5px",
-  boxShadow: "0 5px 10px rgba(20,50,70,.2)",
-  marginTop: "20px",
-  maxWidth: "360px",
-  margin: "0 auto",
-  padding: "68px 0 130px",
-};
-
-const logo: React.CSSProperties = {
-  margin: "0 auto",
-};
-
-const tertiary = {
-  color: "#0a85ea",
-  fontSize: "11px",
-  fontWeight: 700,
-  fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
-  height: "16px",
-  letterSpacing: "0",
-  lineHeight: "16px",
-  margin: "16px 8px 8px 8px",
-  textTransform: "uppercase" as const,
-  textAlign: "center" as const,
-};
-
-const secondary = {
-  color: "#000",
-  display: "inline-block",
-  fontFamily: "HelveticaNeue-Medium,Helvetica,Arial,sans-serif",
-  fontSize: "20px",
-  fontWeight: 500,
-  lineHeight: "24px",
-  marginBottom: "0",
-  marginTop: "0",
-  textAlign: "center" as const,
-  padding: "0 40px",
-};
-
-const codeContainer = {
-  background: "rgba(0,0,0,.05)",
-  borderRadius: "4px",
-  margin: "16px auto 14px",
-  verticalAlign: "middle",
-  width: "280px",
-};
-
-const code = {
-  color: "#000",
-  display: "inline-block",
-  fontFamily: "HelveticaNeue-Bold",
-  fontSize: "32px",
-  fontWeight: 700,
-  letterSpacing: "6px",
-  lineHeight: "40px",
-  paddingBottom: "8px",
-  paddingTop: "8px",
-  margin: "0 auto",
-  width: "100%",
-  textAlign: "center" as const,
-};
-
-const paragraph = {
-  color: "#444",
-  fontSize: "15px",
-  fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
-  letterSpacing: "0",
-  lineHeight: "23px",
-  padding: "0 40px",
-  margin: "0",
-  textAlign: "center" as const,
-};
-
-const _link = {
-  color: "#444",
-  textDecoration: "underline",
-};
-
-const _footer = {
-  color: "#000",
-  fontSize: "12px",
-  fontWeight: 800,
-  letterSpacing: "0",
-  lineHeight: "23px",
-  margin: "0",
-  marginTop: "20px",
-  fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
-  textAlign: "center" as const,
-  textTransform: "uppercase" as const,
-};
