@@ -44,10 +44,16 @@ export const updateEmailAction = actionClient
       user.id,
       email,
     );
-    await sendVerificationEmail(
+    const result = await sendVerificationEmail(
       verificationRequest.email,
-      verificationRequest.code,
+      verificationRequest.code
     );
+    if (result.error) {
+      console.error("result", result.error);
+      return {
+        error: "Failed to send verification email",
+      };
+    }
     await setEmailVerificationRequestCookie(verificationRequest);
     return redirect("/auth/verify-email");
   });

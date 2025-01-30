@@ -5,6 +5,7 @@ import { getCurrentSession } from "./session";
 import { emailVerificationLayout } from "../db/client";
 import { TemailVerification } from "../db/emailVerification";
 import { sendEmail } from "../email";
+import { CreateEmailResponse } from "resend";
 
 /**
  * An Email Verification Request is a record in the email verification table that is created when a user requests to change their email address. It's like a temporary session which can expire if the user doesn't verify the new email address within a certain amount of time.
@@ -82,8 +83,9 @@ export async function deleteUserEmailVerificationRequest(
 export async function sendVerificationEmail(
   email: string,
   code: string,
-): Promise<void> {
-  await sendEmail({ to: email, code, type: "verification" });
+): Promise<CreateEmailResponse> {
+  const result = await sendEmail({ to: email, code, type: "verification" });
+  return result;
 }
 
 /**

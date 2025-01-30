@@ -14,10 +14,12 @@ export async function sendEmail({
   const subject =
     type === "verification" ? "Verify Your Email" : "Reset Your Password";
 
-  await resend.emails.send({
+  const result = await resend.emails.send({
     from: EMAIL_FROM,
     to,
     subject,
     react: <AuthCodeEmail validationCode={code} type={type} />,
   });
+  
+  return result;
 }

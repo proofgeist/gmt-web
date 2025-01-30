@@ -16,7 +16,6 @@ export const loginAction = actionClient
     if (user === null) {
       return { error: "Invalid email or password" };
     }
-    console.log("user", user);
 
     const cookieStore = await cookies();
     cookieStore.set("pending_user_id", user.id, {
