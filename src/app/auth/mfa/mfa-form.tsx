@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button, Paper, PinInput, Stack, Text } from "@mantine/core";
 import { sendVerificationCodeAction } from "./actions";
+import { useEffect } from "react";
 
 const verifyMFASchema = z.object({
   code: z.string().length(6),
@@ -18,8 +19,7 @@ export default function MFAVerificationForm({
 }) {
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     verifyMFAAction,
-    zodResolver(verifyMFASchema),
-    { onError: () => form.setValue("code", "") }
+    zodResolver(verifyMFASchema)
   );
 
   const handleResendCode = async () => {
@@ -33,6 +33,12 @@ export default function MFAVerificationForm({
   const handleError = () => {
     form.setValue("code", "");
   };
+
+  useEffect(() => {
+    if (action.hasErrored || action.result.data?.error) {
+      form.setValue("code", "");
+    }
+  }, [action.hasErrored, action.result.data?.error, form]);
 
   return (
     <form onSubmit={handleSubmitWithAction} onError={handleError}>
