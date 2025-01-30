@@ -6,8 +6,7 @@ import { Button, Paper, Stack, Text, TextInput, PinInput } from "@mantine/core";
 import { mfaEnrollSchema } from "./schema";
 import { mfaEnrollAction } from "./actions";
 import { useState, useEffect } from "react";
-
-
+import { parsePhoneNumber, AsYouType } from "libphonenumber-js";
 
 export default function MFAEnrollForm() {
   const [codeSent, setCodeSent] = useState(false);
@@ -23,16 +22,27 @@ export default function MFAEnrollForm() {
     }
   }, [action.result]);
 
+  const handlePhoneChange = (value: string) => {
+    // Always ensure there's a + at the start
+    const normalizedValue =
+      value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
+    const formatter = new AsYouType();
+    const formattedNumber = formatter.input(normalizedValue);
+    form.setValue("phoneNumber", formattedNumber);
+  };
+
   return (
     <form onSubmit={handleSubmitWithAction}>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <Stack>
           <TextInput
             label="Phone Number"
-            placeholder="+1 (234) 555-6789"
+            description="Include country code (e.g. +1 for US)"
+            placeholder="+1 234 555 6789"
             required
             withAsterisk={false}
-            {...form.register("phoneNumber")}
+            value={form.watch("phoneNumber") ?? ""}
+            onChange={(e) => handlePhoneChange(e.target.value)}
             error={form.formState.errors.phoneNumber?.message?.toString()}
             disabled={codeSent}
           />
@@ -58,15 +68,15 @@ export default function MFAEnrollForm() {
             </Stack>
           )}
 
+          <Button fullWidth type="submit" loading={action.isPending}>
+            {codeSent ? "Verify Code" : "Send Code"}
+          </Button>
+
           {action.result?.data && "error" in action.result.data ?
             <Text c="red">{action.result.data.error}</Text>
           : action.hasErrored ?
             <Text c="red">An error occurred</Text>
           : null}
-
-          <Button fullWidth type="submit" loading={action.isPending}>
-            {codeSent ? "Verify Code" : "Send Code"}
-          </Button>
         </Stack>
       </Paper>
     </form>
