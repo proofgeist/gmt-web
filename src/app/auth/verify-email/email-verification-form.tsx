@@ -5,32 +5,17 @@ import { verifyEmailAction } from "./actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Paper, PinInput, Text } from "@mantine/core";
 import { Stack } from "@mantine/core";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
 
-export default function LoginForm() {
-  const searchParams = useSearchParams();
-  const hasSubmittedRef = useRef(false);
+export default function EmailVerificationForm() {
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     verifyEmailAction,
     zodResolver(emailVerificationSchema),
     {}
   );
 
-  // Auto-fill and submit code from URL parameters
-  useEffect(() => {
-    const code = searchParams.get("code");
-    if (code?.length === 6 && !hasSubmittedRef.current) {
-      hasSubmittedRef.current = true;
-      form.setValue("code", code);
-      form.handleSubmit(() => handleSubmitWithAction())();
-    }
-  }, [searchParams, form, handleSubmitWithAction]);
-
   const onPinChange = (value: string) => {
     form.setValue("code", value);
-    if (value.length === 6 && !hasSubmittedRef.current) {
-      hasSubmittedRef.current = true;
+    if (value.length === 6) {
       handleSubmitWithAction();
     }
   };
@@ -39,10 +24,7 @@ export default function LoginForm() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        if (!hasSubmittedRef.current) {
-          hasSubmittedRef.current = true;
-          handleSubmitWithAction();
-        }
+        handleSubmitWithAction();
       }}
     >
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">

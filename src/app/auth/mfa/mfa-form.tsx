@@ -19,7 +19,7 @@ export default function MFAVerificationForm({
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     verifyMFAAction,
     zodResolver(verifyMFASchema),
-    {}
+    { onError: () => form.setValue("code", "") }
   );
 
   const handleResendCode = async () => {
@@ -30,8 +30,12 @@ export default function MFAVerificationForm({
     }
   };
 
+  const handleError = () => {
+    form.setValue("code", "");
+  };
+
   return (
-    <form onSubmit={handleSubmitWithAction}>
+    <form onSubmit={handleSubmitWithAction} onError={handleError}>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <Stack align="center">
           <PinInput

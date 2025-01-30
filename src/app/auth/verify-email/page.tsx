@@ -4,22 +4,29 @@ import { redirect } from "next/navigation";
 import EmailVerificationForm from "./email-verification-form";
 import ResendButton from "./resend-button";
 import { getUserEmailVerificationRequestFromRequest } from "@/server/auth/utils/email-verification";
-import { getRedirectCookie } from "@/server/auth/utils/redirect";
+import { DEFAULT_REDIRECT_URL } from "@/config/constant";
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { code?: string };
+}) {
   const { user } = await getCurrentSession();
 
   if (user === null) {
     return redirect("/auth/login");
   }
 
-  // TODO: Ideally we'd sent a new verification email automatically if the previous one is expired,
-  // but we can't set cookies inside server components.
+  const code = await searchParams?.code;
+  // If there's a code in the URL, redirect to the auto-verify page
+  if (code?.length === 6) {
+    return redirect(`/auth/verify-email/auto-verify?code=${code}`);
+  }
+
   const verificationRequest =
     await getUserEmailVerificationRequestFromRequest();
   if (verificationRequest === null && user.emailVerified) {
-    const redirectTo = await getRedirectCookie();
-    return redirect(redirectTo);
+    return redirect(DEFAULT_REDIRECT_URL);
   }
 
   return (
