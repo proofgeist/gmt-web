@@ -40,8 +40,9 @@ export const WelcomeEmail = ({ name, email }: WelcomeEmailProps) => (
           {name ? `Hello ${name}!` : "Hello!"}
         </Heading>
         <Text style={emailStyles.paragraph}>
-          We're excited to have you join Global Marine. Our platform helps you
-          manage your shipments efficiently and securely.
+          We&apos;re excited to have you join Global Marine. Our platform helps
+          you manage your shipments efficiently and securely. manage your
+          shipments efficiently and securely.
         </Text>
         <Text style={emailStyles.paragraph}>
           To get started, create your account by clicking the button below.

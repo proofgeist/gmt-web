@@ -18,7 +18,7 @@ export default async function Page(
     return redirect("/auth/login");
   }
 
-  const code = await searchParams?.code;
+  const code = searchParams?.code;
   // If there's a code in the URL, redirect to the auto-verify page
   if (code?.length === 6) {
     return redirect(`/auth/verify-email/auto-verify?code=${code}`);

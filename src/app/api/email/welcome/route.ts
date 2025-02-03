@@ -30,8 +30,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const body = await request.json();
-    const { email, name } = welcomeEmailSchema.parse(body);
+    const { email, name } = welcomeEmailSchema.parse(await request.json());
 
     await resend.emails.send({
       from: EMAIL_FROM,

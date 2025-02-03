@@ -5,9 +5,9 @@ import { verifyEmailAction } from "../actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Container, Paper, Text } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 
-export default function AutoVerifyPage() {
+function AutoVerifyContent() {
   const searchParams = useSearchParams();
   const hasSubmitted = useRef(false);
   const { form, handleSubmitWithAction, action } = useHookFormAction(
@@ -39,5 +39,13 @@ export default function AutoVerifyPage() {
         : <Text ta="center">Verifying your email...</Text>}
       </Paper>
     </Container>
+  );
+}
+
+export default function AutoVerifyPage() {
+  return (
+    <Suspense>
+      <AutoVerifyContent />
+    </Suspense>
   );
 }

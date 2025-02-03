@@ -6,7 +6,7 @@ import { Button, Paper, Stack, Text, TextInput, PinInput } from "@mantine/core";
 import { mfaEnrollSchema } from "./schema";
 import { mfaEnrollAction } from "./actions";
 import { useState, useEffect } from "react";
-import { parsePhoneNumber, AsYouType } from "libphonenumber-js";
+import { AsYouType } from "libphonenumber-js";
 
 export default function MFAEnrollForm() {
   const [codeSent, setCodeSent] = useState(false);

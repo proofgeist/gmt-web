@@ -55,7 +55,6 @@ export const AuthCodeEmail = ({ validationCode, type }: AuthCodeEmailProps) => (
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
         <Img
-          // TODO: Replace with your logo
           src="https://gmt-web.vercel.app/gmt_logo.png"
           width="238"
           height="175"
