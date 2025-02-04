@@ -11,6 +11,8 @@ const welcomeEmailSchema = z.object({
   name: z.string().optional(),
 });
 
+type WelcomeEmailProps = z.infer<typeof welcomeEmailSchema>;
+
 export async function POST(request: Request) {
   // Check for valid authentication
   const authHeader = request.headers.get("Authorization");
@@ -30,7 +32,8 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { email, name } = welcomeEmailSchema.parse(await request.json());
+    const body: WelcomeEmailProps = await request.json();
+    const { email, name } = welcomeEmailSchema.parse(body);
 
     await resend.emails.send({
       from: EMAIL_FROM,
