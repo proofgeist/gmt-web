@@ -6,11 +6,12 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 2rem 0;
+  margin-top: -7rem;
 }
 
 .heroContent {
   text-align: left;
-  padding: 4rem 4rem 12rem 4rem;
+  padding: 0rem 0rem 16rem 4rem;
   max-width: 800px;
 }
 
@@ -55,5 +56,10 @@
   
   .tagline {
     font-size: 1.2rem;
+  }
+
+  .heroContent {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 } 
