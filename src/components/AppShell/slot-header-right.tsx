@@ -3,8 +3,7 @@ import { Group } from "@mantine/core";
 
 import HeaderNavLink from "./internal/HeaderNavLink";
 import UserMenu from "@/components/auth/user-menu";
-import { getCurrentSession } from "@/server/auth/utils/session";
-
+import { useUser } from "@/components/auth/use-user";
 /**
  * DO NOT REMOVE / RENAME THIS FILE
  *
@@ -13,8 +12,8 @@ import { getCurrentSession } from "@/server/auth/utils/session";
  *
  * If you don't want it to be used, you may return null or an empty fragment
  */
-export async function SlotHeaderRight() {
-  const { session } = await getCurrentSession();
+export function SlotHeaderRight() {
+  const { session } = useUser();
   return (
     <>
       <Group>
@@ -24,7 +23,7 @@ export async function SlotHeaderRight() {
               (route) =>
                 (session && route.visibility === "private") ||
                 (!session && route.visibility === "public") ||
-                route.visibility === "all",
+                route.visibility === "all"
             )
             .map((route) => (
               <HeaderNavLink key={route.label} {...route} />
