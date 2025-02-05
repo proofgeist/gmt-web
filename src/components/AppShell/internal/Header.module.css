@@ -22,19 +22,19 @@
   color: inherit;
   font-size: var(--mantine-font-size-sm);
   font-weight: 500;
+}
 
-  @mixin hover {
-    background-color: light-dark(
-      var(--mantine-color-gray-0),
-      var(--mantine-color-dark-6)
-    );
-    color: var(--mantine-color-brand-text);
-  }
+.link:hover {
+  background-color: light-dark(
+    var(--mantine-color-gray-0),
+    var(--mantine-color-dark-6)
+  );
+  color: var(--mantine-color-brand-text);
+}
 
-  [data-mantine-color-scheme] &[data-active] {
-    background-color: var(--mantine-primary-color-filled);
-    color: var(--mantine-color-white);
-  }
+[data-mantine-color-scheme] &[data-active] {
+  background-color: var(--mantine-primary-color-filled);
+  color: var(--mantine-color-white);
 }
 
 .headerHidden {
