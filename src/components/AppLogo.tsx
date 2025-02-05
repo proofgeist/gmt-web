@@ -14,10 +14,10 @@ export default function AppLogo() {
         radius={"md"}
         fit="contain"
       />
-      <Title visibleFrom="md" order={2} c={"brand.1"}>
-        Global Marine Transportation
+      <Title visibleFrom="md" order={2} c={"brand"}>
+        GLOBAL MARINE TRANSPORTATION
       </Title>
-      <Title hiddenFrom="md" order={2} c={"brand.1"}>
+      <Title hiddenFrom="md" order={2} c={"brand"}>
         GMT
       </Title>
     </Group>

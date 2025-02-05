@@ -18,8 +18,7 @@ export default function UserMenu() {
         href="/auth/login"
         variant="white"
         size="sm"
-        c="brand.7"
-        // bg="gray.1"
+        c="brand"
       >
         Sign in
       </Button>
@@ -31,7 +30,7 @@ export default function UserMenu() {
         <Button
           variant="subtle"
           size="sm"
-          color="gray.1"
+          color="brand"
           rightSection={<IconChevronDown size={px("1rem")} />}
         >
           {user.email}

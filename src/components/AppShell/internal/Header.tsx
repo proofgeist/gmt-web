@@ -6,7 +6,6 @@ import SlotHeaderRight from "../slot-header-right";
 import { headerHeight } from "./config";
 import classes from "./Header.module.css";
 import HeaderMobileMenu from "./HeaderMobileMenu";
-import { headerColor } from "@/config/theme/mantine-theme";
 
 export function Header() {
   return (
@@ -15,7 +14,6 @@ export function Header() {
       style={{
         height: headerHeight,
         border: "none",
-        backgroundColor: headerColor,
       }}
     >
       <Container size="xl" className={classes.inner} style={{ height: "100%" }}>
