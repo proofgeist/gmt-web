@@ -1,24 +1,8 @@
 import { Header } from "@/components/AppShell/internal/Header";
-import {
-  AppShell,
-  AppShellHeader,
-  AppShellMain,
-  Flex,
-  Box,
-  Container,
-  Grid,
-  GridCol,
-  Stack,
-  Anchor,
-  Group,
-  Text,
-  Title,
-} from "@mantine/core";
+import { AppShell, AppShellHeader, AppShellMain } from "@mantine/core";
 import React from "react";
-
+import { Footer } from "@/components/AppShell/internal/Footer";
 import { headerHeight } from "./config";
-import { IconBrandInstagram, IconMail, IconPhone } from "@tabler/icons-react";
-import { IconBrandLinkedin } from "@tabler/icons-react";
 
 export default function MainAppShell({
   children,
@@ -27,82 +11,12 @@ export default function MainAppShell({
 }) {
   return (
     <AppShell header={{ height: headerHeight }} padding="md">
-      <AppShellHeader withBorder={false}>
+      <AppShellHeader withBorder={false} bg="transparent">
         <Header />
       </AppShellHeader>
 
       <AppShellMain>{children}</AppShellMain>
       <Footer />
     </AppShell>
-  );
-}
-
-function Footer() {
-  return (
-    <Box component="section" py={"30px"} bg={"gray.6"} c={"white"} w="100%">
-      <Container>
-        <Grid align="center">
-          <GridCol span={8}>
-            <Stack gap="md">
-              <Title order={4} c="white">
-                Contact Us:
-              </Title>
-              <Flex direction={{ base: "row", sm: "column" }} gap="md">
-                <Anchor href="tel:1-212-717-7754" c="white">
-                  <Group gap="xs">
-                    <IconPhone size={20} />
-                    <Text c="white" visibleFrom="sm">
-                      Phone: 1-212-717-7754
-                    </Text>
-                  </Group>
-                </Anchor>
-                <Anchor
-                  href="mailto:GMT-bookings@globalmarinetransportation.com"
-                  c="white"
-                >
-                  <Group gap="xs">
-                    <IconMail size={20} />
-                    <Text c="white" visibleFrom="sm">
-                      GMT-bookings@globalmarinetransportation.com
-                    </Text>
-                  </Group>
-                </Anchor>
-              </Flex>
-            </Stack>
-          </GridCol>
-          <GridCol span={4}>
-            <Stack gap="md">
-              <Title order={4} c="white">
-                Follow us:
-              </Title>
-              <Flex direction={{ base: "row", sm: "column" }} gap="md">
-                <Anchor
-                  href="https://www.instagram.com/globalmarinetransportation/"
-                  target="_blank"
-                  underline="hover"
-                  c="white"
-                >
-                  <Group gap="xs">
-                    <IconBrandInstagram size={20} />
-                    <Text visibleFrom="sm">Instagram</Text>
-                  </Group>
-                </Anchor>
-                <Anchor
-                  href="https://www.linkedin.com/company/global-marine-transportation-inc/?viewAsMember=true"
-                  target="_blank"
-                  underline="hover"
-                  c="white"
-                >
-                  <Group gap="xs">
-                    <IconBrandLinkedin size={20} />
-                    <Text visibleFrom="sm">LinkedIn</Text>
-                  </Group>
-                </Anchor>
-              </Flex>
-            </Stack>
-          </GridCol>
-        </Grid>
-      </Container>
-    </Box>
   );
 }
