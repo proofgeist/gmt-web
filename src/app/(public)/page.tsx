@@ -1,58 +1,94 @@
 import {
-  Button,
-  Card,
   Container,
-  Flex,
-  Grid,
-  GridCol,
   Text,
   Title,
+  SimpleGrid,
+  Card,
+  Group,
+  Image,
 } from "@mantine/core";
-import Services from "./services";
-import HeroCarousel from "@/app/(public)/components/carousel";
+import styles from "./page.module.css";
+import {
+  IconShip,
+  IconGlobe,
+  IconTruck,
+  IconWorld,
+  IconPackage,
+} from "@tabler/icons-react";
+import React from "react";
 
 export default function Home() {
   return (
-    <>
-      <Container mt="2rem">
-        {/* Hero Section */}
-        <Card bg={"gray.1"}>
-          <Container>
-            <Grid justify="center" align="center">
-              <GridCol span={{ base: 12, sm: 6, lg: 5 }} py={"30px"} h={"100%"}>
-                <Flex
-                  gap="md"
-                  justify="space-between"
-                  h={"100%"}
-                  direction="column"
-                >
-                  <Title
-                    order={1}
-                    style={{ color: "#003366", fontWeight: 700 }}
-                  >
-                    Your Trusted Shipping Partner For a Connected World
-                  </Title>
-                  <Text size="lg" color="dimmed">
-                    Superior customer service and the most competitive shipping
-                    rates. At Global Marine, we believe in strong and lasting
-                    relationships, superior customer service, and scheduling
-                    transparency.
-                  </Text>
-                  <Button size="md" variant="filled">
-                    Learn More
-                  </Button>
-                </Flex>
-              </GridCol>
-              <GridCol span={{ base: 12, sm: 6, lg: 7 }} h={"100%"}>
-                <HeroCarousel />
-              </GridCol>
-            </Grid>
-          </Container>
-        </Card>
+    <div className={styles.heroContainer}>
+      <div className={styles.heroContent}>
+        <Image
+          src="/gmt_logo.png"
+          alt="ProofKit"
+          p={4}
+          maw={84}
+          height={84}
+          radius={"md"}
+          fit="contain"
+        />
+        <Title className={styles.mainTitle}>
+          GLOBAL MARINE
+          <br />
+          TRANSPORTATION
+        </Title>
+        <Title order={2} className={styles.tagline}>
+          Your Trusted Shipping Partner for a Connected World
+        </Title>
+      </div>
 
-        {/* Services Section */}
-        <Services />
+      <Container size="xl" className={styles.cardsContainer}>
+        <SimpleGrid cols={{ base: 1, sm: 2, md: 5 }} spacing="lg">
+          {serviceCards.map((service, index) => (
+            <Card key={index} className={styles.glassCard}>
+              <Group wrap="nowrap" mb="sm">
+                <service.icon size={40} stroke={1.5} color="#fff" />
+                <Text c="white" fw={500} style={{ flexShrink: 1 }}>
+                  {service.title}
+                </Text>
+              </Group>
+              <Text size="sm" c="white" opacity={0.8}>
+                {service.description}
+              </Text>
+            </Card>
+          ))}
+        </SimpleGrid>
       </Container>
-    </>
+    </div>
   );
 }
+const serviceCards = [
+  {
+    icon: IconShip,
+    title: "Ocean Freight",
+    description:
+      "Maritime shipping solutions with competitive rates and flexible scheduling across major global routes.",
+  },
+  {
+    icon: IconGlobe,
+    title: "Global Network",
+    description:
+      "Extensive network of partners worldwide ensuring seamless logistics operations.",
+  },
+  {
+    icon: IconTruck,
+    title: "Land Transport",
+    description:
+      "Comprehensive inland transportation with door-to-door delivery and real-time tracking.",
+  },
+  {
+    icon: IconWorld,
+    title: "Worldwide Service",
+    description:
+      "24/7 customer support across multiple time zones for reliable cargo delivery.",
+  },
+  {
+    icon: IconPackage,
+    title: "Custom Solutions",
+    description:
+      "Tailored logistics solutions for specialized cargo and unique routing requirements.",
+  },
+];
