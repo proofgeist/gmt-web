@@ -1,4 +1,4 @@
-import { Group, Image, Title } from "@mantine/core";
+import { Group, Image } from "@mantine/core";
 import React from "react";
 
 export default function AppLogo() {

@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const body: WelcomeEmailProps = await request.json();
+    const body = (await request.json()) as WelcomeEmailProps;
     const { email, name } = welcomeEmailSchema.parse(body);
 
     await resend.emails.send({

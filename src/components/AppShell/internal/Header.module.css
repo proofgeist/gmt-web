@@ -3,6 +3,7 @@
   margin-bottom: rem(120px);
   border-bottom: rem(1px) solid
     light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  transition: transform 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .inner {
@@ -27,10 +28,15 @@
       var(--mantine-color-gray-0),
       var(--mantine-color-dark-6)
     );
+    color: var(--mantine-color-brand-text);
   }
 
   [data-mantine-color-scheme] &[data-active] {
     background-color: var(--mantine-primary-color-filled);
     color: var(--mantine-color-white);
   }
+}
+
+.headerHidden {
+  transform: translateY(-100%);
 }
