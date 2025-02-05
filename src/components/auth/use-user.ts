@@ -24,6 +24,7 @@ export function useUser(): UseUserResult {
     queryKey: ["current-user"],
     queryFn: () => currentSessionAction(),
     retry: false,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
   const queryClient = useQueryClient();
 
