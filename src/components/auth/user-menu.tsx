@@ -13,13 +13,7 @@ export default function UserMenu() {
   }
   if (state === "unauthenticated") {
     return (
-      <Button
-        component="a"
-        href="/auth/login"
-        variant="white"
-        size="sm"
-        c="brand"
-      >
+      <Button component="a" href="/auth/login" variant="white" size="sm">
         Sign in
       </Button>
     );
@@ -30,8 +24,8 @@ export default function UserMenu() {
         <Button
           variant="subtle"
           size="sm"
-          color="brand"
           rightSection={<IconChevronDown size={px("1rem")} />}
+          c="inherit"
         >
           {user.email}
         </Button>

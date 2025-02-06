@@ -1,4 +1,4 @@
-import { Group, Image, Title } from "@mantine/core";
+import { Group, Image } from "@mantine/core";
 import React from "react";
 
 export default function AppLogo() {
@@ -14,12 +14,7 @@ export default function AppLogo() {
         radius={"md"}
         fit="contain"
       />
-      <Title visibleFrom="md" order={2} c={"brand"}>
-        GLOBAL MARINE TRANSPORTATION
-      </Title>
-      <Title hiddenFrom="md" order={2} c={"brand"}>
-        GMT
-      </Title>
+
     </Group>
   );
 }

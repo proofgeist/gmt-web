@@ -1,5 +1,6 @@
+"use client";
 import Link from "next/link";
-
+import { usePathname } from "next/navigation";
 import AppLogo from "../AppLogo";
 import { Anchor } from "@mantine/core";
 
@@ -12,12 +13,17 @@ import { Anchor } from "@mantine/core";
  * If you don't want it to be used, you may return null or an empty fragment
  */
 export function SlotHeaderLeft() {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+
+  if (isHomePage) {
+    return <div></div>;
+  }
+
   return (
-    <>
-      <Anchor component={Link} href="/" underline={"never"} c={"inherit"}>
-        <AppLogo />
-      </Anchor>
-    </>
+    <Anchor component={Link} href="/" underline="never" c="inherit">
+      <AppLogo />
+    </Anchor>
   );
 }
 
