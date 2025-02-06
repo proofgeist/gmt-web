@@ -23,6 +23,7 @@ export default function HeaderMobileMenu() {
           onClick={toggle}
           size="sm"
           c="inherit"
+          color="inherit" //@TODO - fix this
         />
       </Menu.Target>
       <Menu.Dropdown w={"90%"}>
