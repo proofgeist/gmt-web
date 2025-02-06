@@ -27,7 +27,7 @@ export function Header() {
       setHidden(false);
     }
     setLastScrollTop(scroll.y);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scroll.y]);
 
   return (

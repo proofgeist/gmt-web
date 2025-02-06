@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import AppLogo from "../AppLogo";
+import AppLogo from "./internal/AppLogo";
 import { Anchor } from "@mantine/core";
 
 /**

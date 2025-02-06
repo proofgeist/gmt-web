@@ -1,1 +1,1 @@
-export const DEFAULT_REDIRECT_URL = "/my-shipments";
+export const DEFAULT_REDIRECT_URL = "/dashboard";
