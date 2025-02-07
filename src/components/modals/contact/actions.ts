@@ -3,7 +3,6 @@ import { actionClient } from "@/server/safe-action";
 import { contactSchema } from "./schema";
 import { InquiriesLayout } from "@/config/schemas/filemaker/client";
 
-type ContactActionResult = { success: true } | { success: false; error: string };
 export const contactAction = actionClient
   .schema(contactSchema)
   .action(async ({ parsedInput }) => {
