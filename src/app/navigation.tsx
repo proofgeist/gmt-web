@@ -1,3 +1,8 @@
+import {
+  ContactModal,
+} from "@/components/modals/contact/contact";
+import { openModal } from "@mantine/modals";
+
 export interface RouteLink {
   label: string;
   type: "link";
@@ -22,11 +27,34 @@ export type Route = RouteLink | RouteFunction;
 
 export const primaryRoutes: Route[] = [
   {
-    label: "Dashboard",
+    label: "Home",
     type: "link",
     href: "/",
     exactMatch: true,
     visibility: "none",
+  },
+  {
+    label: "About",
+    type: "link",
+    href: "/about",
+    visibility: "public",
+  },
+  {
+    label: "Contact",
+    type: "function",
+    onClick: () =>
+      openModal({
+        id: "contact",
+        title: "Contact Us",
+        children: <ContactModal />,
+      }),
+    visibility: "public",
+  },
+  {
+    label: "Dashboard",
+    type: "link",
+    href: "/dashboard",
+    visibility: "private",
   },
   {
     label: "My Shipments",

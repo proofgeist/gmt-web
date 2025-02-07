@@ -10,7 +10,11 @@ export default function HeaderNavLink(route: Route) {
   const pathname = usePathname();
 
   if (route.type === "function") {
-    return <a className={classes.link}>{route.label}</a>;
+    return (
+      <div className={classes.link} onClick={route.onClick}>
+        {route.label}
+      </div>
+    );
   }
 
   const isActive = route.exactMatch
