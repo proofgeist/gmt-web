@@ -7,7 +7,7 @@ import {
   Group,
   Image,
 } from "@mantine/core";
-import styles from "./page.module.css";
+import styles from "../page.module.css";
 import {
   IconShip,
   IconGlobe,
