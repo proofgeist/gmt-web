@@ -5,31 +5,44 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { contactSchema } from "./schema";
 import { contactAction } from "./actions";
 import {
-  Modal,
   TextInput,
   Button,
   Stack,
   Group,
   Textarea,
 } from "@mantine/core";
-import { closeAllModals, closeModal } from "@mantine/modals";
+import { closeAllModals } from "@mantine/modals";
+import { notifications } from "@mantine/notifications";
 
 export function ContactModal() {
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     contactAction,
     zodResolver(contactSchema),
-    {}
+    {
+      actionProps: {
+        onSuccess: () => {
+          form.reset();
+          closeAllModals();
+          notifications.show({
+            title: "Message sent",
+            message:
+              "Your message has been sent successfully, we will get back to you as soon as possible.",
+            color: "green",
+          });
+        },
+        onError: () => {
+          notifications.show({
+            title: "Error",
+            message: "Failed to send message",
+            color: "red",
+          });
+        },
+      },
+    }
   );
 
-  const handleSubmit = async () => {
-    await handleSubmitWithAction();
-    if ("success" in action.result) {
-      form.reset();
-    }
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmitWithAction}>
       <Stack>
         <TextInput
           label="Company Name / Nombre de Empresa"
