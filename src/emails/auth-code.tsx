@@ -16,7 +16,7 @@ import { emailStyles } from "./styles";
 const BASE_URL =
   env.NODE_ENV === "production" ?
     "https://gmt-web.vercel.app/"
-  : "http://localhost:3000";
+  : "https://gmt-web.vercel.app/";
 
 interface AuthCodeEmailProps {
   validationCode: string;
