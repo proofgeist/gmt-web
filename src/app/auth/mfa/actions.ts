@@ -6,7 +6,12 @@ import { cookies } from "next/headers";
 // import { verifyCode } from "./mfa";
 import { redirect } from "next/navigation";
 import { getRedirectCookie } from "@/server/auth/utils/redirect";
-import { createSession, generateSessionToken, getCurrentSession, setSessionTokenCookie } from "@/server/auth/utils/session";
+import {
+  createSession,
+  generateSessionToken,
+  getCurrentSession,
+  setSessionTokenCookie,
+} from "@/server/auth/utils/session";
 import twilio from "twilio";
 
 const client = twilio(

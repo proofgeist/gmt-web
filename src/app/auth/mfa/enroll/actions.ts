@@ -2,7 +2,12 @@
 
 import { actionClient } from "@/server/safe-action";
 import { mfaEnrollSchema } from "./schema";
-import { createSession, generateSessionToken, getCurrentSession, setSessionTokenCookie } from "@/server/auth/utils/session";
+import {
+  createSession,
+  generateSessionToken,
+  getCurrentSession,
+  setSessionTokenCookie,
+} from "@/server/auth/utils/session";
 import { redirect } from "next/navigation";
 import { updateUserPhoneNumber } from "@/server/auth/utils/user";
 import { sendVerificationCodeAction } from "../actions";

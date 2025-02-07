@@ -6,11 +6,9 @@ import ResendButton from "./resend-button";
 import { getUserEmailVerificationRequestFromRequest } from "@/server/auth/utils/email-verification";
 import { DEFAULT_REDIRECT_URL } from "@/config/constant";
 
-export default async function Page(
-  props: {
-    searchParams: Promise<{ code?: string }>;
-  }
-) {
+export default async function Page(props: {
+  searchParams: Promise<{ code?: string }>;
+}) {
   const searchParams = await props.searchParams;
   const { user } = await getCurrentSession();
 
