@@ -13,6 +13,11 @@ export const config = [
         schemaName: "Contacts",
         valueLists: "allowEmpty",
       },
+      {
+        layout: "api.Inquiries",
+        schemaName: "Inquiries",
+        valueLists: "allowEmpty",
+      },
     ],
     clearOldFiles: true,
     path: "./src/config/schemas/filemaker",
