@@ -22,6 +22,7 @@
   color: inherit;
   font-size: var(--mantine-font-size-sm);
   font-weight: 500;
+  cursor: pointer;
 }
 
 .link:hover {

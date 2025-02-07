@@ -2,11 +2,20 @@
 
 import { Burger, Menu } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { usePathname } from "next/navigation";
+import { primaryRoutes } from "@/app/navigation";
 
 import SlotHeaderMobileMenuContent from "../slot-header-mobile-content";
 
 export default function HeaderMobileMenu() {
   const [opened, { toggle }] = useDisclosure(false);
+  const pathname = usePathname();
+  const isPublicRoute = primaryRoutes.some(
+    (route) =>
+      route.type === "link" &&
+      (route.visibility === "public" || route.visibility === "none") &&
+      pathname === route.href
+  );
 
   return (
     <Menu
@@ -22,8 +31,7 @@ export default function HeaderMobileMenu() {
           hiddenFrom="sm"
           onClick={toggle}
           size="sm"
-          c="inherit"
-          color="inherit" //@TODO - fix this
+          color={isPublicRoute ? "white" : "brand"}
         />
       </Menu.Target>
       <Menu.Dropdown w={"90%"}>
