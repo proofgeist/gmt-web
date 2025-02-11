@@ -1,5 +1,8 @@
 import { z } from "zod";
-import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
+import {
+  isValidPhoneNumber,
+  parsePhoneNumberWithError,
+} from "libphonenumber-js";
 
 export const mfaEnrollSchema = z.object({
   phoneNumber: z
@@ -8,7 +11,7 @@ export const mfaEnrollSchema = z.object({
       message: "Please enter a valid phone number with country code",
     })
     .transform((value) => {
-      const phoneNumber = parsePhoneNumber(value);
+      const phoneNumber = parsePhoneNumberWithError(value);
       return phoneNumber.format("E.164"); // Returns number in +12345678900 format
     }),
     code: z.string().length(6).optional(),

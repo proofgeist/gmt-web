@@ -17,4 +17,5 @@
       "proofkit_auth_users::username": string,
       "proofkit_auth_users::contact_id": string,
       "pka_company::reportReferenceCustomer": string,
+      "proofkit_auth_users::phone_number_mfa": string,
   };

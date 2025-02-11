@@ -13,7 +13,9 @@ export default function MFAEnrollForm() {
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     mfaEnrollAction,
     zodResolver(mfaEnrollSchema),
-    { formProps: {} }
+    {
+      formProps: {},
+    }
   );
 
   useEffect(() => {
