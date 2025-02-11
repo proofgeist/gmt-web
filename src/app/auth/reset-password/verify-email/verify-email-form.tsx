@@ -19,11 +19,11 @@ export default function VerifyEmailForm() {
         <Stack>
           <PinInput
             oneTimeCode
-            length={8}
+            length={6}
             {...form.register("code")}
             onChange={(value) => {
               form.setValue("code", value);
-              if (value.length === 8) {
+              if (value.length === 6) {
                 handleSubmitWithAction();
               }
             }}
