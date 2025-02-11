@@ -15,7 +15,7 @@ export function Header({ routes, textColor = "brand" }: { routes: Route[], textC
   const [scroll] = useWindowScroll();
   const [hidden, setHidden] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
-
+  const [isAtTop, setIsAtTop] = useState(true);
 
   useEffect(() => {
     if (scroll.y > lastScrollTop) {
@@ -25,6 +25,7 @@ export function Header({ routes, textColor = "brand" }: { routes: Route[], textC
       // scrolling up
       setHidden(false);
     }
+    setIsAtTop(scroll.y <= 20);
     setLastScrollTop(scroll.y);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scroll.y]);
@@ -35,6 +36,13 @@ export function Header({ routes, textColor = "brand" }: { routes: Route[], textC
       style={{
         height: headerHeight,
         border: "none",
+        ...(isAtTop ?
+          {}
+        : {
+            background: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(10px)",
+            border: "none",
+          }),
       }}
     >
       <Container size="xl" className={classes.inner} style={{ height: "100%" }}>
