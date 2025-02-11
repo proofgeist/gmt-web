@@ -8,6 +8,7 @@ export type User = Partial<
   id: string;
   email: string;
   emailVerified: boolean;
+  language_preference?: "en" | "es";
 };
 
 import { hashPassword, verifyPasswordHash } from "./password";
@@ -172,5 +173,18 @@ export async function updateUserPhoneNumber(
   await usersLayout.update({
     recordId,
     fieldData: { phone_number_mfa: phoneNumber },
+  });
+}
+
+export async function updateUserPreferences(
+  userId: string,
+  preferences: {
+    language: "en" | "es";
+  }
+): Promise<void> {
+  const { recordId } = await fetchUser(userId);
+  await usersLayout.update({
+    recordId,
+    fieldData: { preferredLanguage: preferences.language },
   });
 }

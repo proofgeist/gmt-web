@@ -8,6 +8,7 @@
   // @generated
   // prettier-ignore
   /* eslint-disable */
+  export type TVLlanguage = "en" | "es";
   export type Tsessions = {
       "id": string,
       "expiresAt": number | null,
@@ -18,4 +19,5 @@
       "proofkit_auth_users::contact_id": string,
       "pka_company::reportReferenceCustomer": string,
       "proofkit_auth_users::phone_number_mfa": string,
+      "proofkit_auth_users::preferredLanguage": "en" | "es",
   };

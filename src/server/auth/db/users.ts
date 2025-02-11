@@ -8,6 +8,7 @@
   // @generated
   // prettier-ignore
   /* eslint-disable */
+  export type TVLlanguage = "en" | "es";
   export type Tusers = {
       "id": string,
       "email": string,
@@ -16,4 +17,5 @@
       "password_hash": string,
       "contact_id": string,
       "phone_number_mfa": string,
+      "preferredLanguage": "en" | "es",
   };

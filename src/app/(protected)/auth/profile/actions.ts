@@ -4,6 +4,7 @@ import {
   updateEmailSchema,
   updatePasswordSchema,
   updatePhoneNumberSchema,
+  updatePreferencesSchema,
 } from "./schema";
 import {
   createSession,
@@ -17,6 +18,7 @@ import {
   updateUserPassword,
   validateLogin,
   updateUserPhoneNumber,
+  updateUserPreferences,
 } from "@/server/auth/utils/user";
 import {
   createEmailVerificationRequest,
@@ -31,6 +33,24 @@ const client = twilio(
   process.env.TWILIO_ACCOUNT_SID,
   process.env.TWILIO_AUTH_TOKEN
 );
+
+export const updatePreferencesAction = actionClient
+  .schema(updatePreferencesSchema)
+  .action(async ({ parsedInput }) => {
+    const { session, user } = await getCurrentSession();
+    if (session === null) {
+      return {
+        error: "Not authenticated",
+      };
+    }
+
+    const { language } = parsedInput;
+    await updateUserPreferences(user.id, { language });
+
+    return {
+      message: "Language preference updated",
+    };
+  });
 
 export const updateEmailAction = actionClient
   .schema(updateEmailSchema)

@@ -8,6 +8,10 @@ export const updateEmailSchema = z.object({
   email: z.string().email(),
 });
 
+export const updatePreferencesSchema = z.object({
+  language: z.enum(["en", "es"]),
+});
+
 export const updatePasswordSchema = z
   .object({
     currentPassword: z.string(),

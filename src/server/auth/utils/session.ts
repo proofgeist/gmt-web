@@ -123,6 +123,7 @@ export async function validateSessionToken(
     contact_id: fmResult["proofkit_auth_users::contact_id"],
     reportReferenceCustomer: fmResult["pka_company::reportReferenceCustomer"],
     phone_number_mfa: fmResult["proofkit_auth_users::phone_number_mfa"],
+    preferredLanguage: fmResult["proofkit_auth_users::preferredLanguage"],
   };
 
   // delete session if it has expired

@@ -13,10 +13,22 @@ export default function UpdatePhoneForm({
 }: {
   currentPhoneNumber: string | null;
 }) {
+  const formattedPhoneNumber = () => {
+    if (currentPhoneNumber) {
+      const formatter = new AsYouType();
+      const formattedNumber = formatter.input(currentPhoneNumber);
+      return formattedNumber;
+    }
+    return "";
+  };
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     updatePhoneNumberAction,
     zodResolver(updatePhoneNumberSchema),
-    { formProps: { defaultValues: { phoneNumber: currentPhoneNumber || "" } } }
+    {
+      formProps: {
+        defaultValues: { phoneNumber: formattedPhoneNumber() || "" },
+      },
+    }
   );
 
   useEffect(() => {
@@ -31,7 +43,7 @@ export default function UpdatePhoneForm({
       value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
     const formatter = new AsYouType();
     const formattedNumber = formatter.input(normalizedValue);
-    form.setValue("phoneNumber", formattedNumber);
+    form.setValue("phoneNumber", formattedNumber, { shouldDirty: true });
   };
   return (
     <form onSubmit={handleSubmitWithAction}>

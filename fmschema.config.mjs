@@ -28,12 +28,14 @@ export const config = [
       {
         layout: "proofkit_auth_sessions",
         schemaName: "sessions",
+        valueLists: "strict",
         strictNumbers: true,
       },
       {
         layout: "proofkit_auth_users",
         schemaName: "users",
         strictNumbers: true,
+        valueLists: "strict",
       },
       {
         layout: "proofkit_auth_email_verification",
