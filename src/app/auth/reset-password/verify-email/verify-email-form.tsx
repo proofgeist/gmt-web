@@ -16,7 +16,7 @@ export default function VerifyEmailForm() {
   return (
     <form onSubmit={handleSubmitWithAction}>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <Stack>
+        <Stack align="center">
           <PinInput
             oneTimeCode
             length={6}
@@ -33,11 +33,11 @@ export default function VerifyEmailForm() {
           {form.formState.errors.code?.message && (
             <Text>{form.formState.errors.code.message}</Text>
           )}
-          {action.result.data?.error ? (
+          {action.result.data?.error ?
             <Text c="red">{action.result.data.error}</Text>
-          ) : action.hasErrored ? (
+          : action.hasErrored ?
             <Text c="red">An error occured</Text>
-          ) : null}
+          : null}
           <Button fullWidth type="submit" loading={action.isPending}>
             Continue
           </Button>

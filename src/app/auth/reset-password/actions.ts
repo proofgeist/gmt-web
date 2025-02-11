@@ -14,6 +14,7 @@ import { verifyPasswordStrength } from "@/server/auth/utils/password";
 import { invalidateUserSessions } from "@/server/auth/utils/session";
 import { updateUserPassword } from "@/server/auth/utils/user";
 import { redirect } from "next/navigation";
+import { getRedirectCookie } from "@/server/auth/utils/redirect";
 
 export const resetPasswordAction = actionClient
   .schema(resetPasswordSchema)
@@ -46,5 +47,6 @@ export const resetPasswordAction = actionClient
     const session = await createSession(sessionToken, user.id);
     await setSessionTokenCookie(sessionToken, session.expiresAt);
     await deletePasswordResetSessionTokenCookie();
-    return redirect("/");
+    const redirectTo = await getRedirectCookie();
+    return redirect(redirectTo);
   });
