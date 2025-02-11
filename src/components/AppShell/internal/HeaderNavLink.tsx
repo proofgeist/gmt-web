@@ -11,9 +11,9 @@ export default function HeaderNavLink(route: Route) {
 
   if (route.type === "function") {
     return (
-      <div className={classes.link} onClick={route.onClick}>
+      <button className={classes.link} onClick={route.onClick}>
         {route.label}
-      </div>
+      </button>
     );
   }
 
