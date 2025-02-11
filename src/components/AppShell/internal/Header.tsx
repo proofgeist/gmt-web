@@ -11,7 +11,7 @@ import classes from "./Header.module.css";
 import HeaderMobileMenu from "./HeaderMobileMenu";
 import { Route } from "@/app/navigation";
 
-export function Header({ routes, textColor = "brand" }: { routes: Route[], textColor?: string }) {
+export function Header({ routes, textColor = "brand", hideLogo = false }: { routes: Route[], textColor?: string, hideLogo?: boolean }) {
   const [scroll] = useWindowScroll();
   const [hidden, setHidden] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
@@ -55,7 +55,7 @@ export function Header({ routes, textColor = "brand" }: { routes: Route[], textC
           }}
           c={textColor}
         >
-          <SlotHeaderLeft />
+          {!hideLogo ? <SlotHeaderLeft /> : <div/>}
           <Box visibleFrom="md">
             <SlotHeaderCenter />
           </Box>
