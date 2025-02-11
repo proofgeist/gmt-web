@@ -25,14 +25,7 @@ export interface RouteFunction {
 
 export type Route = RouteLink | RouteFunction;
 
-export const primaryRoutes: Route[] = [
-  {
-    label: "Home",
-    type: "link",
-    href: "/",
-    exactMatch: true,
-    visibility: "none",
-  },
+export const publicRoutes: Route[] = [
   {
     label: "About",
     type: "link",
@@ -50,6 +43,9 @@ export const primaryRoutes: Route[] = [
       }),
     visibility: "public",
   },
+];
+
+export const privateRoutes: Route[] = [
   {
     label: "Dashboard",
     type: "link",
@@ -63,5 +59,14 @@ export const primaryRoutes: Route[] = [
     visibility: "private",
   },
 ];
+
+// Keep this route separate since it has "none" visibility
+export const homeRoute: Route = {
+  label: "Home",
+  type: "link",
+  href: "/",
+  exactMatch: true,
+  visibility: "none",
+};
 
 export const secondaryRoutes: Route[] = [];

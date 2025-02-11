@@ -2,7 +2,6 @@
 import { Box, Container, Group } from "@mantine/core";
 import { useWindowScroll } from "@mantine/hooks";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 
 import SlotHeaderCenter from "../slot-header-center";
 import SlotHeaderLeft from "../slot-header-left";
@@ -10,13 +9,13 @@ import SlotHeaderRight from "../slot-header-right";
 import { headerHeight } from "./config";
 import classes from "./Header.module.css";
 import HeaderMobileMenu from "./HeaderMobileMenu";
+import { Route } from "@/app/navigation";
 
-export function Header() {
+export function Header({ routes, textColor = "brand" }: { routes: Route[], textColor?: string }) {
   const [scroll] = useWindowScroll();
   const [hidden, setHidden] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
-  const pathname = usePathname();
-  const isHomePage = pathname === "/";
+
 
   useEffect(() => {
     if (scroll.y > lastScrollTop) {
@@ -32,9 +31,7 @@ export function Header() {
 
   return (
     <header
-      className={`${classes.header} ${hidden ? classes.headerHidden : ""} ${
-        isHomePage ? classes.homeHeader : ""
-      }`}
+      className={`${classes.header} ${hidden ? classes.headerHidden : ""} `}
       style={{
         height: headerHeight,
         border: "none",
@@ -48,17 +45,17 @@ export function Header() {
           style={{
             height: "100%",
           }}
-          c={isHomePage ? "white" : "brand"}
+          c={textColor}
         >
           <SlotHeaderLeft />
           <Box visibleFrom="md">
             <SlotHeaderCenter />
           </Box>
           <Box visibleFrom="sm">
-            <SlotHeaderRight />
+            <SlotHeaderRight routes={routes} />
           </Box>
           <Box hiddenFrom="sm">
-            <HeaderMobileMenu />
+            <HeaderMobileMenu routes={routes} />
           </Box>
         </Group>
       </Container>

@@ -1,10 +1,8 @@
-"use client";
-
-import { primaryRoutes } from "@/app/navigation";
+"use client"; 
 import { Menu } from "@mantine/core";
 import { useRouter } from "next/navigation";
-import { useUser } from "../auth/use-user";
 import { UserMobileMenu } from "../auth/user-menu";
+import { Route } from "@/app/navigation";
 
 /**
  * DO NOT REMOVE / RENAME THIS FILE
@@ -16,20 +14,16 @@ import { UserMobileMenu } from "../auth/user-menu";
  */
 export function SlotHeaderMobileMenuContent({
   closeMenu,
+  routes,
 }: {
   closeMenu: () => void;
+  routes: Route[];
 }) {
   const router = useRouter();
-  const { session } = useUser();
+
   return (
     <>
-      {primaryRoutes
-        .filter(
-          (route) =>
-            (session && route.visibility === "private") ||
-            (!session && route.visibility === "public") ||
-            route.visibility === "all",
-        )
+      {routes
         .map((route) => (
           <Menu.Item
             key={route.label}
