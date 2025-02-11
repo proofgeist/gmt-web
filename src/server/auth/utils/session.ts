@@ -10,6 +10,13 @@ import type { User } from "./user";
 import { sessionsLayout } from "../db/client/index";
 import { Tsessions as _Session } from "../db/sessions";
 
+// Cache storage for session data
+const SESSION_CACHE = new Map<string, {
+  data: SessionValidationResult;
+  timestamp: number;
+}>();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+
 export interface UserSession extends User {
   reportReferenceCustomer: string;
 }
@@ -59,6 +66,9 @@ export async function createSession(
  * @param sessionId - The ID of the session to invalidate.
  */
 export async function invalidateSession(sessionId: string): Promise<void> {
+  // Clear the cache entry when invalidating
+  SESSION_CACHE.delete(sessionId);
+
   const fmResult = await sessionsLayout.maybeFindFirst({
     query: { id: `==${sessionId}` },
   });
@@ -78,11 +88,20 @@ export async function validateSessionToken(
 ): Promise<SessionValidationResult> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 
+  // Check cache first
+  const cached = SESSION_CACHE.get(sessionId);
+  const now = Date.now();
+  if (cached && now - cached.timestamp < CACHE_TTL) {
+    return cached.data;
+  }
+
   const result = await sessionsLayout.maybeFindFirst({
     query: { id: `==${sessionId}` },
   });
   if (result === null) {
-    return { session: null, user: null };
+    const nullResult = { session: null, user: null };
+    SESSION_CACHE.set(sessionId, { data: nullResult, timestamp: now });
+    return nullResult;
   }
 
   const fmResult = result.data.fieldData;
@@ -103,12 +122,15 @@ export async function validateSessionToken(
     username: fmResult["proofkit_auth_users::username"],
     contact_id: fmResult["proofkit_auth_users::contact_id"],
     reportReferenceCustomer: fmResult["pka_company::reportReferenceCustomer"],
+    phone_number_mfa: fmResult["proofkit_auth_users::phone_number_mfa"],
   };
 
   // delete session if it has expired
   if (Date.now() >= session.expiresAt.getTime()) {
     await sessionsLayout.delete({ recordId });
-    return { session: null, user: null };
+    const expiredResult = { session: null, user: null };
+    SESSION_CACHE.set(sessionId, { data: expiredResult, timestamp: now });
+    return expiredResult;
   }
 
   // extend session if it's going to expire soon
@@ -123,7 +145,9 @@ export async function validateSessionToken(
     });
   }
 
-  return { session, user };
+  const validationResult = { session, user };
+  SESSION_CACHE.set(sessionId, { data: validationResult, timestamp: now });
+  return validationResult;
 }
 
 /**
@@ -148,11 +172,13 @@ export const getCurrentSession = cache(
  * @param userId - The ID of the user.
  */
 export async function invalidateUserSessions(userId: string): Promise<void> {
+  // Clear entire cache when invalidating all sessions
+  SESSION_CACHE.clear();
+
   const sessions = await sessionsLayout.findAll({
     query: { id_user: `==${userId}` },
   });
 
-  // Use regular for...of since sessions is a regular array
   for (const session of sessions) {
     await sessionsLayout.delete({ recordId: session.recordId });
   }
