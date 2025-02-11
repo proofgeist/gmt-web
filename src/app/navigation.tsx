@@ -30,7 +30,7 @@ export const publicRoutes: Route[] = [
     label: "About",
     type: "link",
     href: "/about",
-    visibility: "public",
+    visibility: "all",
   },
   {
     label: "Contact",
@@ -41,7 +41,13 @@ export const publicRoutes: Route[] = [
         title: "Contact Us",
         children: <ContactModal />,
       }),
-    visibility: "public",
+    visibility: "all",
+  },
+  {
+    label: "myGMT",
+    type: "link",
+    href: "/dashboard",
+    visibility: "private",
   },
 ];
 
