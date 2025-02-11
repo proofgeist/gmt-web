@@ -1,6 +1,6 @@
 'use client';
 
-import { Header } from "./Header";
+import { Header } from "../internal/Header";
 import { privateRoutes } from "@/app/navigation";
 
 export function PrivateHeader() {

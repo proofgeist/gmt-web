@@ -1,4 +1,4 @@
-import { PrivateAppShell } from "@/components/AppShell/internal/AppShell";
+import { PrivateAppShell } from "@/components/AppShell/AppShell";
 import React from "react";
 import Protect from "@/components/auth/protect";
 

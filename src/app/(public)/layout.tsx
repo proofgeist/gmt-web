@@ -1,4 +1,4 @@
-import {PublicAppShell} from "@/components/AppShell/internal/AppShell";
+import { PublicAppShell } from "@/components/AppShell/AppShell";
 import React from "react";
 import styles from "./layout.module.css";
 import Image from "next/image";
