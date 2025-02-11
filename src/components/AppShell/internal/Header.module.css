@@ -35,11 +35,19 @@
   color: var(--mantine-color-brand-text);
 }
 
-[data-mantine-color-scheme] &[data-active] {
+.link[data-active] {
   background-color: var(--mantine-primary-color-filled);
   color: var(--mantine-color-white);
 }
 
 .headerHidden {
   transform: translateY(-100%);
+}
+
+.myGMT {
+    background-color: light-dark(
+    var(--mantine-color-gray-0),
+    var(--mantine-color-dark-6)
+  );
+  color: var(--mantine-color-brand-text);
 }

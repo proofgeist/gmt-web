@@ -11,7 +11,10 @@ export default function HeaderNavLink(route: Route) {
 
   if (route.type === "function") {
     return (
-      <button className={classes.link} onClick={route.onClick}>
+      <button
+        className={`${classes.link} ${route.customStyles}`}
+        onClick={route.onClick}
+      >
         {route.label}
       </button>
     );
@@ -20,12 +23,13 @@ export default function HeaderNavLink(route: Route) {
   const isActive = route.exactMatch
     ? pathname === route.href
     : pathname.startsWith(route.href);
+  console.log(isActive, route.href);
 
   if (route.type === "link") {
     return (
       <a
         href={route.href}
-        className={classes.link}
+        className={`${classes.link} ${route.customStyles ? classes[route.customStyles] : ""}`}
         data-active={isActive || undefined}
       >
         {route.label}

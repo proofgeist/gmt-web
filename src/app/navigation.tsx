@@ -11,6 +11,7 @@ export interface RouteLink {
   /** If true, the route will only be considered active if the path is exactly this value. */
   exactMatch?: boolean;
   visibility?: "public" | "private" | "all" | "none";
+  customStyles?: string;
 }
 
 export interface RouteFunction {
@@ -21,6 +22,7 @@ export interface RouteFunction {
   /** If true, the route will only be considered active if the path is exactly this value. */
   exactMatch?: boolean;
   visibility?: "public" | "private" | "all" | "none";
+  customStyles?: string;
 }
 
 export type Route = RouteLink | RouteFunction;
@@ -48,6 +50,7 @@ export const publicRoutes: Route[] = [
     type: "link",
     href: "/dashboard",
     visibility: "private",
+    customStyles: "myGMT",
   },
 ];
 
