@@ -1,6 +1,7 @@
 import {
   ContactModal,
 } from "@/components/modals/contact/contact";
+import { yellowtail } from "@/config/theme/fonts";
 import { openModal } from "@mantine/modals";
 
 export interface RouteLink {
@@ -12,6 +13,7 @@ export interface RouteLink {
   exactMatch?: boolean;
   visibility?: "public" | "private" | "all" | "none";
   customStyles?: string;
+  component?: React.ReactNode;
 }
 
 export interface RouteFunction {
@@ -23,6 +25,7 @@ export interface RouteFunction {
   exactMatch?: boolean;
   visibility?: "public" | "private" | "all" | "none";
   customStyles?: string;
+  component?: React.ReactNode;
 }
 
 export type Route = RouteLink | RouteFunction;
@@ -49,8 +52,13 @@ export const publicRoutes: Route[] = [
     label: "myGMT",
     type: "link",
     href: "/dashboard",
-    visibility: "private",
+    visibility: "all",
     customStyles: "myGMT",
+    component: (
+      <>
+        <span className={yellowtail.className}>my</span>GMT
+      </>
+    ),
   },
 ];
 

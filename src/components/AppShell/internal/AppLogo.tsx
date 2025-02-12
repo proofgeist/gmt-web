@@ -1,5 +1,6 @@
-import { Group, Image } from "@mantine/core";
+import { Group, Image, Mark, Text, Title } from "@mantine/core";
 import React from "react";
+import { yellowtail } from "@/config/theme/fonts";
 
 export default function AppLogo() {
   return (
@@ -14,7 +15,9 @@ export default function AppLogo() {
         radius={"md"}
         fit="contain"
       />
-
+      <Title order={2} >
+        <Text span fz={24} className={yellowtail.className}>my</Text>GMT
+      </Title>
     </Group>
   );
 }
