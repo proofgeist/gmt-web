@@ -90,6 +90,7 @@ const columns: MRT_ColumnDef<TData>[] = [
 ];
 
 export default function MyTable({ data }: { data: TData[] }) {
+  console.log(data);
   const table = useMantineReactTable({
     data,
     columns,
