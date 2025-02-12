@@ -36,8 +36,24 @@
 }
 
 .link[data-active] {
-  background-color: var(--mantine-primary-color-filled);
-  color: var(--mantine-color-white);
+  position: relative;
+  
+}
+
+.link[data-active]::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background-color: currentColor;
+  transition: opacity 0.1s ease;
+}
+
+.link[data-active]:hover::after {
+  opacity: 0;
 }
 
 .headerHidden {

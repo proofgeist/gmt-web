@@ -39,9 +39,10 @@ export function Header({ routes, textColor = "brand", hideLogo = false }: { rout
         ...(isAtTop ?
           {}
         : {
-            background: "rgba(255, 255, 255, 0.1)",
-            backdropFilter: "blur(10px)",
+            background: "rgba(255, 255, 255, 0.1)" ,
+            backdropFilter: "blur(2px)",
             border: "none",
+            
           }),
       }}
     >
