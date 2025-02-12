@@ -15,7 +15,8 @@ export default function UpdateEmailForm({
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     updateEmailAction,
     zodResolver(updateEmailSchema),
-    { formProps: { defaultValues: { email: currentEmail } } },
+    { formProps: { defaultValues: { email: currentEmail } }, actionProps: { onSuccess: () => { form.reset(); } } },
+    
   );
 
   return (

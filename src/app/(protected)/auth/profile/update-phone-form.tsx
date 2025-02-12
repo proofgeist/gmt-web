@@ -28,6 +28,11 @@ export default function UpdatePhoneForm({
       formProps: {
         defaultValues: { phoneNumber: formattedPhoneNumber() || "" },
       },
+      actionProps: {
+        onSuccess: () => {
+          form.reset();
+        },
+      },
     }
   );
 

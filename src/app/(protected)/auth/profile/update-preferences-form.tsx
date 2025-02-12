@@ -5,10 +5,6 @@ import { updatePreferencesAction } from "./actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Text, Select, Stack, Button, Group } from "@mantine/core";
 
-interface UpdateLanguageFormProps {
-  currentLanguage: "en" | "es";
-}
-
 export default function UpdatePreferencesForm({
   currentPreferences,
 }: {
@@ -19,9 +15,15 @@ export default function UpdatePreferencesForm({
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     updatePreferencesAction,
     zodResolver(updatePreferencesSchema),
-    { formProps: { defaultValues: { language: currentPreferences.language } } }
+    {
+      formProps: { defaultValues: { language: currentPreferences.language } },
+      actionProps: {
+        onSuccess: () => {
+          form.reset();
+        },
+      },
+    }
   );
-
   return (
     <form onSubmit={handleSubmitWithAction}>
       <Stack>
@@ -46,15 +48,19 @@ export default function UpdatePreferencesForm({
           <Text c="red">{action.result.data.error}</Text>
         : action.hasErrored ?
           <Text c="red">An error occured</Text>
+        : action.result.data?.message ?
+          <Text c="green">{action.result.data.message}</Text>
         : null}
 
-        {form.formState.isDirty && (
-          <Group justify="end">
-            <Button type="submit" loading={action.isPending}>
-              Update Email
-            </Button>
-          </Group>
-        )}
+        <Group justify="end">
+          <Button
+            type="submit"
+            loading={action.isPending}
+            disabled={!form.formState.isDirty}
+          >
+            Update Preferences
+          </Button>
+        </Group>
       </Stack>
     </form>
   );
