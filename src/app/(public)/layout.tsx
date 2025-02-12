@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <div className={styles.backgroundWrapper}>
         <Image
-          src="/home image-2-blue.jpg"
+          src="/home image-2-blue-smaller.jpeg"
           alt="Global Marine Transportation Background"
           fill
           priority
