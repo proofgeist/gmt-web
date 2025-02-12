@@ -11,7 +11,7 @@ import classes from "./Header.module.css";
 import HeaderMobileMenu from "./HeaderMobileMenu";
 import { Route } from "@/app/navigation";
 
-export function Header({ routes, textColor = "brand", hideLogo = false }: { routes: Route[], textColor?: string, hideLogo?: boolean }) {
+export function Header({ routes, textColor = "brand", hideLogo = false, hideUserMenu = false }: { routes: Route[], textColor?: string, hideLogo?: boolean, hideUserMenu?: boolean }) {
   const [scroll] = useWindowScroll();
   const [hidden, setHidden] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
@@ -39,14 +39,13 @@ export function Header({ routes, textColor = "brand", hideLogo = false }: { rout
         ...(isAtTop ?
           {}
         : {
-            background: "rgba(255, 255, 255, 0.1)" ,
-            backdropFilter: "blur(2px)",
+            background: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(10px)",
             border: "none",
-            
           }),
       }}
     >
-      <Container size="xl" className={classes.inner} style={{ height: "100%" }}>
+      <Container fluid className={classes.inner} style={{ height: "100%" }}>
         <Group
           justify="space-between"
           align="center"
@@ -56,12 +55,14 @@ export function Header({ routes, textColor = "brand", hideLogo = false }: { rout
           }}
           c={textColor}
         >
-          {!hideLogo ? <SlotHeaderLeft /> : <div/>}
+          {!hideLogo ?
+            <SlotHeaderLeft />
+          : <div />}
           <Box visibleFrom="md">
             <SlotHeaderCenter />
           </Box>
           <Box visibleFrom="sm">
-            <SlotHeaderRight routes={routes} />
+            <SlotHeaderRight routes={routes} hideUserMenu={hideUserMenu} />
           </Box>
           <Box hiddenFrom="sm">
             <HeaderMobileMenu routes={routes} />

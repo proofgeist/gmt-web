@@ -1,5 +1,4 @@
 .header {
-  /* height: rem(56px); */
   margin-bottom: rem(120px);
   border-bottom: rem(1px) solid
     light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
@@ -7,12 +6,12 @@
 }
 
 .inner {
-  /* height: rem(56px); */
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+/* format header links */
 .link {
   display: block;
   line-height: 1;
@@ -25,21 +24,33 @@
   cursor: pointer;
   background: none;
   border: none;
+  transition: transform 0.2s ease;
 }
 
+/* link hover effect */
 .link:hover {
-  background-color: light-dark(
-    var(--mantine-color-gray-0),
-    var(--mantine-color-dark-6)
-  );
-  color: var(--mantine-color-brand-text);
+  transform: translateY(-5px);
 }
 
+/* link underline hover effect */
+.link:hover::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background-color: currentColor;
+  transition: opacity 0.2s ease;
+}
+
+/* active link underline */
 .link[data-active] {
   position: relative;
-  
 }
 
+/* active link underline */
 .link[data-active]::after {
   content: '';
   position: absolute;
@@ -49,21 +60,38 @@
   width: 80%;
   height: 2px;
   background-color: currentColor;
-  transition: opacity 0.1s ease;
+  transition: opacity 0.2s ease;
 }
 
-.link[data-active]:hover::after {
+/* active link underline remove hover effect when hovering over other links */
+.inner:has(.link:not([data-active]):hover) .link[data-active]::after {
   opacity: 0;
 }
 
+/* hide header when scrolling up */
 .headerHidden {
   transform: translateY(-100%);
 }
 
+/* myGMT button */
 .myGMT {
-    background-color: light-dark(
+  height: var(--mantine-button-height-lg);
+  background-color: light-dark(
     var(--mantine-color-gray-0),
     var(--mantine-color-dark-6)
   );
   color: var(--mantine-color-brand-text);
+  padding: rem(12px) rem(16px);
+}
+
+/* myGMT button hover effect */
+.myGMT:hover {
+  background-color: var(--mantine-primary-color-filled);
+  color: var(--mantine-color-white);
+}
+
+/* myGMT button prevent underline hover effect */
+.myGMT:hover::after {
+  transform: none;
+  width: 0;
 }

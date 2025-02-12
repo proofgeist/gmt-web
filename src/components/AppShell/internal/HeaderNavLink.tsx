@@ -31,7 +31,7 @@ export default function HeaderNavLink(route: Route) {
         className={`${classes.link} ${route.customStyles ? classes[route.customStyles] : ""}`}
         data-active={isActive || undefined}
       >
-        {route.label}
+        { route.component || route.label}
       </a>
     );
   }
