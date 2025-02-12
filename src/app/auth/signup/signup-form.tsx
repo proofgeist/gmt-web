@@ -11,6 +11,7 @@ import {
   Stack,
   Paper,
   Text,
+  Select,
 } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -62,6 +63,23 @@ export default function SignupForm() {
             {...form.register("confirmPassword")}
             error={form.formState.errors.confirmPassword?.message}
           />
+          <Select
+            label="Preferred Language"
+            data={[
+              { value: "en", label: "English" },
+              { value: "es", label: "Spanish" },
+            ]}
+            value={form.watch("language")}
+            withAsterisk={false}
+            error={form.formState.errors.language?.message}
+            disabled={action.isPending}
+            onChange={(value) => {
+              form.setValue("language", value as "en" | "es", {
+                shouldDirty: true,
+              });
+            }}
+          />
+
           {action.result.data?.error ?
             <Text c="red">{action.result.data.error}</Text>
           : action.hasErrored ?

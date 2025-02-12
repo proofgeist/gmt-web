@@ -19,7 +19,7 @@ import { cookies } from "next/headers";
 export const signupAction = actionClient
   .schema(signupSchema)
   .action(async ({ parsedInput }) => {
-    const { email, password } = parsedInput;
+    const { email, password, language } = parsedInput;
     const emailAvailable = await checkEmailAvailability(email);
     if (!emailAvailable) {
       return { error: "Email already in use" };
@@ -39,7 +39,7 @@ export const signupAction = actionClient
       };
     }
 
-    const user = await createUser(email, password, contactID);
+    const user = await createUser(email, password, contactID, language);
     const emailVerificationRequest = await createEmailVerificationRequest(
       user.id,
       user.email

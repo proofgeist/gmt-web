@@ -25,7 +25,8 @@ async function fetchUser(userId: string) {
 export async function createUser(
   email: string,
   password: string,
-  contactID: string
+  contactID: string,
+  language: "en" | "es"
 ): Promise<User> {
   const password_hash = await hashPassword(password);
   const { recordId } = await usersLayout.create({
@@ -45,6 +46,7 @@ export async function createUser(
     emailVerified: false,
     username: "",
     contact_id: contactID,
+    preferredLanguage: language,
   };
   return user;
 }

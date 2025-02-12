@@ -5,6 +5,7 @@ export const signupSchema = z
     email: z.string().email(),
     password: z.string().min(8),
     confirmPassword: z.string(),
+    language: z.enum(["en", "es"]),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
