@@ -34,7 +34,7 @@ const columns: MRT_ColumnDef<TData>[] = [
       if (!value) return <Text>-</Text>;
       return <Text>{dayjs(value).format("M/DD/YYYY")}</Text>;
     },
-    filterVariant: "date",
+    filterVariant: "date-range",
   },
   {
     accessorKey: "ETADatePort",
@@ -53,7 +53,7 @@ const columns: MRT_ColumnDef<TData>[] = [
       if (!value) return <Text>-</Text>;
       return <Text>{dayjs(value).format("M/DD/YYYY")}</Text>;
     },
-    filterVariant: "date",
+    filterVariant: "date-range",
   },
   {
     id: "portOfDischarge",
@@ -70,6 +70,14 @@ const columns: MRT_ColumnDef<TData>[] = [
         </Text>
       );
     },
+    filterFn: (row, _, filterValue: string) => {
+      return (
+        row.original.portOfDischargeCity.includes(filterValue) ||
+        row.original.portOfDischargeCountry.includes(filterValue)
+      );
+    },
+    filterVariant: "text",
+    enableColumnFilter: true,
   },
   {
     id: "deliveryPlace",
@@ -86,6 +94,14 @@ const columns: MRT_ColumnDef<TData>[] = [
         </Text>
       );
     },
+    filterFn: (row, _, filterValue: string) => {
+      return (
+        row.original.placeOfDeliveryCity.includes(filterValue) ||
+        row.original.placeOfDeliveryCountry.includes(filterValue)
+      );
+    },
+    filterVariant: "text",
+    enableColumnFilter: true,
   },
 ];
 
@@ -94,6 +110,10 @@ export default function MyTable({ data }: { data: TData[] }) {
   const table = useMantineReactTable({
     data,
     columns,
+    enableFullScreenToggle: false,
+    enableHiding: false,
+    enableDensityToggle: false,
+    enableColumnActions: false,
     initialState: {
       sorting: [{ id: "ETADatePort", desc: true }],
       pagination: { pageIndex: 0, pageSize: 10 },

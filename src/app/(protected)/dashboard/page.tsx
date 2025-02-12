@@ -10,15 +10,19 @@ export default async function TablePage() {
   return (
     <Stack>
       <Group grow align="stretch">
-        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <Paper withBorder shadow="md" p={30}  radius="md">
           <Stack>
             <Title order={3}>My Shipments</Title>
             <Text>{data.length} shipments in progress</Text>
+            <Text>{data.length} shipments in progress</Text>
+            <Text>{data.length} shipments in progress</Text>
           </Stack>
         </Paper>
-        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <Paper withBorder shadow="md" p={30} radius="md">
           <Stack>
             <Title order={3}>My Quotes</Title>
+            <Text>0 quotes pending</Text>
+            <Text>0 quotes pending</Text>
             <Text>0 quotes pending</Text>
           </Stack>
         </Paper>
