@@ -50,9 +50,6 @@ export async function verifyPasswordStrength(
   for (const item of items) {
     const hashSuffix = item.slice(0, 35).toLowerCase();
     if (hash === hashPrefix + hashSuffix) {
-      console.log(
-        "User's new password was found in list of compromised passwords, reject",
-      );
       return false;
     }
   }

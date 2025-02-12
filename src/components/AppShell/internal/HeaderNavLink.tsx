@@ -23,7 +23,6 @@ export default function HeaderNavLink(route: Route) {
   const isActive = route.exactMatch
     ? pathname === route.href
     : pathname.startsWith(route.href);
-  console.log(isActive, route.href);
 
   if (route.type === "link") {
     return (
