@@ -11,7 +11,7 @@ import "@/config/theme/globals.css";
 import "@mantine/carousel/styles.css";
 import { type Metadata } from "next";
 import QueryProvider from "@/config/query-provider";
-
+import { Analytics } from "@vercel/analytics/next";
 export const metadata: Metadata = {
   title: "Global Marine Transportation",
   description:
@@ -34,6 +34,7 @@ export default function RootLayout({
             <ModalsProvider>{children}</ModalsProvider>
           </MantineProvider>
         </QueryProvider>
+        <Analytics />
       </body>
     </html>
   );
