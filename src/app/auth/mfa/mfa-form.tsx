@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button, Paper, PinInput, Stack, Text } from "@mantine/core";
 import { sendVerificationCodeAction } from "./actions";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const verifyMFASchema = z.object({
   code: z.string().length(6),
@@ -21,12 +21,16 @@ export default function MFAVerificationForm({
     verifyMFAAction,
     zodResolver(verifyMFASchema)
   );
+  const [isResending, setIsResending] = useState(false);
 
   const handleResendCode = async () => {
     try {
+      setIsResending(true);
       await sendVerificationCodeAction({ phoneNumber });
     } catch (error) {
       console.error("Error resending code:", error);
+    } finally {
+      setIsResending(false);
     }
   };
 
@@ -66,7 +70,7 @@ export default function MFAVerificationForm({
           <Button
             variant="subtle"
             onClick={handleResendCode}
-            loading={action.isPending}
+            loading={isResending}
           >
             Resend Code
           </Button>
