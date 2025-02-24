@@ -10,6 +10,9 @@ export function toProperCase(str: string): string {
       // Skip empty strings
       if (!word) return word;
 
+      // Special case for USA
+      if (word.toUpperCase() === "USA") return "USA";
+
       // Handle apostrophes (e.g., "o'connor" → "O'Connor")
       if (word.includes("'")) {
         return word

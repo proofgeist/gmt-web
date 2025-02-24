@@ -11,7 +11,6 @@ import React from "react";
 import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
 import { useRouter } from "next/navigation";
-import BookingDetails from "./components/booking-details";
 
 type TData = TBookings;
 
@@ -41,7 +40,7 @@ const columns: MRT_ColumnDef<TData>[] = [
             [placeOfReceiptState, placeOfReceiptZipCode]
               .filter(Boolean)
               .join(" "),
-            placeOfReceiptCountry,
+            toProperCase(placeOfReceiptCountry),
           ]
             .filter(Boolean)
             .join(", ")}
@@ -152,12 +151,13 @@ export default function MyTable({
       sorting: [{ id: "ETADatePort", desc: true }],
       pagination: { pageIndex: 0, pageSize: 10 },
     },
+
     mantineTableBodyRowProps: ({ row }) => ({
       selected: row.original["_Booking#"] === selectedBooking,
-      sx: { cursor: "pointer" },
+      style: { cursor: "pointer" },
       onClick: () => {
         const gmtNumber = row.original["_GMT#"];
-        router.push(`/my-shipments/${gmtNumber}`);
+        router.replace(`/my-shipments?bookingNumber=${gmtNumber}`);
       },
     }),
   });
@@ -165,7 +165,6 @@ export default function MyTable({
   return (
     <>
       <MantineReactTable table={table} />
-      <BookingDetails selectedBooking={selectedBooking} />
     </>
   );
 }
