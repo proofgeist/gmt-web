@@ -1,4 +1,4 @@
-import { Group, Image, Mark, Text, Title } from "@mantine/core";
+import { Group, Image, Text, Title } from "@mantine/core";
 import React from "react";
 import { yellowtail } from "@/config/theme/fonts";
 
