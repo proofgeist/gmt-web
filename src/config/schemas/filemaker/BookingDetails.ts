@@ -9,7 +9,7 @@
   // @generated
   // prettier-ignore
   /* eslint-disable */
-  export const ZBookings = z.object({
+  export const ZBookingDetails = z.object({
       "_GMT#": z.string(),
       "_Booking#": z.string(),
       "portOfDischargeCity": z.string(),
@@ -21,8 +21,25 @@
       "ETADateCity": z.string(),
       "reportReferenceCustomer": z.string(),
       "SSLineCompany": z.string(),
+      "SSLineCSAddress1": z.string(),
+      "SSLineCSAddress2": z.string(),
+      "SSLineCSCellPhone": z.union([z.string(), z.number()]),
+      "SSLineCSCity": z.string(),
+      "SSLineCSCountry": z.string(),
+      "SSLineCSContact": z.string(),
+      "SSLineCSEmail": z.string(),
+      "SSLineCSFax": z.string(),
+      "SSLineCSPhone": z.union([z.string(), z.number()]),
+      "SSLineInstructionsRemarks": z.string(),
+      "SSLineCSServiceContract#": z.string(),
+      "SSLineCSState": z.string(),
+      "SSLineVessel": z.string(),
+      "SSLineVoyage": z.string(),
+      "SSLineCSWebsite": z.string(),
+      "SSLineCSZipCode": z.union([z.string(), z.number()]),
       "_shipperReference#": z.string(),
-      "zctListContainersWithSizes": z.string(),
+      "zgnContainerID": z.union([z.string(), z.number()]),
+      "zctListContainers": z.string(),
       "placeOfReceiptCity": z.string(),
       "placeOfReceiptState": z.string(),
       "placeOfReceiptZipCode": z.string(),
@@ -33,4 +50,4 @@
       "onHoldByShipperTStamp": z.string(),
   });
 
-  export type TBookings = z.infer<typeof ZBookings>;
+  export type TBookingDetails = z.infer<typeof ZBookingDetails>;

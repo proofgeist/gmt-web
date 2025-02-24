@@ -9,6 +9,11 @@ export const config = [
         valueLists: "allowEmpty",
       },
       {
+        layout: "api.BookingDetails",
+        schemaName: "BookingDetails",
+        valueLists: "allowEmpty",
+      },
+      {
         layout: "api.Contacts",
         schemaName: "Contacts",
         valueLists: "allowEmpty",
