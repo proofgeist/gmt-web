@@ -1,7 +1,7 @@
 "use client";
 
 import type { TBookings } from "@/config/schemas/filemaker/Bookings";
-import { Card, Drawer, Group, Stack, Text, Title } from "@mantine/core";
+import { Badge, Card, Drawer, Group, Stack, Text, Title } from "@mantine/core";
 import {
   MantineReactTable,
   MRT_ColumnDef,
@@ -18,12 +18,41 @@ type TData = TBookings;
 
 const columns: MRT_ColumnDef<TData>[] = [
   {
-    accessorKey: "_Booking#",
-    header: "Booking #",
+    accessorKey: "_GMT#",
+    header: "GMT #",
+  },
+  {
+    accessorKey: "SSLineCompany",
+    header: "Steamship Line",
+  },
+  {
+    accessorKey: "placeOfReceiptCity",
+    header: "Place of Receipt",
+    Cell: ({ row }) => {
+      const {
+        placeOfReceiptCity,
+        placeOfReceiptCountry,
+        placeOfReceiptState,
+        placeOfReceiptZipCode,
+      } = row.original;
+      return (
+        <Text>
+          {[
+            toProperCase(placeOfReceiptCity),
+            [placeOfReceiptState, placeOfReceiptZipCode]
+              .filter(Boolean)
+              .join(" "),
+            placeOfReceiptCountry,
+          ]
+            .filter(Boolean)
+            .join(", ")}
+        </Text>
+      );
+    },
   },
   {
     accessorKey: "ETDDatePort",
-    header: "ETD Port",
+    header: "Sailing Date",
     filterFn: (row, _, filterValue: string) => {
       return dayjs(row.original.ETDDatePort).isSame(dayjs(filterValue));
     },
@@ -35,14 +64,14 @@ const columns: MRT_ColumnDef<TData>[] = [
     },
     Cell: ({ cell }) => {
       const value = cell.getValue<string | null>();
-      if (!value) return <Text>-</Text>;
+      if (!value) return null;
       return <Text>{dayjs(value).format("M/DD/YYYY")}</Text>;
     },
     filterVariant: "date",
   },
   {
     accessorKey: "ETADatePort",
-    header: "ETA Port",
+    header: "Arrival Date",
     filterFn: (row, _, filterValue: string) => {
       return dayjs(row.original.ETADatePort).isSame(dayjs(filterValue));
     },
@@ -88,6 +117,21 @@ const columns: MRT_ColumnDef<TData>[] = [
               .join(", ")
           )}
         </Text>
+      );
+    },
+  },
+  {
+    id: "holds",
+    header: "Holds",
+    Cell: ({ row }) => {
+      const { holdStatus } = row.original;
+      if (!holdStatus || typeof holdStatus !== "string") return null;
+      return (
+        <Group>
+          {holdStatus.split(", ").map((status: string) => (
+            <Badge key={status}>{status}</Badge>
+          ))}
+        </Group>
       );
     },
   },
