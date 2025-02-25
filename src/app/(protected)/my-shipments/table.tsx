@@ -11,10 +11,11 @@ import React from "react";
 import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
 import { useRouter } from "next/navigation";
+import BookingDetails from "./components/booking-details";
 
 type TData = TBookings;
 
-const columns: MRT_ColumnDef<TData>[] = [
+export const columns: MRT_ColumnDef<TData>[] = [
   {
     accessorKey: "_GMT#",
     header: "GMT #",

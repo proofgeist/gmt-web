@@ -11,19 +11,48 @@ import {
   getMyShipmentsByGMTNumberSchema,
 } from "./schema";
 
-export const getMyShipmentsAction = authedActionClient
+export const getActiveShipmentsAction = authedActionClient
   .schema(getMyShipmentsSchema)
   .action(async ({ ctx }) => {
     const data = await BookingsLayout.findAll({
       query: {
         reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
-        ETADatePort: `>=${dayjs().subtract(7, "day").format("MM/DD/YYYY")}`,
+        ETADatePort: `>=${dayjs().format("MM/DD/YYYY")}`,
+        ETDDatePort: `<=${dayjs().format("MM/DD/YYYY")}`,
       },
       limit: 1000,
       fetch: { next: { revalidate: 120 } },
     });
 
-    return data;
+    return data.map((record) => record.fieldData);
+  });
+export const getFutureShipmentsAction = authedActionClient
+  .schema(getMyShipmentsSchema)
+  .action(async ({ ctx }) => {
+    const data = await BookingsLayout.findAll({
+      query: {
+        reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+        ETDDatePort: `>${dayjs().format("MM/DD/YYYY")}`,
+      },
+      limit: 1000,
+      fetch: { next: { revalidate: 120 } },
+    });
+
+    return data.map((record) => record.fieldData);
+  });
+export const getPastShipmentsAction = authedActionClient
+  .schema(getMyShipmentsSchema)
+  .action(async ({ ctx }) => {
+    const data = await BookingsLayout.findAll({
+      query: {
+        reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+        ETADatePort: `<${dayjs().format("MM/DD/YYYY")}`,
+      },
+      limit: 1000,
+      fetch: { next: { revalidate: 120 } },
+    });
+
+    return data.map((record) => record.fieldData);
   });
 
 export const getMyShipmentsByGMTNumberAction = authedActionClient

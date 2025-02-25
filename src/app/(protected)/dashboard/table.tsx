@@ -1,111 +1,17 @@
 "use client";
 
 import type { TBookings } from "@/config/schemas/filemaker/Bookings";
-import { Text } from "@mantine/core";
-import {
-  MantineReactTable,
-  MRT_ColumnDef,
-  useMantineReactTable,
-} from "mantine-react-table";
+import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
 import React from "react";
-import dayjs from "dayjs";
-import { toProperCase } from "@/utils/functions";
+
+import { useRouter } from "next/navigation";
+import { columns } from "../my-shipments/table";
 type TData = TBookings;
 
-const columns: MRT_ColumnDef<TData>[] = [
-  {
-    accessorKey: "_Booking#",
-    header: "Booking #",
-  },
-  {
-    accessorKey: "ETDDatePort",
-    header: "ETD Port",
-    filterFn: (row, _, filterValue: string) => {
-      return dayjs(row.original.ETDDatePort).isSame(dayjs(filterValue));
-    },
-    sortingFn: (a, b) => {
-      return (
-        dayjs(a.original.ETDDatePort).unix() -
-        dayjs(b.original.ETDDatePort).unix()
-      );
-    },
-    Cell: ({ cell }) => {
-      const value = cell.getValue<string | null>();
-      if (!value) return <Text>-</Text>;
-      return <Text>{dayjs(value).format("M/DD/YYYY")}</Text>;
-    },
-    filterVariant: "date-range",
-  },
-  {
-    accessorKey: "ETADatePort",
-    header: "ETA Port",
-    filterFn: (row, _, filterValue: string) => {
-      return dayjs(row.original.ETADatePort).isSame(dayjs(filterValue));
-    },
-    sortingFn: (a, b) => {
-      return (
-        dayjs(a.original.ETADatePort).unix() -
-        dayjs(b.original.ETADatePort).unix()
-      );
-    },
-    Cell: ({ cell }) => {
-      const value = cell.getValue<string | null>();
-      if (!value) return <Text>-</Text>;
-      return <Text>{dayjs(value).format("M/DD/YYYY")}</Text>;
-    },
-    filterVariant: "date-range",
-  },
-  {
-    id: "portOfDischarge",
-    header: "Port of Discharge",
-    Cell: ({ row }) => {
-      const { portOfDischargeCity, portOfDischargeCountry } = row.original;
-      return (
-        <Text>
-          {toProperCase(
-            [portOfDischargeCity, portOfDischargeCountry]
-              .filter(Boolean)
-              .join(", ")
-          )}
-        </Text>
-      );
-    },
-    filterFn: (row, _, filterValue: string) => {
-      return (
-        row.original.portOfDischargeCity.includes(filterValue) ||
-        row.original.portOfDischargeCountry.includes(filterValue)
-      );
-    },
-    filterVariant: "text",
-    enableColumnFilter: true,
-  },
-  {
-    id: "deliveryPlace",
-    header: "Place of Delivery",
-    Cell: ({ row }) => {
-      const { placeOfDeliveryCity, placeOfDeliveryCountry } = row.original;
-      return (
-        <Text>
-          {toProperCase(
-            [placeOfDeliveryCity, placeOfDeliveryCountry]
-              .filter(Boolean)
-              .join(", ")
-          )}
-        </Text>
-      );
-    },
-    filterFn: (row, _, filterValue: string) => {
-      return (
-        row.original.placeOfDeliveryCity.includes(filterValue) ||
-        row.original.placeOfDeliveryCountry.includes(filterValue)
-      );
-    },
-    filterVariant: "text",
-    enableColumnFilter: true,
-  },
-];
+
 
 export default function MyTable({ data }: { data: TData[] }) {
+  const router = useRouter();
   console.log(data);
   const table = useMantineReactTable({
     data,
@@ -118,6 +24,13 @@ export default function MyTable({ data }: { data: TData[] }) {
       sorting: [{ id: "ETADatePort", desc: true }],
       pagination: { pageIndex: 0, pageSize: 10 },
     },
+    mantineTableBodyRowProps: ({ row }) => ({
+      style: { cursor: "pointer" },
+      onClick: () => {
+        const gmtNumber = row.original["_GMT#"];
+        router.push(`/my-shipments?bookingNumber=${gmtNumber}`);
+      },
+    }),
   });
   return <MantineReactTable table={table} />;
 }
