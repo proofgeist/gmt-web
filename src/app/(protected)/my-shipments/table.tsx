@@ -152,6 +152,11 @@ export default function MyTable({
       sorting: [{ id: "ETADatePort", desc: true }],
       pagination: { pageIndex: 0, pageSize: 10 },
     },
+    renderEmptyRowsFallback: () => (
+      <Text py={"2rem"} style={{ fontStyle: "italic" }} c="dimmed" ta="center">
+        No shipments found
+      </Text>
+    ),
 
     mantineTableBodyRowProps: ({ row }) => ({
       selected: row.original["_Booking#"] === selectedBooking,

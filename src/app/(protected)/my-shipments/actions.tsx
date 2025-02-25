@@ -26,7 +26,7 @@ export const getActiveShipmentsAction = authedActionClient
 
     return data.map((record) => record.fieldData);
   });
-export const getFutureShipmentsAction = authedActionClient
+export const getPendingShipmentsAction = authedActionClient
   .schema(getMyShipmentsSchema)
   .action(async ({ ctx }) => {
     const data = await BookingsLayout.findAll({
