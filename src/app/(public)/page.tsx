@@ -21,19 +21,10 @@ export default function Home() {
   return (
     <div className={styles.heroContainer}>
       <div className={styles.heroContent}>
-        <Image
-          src="/gmt_logo.png"
-          alt="ProofKit"
-          p={4}
-          maw={84}
-          height={84}
-          radius={"md"}
-          fit="contain"
-        />
         <Title className={styles.mainTitle}>
           GLOBAL MARINE
           <br />
-          TRANSPORTATION
+          TRANSPORTATION INC.
         </Title>
         <Title order={2} className={styles.tagline}>
           Your Trusted Shipping Partner for a Connected World

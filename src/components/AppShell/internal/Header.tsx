@@ -1,5 +1,5 @@
 "use client";
-import { Box, Container, Group } from "@mantine/core";
+import { Box, Container, Group, Image } from "@mantine/core";
 import { useWindowScroll } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
@@ -11,7 +11,17 @@ import classes from "./Header.module.css";
 import HeaderMobileMenu from "./HeaderMobileMenu";
 import { Route } from "@/app/navigation";
 
-export function Header({ routes, textColor = "brand", hideLogo = false, hideUserMenu = false }: { routes: Route[], textColor?: string, hideLogo?: boolean, hideUserMenu?: boolean }) {
+export function Header({
+  routes,
+  textColor = "brand",
+  hideLogo = false,
+  hideUserMenu = false,
+}: {
+  routes: Route[];
+  textColor?: string;
+  hideLogo?: boolean;
+  hideUserMenu?: boolean;
+}) {
   const [scroll] = useWindowScroll();
   const [hidden, setHidden] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
@@ -32,17 +42,10 @@ export function Header({ routes, textColor = "brand", hideLogo = false, hideUser
 
   return (
     <header
-      className={`${classes.header} ${hidden ? classes.headerHidden : ""} `}
+      className={`${classes.header} ${hidden ? classes.headerHidden : ""} ${isAtTop ? "" : classes.glassyHeader}`}
       style={{
         height: headerHeight,
         border: "none",
-        ...(isAtTop ?
-          {}
-        : {
-            background: "rgba(255, 255, 255, 0.1)",
-            backdropFilter: "blur(10px)",
-            border: "none",
-          }),
       }}
     >
       <Container fluid className={classes.inner} style={{ height: "100%" }}>
@@ -57,7 +60,18 @@ export function Header({ routes, textColor = "brand", hideLogo = false, hideUser
         >
           {!hideLogo ?
             <SlotHeaderLeft />
-          : <div />}
+          : <Image
+              src="/gmt_logo.png"
+              alt="ProofKit"
+              p={4}
+              ml={"4rem"}
+              mt={isAtTop ? ".5rem" : "0rem"}
+              maw={84}
+              height={84}
+              radius={"md"}
+              fit="contain"
+            />
+          }
           <Box visibleFrom="md">
             <SlotHeaderCenter />
           </Box>
