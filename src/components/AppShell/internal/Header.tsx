@@ -1,5 +1,5 @@
 "use client";
-import { Box, Container, Group, Image } from "@mantine/core";
+import { Box, Container, Group, Image, Title } from "@mantine/core";
 import { useWindowScroll } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
@@ -58,20 +58,10 @@ export function Header({
           }}
           c={textColor}
         >
-          {!hideLogo ?
+           
             <SlotHeaderLeft />
-          : <Image
-              src="/gmt_logo.png"
-              alt="ProofKit"
-              p={4}
-              ml={"4rem"}
-              mt={isAtTop ? ".5rem" : "0rem"}
-              maw={84}
-              height={84}
-              radius={"md"}
-              fit="contain"
-            />
-          }
+          
+          
           <Box visibleFrom="md">
             <SlotHeaderCenter />
           </Box>

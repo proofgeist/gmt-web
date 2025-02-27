@@ -22,9 +22,9 @@ export default function Home() {
     <div className={styles.heroContainer}>
       <div className={styles.heroContent}>
         <Title className={styles.mainTitle}>
-          GLOBAL MARINE
+          {/* GLOBAL MARINE
           <br />
-          TRANSPORTATION INC.
+          TRANSPORTATION INC. */}
         </Title>
         <Title order={2} className={styles.tagline}>
           Your Trusted Shipping Partner for a Connected World
