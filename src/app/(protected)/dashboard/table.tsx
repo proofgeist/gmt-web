@@ -1,15 +1,14 @@
 "use client";
 
-import type { TBookings } from "@/config/schemas/filemaker/Bookings";
 import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
-import React, { useEffect, useState } from "react";
+import  { useState } from "react";
 
 import { useRouter } from "next/navigation";
 import { columns } from "../my-shipments/table";
 import { Group, SegmentedControl, Title } from "@mantine/core";
 import { getShipmentByTypeAction } from "../actions";
 import { useQuery } from "@tanstack/react-query";
-type TData = TBookings;
+
 
 export default function MyTable() {
   const router = useRouter();

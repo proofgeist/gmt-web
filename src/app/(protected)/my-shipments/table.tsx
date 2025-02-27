@@ -1,7 +1,7 @@
 "use client";
 
 import type { TBookings } from "@/config/schemas/filemaker/Bookings";
-import { Badge, Group, Text, Title, Flex } from "@mantine/core";
+import { Badge, Group, Text } from "@mantine/core";
 import {
   MantineReactTable,
   MRT_ColumnDef,
@@ -11,7 +11,6 @@ import React from "react";
 import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
 import { useRouter } from "next/navigation";
-import BookingDetails from "../components/booking-details";
 
 type TData = TBookings;
 

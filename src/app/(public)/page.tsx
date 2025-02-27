@@ -5,7 +5,6 @@ import {
   SimpleGrid,
   Card,
   Group,
-  Image,
 } from "@mantine/core";
 import styles from "./page.module.css";
 import {
