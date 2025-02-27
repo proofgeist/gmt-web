@@ -2,7 +2,7 @@ import {
   getActiveShipmentsAction,
   getPendingShipmentsAction,
   getPastShipmentsAction,
-} from "./actions";
+} from "../actions";
 import TableContent from "./table";
 import {
   Stack,

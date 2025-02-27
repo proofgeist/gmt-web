@@ -2,32 +2,36 @@
 import { Drawer, Stack, Card, Group, Text, Title } from "@mantine/core";
 import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { getMyShipmentsByGMTNumberAction } from "../actions";
+import { getMyShipmentsByGMTNumberAction } from "../../actions";
+import { useEffect, useState } from "react";
 
-export default function BookingDetails({
-  selectedBooking,
-}: {
-  selectedBooking: string | null;
-}) {
+export default function BookingDetails() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const bookingNumberFromParams = searchParams.get("bookingNumber");
+  const [bookingNumber, setBookingNumber] = useState<string | null>(null);
+
+  useEffect(() => {
+    setBookingNumber(bookingNumberFromParams ?? null);
+  }, [bookingNumberFromParams]);
 
   // Fetch shipment details when a booking is selected
   const { data: shipmentDetails } = useQuery({
-    queryKey: ["shipment", selectedBooking],
+    queryKey: ["shipment", bookingNumber],
     queryFn: async () => {
-      if (!selectedBooking) return null;
+      if (!bookingNumber) return null;
       const result = await getMyShipmentsByGMTNumberAction({
-        gmtNumber: selectedBooking,
+        gmtNumber: bookingNumber,
       });
       return result?.data?.data?.fieldData ?? null;
     },
-    enabled: !!selectedBooking,
+    enabled: !!bookingNumber,
   });
   return (
     <Drawer
-      opened={!!selectedBooking}
+      opened={!!bookingNumber}
       onClose={() => router.push("/my-shipments")}
       position="right"
       size="md"
