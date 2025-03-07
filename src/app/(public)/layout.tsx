@@ -2,11 +2,12 @@ import { PublicAppShell } from "@/components/AppShell/AppShell";
 import React from "react";
 import styles from "./layout.module.css";
 import Image from "next/image";
+import { Box } from "@mantine/core";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div className={styles.backgroundWrapper}>
+      <Box className={styles.backgroundWrapper}>
         <Image
           src="/home image-2-blue-smaller.jpeg"
           alt="Global Marine Transportation Background"
@@ -15,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           quality={100}
           className={styles.backgroundImage}
         />
-      </div>
+      </Box>
       <PublicAppShell>{children}</PublicAppShell>
     </>
   );

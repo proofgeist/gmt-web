@@ -1,5 +1,5 @@
 "use client";
-import { Box, Container, Group, Image } from "@mantine/core";
+import { Box, Container, Group } from "@mantine/core";
 import { useWindowScroll } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
@@ -14,13 +14,14 @@ import { Route } from "@/app/navigation";
 export function Header({
   routes,
   textColor = "brand",
-  hideLogo = false,
   hideUserMenu = false,
+  headerColor = "transparent",
 }: {
   routes: Route[];
   textColor?: string;
   hideLogo?: boolean;
   hideUserMenu?: boolean;
+  headerColor?: string;
 }) {
   const [scroll] = useWindowScroll();
   const [hidden, setHidden] = useState(false);
@@ -28,7 +29,7 @@ export function Header({
   const [isAtTop, setIsAtTop] = useState(true);
 
   useEffect(() => {
-    if (scroll.y > lastScrollTop) {
+    if (scroll.y > lastScrollTop && scroll.y > headerHeight) {
       // scrolling down
       setHidden(true);
     } else {
@@ -46,6 +47,7 @@ export function Header({
       style={{
         height: headerHeight,
         border: "none",
+        backgroundColor: headerColor,
       }}
     >
       <Container fluid className={classes.inner} style={{ height: "100%" }}>
@@ -58,21 +60,8 @@ export function Header({
           }}
           c={textColor}
         >
-          {!hideLogo ?
-            <SlotHeaderLeft />
-          : <Image
-              src="/gmt_logo.png"
-              alt="ProofKit"
-              p={4}
-              ml={"4rem"}
-              // mt={isAtTop ? ".5rem" : "0rem"}
-              maw={84}
-              height={84}
-              radius={"md"}
-              fit="contain"
-              // style={{ filter: "brightness(0) invert(1)" }}
-            />
-          }
+          <SlotHeaderLeft />
+
           <Box visibleFrom="md">
             <SlotHeaderCenter />
           </Box>

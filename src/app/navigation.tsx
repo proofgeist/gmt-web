@@ -48,18 +48,6 @@ export const publicRoutes: Route[] = [
       }),
     visibility: "all",
   },
-  {
-    label: "myGMT",
-    type: "link",
-    href: "/dashboard",
-    visibility: "all",
-    customStyles: "myGMT",
-    component: (
-      <>
-        <span className={yellowtail.className}>my</span>GMT
-      </>
-    ),
-  },
 ];
 
 export const privateRoutes: Route[] = [
