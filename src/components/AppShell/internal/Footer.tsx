@@ -22,7 +22,7 @@ export function Footer() {
     <Box
       component="section"
       p={"3rem 0 4rem 0"}
-      bg={"gray.8"}
+      bg={"black"}
       c={"white"}
       w="100%"
     >
