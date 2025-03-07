@@ -65,11 +65,12 @@ export function Header({
               alt="ProofKit"
               p={4}
               ml={"4rem"}
-              mt={isAtTop ? ".5rem" : "0rem"}
+              // mt={isAtTop ? ".5rem" : "0rem"}
               maw={84}
               height={84}
               radius={"md"}
               fit="contain"
+              // style={{ filter: "brightness(0) invert(1)" }}
             />
           }
           <Box visibleFrom="md">

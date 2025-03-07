@@ -101,6 +101,10 @@ export const columns: MRT_ColumnDef<TData>[] = [
         </Text>
       );
     },
+    filterVariant: "text",
+    filterFn: (row, _, filterValue: string) => {
+      return row.original.portOfDischargeCity.includes(filterValue);
+    },
   },
   {
     id: "deliveryPlace",

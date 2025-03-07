@@ -31,11 +31,11 @@ export default function MyTable() {
     columns,
     enableFullScreenToggle: false,
     enableHiding: false,
-    // enableDensityToggle: false,
     enableColumnActions: false,
     initialState: {
       sorting: [{ id: "ETADatePort", desc: true }],
       pagination: { pageIndex: 0, pageSize: 10 },
+      density: "xs",
     },
     mantineTableBodyRowProps: ({ row }) => ({
       style: { cursor: "pointer" },
