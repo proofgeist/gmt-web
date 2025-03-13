@@ -1,7 +1,7 @@
 import { createTheme, type MantineColorsTuple } from "@mantine/core";
 
 // generate your own set of colors here: https://mantine.dev/colors-generator
-const brandColor: MantineColorsTuple = [
+export const brandColor: MantineColorsTuple = [
   "#ecf4ff",
   "#dce4f5",
   "#b9c7e2",

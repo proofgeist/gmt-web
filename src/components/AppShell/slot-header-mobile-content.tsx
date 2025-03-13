@@ -1,5 +1,5 @@
 "use client"; 
-import { Menu, Collapse, Group, Text, Box } from "@mantine/core";
+import { Menu, Collapse, Group, Box } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { UserMobileMenu } from "../auth/user-menu";
 import { Route } from "@/app/navigation";

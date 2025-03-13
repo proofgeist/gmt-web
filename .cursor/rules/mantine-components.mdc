@@ -1,0 +1,103 @@
+---
+description: Prefer using Mantine components whenever possible for consistent UI development
+globs: ["**/*.{js,jsx,ts,tsx}"]
+alwaysApply: true
+---
+
+# Mantine Components Usage Guidelines
+
+## Always prefer Mantine components
+
+When developing UI elements, always prefer using Mantine components over custom HTML or other libraries. Mantine provides a comprehensive set of accessible, customizable components that ensure consistency across the application.
+
+```tsx
+// Instead of
+<div className="custom-card">
+  <h2>Title</h2>
+  <p>Content</p>
+  <button>Action</button>
+</div>
+
+// Use
+<Card padding="md" radius="md" withBorder>
+  <Title order={2}>Title</Title>
+  <Text>Content</Text>
+  <Button>Action</Button>
+</Card>
+```
+
+## Use Mantine styling props
+
+Prefer using Mantine's built-in styling props over custom CSS classes when possible:
+
+```tsx
+// Instead of
+<div className="centered-content large-margin">
+  <p className="dimmed-text">Content</p>
+</div>
+
+// Use
+<Box ta="center" my="xl">
+  <Text c="dimmed">Content</Text>
+</Box>
+```
+
+## Common Mantine components to use
+
+### Layout components
+- `Container` - For centered, width-constrained content
+- `Grid` / `SimpleGrid` - For responsive layouts
+- `Group` - For horizontal alignment
+- `Stack` - For vertical alignment
+- `Center` - For centering content
+- `Box` - As a generic container with styling props
+
+### UI components
+- `Card` - For content containers with consistent styling
+- `Button` - For all clickable actions
+- `TextInput`, `Select`, etc. - For form elements
+- `Modal`, `Drawer` - For overlays
+- `Tabs`, `Accordion` - For toggling content visibility
+- `Image` - For responsive images with various fit options
+
+## Component composition
+
+Use Mantine's compound components for more complex UI patterns:
+
+```tsx
+// Example of Card with sections
+<Card padding="lg">
+  <Card.Section>
+    <Image src="image.jpg" height={160} alt="Header image" />
+  </Card.Section>
+  
+  <Text fw={500} size="lg" mt="md">Card title</Text>
+  <Text size="sm" c="dimmed">Card description</Text>
+  
+  <Card.Section inheritPadding mt="md" pb="md">
+    <Button fullWidth>Action</Button>
+  </Card.Section>
+</Card>
+```
+
+## Responsive design
+
+Use Mantine's responsive props for adaptive layouts:
+
+```tsx
+<SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4 }}>
+  {/* Content */}
+</SimpleGrid>
+```
+
+## Theme consistency
+
+Leverage Mantine's theme system for consistent styling:
+
+```tsx
+// Use theme colors
+<Text c="blue">Blue text</Text>
+
+// Use theme spacing
+<Box p="md" m="lg">Properly spaced content</Box>
+``` 

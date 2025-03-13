@@ -1,0 +1,77 @@
+---
+description: Always use pnpm as the package manager and next commands for Next.js operations
+globs: 
+alwaysApply: true
+---
+description: Always use pnpm as the package manager and next commands for Next.js operations
+globs: ["**/*.{js,jsx,ts,tsx,json}"]
+alwaysApply: true
+---
+
+# Package Manager and Next.js Commands
+
+## Use pnpm for package management
+
+When installing packages, always use pnpm instead of npm or yarn.
+
+```
+# Instead of
+npm install <package>
+yarn add <package>
+
+# Use
+pnpm add <package>
+```
+
+For development dependencies:
+
+```
+# Instead of
+npm install --save-dev <package>
+yarn add --dev <package>
+
+# Use
+pnpm add -D <package>
+```
+
+For running scripts:
+
+```
+# Instead of
+npm run <script>
+yarn <script>
+
+# Use
+pnpm <script>
+```
+
+## Next.js Commands
+
+For Next.js operations, use the following commands:
+
+```
+# Development server
+pnpm dev
+
+# Build for production
+pnpm build
+
+# Start production server
+pnpm start
+
+# Linting
+pnpm lint
+```
+
+## Global Commands
+
+For global package installations:
+
+```
+# Instead of
+npm install -g <package>
+yarn global add <package>
+
+# Use
+pnpm add -g <package>
+```

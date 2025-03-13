@@ -2,12 +2,13 @@ import {
   Container,
   Title,
   Text,
-  Button,
   SimpleGrid,
   Card,
-  Group,
   Image,
   Box,
+  Stack,
+  Center,
+  CardSection,
 } from "@mantine/core";
 import styles from "../about.module.css";
 import { notFound } from "next/navigation";
@@ -29,6 +30,7 @@ import {
   IconHeadset,
   IconBuildingWarehouse,
 } from "@tabler/icons-react";
+import { ContactButton } from "../contact-button";
 
 // Define the service data
 const servicesData = {
@@ -126,7 +128,7 @@ const servicesData = {
       },
     ],
     image:
-      "https://images.unsplash.com/photo-1519003722824-194d4455a60c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      "/trucking.jpg",
   },
   "worldwide-service": {
     title: "Worldwide Service",
@@ -210,66 +212,106 @@ export default function ServicePage({
   const ServiceIcon = serviceData.icon;
 
   return (
-    <Container className={styles.aboutContainer}>
-      <div className={styles.pageHeader}>
-        <Group mb="md">
-          <ServiceIcon size={48} stroke={1.5} color="#1c7ed6" />
-          <Title className={styles.pageTitle}>{serviceData.title}</Title>
-        </Group>
-        <Text className={styles.pageSubtitle}>{serviceData.subtitle}</Text>
-      </div>
-
-      {serviceData.description.map((paragraph, index) => (
-        <Text key={index} className={styles.paragraph}>
-          {paragraph}
-        </Text>
-      ))}
-
-      {serviceData.image && (
-        <div className={styles.imageContainer}>
-          <Image
-            src={serviceData.image}
-            alt={serviceData.title}
-            height={400}
-            fit="cover"
-          />
-        </div>
-      )}
-
-      <Title className={styles.sectionTitle}>Our Services Include</Title>
-
-      <SimpleGrid cols={{ base: 1, sm: 3 }} className={styles.featureGrid}>
-        {serviceData.features.map((feature, index) => {
-          const FeatureIcon = feature.icon;
-          return (
-            <Card
-              key={index}
-              className={styles.featureCard}
-              style={{ height: "100%" }}
+    <Container size="lg" py="xl">
+      <Card shadow="md" radius="lg" padding="xl" withBorder>
+        <CardSection>
+          <div style={{ position: "relative" }}>
+            <Image
+              src={serviceData.image}
+              alt={serviceData.title}
+              height={400}
+              fit="cover"
+            />
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+              }}
+            ></div>
+            <div
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                textAlign: "center",
+                width: "100%",
+                padding: "0 2rem",
+              }}
             >
-              <FeatureIcon size={40} className={styles.featureIcon} />
-              <Text className={styles.featureTitle}>{feature.title}</Text>
-              <Text size="sm" color="dimmed">
-                {feature.description}
+              <Center mb="lg">
+                <div className={styles.serviceIcon}>
+                  <ServiceIcon size={60} stroke={1.5} />
+                </div>
+              </Center>
+              <Title ta="center" c="white" size="h1" mb="sm">
+                {serviceData.title}
+              </Title>
+              <Text ta="center" c="white" size="xl" maw={800} mx="auto">
+                {serviceData.subtitle}
               </Text>
-            </Card>
-          );
-        })}
-      </SimpleGrid>
+            </div>
+          </div>
+        </CardSection>
 
-      <Box className={styles.ctaSection}>
-        <Title className={styles.ctaTitle}>Ready to Get Started?</Title>
-        <Text className={styles.ctaText}>
-          Contact our team today to learn more about our{" "}
-          {serviceData.title.toLowerCase()} services and how we can help
-          optimize your logistics operations.
-        </Text>
-        <Link href="/contact" passHref>
-          <Button size="lg" color="blue">
-            Contact Us
-          </Button>
-        </Link>
-      </Box>
+        <Stack gap="xl" mt="xl">
+          {serviceData.description.map((paragraph, index) => (
+            <Text key={index} size="lg" lh={1.7}>
+              {paragraph}
+            </Text>
+          ))}
+        </Stack>
+
+        <Title order={2} size="h2" mt="xl" mb="lg">
+          Our Services Include
+        </Title>
+
+        <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
+          {serviceData.features.map((feature, index) => {
+            const FeatureIcon = feature.icon;
+            return (
+              <Card key={index} padding="lg" radius="md" withBorder shadow="sm">
+                <FeatureIcon
+                  size={40}
+                  color="#1c7ed6"
+                  style={{ marginBottom: "1rem" }}
+                />
+                <Text fw={600} size="lg" mb="xs">
+                  {feature.title}
+                </Text>
+                <Text size="md" c="dimmed">
+                  {feature.description}
+                </Text>
+              </Card>
+            );
+          })}
+        </SimpleGrid>
+
+        <CardSection mt="xl" inheritPadding py="xl">
+          <Box
+            style={{
+              backgroundColor: "#f8f9fa",
+              padding: "2rem",
+              borderRadius: "8px",
+              textAlign: "center",
+            }}
+          >
+            <Title order={2} size="h2" mb="md">
+              Ready to Get Started?
+            </Title>
+            <Text size="lg" maw={700} mx="auto" mb="xl">
+              Contact our team today to learn more about our{" "}
+              {serviceData.title.toLowerCase()} services and how we can help
+              optimize your logistics operations.
+            </Text>
+            <ContactButton />
+          </Box>
+        </CardSection>
+      </Card>
     </Container>
   );
 }

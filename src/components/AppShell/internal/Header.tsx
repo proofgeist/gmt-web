@@ -26,7 +26,7 @@ export function Header({
   const [scroll] = useWindowScroll();
   const [hidden, setHidden] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
-  const [isAtTop, setIsAtTop] = useState(true);
+  const [_isAtTop, setIsAtTop] = useState(true);
 
   useEffect(() => {
     if (scroll.y > lastScrollTop && scroll.y > headerHeight) {

@@ -9,7 +9,7 @@ export function PublicHeader() {
       routes={publicRoutes}
       textColor="white"
       hideLogo={false}
-      headerColor="transparent"
+      headerColor="rgba(0, 0, 0, 0.7)"
     />
   );
 }

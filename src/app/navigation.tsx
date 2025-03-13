@@ -1,7 +1,4 @@
-import {
-  ContactModal,
-} from "@/components/modals/contact/contact";
-import { yellowtail } from "@/config/theme/fonts";
+import { ContactModal } from "@/components/modals/contact/contact";
 import { openModal } from "@mantine/modals";
 import {
   IconShip,
@@ -11,6 +8,7 @@ import {
   IconPackage,
   IconInfoCircle,
   IconPhone,
+  IconDashboard,
 } from "@tabler/icons-react";
 
 export interface SubRouteLink {
@@ -94,6 +92,13 @@ export const publicRoutes: Route[] = [
         children: <ContactModal />,
       }),
     visibility: "all",
+  },
+  {
+    label: "Dashboard",
+    type: "link",
+    href: "/dashboard",
+    visibility: "private",
+    icon: <IconDashboard size={18} />,
   },
 ];
 

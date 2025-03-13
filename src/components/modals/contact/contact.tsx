@@ -45,7 +45,7 @@ export function ContactModal() {
     <form onSubmit={handleSubmitWithAction}>
       <Stack>
         <TextInput
-          label="Company Name / Nombre de Empresa"
+          label="Company Name"
           placeholder="Enter company name"
           {...form.register("companyName")}
           error={form.formState.errors.companyName?.message}
@@ -53,13 +53,13 @@ export function ContactModal() {
 
         <Group grow>
           <TextInput
-            label="First Name / Nombre"
+            label="First Name"
             placeholder="Enter first name"
             {...form.register("firstName")}
             error={form.formState.errors.firstName?.message}
           />
           <TextInput
-            label="Last Name / Apellido"
+            label="Last Name"
             placeholder="Enter last name"
             {...form.register("lastName")}
             error={form.formState.errors.lastName?.message}
@@ -68,14 +68,14 @@ export function ContactModal() {
 
         <Group grow>
           <TextInput
-            label="Email / Correo Electrónico"
+            label="Email"
             placeholder="Enter email"
             required
             {...form.register("email")}
             error={form.formState.errors.email?.message}
           />
           <TextInput
-            label="Cell / WhatsApp"
+            label="Cell/WhatsApp"
             placeholder="Enter phone number"
             {...form.register("cell")}
             error={form.formState.errors.cell?.message}
@@ -83,7 +83,7 @@ export function ContactModal() {
         </Group>
 
         <Textarea
-          label="Message / Mensaje"
+          label="Message"
           placeholder="Enter your message"
           minRows={4}
           {...form.register("message")}
