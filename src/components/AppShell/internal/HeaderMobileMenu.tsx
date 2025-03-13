@@ -2,6 +2,7 @@
 
 import { Burger, Menu } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import classes from "./Header.module.css";
 
 import SlotHeaderMobileMenuContent from "../slot-header-mobile-content";
 import { Route } from "@/app/navigation";
@@ -22,6 +23,7 @@ export default function HeaderMobileMenu({
       styles={{ item: { padding: "1rem" } }}
       shadow="md"
       radius="md"
+      classNames={{ dropdown: classes.menuDropdown }}
     >
       <Menu.Target>
         <Burger

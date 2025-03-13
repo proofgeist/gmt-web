@@ -111,13 +111,4 @@ export const privateRoutes: Route[] = [
   },
 ];
 
-// Keep this route separate since it has "none" visibility
-export const homeRoute: Route = {
-  label: "Home",
-  type: "link",
-  href: "/",
-  exactMatch: true,
-  visibility: "none",
-};
-
 export const secondaryRoutes: Route[] = [];

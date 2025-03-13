@@ -37,6 +37,7 @@ export default function HeaderNavLink(route: Route) {
         position="bottom-start"
         offset={5}
         withArrow
+        classNames={{ dropdown: classes.menuDropdown }}
       >
         <Menu.Target>
           <Box>

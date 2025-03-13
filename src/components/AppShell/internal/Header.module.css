@@ -96,7 +96,7 @@
 }
 
 /* Style for dropdown items */
-:global(.mantine-Menu-dropdown) {
+.menuDropdown :global(.mantine-Menu-dropdown) {
   background-color: rgba(255, 255, 255, 0.95);
   border-radius: var(--mantine-radius-sm);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
@@ -105,18 +105,18 @@
   overflow: hidden;
 }
 
-:global(.mantine-Menu-item) {
+.menuDropdown :global(.mantine-Menu-item) {
   color: var(--mantine-color-dark-7);
   font-size: var(--mantine-font-size-sm);
   padding: 10px 15px;
   transition: background-color 0.2s ease;
 }
 
-:global(.mantine-Menu-item:hover) {
+.menuDropdown :global(.mantine-Menu-item:hover) {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-:global(.mantine-Menu-item[data-active]) {
+.menuDropdown :global(.mantine-Menu-item[data-active]) {
   background-color: rgba(0, 0, 0, 0.1);
   font-weight: 500;
 }
