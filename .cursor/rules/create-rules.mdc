@@ -1,0 +1,77 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+description: Instructions for creating new Cursor rules when requested
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Creating New Cursor Rules
+
+When the user says "write a rule" or requests a new rule, follow these steps:
+
+## Rule Creation Process
+
+1. Create a new file in the `.cursor/rules` directory with the `.mdc` extension
+2. Use a descriptive filename that reflects the rule's purpose
+3. Include the following header structure:
+   ```
+   description: Brief description of what the rule does
+   globs: ["**/*.{extensions}"] # Files this rule applies to
+   alwaysApply: false # Whether to always apply this rule
+   ---
+   ```
+
+## Rule Content Structure
+
+Each rule should include:
+
+1. A clear title (H1)
+2. A brief description of the rule's purpose
+3. Specific guidelines or instructions
+4. Code examples showing correct and incorrect usage when applicable
+5. Any exceptions or special cases
+
+## Example Rule Format
+
+```markdown
+description: Use consistent import ordering in TypeScript files
+globs: ["**/*.{ts,tsx}"]
+alwaysApply: false
+---
+
+# Import Ordering Convention
+
+All imports should follow this specific ordering pattern:
+
+1. External libraries (React, Mantine, etc.)
+2. Internal absolute imports (from @/components, etc.)
+3. Relative imports (from ./, ../, etc.)
+
+## Correct Example
+
+```tsx
+// External libraries
+import React from 'react';
+import { Button } from '@mantine/core';
+
+// Internal absolute imports
+import { useAuth } from '@/hooks/useAuth';
+
+// Relative imports
+import { MyComponent } from './MyComponent';
+```
+
+## Incorrect Example
+
+```tsx
+import { MyComponent } from './MyComponent';
+import React from 'react';
+import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@mantine/core';
+```
+```
+
+When creating rules, ensure they are specific, actionable, and include clear examples to guide implementation. 

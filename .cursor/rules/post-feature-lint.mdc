@@ -1,0 +1,67 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+description: Always lint and fix errors after completing a feature
+globs: ["**/*.{js,jsx,ts,tsx}"]
+alwaysApply: false
+---
+
+# Post-Feature Linting Process
+
+After completing a new feature or making significant changes to existing code, always run the Next.js linter to identify and fix any linting errors before committing your changes.
+
+## Linting Process
+
+1. Run the Next.js linter to check for errors:
+   ```bash
+   pnpm lint
+   ```
+
+2. If errors are found, fix them manually or use the automatic fix option:
+   ```bash
+   pnpm lint --fix
+   ```
+
+3. For specific files or directories, you can target the linting:
+   ```bash
+   pnpm lint -- --dir src/app/your-feature-directory
+   ```
+
+## Common Linting Issues to Watch For
+
+- Unused imports or variables
+- Missing dependencies in React hooks
+- Accessibility issues in JSX
+- Incorrect prop types
+- Inconsistent spacing or formatting
+- Missing return types in TypeScript functions
+
+## Example Workflow
+
+```bash
+# After completing your feature
+git add .
+
+# Run linter before committing
+pnpm lint
+
+# Fix any issues
+pnpm lint --fix
+
+# Verify changes fixed the issues
+pnpm lint
+
+# Now commit your changes
+git commit -m "feat: add new feature with passing lint"
+```
+
+## Important Notes
+
+- Never commit code with linting errors
+- If you need to temporarily bypass a linting rule, use appropriate ESLint comments with justification:
+  ```typescript
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- Only need to run on initial mount
+  ```
+- Consider setting up a pre-commit hook to automatically run linting before commits 
