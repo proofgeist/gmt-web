@@ -109,12 +109,6 @@ export const privateRoutes: Route[] = [
     href: "/dashboard",
     visibility: "private",
   },
-  {
-    label: "My Shipments",
-    type: "link",
-    href: "/my-shipments",
-    visibility: "private",
-  },
 ];
 
 // Keep this route separate since it has "none" visibility
