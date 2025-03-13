@@ -147,6 +147,7 @@ export default function About() {
                 href={`/about/${service.slug}`}
                 key={index}
                 style={{ textDecoration: "none" }}
+                prefetch={true}
               >
                 <Card
                   padding="lg"

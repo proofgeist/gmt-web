@@ -30,6 +30,7 @@ import {
   IconBuildingWarehouse,
 } from "@tabler/icons-react";
 import { ContactButton } from "../contact-button";
+import { brandColor } from "@/config/theme/mantine-theme";
 
 // Define the service data
 const servicesData = {
@@ -244,7 +245,7 @@ export default async function ServicePage({
             >
               <Center mb="lg">
                 <div className={styles.serviceIcon}>
-                  <ServiceIcon size={60} stroke={1.5} />
+                  <ServiceIcon size={60} stroke={1.5} color={brandColor[7]} />
                 </div>
               </Center>
               <Title ta="center" c="white" size="h1" mb="sm">
@@ -276,7 +277,7 @@ export default async function ServicePage({
               <Card key={index} padding="lg" radius="md" withBorder shadow="sm">
                 <FeatureIcon
                   size={40}
-                  color="#1c7ed6"
+                  color={brandColor[7]}
                   style={{ marginBottom: "1rem" }}
                 />
                 <Text fw={600} size="lg" mb="xs">
