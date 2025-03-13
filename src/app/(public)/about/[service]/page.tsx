@@ -12,7 +12,6 @@ import {
 } from "@mantine/core";
 import styles from "../about.module.css";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import {
   IconShip,
   IconGlobe,
@@ -200,6 +199,7 @@ export default function ServicePage({
   params,
 }: {
   params: { service: string };
+  searchParams?: Record<string, string | string[] | undefined>;
 }) {
   const serviceSlug = params.service;
   const serviceData = servicesData[serviceSlug as keyof typeof servicesData];
