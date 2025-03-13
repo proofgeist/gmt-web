@@ -5,6 +5,7 @@ import {
   SimpleGrid,
   Card,
   Group,
+  Box,
 } from "@mantine/core";
 import styles from "./page.module.css";
 import {
@@ -18,36 +19,38 @@ import React from "react";
 
 export default function Home() {
   return (
-    <div className={styles.heroContainer}>
-      <div className={styles.heroContent}>
-        <Title className={styles.mainTitle}>
-          GLOBAL MARINE
-          <br />
-          TRANSPORTATION INC.
-        </Title>
-        <Title order={2} className={styles.tagline}>
-          Your Trusted Shipping Partner for a Connected World
-        </Title>
-      </div>
+    <Box>
+      <div className={styles.heroContainer}>
+        <div className={styles.heroContent}>
+          <Title className={styles.mainTitle}>
+            GLOBAL MARINE
+            <br />
+            TRANSPORTATION INC.
+          </Title>
+          <Title order={2} className={styles.tagline}>
+            Your Trusted Shipping Partner for a Connected World
+          </Title>
+        </div>
 
-      <Container size="xl" className={styles.cardsContainer}>
-        <SimpleGrid cols={{ base: 1, sm: 2, md: 5 }} spacing="lg">
-          {serviceCards.map((service, index) => (
-            <Card key={index} className={styles.glassCard}>
-              <Group wrap="nowrap" mb="sm">
-                <service.icon size={40} stroke={1.5} color="#fff" />
-                <Text c="white" fw={500} style={{ flexShrink: 1 }}>
-                  {service.title}
+        <Container size="xl" className={styles.cardsContainer}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 5 }} spacing="lg">
+            {serviceCards.map((service, index) => (
+              <Card key={index} className={styles.glassCard}>
+                <Group wrap="nowrap" mb="sm">
+                  <service.icon size={40} stroke={1.5} color="#fff" />
+                  <Text c="white" fw={500} style={{ flexShrink: 1 }}>
+                    {service.title}
+                  </Text>
+                </Group>
+                <Text size="sm" c="white" opacity={0.8}>
+                  {service.description}
                 </Text>
-              </Group>
-              <Text size="sm" c="white" opacity={0.8}>
-                {service.description}
-              </Text>
-            </Card>
-          ))}
-        </SimpleGrid>
-      </Container>
-    </div>
+              </Card>
+            ))}
+          </SimpleGrid>
+        </Container>
+      </div>
+    </Box>
   );
 }
 const serviceCards = [
