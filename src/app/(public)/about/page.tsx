@@ -1,13 +1,16 @@
 import {
   Container,
-  Text,
   Title,
+  Text,
   SimpleGrid,
   Card,
   Group,
-  Image,
+  Button,
+  Box,
 } from "@mantine/core";
-import styles from "../page.module.css";
+import styles from "./about.module.css";
+import React from "react";
+import Link from "next/link";
 import {
   IconShip,
   IconGlobe,
@@ -15,80 +18,115 @@ import {
   IconWorld,
   IconPackage,
 } from "@tabler/icons-react";
-import React from "react";
 
-export default function About() {
-  return (
-    <div className={styles.heroContainer}>
-      <div className={styles.heroContent}>
-        <Image
-          src="/gmt_logo.png"
-          alt="ProofKit"
-          p={4}
-          maw={84}
-          height={84}
-          radius={"md"}
-          fit="contain"
-        />
-        <Title className={styles.mainTitle}>
-          GLOBAL MARINE
-          <br />
-          TRANSPORTATION
-        </Title>
-        <Title order={2} className={styles.tagline}>
-          Your Trusted Shipping Partner for a Connected World
-        </Title>
-      </div>
-
-      <Container size="xl" className={styles.cardsContainer}>
-        <SimpleGrid cols={{ base: 1, sm: 2, md: 5 }} spacing="lg">
-          {serviceCards.map((service, index) => (
-            <Card key={index} className={styles.glassCard}>
-              <Group wrap="nowrap" mb="sm">
-                <service.icon size={40} stroke={1.5} color="#fff" />
-                <Text c="white" fw={500} style={{ flexShrink: 1 }}>
-                  {service.title}
-                </Text>
-              </Group>
-              <Text size="sm" c="white" opacity={0.8}>
-                {service.description}
-              </Text>
-            </Card>
-          ))}
-        </SimpleGrid>
-      </Container>
-    </div>
-  );
-}
-const serviceCards = [
+const services = [
   {
-    icon: IconShip,
     title: "Ocean Freight",
     description:
       "Maritime shipping solutions with competitive rates and flexible scheduling across major global routes.",
+    icon: IconShip,
+    slug: "ocean-freight",
   },
   {
-    icon: IconGlobe,
     title: "Global Network",
     description:
       "Extensive network of partners worldwide ensuring seamless logistics operations.",
+    icon: IconGlobe,
+    slug: "global-network",
   },
   {
-    icon: IconTruck,
     title: "Land Transport",
     description:
       "Comprehensive inland transportation with door-to-door delivery and real-time tracking.",
+    icon: IconTruck,
+    slug: "land-transport",
   },
   {
-    icon: IconWorld,
     title: "Worldwide Service",
     description:
       "24/7 customer support across multiple time zones for reliable cargo delivery.",
+    icon: IconWorld,
+    slug: "worldwide-service",
   },
   {
-    icon: IconPackage,
     title: "Custom Solutions",
     description:
       "Tailored logistics solutions for specialized cargo and unique routing requirements.",
+    icon: IconPackage,
+    slug: "custom-solutions",
   },
 ];
+
+export default function About() {
+  return (
+    <Container className={styles.aboutContainer}>
+      <div className={styles.pageHeader}>
+        <Title className={styles.pageTitle}>
+          About Global Marine Transportation
+        </Title>
+        <Text className={styles.pageSubtitle}>
+          Your trusted partner in global logistics, delivering reliable shipping
+          solutions since 1995.
+        </Text>
+      </div>
+
+      <Text className={styles.paragraph}>
+        Global Marine Transportation Inc. is a leading provider of international
+        shipping and logistics services, connecting businesses to markets
+        worldwide through our comprehensive network of transportation solutions.
+        With decades of experience in the industry, we&apos;ve built a
+        reputation for reliability, efficiency, and customer-focused service.
+      </Text>
+
+      <Text className={styles.paragraph}>
+        Our team of logistics experts works tirelessly to optimize your supply
+        chain, reduce costs, and ensure your cargo reaches its destination
+        safely and on time. We combine industry knowledge with cutting-edge
+        technology to provide transparent, efficient, and sustainable shipping
+        solutions for businesses of all sizes.
+      </Text>
+
+      <Title className={styles.sectionTitle}>Our Services</Title>
+
+      <SimpleGrid
+        cols={{ base: 1, sm: 2, md: 3 }}
+        className={styles.featureGrid}
+      >
+        {services.map((service, index) => {
+          const ServiceIcon = service.icon;
+          return (
+            <Link
+              href={`/about/${service.slug}`}
+              key={index}
+              style={{ textDecoration: "none", height: "100%" }}
+            >
+              <Card className={styles.featureCard} style={{ height: "100%" }}>
+                <ServiceIcon size={40} className={styles.featureIcon} />
+                <Text className={styles.featureTitle}>{service.title}</Text>
+                <Text size="sm" color="dimmed" mb="md">
+                  {service.description}
+                </Text>
+                <Button variant="light" color="blue" fullWidth>
+                  Learn More
+                </Button>
+              </Card>
+            </Link>
+          );
+        })}
+      </SimpleGrid>
+
+      <Box className={styles.ctaSection}>
+        <Title className={styles.ctaTitle}>Ready to Ship with Us?</Title>
+        <Text className={styles.ctaText}>
+          Contact our team today to discuss your shipping needs and discover how
+          Global Marine Transportation can optimize your logistics operations.
+        </Text>
+        <Link href="/contact" passHref>
+          <Button size="lg" color="blue">
+            Contact Us
+          </Button>
+        </Link>
+      </Box>
+    </Container>
+  );
+}

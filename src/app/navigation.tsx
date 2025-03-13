@@ -3,6 +3,22 @@ import {
 } from "@/components/modals/contact/contact";
 import { yellowtail } from "@/config/theme/fonts";
 import { openModal } from "@mantine/modals";
+import {
+  IconShip,
+  IconGlobe,
+  IconTruck,
+  IconWorld,
+  IconPackage,
+  IconInfoCircle,
+  IconPhone,
+} from "@tabler/icons-react";
+
+export interface SubRouteLink {
+  label: string;
+  href: string;
+  icon?: React.ReactNode;
+  exactMatch?: boolean;
+}
 
 export interface RouteLink {
   label: string;
@@ -14,6 +30,7 @@ export interface RouteLink {
   visibility?: "public" | "private" | "all" | "none";
   customStyles?: string;
   component?: React.ReactNode;
+  subItems?: SubRouteLink[];
 }
 
 export interface RouteFunction {
@@ -26,6 +43,7 @@ export interface RouteFunction {
   visibility?: "public" | "private" | "all" | "none";
   customStyles?: string;
   component?: React.ReactNode;
+  subItems?: SubRouteLink[];
 }
 
 export type Route = RouteLink | RouteFunction;
@@ -36,10 +54,39 @@ export const publicRoutes: Route[] = [
     type: "link",
     href: "/about",
     visibility: "all",
+    icon: <IconInfoCircle size={18} />,
+    subItems: [
+      {
+        label: "Ocean Freight",
+        href: "/about/ocean-freight",
+        icon: <IconShip size={18} />,
+      },
+      {
+        label: "Global Network",
+        href: "/about/global-network",
+        icon: <IconGlobe size={18} />,
+      },
+      {
+        label: "Land Transport",
+        href: "/about/land-transport",
+        icon: <IconTruck size={18} />,
+      },
+      {
+        label: "Worldwide Service",
+        href: "/about/worldwide-service",
+        icon: <IconWorld size={18} />,
+      },
+      {
+        label: "Custom Solutions",
+        href: "/about/custom-solutions",
+        icon: <IconPackage size={18} />,
+      },
+    ],
   },
   {
     label: "Contact",
     type: "function",
+    icon: <IconPhone size={18} />,
     onClick: () =>
       openModal({
         id: "contact",

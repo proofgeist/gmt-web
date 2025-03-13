@@ -43,7 +43,7 @@ export function Header({
 
   return (
     <header
-      className={`${classes.header} ${hidden ? classes.headerHidden : ""} ${isAtTop ? "" : classes.glassyHeader}`}
+      className={`${classes.header} ${hidden ? classes.headerHidden : ""} ${classes.glassyHeader}`}
       style={{
         height: headerHeight,
         border: "none",

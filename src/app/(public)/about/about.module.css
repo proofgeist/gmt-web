@@ -1,0 +1,159 @@
+.aboutContainer {
+  padding: 4rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contentBox {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 2.5rem;
+  margin: 2rem 0;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.serviceHeader {
+  position: relative;
+  padding: 3rem 0;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.serviceIcon {
+  margin-bottom: 1rem;
+  color: #1c7ed6;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 1rem;
+  border-radius: 50%;
+  display: inline-flex;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pageHeader {
+  margin-bottom: 3rem;
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+.pageTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1c2e4a;
+  margin-bottom: 1rem;
+}
+
+.pageSubtitle {
+  font-size: 1.5rem;
+  color: #4a6fa1;
+  max-width: 800px;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1c2e4a;
+  margin-bottom: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.paragraph {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.featureGrid {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.featureCard {
+  padding: 1.5rem;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e0e0e0;
+  background-color: white;
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.featureIcon {
+  margin-bottom: 1rem;
+  color: #1c7ed6;
+}
+
+.featureTitle {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1c2e4a;
+}
+
+.ctaSection {
+  background-color: #f8f9fa;
+  padding: 3rem;
+  border-radius: 8px;
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.ctaTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1c2e4a;
+  margin-bottom: 1rem;
+}
+
+.ctaText {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+
+.imageContainer {
+  margin: 2rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.servicePage {
+  position: relative;
+}
+
+.servicePage::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 400px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+  z-index: -1;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: 2.2rem;
+  }
+  
+  .pageSubtitle {
+    font-size: 1.2rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+  
+  .aboutContainer {
+    padding: 2rem 1rem;
+  }
+  
+  .contentBox {
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+} 

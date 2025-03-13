@@ -19,7 +19,7 @@ export default function UserMenu() {
     );
   }
   return (
-    <Menu position="bottom-end">
+    <Menu position="bottom-end" trigger="hover" openDelay={50} closeDelay={200}>
       <Menu.Target>
         <Button
           variant="subtle"
