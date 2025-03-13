@@ -40,6 +40,7 @@ export default function Home() {
                 href={`/about/${service.slug}`}
                 key={index}
                 style={{ textDecoration: "none", height: "100%" }}
+                prefetch={true}
               >
                 <Card className={styles.glassCard} style={{ height: "100%" }}>
                   <Group wrap="nowrap" mb="sm">

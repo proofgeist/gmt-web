@@ -42,22 +42,22 @@ export default function HeaderNavLink(route: Route) {
         <Menu.Target>
           <Box>
             {route.type === "link" ?
-              <Link href={route.href} passHref legacyBehavior>
-                <a
-                  className={`${classes.link} ${route.customStyles ? classes[route.customStyles] : ""}`}
-                  data-active={isActive || isAnySubItemActive || undefined}
+              <Link
+                href={route.href}
+                prefetch={true}
+                className={`${classes.link} ${route.customStyles ? classes[route.customStyles] : ""}`}
+                data-active={isActive || isAnySubItemActive || undefined}
+              >
+                <span
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                  }}
                 >
-                  <span
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                  >
-                    {route.component || route.label}
-                    <IconChevronDown size={14} />
-                  </span>
-                </a>
+                  {route.component || route.label}
+                  <IconChevronDown size={14} />
+                </span>
               </Link>
             : <button
                 className={`${classes.link} ${route.customStyles}`}
