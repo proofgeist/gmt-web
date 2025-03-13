@@ -12,7 +12,6 @@ import {
 } from "@mantine/core";
 import styles from "../about.module.css";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import {
   IconShip,
   IconGlobe,
