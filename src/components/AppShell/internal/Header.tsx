@@ -69,7 +69,7 @@ export function Header({
             <SlotHeaderRight routes={routes} hideUserMenu={hideUserMenu} />
           </Box>
           <Box hiddenFrom="sm">
-            <HeaderMobileMenu routes={routes} />
+            <HeaderMobileMenu routes={routes} burgerColor={textColor} />
           </Box>
         </Group>
       </Container>

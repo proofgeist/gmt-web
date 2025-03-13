@@ -20,6 +20,7 @@ export default function HeaderMobileMenu({
     <Menu
       opened={opened}
       onClose={toggle}
+      closeOnItemClick={false}
       styles={{ item: { padding: "1rem" } }}
       shadow="md"
       radius="md"
