@@ -199,10 +199,9 @@ export default async function ServicePage({
   params,
 }: {
   params: Promise<{ service: string }>;
-  searchParams?: Record<string, string | string[] | undefined>;
 }) {
-  const serviceSlug = (await params).service;
-  const serviceData = servicesData[serviceSlug as keyof typeof servicesData];
+  const { service } = await params;
+  const serviceData = servicesData[service as keyof typeof servicesData];
 
   // If the service doesn't exist, return 404
   if (!serviceData) {
