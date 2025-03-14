@@ -1,4 +1,4 @@
-import { Group, Paper, Stack, Text } from "@mantine/core";
+import { Card, Group, Paper, Stack, Text } from "@mantine/core";
 import React from "react";
 import { IconShip, IconClockHour4, IconCircleCheck } from "@tabler/icons-react";
 import {
@@ -6,6 +6,7 @@ import {
   getPendingShipmentsAction,
   getPastShipmentsAction,
 } from "../actions";
+import QuotesCard from "./quotes-card";
 
 export default async function ShipmentCards() {
   const activeShipments = await getActiveShipmentsAction({});
@@ -31,9 +32,9 @@ export default async function ShipmentCards() {
   ];
 
   return (
-    <>
+    <Group grow align="stretch" preventGrowOverflow>
       {cardData.map((card, index) => (
-        <Paper withBorder shadow="md" p={30} radius="md" key={index}>
+        <Card shadow="sm" padding="lg" radius="md" withBorder key={index}>
           <Stack align="center" justify="center" gap="xs">
             <Group align="center" maw={125} w={"100%"} justify="center">
               <card.icon size={40} color="#5474b4" stroke={1.5} />
@@ -45,8 +46,9 @@ export default async function ShipmentCards() {
               {card.title}
             </Text>
           </Stack>
-        </Paper>
+        </Card>
       ))}
-    </>
+      <QuotesCard />
+    </Group>
   );
 }

@@ -66,7 +66,7 @@ const services = [
 export default function About() {
   return (
     <Container size="lg" py="xl">
-      <Card shadow="md" radius="lg" padding="xl" withBorder>
+      <Card shadow="md" radius="md" padding="xl" withBorder>
         <CardSection>
           <div style={{ position: "relative" }}>
             <Image
@@ -196,7 +196,7 @@ export default function About() {
               how Global Marine Transportation can optimize your logistics
               operations.
             </Text>
-              <ContactButton />
+            <ContactButton />
           </Box>
         </CardSection>
       </Card>

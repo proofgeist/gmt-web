@@ -11,15 +11,11 @@ import TableSkeleton from "./table-skeleton";
 export default function TablePage() {
   return (
     <Stack>
-      <Group grow align="stretch">
-        <Suspense fallback={<ShipmentCardsSkeleton />}>
-          <ShipmentCards />
-        </Suspense>
-        <QuotesCard />
-      </Group>
-      <Suspense fallback={<TableSkeleton />}>
-        <TableContent />
+      <Suspense fallback={<ShipmentCardsSkeleton />}>
+        <ShipmentCards />
       </Suspense>
+
+      <TableContent />
     </Stack>
   );
 }

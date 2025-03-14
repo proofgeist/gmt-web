@@ -1,6 +1,6 @@
 "use client";
 
-import { Paper, Stack, Text, Group, Box, useMantineTheme } from "@mantine/core";
+import { Card, Stack, Text, Group, Box, useMantineTheme } from "@mantine/core";
 import { IconFileDescription } from "@tabler/icons-react";
 import { useState } from "react";
 
@@ -34,16 +34,14 @@ export default function QuotesCard() {
   const theme = useMantineTheme();
 
   return (
-    <Paper
+    <Card
       withBorder
-      shadow="md"
-      p={30}
+      padding="lg"
       radius="md"
+      shadow="sm"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={quoteCardStyles.container}
     >
-      {/* Blurred overlay that appears on hover */}
       <Box
         style={{
           ...quoteCardStyles.overlay,
@@ -56,7 +54,6 @@ export default function QuotesCard() {
         </Text>
       </Box>
 
-      {/* Card content that's always visible */}
       <Stack align="center" justify="center" gap="xs">
         <Group align="center" maw={125} w={"100%"} justify="center">
           <IconFileDescription
@@ -72,6 +69,6 @@ export default function QuotesCard() {
           My Quotes
         </Text>
       </Stack>
-    </Paper>
+    </Card>
   );
 }

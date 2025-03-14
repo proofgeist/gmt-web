@@ -213,7 +213,7 @@ export default async function ServicePage({
 
   return (
     <Container size="lg" py="xl">
-      <Card shadow="md" radius="lg" padding="xl" withBorder>
+      <Card shadow="md" radius="md" padding="xl" withBorder>
         <CardSection>
           <div style={{ position: "relative" }}>
             <Image

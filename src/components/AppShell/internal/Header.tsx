@@ -29,7 +29,7 @@ export function Header({
   const [_isAtTop, setIsAtTop] = useState(true);
 
   useEffect(() => {
-    if (scroll.y > lastScrollTop && scroll.y > headerHeight) {
+    if (scroll.y > lastScrollTop && scroll.y > headerHeight * 0.75) {
       // scrolling down
       setHidden(true);
     } else {
