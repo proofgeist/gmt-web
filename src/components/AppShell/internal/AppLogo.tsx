@@ -4,19 +4,22 @@ import { yellowtail } from "@/config/theme/fonts";
 
 export default function AppLogo() {
   return (
-    <Group gap="xs">
+    <Group gap="0">
       <Image
-        src="/gmt_logo.png"
+        src="/gmt_big.png"
         alt="ProofKit"
         p={4}
-        maw={42}
+        maw={64}
         height={42}
         // bg="gray.1"
         radius={"md"}
         fit="contain"
       />
-      <Title order={2} >
-        <Text span fz={24} className={yellowtail.className}>my</Text>GMT
+      <Title order={2}>
+        <Text span fz={24} className={yellowtail.className}>
+          my
+        </Text>
+        GMT
       </Title>
     </Group>
   );
