@@ -1,4 +1,4 @@
-import { Card, Group, Paper, Stack, Text } from "@mantine/core";
+import { Card, Group, Stack, Text } from "@mantine/core";
 import React from "react";
 import { IconShip, IconClockHour4, IconCircleCheck } from "@tabler/icons-react";
 import {

@@ -240,7 +240,6 @@ export default async function ServicePage({
                 transform: "translate(-50%, -50%)",
                 textAlign: "center",
                 width: "100%",
-                padding: "0 2rem",
               }}
             >
               <Center mb="lg">
@@ -251,7 +250,7 @@ export default async function ServicePage({
               <Title ta="center" c="white" size="h1" mb="sm">
                 {serviceData.title}
               </Title>
-              <Text ta="center" c="white" size="xl" maw={800} mx="auto">
+              <Text ta="center" px={"md"} c="white" size="xl" maw={800} mx="auto">
                 {serviceData.subtitle}
               </Text>
             </div>

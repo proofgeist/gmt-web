@@ -2,7 +2,6 @@ import {
   Container,
   Title,
   Text,
-  SimpleGrid,
   Card,
   Button,
   Box,
@@ -10,6 +9,8 @@ import {
   Stack,
   Center,
   CardSection,
+  Grid,
+  GridCol,
 } from "@mantine/core";
 import styles from "./about.module.css";
 import React from "react";
@@ -93,7 +94,6 @@ export default function About() {
                 transform: "translate(-50%, -50%)",
                 textAlign: "center",
                 width: "100%",
-                padding: "0 2rem",
               }}
             >
               <Center mb="lg">
@@ -108,7 +108,7 @@ export default function About() {
               <Title ta="center" c="white" size="h1" mb="sm">
                 About Global Marine Transportation
               </Title>
-              <Text ta="center" c="white" size="xl" maw={800} mx="auto">
+              <Text ta="center" c="white" size="xl" maw={800} px="md" mx="auto">
                 Your trusted partner in global logistics, delivering reliable
                 shipping solutions since 1995.
               </Text>
@@ -139,45 +139,46 @@ export default function About() {
           Our Services
         </Title>
 
-        <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
+        <Grid grow gutter="lg">
           {services.map((service, index) => {
             const ServiceIcon = service.icon;
             return (
-              <Link
-                href={`/about/${service.slug}`}
-                key={index}
-                style={{ textDecoration: "none" }}
-                prefetch={true}
-              >
-                <Card
-                  padding="lg"
-                  radius="md"
-                  withBorder
-                  shadow="sm"
-                  h="100%"
-                  style={{ display: "flex", flexDirection: "column" }}
+              <GridCol span={{ base: 12, sm: 6, md: 4 }} key={index}>
+                <Link
+                  href={`/about/${service.slug}`}
+                  style={{ textDecoration: "none" }}
+                  prefetch={true}
                 >
-                  <ServiceIcon
-                    size={40}
-                    color={brandColor[7]}
-                    style={{ marginBottom: "1rem" }}
-                  />
-                  <Text fw={600} size="lg" mb="xs">
-                    {service.title}
-                  </Text>
-                  <Text size="md" c="dimmed" mb="xl">
-                    {service.description}
-                  </Text>
-                  <div style={{ marginTop: "auto" }}>
-                    <Button variant="light" color="blue" fullWidth>
-                      Learn More
-                    </Button>
-                  </div>
-                </Card>
-              </Link>
+                  <Card
+                    padding="lg"
+                    radius="md"
+                    withBorder
+                    shadow="sm"
+                    h="100%"
+                    style={{ display: "flex", flexDirection: "column" }}
+                  >
+                    <ServiceIcon
+                      size={40}
+                      color={brandColor[7]}
+                      style={{ marginBottom: "1rem" }}
+                    />
+                    <Text fw={600} size="lg" mb="xs">
+                      {service.title}
+                    </Text>
+                    <Text size="md" c="dimmed" mb="xl">
+                      {service.description}
+                    </Text>
+                    <div style={{ marginTop: "auto" }}>
+                      <Button variant="light" color="brand.6" fullWidth>
+                        Learn More
+                      </Button>
+                    </div>
+                  </Card>
+                </Link>
+              </GridCol>
             );
           })}
-        </SimpleGrid>
+        </Grid>
 
         <CardSection mt="xl" inheritPadding py="xl">
           <Box

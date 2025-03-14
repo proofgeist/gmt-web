@@ -142,13 +142,7 @@
   pointer-events: none;
 }
 
-/* Styles for the about layout darkening overlay */
-.aboutLayout {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  z-index: 1;
-}
+
 
 .darkOverlay {
   position: fixed;
@@ -156,9 +150,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 0;
   backdrop-filter: blur(4px);
   pointer-events: none; /* Allows clicks to pass through */
+  z-index: 0;
 }
 
 @media (max-width: 768px) {

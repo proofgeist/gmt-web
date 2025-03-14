@@ -20,11 +20,12 @@ import {
 export function Footer() {
   return (
     <Box
-      component="section"
       p={"3rem 0 4rem 0"}
       bg={"black"}
       c={"white"}
       w="100%"
+      style={{ zIndex: 1000, borderTop: "2px solid black" }}
+      pos="absolute"
     >
       <Container>
         <Grid align="center">
