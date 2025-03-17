@@ -1,4 +1,4 @@
-import { Stack } from "@mantine/core";
+import { Group, Stack } from "@mantine/core";
 import React, { Suspense } from "react";
 
 import TableContent from "./table";
@@ -9,9 +9,11 @@ import ShipmentCardsSkeleton from "./shipment-cards-skeleton";
 export default function TablePage() {
   return (
     <Stack>
-      <Suspense fallback={<ShipmentCardsSkeleton />}>
-        <ShipmentCards />
-      </Suspense>
+      <Group grow align="stretch" preventGrowOverflow>
+        <Suspense fallback={<ShipmentCardsSkeleton />}>
+          <ShipmentCards />
+        </Suspense>
+      </Group>
 
       <TableContent />
     </Stack>

@@ -32,7 +32,7 @@ export default async function ShipmentCards() {
   ];
 
   return (
-    <Group grow align="stretch" preventGrowOverflow>
+    <>
       {cardData.map((card, index) => (
         <Card shadow="sm" padding="lg" radius="md" withBorder key={index}>
           <Stack align="center" justify="center" gap="xs">
@@ -49,6 +49,6 @@ export default async function ShipmentCards() {
         </Card>
       ))}
       <QuotesCard />
-    </Group>
+    </>
   );
 }

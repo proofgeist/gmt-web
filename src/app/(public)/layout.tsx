@@ -6,7 +6,7 @@ import styles from "./layout.module.css";
 
 // Define the background images to cycle through
 const backgroundImages = [
-  "/home-image-2.jpg",
+  // "/home-image-2.jpg",
   "/home-image-1.jpg",
   "/home-image-3.jpg",
   "/home-image-4.jpg",
