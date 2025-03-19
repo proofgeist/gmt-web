@@ -116,8 +116,8 @@ importers:
         version: 3.24.1
     devDependencies:
       '@proofgeist/kit':
-        specifier: ^0.0.14
-        version: 0.0.14(prettier@3.3.3)(zod@3.24.1)
+        specifier: ^0.3.0
+        version: 0.3.0(prettier@3.3.3)(zod@3.24.1)
       '@tanstack/eslint-plugin-query':
         specifier: ^5.62.1
         version: 5.62.1(eslint@8.57.1)(typescript@5.7.2)
@@ -955,8 +955,8 @@ packages:
     peerDependencies:
       zod: '>=3.21.4'
 
-  '@proofgeist/kit@0.0.14':
-    resolution: {integrity: sha512-47CNWU+C0NAGy0aPAeFFjQtk1xVVNz0eosD3SyFbPoGlP3O9ZFe9swSv0Jkf8XZ/b4YojmBX9OHKWEIBMQY+IQ==}
+  '@proofgeist/kit@0.3.0':
+    resolution: {integrity: sha512-mIu+fhV0nL3J75t7anuu8TsME6LH1/b2YtQaDsEzEMTRB3We7fFv2GBDx6bYwQEvZAab1PKLJWY1CtgBatCGlA==}
     engines: {node: '>=20.12.0'}
     hasBin: true
 
@@ -4530,7 +4530,7 @@ snapshots:
       ts-toolbelt: 9.6.0
       zod: 3.24.1
 
-  '@proofgeist/kit@0.0.14(prettier@3.3.3)(zod@3.24.1)':
+  '@proofgeist/kit@0.3.0(prettier@3.3.3)(zod@3.24.1)':
     dependencies:
       '@clack/core': 0.3.5
       '@clack/prompts': 0.7.0

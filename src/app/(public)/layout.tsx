@@ -6,12 +6,14 @@ import styles from "./layout.module.css";
 
 // Define the background images to cycle through
 const backgroundImages = [
-  // "/home-image-2.jpg",
-  "/home-image-1.jpg",
-  "/home-image-3.jpg",
-  "/home-image-4.jpg",
-  "/home-image-5.jpg",
-  "/home-image-6.jpg",
+  "/ship-image-2.jpg",
+  "/ship-image-1.jpg",
+  "/rail-image-1.jpg",
+  "/ship-image-3.jpg",
+  "/rail-image-2.jpg",
+  "/ship-image-5.jpg",
+  "/trucking-image-1.jpg",
+  "/ship-image-6.jpg",
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {

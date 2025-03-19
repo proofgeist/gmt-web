@@ -1,77 +1,56 @@
 ---
-description: Always use pnpm as the package manager and next commands for Next.js operations
-globs: 
+description: |
+  This rule documents the package manager configuration and usage. It should be included when:
+  1. Installing dependencies
+  2. Running scripts
+  3. Managing project packages
+  4. Running development commands
+  5. Executing build or test operations
+globs:
+  - "package.json"
+  - "pnpm-lock.yaml"
+  - ".npmrc"
 alwaysApply: true
 ---
-description: Always use pnpm as the package manager and next commands for Next.js operations
-globs: ["**/*.{js,jsx,ts,tsx,json}"]
-alwaysApply: true
----
+# Package Manager Configuration
 
-# Package Manager and Next.js Commands
+This rule documents the package manager setup and usage requirements.
 
-## Use pnpm for package management
+<rule>
+name: package_manager
+description: Documents package manager configuration and usage requirements
 
-When installing packages, always use pnpm instead of npm or yarn.
+configuration:
+  name: "pnpm"
+  version: "latest"
+  commands:
+    install: "pnpm install"
+    build: "pnpm build"
+    dev: "pnpm dev"
+    typegen: "pnpm typegen"
+    typecheck: "pnpm typecheck"
+  notes: "Always use pnpm instead of npm or yarn for consistency"
 
-```
-# Instead of
-npm install <package>
-yarn add <package>
+examples:
+  - description: "Installing dependencies"
+    correct: "pnpm install"
+    incorrect: 
+      - "npm install"
+      - "yarn install"
+  
+  - description: "Running scripts"
+    correct: "pnpm run script-name"
+    incorrect:
+      - "npm run script-name"
+      - "yarn script-name"
 
-# Use
-pnpm add <package>
-```
+  - description: "Adding dependencies"
+    correct: "pnpm add package-name"
+    incorrect:
+      - "npm install package-name"
+      - "yarn add package-name"
 
-For development dependencies:
-
-```
-# Instead of
-npm install --save-dev <package>
-yarn add --dev <package>
-
-# Use
-pnpm add -D <package>
-```
-
-For running scripts:
-
-```
-# Instead of
-npm run <script>
-yarn <script>
-
-# Use
-pnpm <script>
-```
-
-## Next.js Commands
-
-For Next.js operations, use the following commands:
-
-```
-# Development server
-pnpm dev
-
-# Build for production
-pnpm build
-
-# Start production server
-pnpm start
-
-# Linting
-pnpm lint
-```
-
-## Global Commands
-
-For global package installations:
-
-```
-# Instead of
-npm install -g <package>
-yarn global add <package>
-
-# Use
-pnpm add -g <package>
-```
+metadata:
+  priority: high
+  version: 1.0
+</rule> 

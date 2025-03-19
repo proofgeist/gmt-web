@@ -71,7 +71,7 @@ export default function About() {
         <CardSection>
           <div style={{ position: "relative" }}>
             <Image
-              src="/about-photo.jpg"
+              src="/customer-service-image-7.jpg"
               alt="Global Marine Transportation"
               height={400}
               fit="cover"

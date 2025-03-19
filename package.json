@@ -48,7 +48,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@proofgeist/kit": "^0.0.14",
+    "@proofgeist/kit": "^0.3.0",
     "@tanstack/eslint-plugin-query": "^5.62.1",
     "@tanstack/react-query-devtools": "^5.62.7",
     "@types/js-cookie": "^3.0.6",

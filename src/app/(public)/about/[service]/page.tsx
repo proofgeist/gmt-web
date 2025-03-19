@@ -64,7 +64,7 @@ const servicesData = {
       },
     ],
     image:
-      "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      "/ship-image-4.jpg",
   },
   "global-network": {
     title: "Global Network",
@@ -128,7 +128,7 @@ const servicesData = {
       },
     ],
     image:
-      "/trucking.jpg",
+      "/trucking-image-2.jpg",
   },
   "worldwide-service": {
     title: "Worldwide Service",
