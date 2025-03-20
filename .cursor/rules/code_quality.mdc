@@ -1,0 +1,68 @@
+---
+description: When generating or modifying code that could lead to linting errors, type errors, or could use general code quality review.```bash
+globs: 
+alwaysApply: true
+---
+# Code Quality Checks
+
+## Rule: Always run linting and type checking after code generation
+
+After generating or modifying code, always run the following quality checks:
+
+1.Check all
+```bash
+pnpm check:all
+```
+
+### Why this is important:
+
+- **Consistency**: Ensures all code follows project standards
+- **Early detection**: Catches errors before they reach production
+- **Type safety**: Verifies TypeScript types are correct
+- **Maintainability**: Makes code easier to understand and modify
+
+### Examples:
+
+#### After generating a new component:
+
+```bash
+# After generating/modifying code
+pnpm lint
+pnpm exec tsc --noEmit
+```
+
+#### Fixing linting issues:
+
+If linting reports issues, fix them before committing:
+
+```bash
+# Fix auto-fixable issues
+pnpm lint --fix
+```
+
+#### Addressing type errors:
+
+If type checking fails, address the type issues:
+
+```typescript
+// Before: Type error
+const user = { name: 'John' };
+user.age = 30; // Error: Property 'age' does not exist on type '{ name: string; }'
+
+// After: Fixed
+interface User {
+  name: string;
+  age?: number;
+}
+const user: User = { name: 'John' };
+user.age = 30; // No error
+```
+
+### Integration with workflow:
+
+1. Generate or modify code
+2. Run linting and type checking
+3. Fix any issues
+4. Commit changes
+
+This ensures all code meets quality standards before being committed. 
