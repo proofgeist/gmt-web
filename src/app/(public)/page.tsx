@@ -13,7 +13,7 @@ import {
   IconGlobe,
   IconTruck,
   IconWorld,
-  IconPackage,
+  IconShield,
 } from "@tabler/icons-react";
 import React from "react";
 import Link from "next/link";
@@ -64,37 +64,37 @@ export default function Home() {
 const serviceCards = [
   {
     icon: IconShip,
-    title: "Ocean Freight",
+    title: "Ocean Transportation",
     description:
-      "Maritime shipping solutions with competitive rates and flexible scheduling across major global routes.",
-    slug: "ocean-freight",
-  },
-  {
-    icon: IconGlobe,
-    title: "Global Network",
-    description:
-      "Extensive network of partners worldwide ensuring seamless logistics operations.",
-    slug: "global-network",
+      "World-class customer service with comprehensive shipping solutions and competitive rates.",
+    slug: "ocean-transportation",
   },
   {
     icon: IconTruck,
-    title: "Land Transport",
+    title: "Inland Transportation",
     description:
-      "Comprehensive inland transportation with door-to-door delivery and real-time tracking.",
-    slug: "land-transport",
+      "Comprehensive door-to-door domestic and international freight services via road and rail.",
+    slug: "inland-transportation",
+  },
+  {
+    icon: IconGlobe,
+    title: "Fumigation",
+    description:
+      "Professional container fumigation services to prevent quarantined pests and ensure compliance.",
+    slug: "fumigation",
+  },
+  {
+    icon: IconShield,
+    title: "Cargo Insurance",
+    description:
+      "Protect your shipments with comprehensive cargo insurance for all modes of transport.",
+    slug: "cargo-insurance",
   },
   {
     icon: IconWorld,
-    title: "Worldwide Service",
+    title: "Customs Brokerage",
     description:
-      "24/7 customer support across multiple time zones for reliable cargo delivery.",
-    slug: "worldwide-service",
-  },
-  {
-    icon: IconPackage,
-    title: "Custom Solutions",
-    description:
-      "Tailored logistics solutions for specialized cargo and unique routing requirements.",
-    slug: "custom-solutions",
+      "Expert customs clearance services ensuring smooth movement through US ocean ports.",
+    slug: "customs-brokerage",
   },
 ];

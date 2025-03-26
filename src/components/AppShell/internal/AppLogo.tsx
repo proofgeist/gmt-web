@@ -6,21 +6,21 @@ export default function AppLogo() {
   return (
     <Group gap="0">
       <Image
-        src="/gmt_big.png"
+        src="/gmt_banner21.jpg"
         alt="ProofKit"
         p={4}
-        maw={64}
-        height={42}
+        // maw={64}
+        // height={42}
         // bg="gray.1"
         radius={"md"}
         fit="contain"
       />
-      <Title order={2}>
+      {/* <Title order={2}>
         <Text span fz={24} className={yellowtail.className}>
           my
         </Text>
         GMT
-      </Title>
+      </Title> */}
     </Group>
   );
 }

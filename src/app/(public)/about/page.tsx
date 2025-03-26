@@ -22,45 +22,60 @@ import {
   IconWorld,
   IconPackage,
   IconInfoCircle,
+  IconShield,
 } from "@tabler/icons-react";
 import { brandColor } from "@/config/theme/mantine-theme";
 import { ContactButton } from "./contact-button";
 
 const services = [
   {
-    title: "Ocean Freight",
+    title: "Ocean Transportation",
     description:
-      "Maritime shipping solutions with competitive rates and flexible scheduling across major global routes.",
+      "World-class customer service with comprehensive shipping solutions and competitive rates.",
     icon: IconShip,
-    slug: "ocean-freight",
+    slug: "ocean-transportation",
   },
   {
-    title: "Global Network",
+    title: "Inland Transportation",
     description:
-      "Extensive network of partners worldwide ensuring seamless logistics operations.",
-    icon: IconGlobe,
-    slug: "global-network",
-  },
-  {
-    title: "Land Transport",
-    description:
-      "Comprehensive inland transportation with door-to-door delivery and real-time tracking.",
+      "Comprehensive door-to-door domestic and international freight services via road and rail.",
     icon: IconTruck,
-    slug: "land-transport",
+    slug: "inland-transportation",
   },
   {
-    title: "Worldwide Service",
+    title: "Fumigation",
     description:
-      "24/7 customer support across multiple time zones for reliable cargo delivery.",
+      "Professional container fumigation services to prevent quarantined pests and ensure compliance.",
+    icon: IconGlobe,
+    slug: "fumigation",
+  },
+  {
+    title: "Cargo Insurance",
+    description:
+      "Protect your shipments with comprehensive cargo insurance for all modes of transport.",
+    icon: IconShield,
+    slug: "cargo-insurance",
+  },
+  {
+    title: "Customs Brokerage",
+    description:
+      "Expert customs clearance services ensuring smooth movement through US ocean ports.",
     icon: IconWorld,
-    slug: "worldwide-service",
+    slug: "customs-brokerage",
   },
   {
-    title: "Custom Solutions",
+    title: "Container Sizes",
     description:
-      "Tailored logistics solutions for specialized cargo and unique routing requirements.",
+      "Comprehensive guide to shipping container dimensions and specifications.",
     icon: IconPackage,
-    slug: "custom-solutions",
+    slug: "container-sizes",
+  },
+  {
+    title: "Sustainability",
+    description:
+      "Committed to environmental responsibility and sustainable shipping practices.",
+    icon: IconGlobe,
+    slug: "sustainability",
   },
 ];
 
@@ -71,7 +86,7 @@ export default function About() {
         <CardSection>
           <div style={{ position: "relative" }}>
             <Image
-              src="/customer-service-image-7.jpg"
+              src="/ship-image-2.jpg"
               alt="Global Marine Transportation"
               height={400}
               fit="cover"
@@ -106,11 +121,11 @@ export default function About() {
                 </div>
               </Center>
               <Title ta="center" c="white" size="h1" mb="sm">
-                About Global Marine Transportation
+                Growth to Meet Global Challenges
               </Title>
               <Text ta="center" c="white" size="xl" maw={800} px="md" mx="auto">
-                Your trusted partner in global logistics, delivering reliable
-                shipping solutions since 1995.
+                Your one-stop logistics service provider specializing in
+                shipping, innovative and cost-effective solutions.
               </Text>
             </div>
           </div>
@@ -118,20 +133,23 @@ export default function About() {
 
         <Stack gap="xl" mt="xl">
           <Text size="lg" lh={1.7}>
-            Global Marine Transportation Inc. is a leading provider of
-            international shipping and logistics services, connecting businesses
-            to markets worldwide through our comprehensive network of
-            transportation solutions. With decades of experience in the
-            industry, we&apos;ve built a reputation for reliability, efficiency,
-            and customer-focused service.
+            Global Marine Transportation is your one-stop logistics service
+            provider specializing in shipping, innovative and cost-effective
+            solutions for each client, large or small. We shaped our evolution
+            around the needs of our clients offering customized transportation
+            services that distinguish us from competitors.
           </Text>
 
           <Text size="lg" lh={1.7}>
-            Our team of logistics experts works tirelessly to optimize your
-            supply chain, reduce costs, and ensure your cargo reaches its
-            destination safely and on time. We combine industry knowledge with
-            cutting-edge technology to provide transparent, efficient, and
-            sustainable shipping solutions for businesses of all sizes.
+            GMT has become a market leader thanks to our engaging enthusiasm. We
+            are a constantly evolving project; with forward-thinking strategies
+            and innovative service offerings, our network has grown into an
+            extraordinary global structure with worldwide operations allowing us
+            to deliver amazing customer service for our clients.
+          </Text>
+
+          <Text size="lg" fw={500} lh={1.7} c={brandColor[7]}>
+            With unrivaled global expertise, we make the impossible possible.
           </Text>
         </Stack>
 
@@ -186,18 +204,46 @@ export default function About() {
               backgroundColor: "#f8f9fa",
               padding: "2rem",
               borderRadius: "8px",
-              textAlign: "center",
+              position: "relative",
+              overflow: "hidden",
+              minHeight: "500px",
             }}
           >
-            <Title order={2} size="h2" mb="md">
-              Ready to Ship with Us?
-            </Title>
-            <Text size="lg" maw={700} mx="auto" mb="xl">
-              Contact our team today to discuss your shipping needs and discover
-              how Global Marine Transportation can optimize your logistics
-              operations.
-            </Text>
-            <ContactButton />
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundImage: 'url("/customer-service-image-1.jpg")',
+                backgroundSize: "cover",
+                backgroundPosition: "top",
+                opacity: 0.25,
+              }}
+            />
+            <div
+              style={{
+                position: "relative",
+                zIndex: 1,
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "400px",
+              }}
+            >
+              <Title order={2} size="h2" mb="md" ta="center">
+                Ready to Ship with Us?
+              </Title>
+              <Text size="lg" maw={700} mx="auto" mb="xl" ta="center">
+                Contact our team today to discuss your shipping needs and
+                discover how Global Marine Transportation can optimize your
+                logistics operations.
+              </Text>
+              <ContactButton />
+            </div>
           </Box>
         </CardSection>
       </Card>

@@ -39,7 +39,7 @@
 }
 
 .glassCard {
-  background: rgba(0, 0, 0, 0.13) !important;
+  background: rgba(0, 0, 0, 0.2) !important;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 1.5rem;

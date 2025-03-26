@@ -7,6 +7,9 @@ import { ContactModal } from "@/components/modals/contact/contact";
 export function ContactButton() {
   return (
     <Button
+      size="lg"
+      variant="gradient"
+      gradient={{ from: "blue", to: "brand" }}
       onClick={() =>
         openModal({
           id: "contact",
