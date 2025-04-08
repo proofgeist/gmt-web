@@ -1,6 +1,5 @@
-import { Group, Image, Text, Title } from "@mantine/core";
+import { Group, Image } from "@mantine/core";
 import React from "react";
-import { yellowtail } from "@/config/theme/fonts";
 
 export default function AppLogo() {
   return (

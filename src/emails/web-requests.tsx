@@ -7,16 +7,9 @@ import {
   Img,
   Section,
   Text,
-  Link,
 } from "@react-email/components";
 import * as React from "react";
-import { env } from "@/config/env";
 import { emailStyles } from "./styles";
-
-const BASE_URL =
-  env.NODE_ENV === "production" ?
-    "https://gmt-web.vercel.app/"
-  : "https://gmt-web.vercel.app/";
 
 interface WebRequestEmailProps {
   email: string;
@@ -25,34 +18,7 @@ interface WebRequestEmailProps {
   company: string;
 }
 
-// Additional styles specific to auth code email
-const authCodeStyles = {
-  codeContainer: {
-    background: "rgba(0,0,0,.05)",
-    borderRadius: "4px",
-    margin: "16px auto 14px",
-    verticalAlign: "middle",
-    width: "280px",
-  },
-
-  code: {
-    color: "#000",
-    display: "inline-block",
-    fontFamily: "HelveticaNeue-Bold",
-    fontSize: "32px",
-    fontWeight: 700,
-    letterSpacing: "6px",
-    lineHeight: "40px",
-    paddingBottom: "8px",
-    paddingTop: "8px",
-    margin: "0 auto",
-    width: "100%",
-    textAlign: "center" as const,
-  },
-};
-
 export const WebRequestEmail = ({
-  email,
   firstName,
   lastName,
   company,
