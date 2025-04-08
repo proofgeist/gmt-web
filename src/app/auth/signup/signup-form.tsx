@@ -12,6 +12,7 @@ import {
   Paper,
   Text,
   Select,
+  Group,
 } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -23,7 +24,13 @@ export default function SignupForm() {
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     signupAction,
     zodResolver(signupSchema),
-    {}
+    {
+      actionProps: {
+        onError: (error) => {
+          console.error(error);
+        },
+      },
+    }
   );
 
   useEffect(() => {
@@ -36,6 +43,32 @@ export default function SignupForm() {
     <form onSubmit={handleSubmitWithAction}>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <Stack>
+          <Group wrap="nowrap">
+            <TextInput
+              label="First Name"
+              placeholder="First Name"
+              required
+              withAsterisk={false}
+              {...form.register("firstName")}
+              error={form.formState.errors.firstName?.message}
+            />
+            <TextInput
+              label="Last Name"
+              placeholder="Last Name"
+              required
+              withAsterisk={false}
+              {...form.register("lastName")}
+              error={form.formState.errors.lastName?.message}
+            />
+          </Group>
+          <TextInput
+            label="Company"
+            placeholder="Company"
+            required
+            withAsterisk={false}
+            {...form.register("company")}
+            error={form.formState.errors.company?.message}
+          />
           <TextInput
             label="Email"
             placeholder="you@globmar.com"
@@ -83,10 +116,10 @@ export default function SignupForm() {
           {action.result.data?.error ?
             <Text c="red">{action.result.data.error}</Text>
           : action.hasErrored ?
-            <Text c="red">An error occured</Text>
+            <Text c="red">{action.result.serverError}</Text>
           : null}
           <Button fullWidth type="submit" loading={action.isPending}>
-            Create Account
+            Request Access
           </Button>
         </Stack>
       </Paper>

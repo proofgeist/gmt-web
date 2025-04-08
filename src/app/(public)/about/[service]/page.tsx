@@ -18,181 +18,207 @@ import {
   IconTruck,
   IconWorld,
   IconPackage,
-  IconAnchor,
+  IconShield,
   IconRoute,
   IconClock,
   IconChartBar,
   IconUsers,
-  IconShield,
   IconTruckDelivery,
-  IconMap,
-  IconHeadset,
-  IconBuildingWarehouse,
 } from "@tabler/icons-react";
 import { ContactButton } from "../contact-button";
 import { brandColor } from "@/config/theme/mantine-theme";
 
 // Define the service data
 const servicesData = {
-  "ocean-freight": {
-    title: "Ocean Freight",
-    subtitle:
-      "Maritime shipping solutions with competitive rates and flexible scheduling across major global routes.",
+  "ocean-transportation": {
+    title: "Ocean Transportation",
+    subtitle: "World Class Customer Service",
     icon: IconShip,
     description: [
-      "Our Ocean Freight service offers comprehensive maritime shipping solutions designed to meet the diverse needs of businesses worldwide. With decades of experience in international shipping, we provide reliable and cost-effective ocean transportation services that connect you to global markets.",
-      "We handle all types of cargo, from standard containers to oversized equipment, hazardous materials, and temperature-controlled goods. Our extensive network of shipping partners ensures optimal routing and competitive rates for your shipments.",
+      "At the heart of our operations is our dedication to customer satisfaction. Whether it's expedited shipping, specialized handling for fumigation or hazardous materials, we collaborate closely with our clients to create customized shipping solutions that address their specific business requirements.",
+      "At Global Marine Transportation Inc., we ensure your freight moves effortlessly across the globe with our extensive network of shipping services and highly competitive freight rates.",
+      "We deliver a comprehensive array of solutions and personalized service for all your international full container shipping needs.",
     ],
     features: [
       {
-        title: "FCL & LCL Services",
+        title: "Integrated Support Network",
         description:
-          "Full container load and less than container load options to suit your shipping volume.",
-        icon: IconAnchor,
-      },
-      {
-        title: "Strategic Port Coverage",
-        description:
-          "Access to all major ports worldwide with efficient transshipment options.",
-        icon: IconRoute,
-      },
-      {
-        title: "Flexible Scheduling",
-        description:
-          "Regular departures and flexible scheduling to meet your timeline requirements.",
-        icon: IconClock,
-      },
-    ],
-    image:
-      "/ship-image-4.jpg",
-  },
-  "global-network": {
-    title: "Global Network",
-    subtitle:
-      "Extensive network of partners worldwide ensuring seamless logistics operations.",
-    icon: IconGlobe,
-    description: [
-      "Our Global Network is the backbone of our logistics services, connecting continents, countries, and communities through a carefully cultivated network of trusted partners and strategic locations. This extensive infrastructure allows us to provide seamless end-to-end logistics solutions regardless of origin or destination.",
-      "With offices, warehouses, and partner facilities strategically positioned across key trade routes and economic centers, we ensure your cargo moves efficiently through the global supply chain with minimal delays and maximum visibility.",
-    ],
-    features: [
-      {
-        title: "Strategic Partnerships",
-        description:
-          "Alliances with leading carriers and logistics providers worldwide.",
+          "We honor our customers with the service of the best agents providing loading-dock-to-final-delivery transparency to ensure secure, consistent service.",
         icon: IconUsers,
       },
       {
-        title: "Global Compliance",
+        title: "Global Reliability",
         description:
-          "Expert knowledge of international trade regulations and customs requirements.",
+          "Our reputation for reliability and efficiency is built on decades of experience in the freight transportation industry.",
         icon: IconShield,
       },
       {
-        title: "Integrated Systems",
+        title: "Pricing Transparency",
         description:
-          "Seamless communication and data sharing across our global network.",
+          "Our rates are straightforward throughout your booking, whether you need to move a single load or contract rates on your most-used lanes.",
         icon: IconChartBar,
       },
     ],
-    image:
-      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    image: "/ship-image-7.jpg",
+    contactImage: "/customer-service-image-1.jpg",
   },
-  "land-transport": {
-    title: "Land Transport",
-    subtitle:
-      "Comprehensive inland transportation with door-to-door delivery and real-time tracking.",
+  "inland-transportation": {
+    title: "Inland Transportation",
+    subtitle: "Driven to Deliver",
     icon: IconTruck,
     description: [
-      "Our Land Transport services provide reliable and efficient ground transportation solutions that complement our maritime and air freight offerings. We understand that the first and last mile are critical components of any supply chain, which is why we've developed comprehensive inland logistics capabilities.",
-      "Whether you need local delivery, cross-country trucking, or intermodal solutions, our land transport network ensures your cargo reaches its final destination safely and on schedule. We offer flexible options to accommodate various cargo types, volumes, and delivery timelines.",
+      "GMT provides comprehensive door-to-door domestic and international freight services via road and rail. Our selected transport partners ensure operational excellence, traceability, security, and above all, reliability.",
+      "We are connected to a nationwide network of over-the-road carriers strictly selected for reliability and professionalism.",
+      "We offer a variety of large transport options, including box trailers, refrigerated trailers, flatbeds, curtain-sided trailers, semi-mega tautliners, trucks, and vans.",
     ],
     features: [
       {
-        title: "Door-to-Door Service",
-        description:
-          "Complete pickup and delivery services for seamless transportation.",
+        title: "Full Truckload (FTL) Transport",
+        description: "Direct transport from origin to destination.",
         icon: IconTruckDelivery,
       },
       {
-        title: "Intermodal Solutions",
+        title: "Cross Border Transportation",
         description:
-          "Efficient combinations of truck, rail, and barge transportation.",
+          "International FTL transport with complex customs clearance.",
+        icon: IconWorld,
+      },
+      {
+        title: "Multimodal Transport",
+        description:
+          "Shipments using multiple modes of transportation (truck, rail, ferry, barge).",
         icon: IconRoute,
       },
-      {
-        title: "Real-time Tracking",
-        description:
-          "Advanced tracking technology for complete shipment visibility.",
-        icon: IconMap,
-      },
     ],
-    image:
-      "/trucking-image-2.jpg",
+    image: "/trucking-image-2.jpg",
+    contactImage: "/customer-service-image-2.jpg",
   },
-  "worldwide-service": {
-    title: "Worldwide Service",
-    subtitle:
-      "24/7 customer support across multiple time zones for reliable cargo delivery.",
-    icon: IconWorld,
+  fumigation: {
+    title: "Fumigation",
+    subtitle: "Container Fumigation Services",
+    icon: IconGlobe,
     description: [
-      "Our Worldwide Service commitment means we're always available to assist you, regardless of your location or time zone. We understand that global logistics operates around the clock, which is why our dedicated customer service teams provide 24/7 support to address your inquiries, resolve issues, and keep your shipments moving.",
-      "With multilingual staff and regional expertise, we offer personalized assistance that understands your unique market challenges and requirements. Our proactive approach to customer service means we anticipate potential issues and communicate transparently throughout the shipping process.",
+      "A shipping container is fumigated to prevent the entry of quarantined pests into a cargo's country of destination. When cargo is fumigated, special products are used to exterminate or control the international spread of pests.",
+      "Container fumigation effectively controls any type of pest through a safe, efficient and dry disinfection process, typically using gas. The most common gases used are methyl bromide and phosphine.",
+      "Without treatment any type of goods and their packaging can be denied entry into a destination country. To verify proper fumigation, destination authorities require written certificates or other proof of treatment.",
     ],
     features: [
       {
-        title: "24/7 Support",
+        title: "Professional Process",
         description:
-          "Round-the-clock assistance from our dedicated customer service team.",
-        icon: IconHeadset,
-      },
-      {
-        title: "Multilingual Staff",
-        description:
-          "Communication in multiple languages to serve our diverse global clientele.",
-        icon: IconUsers,
-      },
-      {
-        title: "Proactive Updates",
-        description:
-          "Regular status updates and immediate notification of any changes or delays.",
-        icon: IconClock,
-      },
-    ],
-    image:
-      "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-  },
-  "custom-solutions": {
-    title: "Custom Solutions",
-    subtitle:
-      "Tailored logistics solutions for specialized cargo and unique routing requirements.",
-    icon: IconPackage,
-    description: [
-      "Our Custom Solutions service recognizes that standard shipping options don't always meet the unique requirements of specialized cargo or complex supply chains. We work closely with you to develop tailored logistics strategies that address your specific challenges and objectives.",
-      "From oversized equipment and hazardous materials to time-sensitive deliveries and complex project logistics, our team has the expertise to design and implement customized solutions that ensure safe, efficient, and compliant transportation of your valuable cargo.",
-    ],
-    features: [
-      {
-        title: "Project Cargo",
-        description:
-          "Specialized handling for oversized and heavy-lift shipments.",
+          "Gas is injected through a probe inserted into the container with the doors already closed ensuring it is trapped inside for a specified duration of time.",
         icon: IconPackage,
       },
       {
-        title: "Supply Chain Design",
+        title: "Certification",
         description:
-          "Custom logistics strategies optimized for your specific business needs.",
-        icon: IconRoute,
+          "Every properly fumigated container shipment includes a fumigation certificate.",
+        icon: IconShield,
       },
       {
-        title: "Warehousing & Distribution",
+        title: "Expert Handling",
         description:
-          "Flexible storage and distribution solutions integrated with transportation services.",
-        icon: IconBuildingWarehouse,
+          "Our team ensures proper fumigation according to destination country's specific requirements.",
+        icon: IconUsers,
       },
     ],
-    image:
-      "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    image: "/ship-image-5.jpg",
+    contactImage: "/customer-service-image-3.jpg",
+  },
+  "cargo-insurance": {
+    title: "Cargo Insurance",
+    subtitle: "Safeguard Your Shipment with Cargo Insurance",
+    icon: IconShield,
+    description: [
+      "Cargo insurance mitigates many risks associated with transporting goods by sea, air, road, or rail. It reimburses the insured for financial losses resulting from loss or damage to cargo caused by an insured risk.",
+      "Protect the value of your ocean shipments with all-risk cargo insurance.",
+      "Explore your policy choices to ensure your coverage matches your exposure risk.",
+    ],
+    features: [
+      {
+        title: "All Risks Coverage",
+        description:
+          "Comprehensive cargo insurance covers all risks of loss or damage to the cargo, except those explicitly excluded in the policy.",
+        icon: IconShield,
+      },
+      {
+        title: "Named Perils Coverage",
+        description:
+          "This insurance covers specific risks that may cause loss or damage to cargo as identified in the policy.",
+        icon: IconPackage,
+      },
+      {
+        title: "Open Cover",
+        description:
+          "An open cover policy provides continuous cargo insurance for a specified period, rather than for a single shipment.",
+        icon: IconClock,
+      },
+    ],
+    image: "/ship-image-10.jpg",
+    contactImage: "/customer-service-image-4.jpg",
+  },
+  "customs-brokerage": {
+    title: "Customs Brokerage",
+    subtitle: "Navigate the Sea of Complex Regulations",
+    icon: IconWorld,
+    description: [
+      "Trustworthy knowledge and experience for global customs brokerage services ensuring smooth movement of your goods through US ocean ports.",
+      "At Global Marine Transportation Inc. we possess in-depth knowledge of commodity specifics and we're experts in entry procedures, admissibility requirements, classification, valuation and the duties and taxes on imported goods.",
+      "Cross-border transaction rules and regulations are constantly evolving. As experts in the requirements for various types of goods, we can help you avoid costly delays, fines, confiscation of merchandise and other penalties.",
+    ],
+    features: [
+      {
+        title: "Expert Documentation",
+        description:
+          "We prepare all necessary documentation and calculate duties accurately.",
+        icon: IconPackage,
+      },
+      {
+        title: "Inspection Coordination",
+        description:
+          "We coordinate inspections required by governmental agencies.",
+        icon: IconUsers,
+      },
+      {
+        title: "Delivery Arrangement",
+        description: "We arrange for delivery with precision and efficiency.",
+        icon: IconTruckDelivery,
+      },
+    ],
+    image: "/cargo-image-2.jpg",
+    contactImage: "/customer-service-image-5.jpg",
+  },
+  sustainability: {
+    title: "Sustainability",
+    subtitle: "Doing the Right Thing Together",
+    icon: IconGlobe,
+    description: [
+      "The shipping industry forms the backbone of global trade. By choosing ocean freight, you're already opting for the transport mode with the lowest carbon emissions.",
+      "As global environmental consciousness gains momentum, the shipping industry – particularly ocean freight, is experiencing a significant shift towards sustainability.",
+      "Global Marine committed to greener climate initiatives, striving to reduce our environmental footprint through innovative practices and sustainable solutions.",
+    ],
+    features: [
+      {
+        title: "Sustainable Shipping",
+        description:
+          "A greener fleet of ships to minimize air and water pollution and mitigate climate change.",
+        icon: IconShip,
+      },
+      {
+        title: "Environmental Protection",
+        description:
+          "Safeguard marine ecosystems and biodiversity through sustainable practices.",
+        icon: IconGlobe,
+      },
+      {
+        title: "Future Focus",
+        description:
+          "Prioritizing clean energy and eco-friendly technologies for a sustainable future.",
+        icon: IconWorld,
+      },
+    ],
+    image: "/ocean-image-1.jpg",
+    contactImage: "/customer-service-image-6.jpg",
   },
 };
 
@@ -250,7 +276,14 @@ export default async function ServicePage({
               <Title ta="center" c="white" size="h1" mb="sm">
                 {serviceData.title}
               </Title>
-              <Text ta="center" px={"md"} c="white" size="xl" maw={800} mx="auto">
+              <Text
+                ta="center"
+                px={"md"}
+                c="white"
+                size="xl"
+                maw={800}
+                mx="auto"
+              >
                 {serviceData.subtitle}
               </Text>
             </div>
@@ -296,18 +329,46 @@ export default async function ServicePage({
               backgroundColor: "#f8f9fa",
               padding: "2rem",
               borderRadius: "8px",
-              textAlign: "center",
+              position: "relative",
+              overflow: "hidden",
+              minHeight: "500px",
             }}
           >
-            <Title order={2} size="h2" mb="md">
-              Ready to Get Started?
-            </Title>
-            <Text size="lg" maw={700} mx="auto" mb="xl">
-              Contact our team today to learn more about our{" "}
-              {serviceData.title.toLowerCase()} services and how we can help
-              optimize your logistics operations.
-            </Text>
-            <ContactButton />
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundImage: `url(${serviceData.contactImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "top",
+                opacity: 0.25,
+              }}
+            />
+            <div
+              style={{
+                position: "relative",
+                zIndex: 1,
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "400px",
+              }}
+            >
+              <Title order={2} size="h2" mb="md" ta="center">
+                Ready to Get Started?
+              </Title>
+              <Text size="lg" maw={700} mx="auto" mb="xl" ta="center">
+                Contact our team today to learn more about our{" "}
+                {serviceData.title.toLowerCase()} services and how we can help
+                optimize your logistics operations.
+              </Text>
+              <ContactButton />
+            </div>
           </Box>
         </CardSection>
       </Card>

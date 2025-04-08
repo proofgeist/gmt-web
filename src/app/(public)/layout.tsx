@@ -6,14 +6,9 @@ import styles from "./layout.module.css";
 
 // Define the background images to cycle through
 const backgroundImages = [
-  "/ship-image-2.jpg",
-  "/ship-image-1.jpg",
-  "/rail-image-1.jpg",
-  "/ship-image-3.jpg",
-  "/rail-image-2.jpg",
-  "/ship-image-5.jpg",
-  "/trucking-image-1.jpg",
-  "/ship-image-6.jpg",
+  "/customer-service-image-7.jpg",
+  "/ship-image-9.jpg",
+  "/ship-image-10.jpg",
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -28,7 +23,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       setCurrentImageIndex(
         (prevIndex) => (prevIndex + 1) % encodedImages.length
       );
-    }, 15000);
+    }, 5000);
 
     return () => clearInterval(timer);
   }, [encodedImages]);

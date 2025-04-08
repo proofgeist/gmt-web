@@ -5,10 +5,11 @@ import {
   IconGlobe,
   IconTruck,
   IconWorld,
-  IconPackage,
   IconInfoCircle,
   IconPhone,
   IconDashboard,
+  IconShield,
+  IconRuler,
 } from "@tabler/icons-react";
 
 export interface SubRouteLink {
@@ -55,29 +56,39 @@ export const publicRoutes: Route[] = [
     icon: <IconInfoCircle size={18} />,
     subItems: [
       {
-        label: "Ocean Freight",
-        href: "/about/ocean-freight",
+        label: "Ocean Transportation",
+        href: "/about/ocean-transportation",
         icon: <IconShip size={18} />,
       },
       {
-        label: "Global Network",
-        href: "/about/global-network",
-        icon: <IconGlobe size={18} />,
-      },
-      {
-        label: "Land Transport",
-        href: "/about/land-transport",
+        label: "Inland Transportation",
+        href: "/about/inland-transportation",
         icon: <IconTruck size={18} />,
       },
       {
-        label: "Worldwide Service",
-        href: "/about/worldwide-service",
+        label: "Fumigation",
+        href: "/about/fumigation",
+        icon: <IconGlobe size={18} />,
+      },
+      {
+        label: "Cargo Insurance",
+        href: "/about/cargo-insurance",
+        icon: <IconShield size={18} />,
+      },
+      {
+        label: "Customs Brokerage",
+        href: "/about/customs-brokerage",
         icon: <IconWorld size={18} />,
       },
       {
-        label: "Custom Solutions",
-        href: "/about/custom-solutions",
-        icon: <IconPackage size={18} />,
+        label: "Container Sizes",
+        href: "/about/container-sizes",
+        icon: <IconRuler size={18} />,
+      },
+      {
+        label: "Sustainability",
+        href: "/about/sustainability",
+        icon: <IconGlobe size={18} />,
       },
     ],
   },

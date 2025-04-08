@@ -11,6 +11,7 @@
   /* eslint-disable */
   export const ZContacts = z.object({
       "__kpnID": z.string(),
+      "hasWebAccess": z.union([z.string(), z.number()]),
   });
 
   export type TContacts = z.infer<typeof ZContacts>;

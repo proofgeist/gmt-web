@@ -27,10 +27,11 @@
 }
 
 .tagline {
-  font-size: 2rem;
+  margin-top: 5rem;
+  font-size: 48px;
   color: white;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-  max-width: 600px;
+  max-width: 700px;
 }
 
 .cardsContainer {
@@ -39,7 +40,7 @@
 }
 
 .glassCard {
-  background: rgba(0, 0, 0, 0.13) !important;
+  background: rgba(0, 0, 0, 0.2) !important;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 1.5rem;
@@ -51,14 +52,6 @@
 }
 
 @media (max-width: 768px) {
-  .mainTitle {
-    font-size: 2.5rem;
-  }
-  
-  .tagline {
-    font-size: 1.2rem;
-  }
-
   .heroContent {
     padding-left: 1rem;
     padding-right: 1rem;
