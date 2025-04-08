@@ -23,11 +23,11 @@ export default function Home() {
     <Box>
       <div className={styles.heroContainer}>
         <div className={styles.heroContent}>
-          <Title className={styles.mainTitle}>
+          {/* <Title className={styles.mainTitle}>
             GLOBAL MARINE
             <br />
             TRANSPORTATION INC.
-          </Title>
+          </Title> */}
           <Title order={2} className={styles.tagline}>
             Your Trusted Shipping Partner for a Connected World
           </Title>
