@@ -6,7 +6,7 @@ import { passwordResetLayout } from "../db/client";
 import { TpasswordReset } from "../db/passwordReset";
 
 import type { User } from "./user";
-import { sendEmail } from "../email";
+import { sendAuthEmail } from "../email";
 type PasswordResetSession = Omit<
   TpasswordReset,
   | "proofkit_auth_users::email"
@@ -17,7 +17,7 @@ type PasswordResetSession = Omit<
 export async function createPasswordResetSession(
   token: string,
   id_user: string,
-  email: string,
+  email: string
 ): Promise<PasswordResetSession> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session: PasswordResetSession = {
@@ -25,7 +25,7 @@ export async function createPasswordResetSession(
     id_user,
     email,
     expires_at: Math.floor(
-      new Date(Date.now() + 1000 * 60 * 10).getTime() / 1000,
+      new Date(Date.now() + 1000 * 60 * 10).getTime() / 1000
     ),
     code: generateRandomOTP(),
     email_verified: 0,
@@ -41,7 +41,7 @@ export async function createPasswordResetSession(
  * @returns The password reset session, or null if it doesn't exist.
  */
 export async function validatePasswordResetSessionToken(
-  token: string,
+  token: string
 ): Promise<PasswordResetSessionValidationResult> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const row = await passwordResetLayout.maybeFindFirst({
@@ -65,7 +65,7 @@ export async function validatePasswordResetSessionToken(
     email: row.data.fieldData["proofkit_auth_users::email"],
     username: row.data.fieldData["proofkit_auth_users::username"],
     emailVerified: Boolean(
-      row.data.fieldData["proofkit_auth_users::emailVerified"],
+      row.data.fieldData["proofkit_auth_users::emailVerified"]
     ),
   };
   if (session.expires_at && Date.now() >= session.expires_at * 1000) {
@@ -82,7 +82,7 @@ async function fetchPasswordResetSession(sessionId: string) {
 }
 
 export async function setPasswordResetSessionAsEmailVerified(
-  sessionId: string,
+  sessionId: string
 ): Promise<void> {
   const { recordId } = await fetchPasswordResetSession(sessionId);
   await passwordResetLayout.update({
@@ -92,7 +92,7 @@ export async function setPasswordResetSessionAsEmailVerified(
 }
 
 export async function invalidateUserPasswordResetSessions(
-  userId: string,
+  userId: string
 ): Promise<void> {
   const sessions = await passwordResetLayout.find({
     query: { id_user: `==${userId}` },
@@ -117,11 +117,12 @@ export async function validatePasswordResetSessionRequest(): Promise<PasswordRes
 
 export async function setPasswordResetSessionTokenCookie(
   token: string,
-  expiresAt: number | null,
+  expiresAt: number | null
 ): Promise<void> {
   (await cookies()).set("password_reset_session", token, {
-    expires: expiresAt
-      ? new Date(expiresAt * 1000)
+    expires:
+      expiresAt ?
+        new Date(expiresAt * 1000)
       : new Date(Date.now() + 60 * 60 * 1000),
     sameSite: "lax",
     httpOnly: true,
@@ -142,9 +143,9 @@ export async function deletePasswordResetSessionTokenCookie(): Promise<void> {
 
 export async function sendPasswordResetEmail(
   email: string,
-  code: string,
+  code: string
 ): Promise<void> {
-  await sendEmail({ to: email, code, type: "password-reset" });
+  await sendAuthEmail({ to: email, code, type: "password-reset" });
 }
 
 export type PasswordResetSessionValidationResult =

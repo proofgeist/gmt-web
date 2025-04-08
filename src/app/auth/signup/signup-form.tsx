@@ -12,6 +12,7 @@ import {
   Paper,
   Text,
   Select,
+  Group,
 } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -36,6 +37,32 @@ export default function SignupForm() {
     <form onSubmit={handleSubmitWithAction}>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <Stack>
+          <Group>
+            <TextInput
+              label="First Name"
+              placeholder="First Name"
+              required
+              withAsterisk={false}
+              {...form.register("firstName")}
+              error={form.formState.errors.firstName?.message}
+            />
+            <TextInput
+              label="Last Name"
+              placeholder="Last Name"
+              required
+              withAsterisk={false}
+              {...form.register("lastName")}
+              error={form.formState.errors.lastName?.message}
+            />
+          </Group>
+          <TextInput
+            label="Company"
+            placeholder="Company"
+            required
+            withAsterisk={false}
+            {...form.register("company")}
+            error={form.formState.errors.company?.message}
+          />
           <TextInput
             label="Email"
             placeholder="you@globmar.com"
@@ -86,7 +113,7 @@ export default function SignupForm() {
             <Text c="red">An error occured</Text>
           : null}
           <Button fullWidth type="submit" loading={action.isPending}>
-            Create Account
+            Request Access
           </Button>
         </Stack>
       </Paper>

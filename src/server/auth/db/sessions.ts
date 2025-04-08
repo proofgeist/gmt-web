@@ -20,4 +20,5 @@
       "pka_company::reportReferenceCustomer": string,
       "proofkit_auth_users::phone_number_mfa": string,
       "proofkit_auth_users::preferredLanguage": "en" | "es",
+      "proofkit_auth_users::active": number | null,
   };

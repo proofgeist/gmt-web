@@ -18,4 +18,5 @@
       "contact_id": string,
       "phone_number_mfa": string,
       "preferredLanguage": "en" | "es",
+      "active": number | null,
   };

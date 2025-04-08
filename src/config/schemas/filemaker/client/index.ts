@@ -2,3 +2,4 @@
   export { client as BookingDetailsLayout } from "./BookingDetails";
   export { client as ContactsLayout } from "./Contacts";
   export { client as InquiriesLayout } from "./Inquiries";
+  export { client as WebAccessRequestsLayout } from "./WebAccessRequests";

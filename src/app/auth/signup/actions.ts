@@ -5,7 +5,7 @@ import { signupSchema } from "./schema";
 import {
   checkEmailAvailability,
   createUser,
-  getWebEnabledContactID,
+  getIsContactWebEnabled,
 } from "@/server/auth/utils/user";
 import { verifyPasswordStrength } from "@/server/auth/utils/password";
 import { redirect } from "next/navigation";
@@ -15,11 +15,12 @@ import {
   setEmailVerificationRequestCookie,
 } from "@/server/auth/utils/email-verification";
 import { cookies } from "next/headers";
+import { sendWebRequestEmail } from "@/server/auth/email";
 
 export const signupAction = actionClient
   .schema(signupSchema)
   .action(async ({ parsedInput }) => {
-    const { email, password, language } = parsedInput;
+    const { email, password, language, firstName, lastName, company } = parsedInput;
     const emailAvailable = await checkEmailAvailability(email);
     if (!emailAvailable) {
       return { error: "Email already in use" };
@@ -30,34 +31,51 @@ export const signupAction = actionClient
       return { error: "Password is too weak" };
     }
 
-    let contactID: string;
-    try {
-      contactID = await getWebEnabledContactID(email);
-    } catch (error) {
-      return {
-        error: error instanceof Error ? error.message : "Unknown error",
-      };
-    }
-
-    const user = await createUser(email, password, contactID, language);
-    const emailVerificationRequest = await createEmailVerificationRequest(
-      user.id,
-      user.email
-    );
-    await sendVerificationEmail(
-      emailVerificationRequest.email,
-      emailVerificationRequest.code
-    );
-    await setEmailVerificationRequestCookie(emailVerificationRequest);
-
-    // Store user ID and phone number for MFA verification
-    const cookieStore = await cookies();
-    cookieStore.set("pending_user_id", user.id, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+    const { contactID, isWebEnabled } = await getIsContactWebEnabled(
+      email
+    ).catch((error) => {
+      throw new Error(error instanceof Error ? error.message : "Unknown error");
     });
 
-    return redirect("/auth/mfa/enroll");
+    const user = await createUser(
+      email,
+      password,
+      contactID,
+      language,
+      isWebEnabled
+    );
+    //If the user is web enabled, send them a verification email
+    if (isWebEnabled) {
+      const emailVerificationRequest = await createEmailVerificationRequest(
+        user.id,
+        user.email
+      );
+      await sendVerificationEmail(
+        emailVerificationRequest.email,
+        emailVerificationRequest.code
+      );
+      await setEmailVerificationRequestCookie(emailVerificationRequest);
+
+      // Store user ID and phone number for MFA verification
+      const cookieStore = await cookies();
+      cookieStore.set("pending_user_id", user.id, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+      });
+
+      return redirect("/auth/mfa/enroll");
+      //If the user is not web enabled, send an email to globalmarine to let them know they have a new web request
+    } else {
+      await sendWebRequestEmail({
+        //TODO: Change to the correct email
+        to: "globalmarine@gmail.com",
+        email,
+        firstName,
+        lastName,
+        company,
+      });
+      return redirect("/auth/signup/request-sent");
+    }
   });

@@ -36,7 +36,8 @@ export async function createUser(
   email: string,
   password: string,
   contactID: string,
-  language: "en" | "es"
+  language: "en" | "es",
+  active: boolean
 ): Promise<User> {
   const password_hash = await hashPassword(password);
   const { recordId } = await usersLayout.create({
@@ -45,10 +46,13 @@ export async function createUser(
       password_hash,
       emailVerified: 0,
       contact_id: contactID,
+      active: active ? 1 : 0,
     },
   });
   const fmResult = await usersLayout.get({ recordId });
   const { fieldData } = fmResult.data[0];
+
+
 
   const user: User = {
     id: fieldData.id,
@@ -191,15 +195,24 @@ export async function checkEmailAvailability(email: string): Promise<boolean> {
  * @param email - The email address of the contact.
  * @returns The contact ID.
  */
-export async function getWebEnabledContactID(email: string): Promise<string> {
+export async function getIsContactWebEnabled(
+  email: string
+): Promise<{ contactID: string; isWebEnabled: boolean }> {
   const { data } = await ContactsLayout.find({
-    query: { Email1: `==${email}`, hasWebAccess: `==1` },
+    query: { Email1: `==${email}` },
   });
   if (data.length === 0)
-    throw new Error("Web access is not enabled for this email");
+    throw new Error(
+      "Your email is not associated with an account - Please contact support"
+    );
   else if (data.length > 1)
-    throw new Error("Multiple web enabled contacts found");
-  return data[0].fieldData.__kpnID;
+    throw new Error(
+      "Multiple contacts found for this email - Please contact support"
+    );
+  return {
+    contactID: data[0].fieldData.__kpnID,
+    isWebEnabled: data[0].fieldData.hasWebAccess === 1,
+  };
 }
 
 /**
