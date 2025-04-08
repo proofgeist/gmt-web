@@ -20,10 +20,9 @@ const BASE_URL =
 
 interface ActivatedEmailProps {
   name?: string;
-  email: string;
 }
 
-export const ActivatedEmail = ({ name, email }: ActivatedEmailProps) => (
+export const ActivatedEmail = ({ name }: ActivatedEmailProps) => (
   <Html>
     <Head />
     <Body style={emailStyles.main}>
@@ -66,7 +65,6 @@ export const ActivatedEmail = ({ name, email }: ActivatedEmailProps) => (
 
 ActivatedEmail.PreviewProps = {
   name: "John Doe",
-  email: "john.doe@example.com",
 } as ActivatedEmailProps;
 
 export default ActivatedEmail;

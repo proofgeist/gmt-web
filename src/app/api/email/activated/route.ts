@@ -38,7 +38,7 @@ export async function POST(request: Request) {
       from: EMAIL_FROM,
       to: email,
       subject: "Your account has been activated",
-      react: ActivatedEmail({ name, email }) as ReactElement,
+      react: ActivatedEmail({ name }) as ReactElement,
     });
 
     return NextResponse.json(

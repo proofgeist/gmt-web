@@ -3,7 +3,6 @@ import { Box, Container, Group } from "@mantine/core";
 import { useWindowScroll } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
-import SlotHeaderCenter from "../slot-header-center";
 import SlotHeaderLeft from "../slot-header-left";
 import SlotHeaderRight from "../slot-header-right";
 import { headerHeight } from "./config";
