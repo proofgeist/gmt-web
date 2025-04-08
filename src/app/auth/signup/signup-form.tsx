@@ -24,7 +24,13 @@ export default function SignupForm() {
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     signupAction,
     zodResolver(signupSchema),
-    {}
+    {
+      actionProps: {
+        onError: (error) => {
+          console.error(error);
+        },
+      },
+    }
   );
 
   useEffect(() => {
@@ -37,7 +43,7 @@ export default function SignupForm() {
     <form onSubmit={handleSubmitWithAction}>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <Stack>
-          <Group>
+          <Group wrap="nowrap">
             <TextInput
               label="First Name"
               placeholder="First Name"
@@ -110,7 +116,7 @@ export default function SignupForm() {
           {action.result.data?.error ?
             <Text c="red">{action.result.data.error}</Text>
           : action.hasErrored ?
-            <Text c="red">An error occured</Text>
+            <Text c="red">{action.result.serverError}</Text>
           : null}
           <Button fullWidth type="submit" loading={action.isPending}>
             Request Access

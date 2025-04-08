@@ -62,9 +62,6 @@ export function Header({
         >
           <SlotHeaderLeft />
 
-          <Box visibleFrom="md">
-            <SlotHeaderCenter />
-          </Box>
           <Box visibleFrom="sm">
             <SlotHeaderRight routes={routes} hideUserMenu={hideUserMenu} />
           </Box>

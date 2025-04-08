@@ -18,7 +18,7 @@ export default async function Page() {
       <Text ta="center" mt={20}>
         Your web request has been sent to Global Marine for approval. You will receive an email once it is approved.
       </Text>
-      <Button component="a" href="/" mt={20}>
+      <Button component="a" href="/" mt={20} fullWidth>
         Go Home
       </Button>
     </Container>

@@ -31,11 +31,15 @@ export const signupAction = actionClient
       return { error: "Password is too weak" };
     }
 
-    const { contactID, isWebEnabled } = await getIsContactWebEnabled(
-      email
-    ).catch((error) => {
-      throw new Error(error instanceof Error ? error.message : "Unknown error");
+    const webInfo = await getIsContactWebEnabled(email).catch((error) => {
+      return {
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
     });
+    if ("error" in webInfo) {
+      return { error: webInfo.error };
+    }
+    const { contactID, isWebEnabled } = webInfo;
 
     const user = await createUser(
       email,

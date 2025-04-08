@@ -202,9 +202,7 @@ export async function getIsContactWebEnabled(
     query: { Email1: `==${email}` },
   });
   if (data.length === 0)
-    throw new Error(
-      "Your email is not associated with an account - Please contact support"
-    );
+    throw new Error("No account found for this email - Please contact support");
   else if (data.length > 1)
     throw new Error(
       "Multiple contacts found for this email - Please contact support"
