@@ -13,7 +13,11 @@ export type User = Partial<
 
 import { hashPassword, verifyPasswordHash } from "./password";
 
-/** An internal helper function to fetch a user from the database. */
+/**
+ * An internal helper function to fetch a user from the database.
+ * @param userId - The ID of the user to fetch.
+ * @returns The user.
+ */
 async function fetchUser(userId: string) {
   const { data } = await usersLayout.findOne({
     query: { id: `==${userId}` },
@@ -21,7 +25,13 @@ async function fetchUser(userId: string) {
   return data;
 }
 
-/** Create a new user in the database. */
+/**
+ * Create a new user in the database.
+ * @param email - The email address of the user.
+ * @param password - The password of the user.
+ * @param contactID - The contact ID of the user.
+ * @param language - The language of the user.
+ */
 export async function createUser(
   email: string,
   password: string,
@@ -51,7 +61,11 @@ export async function createUser(
   return user;
 }
 
-/** Update a user's password in the database. */
+/**
+ * Update a user's password in the database.
+ * @param userId - The ID of the user to update.
+ * @param password - The new password.
+ */
 export async function updateUserPassword(
   userId: string,
   password: string
@@ -62,6 +76,11 @@ export async function updateUserPassword(
   await usersLayout.update({ recordId, fieldData: { password_hash } });
 }
 
+/**
+ * Update a user's email and set the email as verified.
+ * @param userId - The ID of the user to update.
+ * @param email - The new email address.
+ */
 export async function updateUserEmailAndSetEmailAsVerified(
   userId: string,
   email: string
@@ -73,6 +92,12 @@ export async function updateUserEmailAndSetEmailAsVerified(
   });
 }
 
+/**
+ * Set a user's email as verified if the email matches the user's email.
+ * @param userId - The ID of the user to update.
+ * @param email - The email address to check.
+ * @returns True if the email was set as verified, false otherwise.
+ */
 export async function setUserAsEmailVerifiedIfEmailMatches(
   userId: string,
   email: string
@@ -148,6 +173,11 @@ export async function validateLogin(
   }
 }
 
+/**
+ * Check if an email is available.
+ * @param email - The email address to check.
+ * @returns True if the email is available, false otherwise.
+ */
 export async function checkEmailAvailability(email: string): Promise<boolean> {
   const { data } = await usersLayout.find({
     query: { email: `==${email}` },
@@ -156,6 +186,11 @@ export async function checkEmailAvailability(email: string): Promise<boolean> {
   return data.length === 0;
 }
 
+/**
+ * Get the contact ID for a web enabled contact.
+ * @param email - The email address of the contact.
+ * @returns The contact ID.
+ */
 export async function getWebEnabledContactID(email: string): Promise<string> {
   const { data } = await ContactsLayout.find({
     query: { Email1: `==${email}`, hasWebAccess: `==1` },
@@ -167,6 +202,27 @@ export async function getWebEnabledContactID(email: string): Promise<string> {
   return data[0].fieldData.__kpnID;
 }
 
+/**
+ * Get the contact ID for a contact.
+ * @param email - The email address of the contact.
+ * @returns The contact ID.
+ */
+export async function getContactIDFromEmail(email: string): Promise<string> {
+  const { data } = await ContactsLayout.find({
+    query: { Email1: `==${email}` },
+  });
+  if (data.length === 0)
+    throw new Error("Contact not found");
+  else if (data.length > 1)
+    throw new Error("Multiple contacts found");
+  return data[0].fieldData.__kpnID;
+}
+
+/**
+ * Update a user's phone number.
+ * @param userId - The ID of the user to update.
+ * @param phoneNumber - The new phone number.
+ */
 export async function updateUserPhoneNumber(
   userId: string,
   phoneNumber: string
@@ -178,6 +234,11 @@ export async function updateUserPhoneNumber(
   });
 }
 
+/**
+ * Update a user's preferences.
+ * @param userId - The ID of the user to update.
+ * @param preferences - The new preferences.
+ */
 export async function updateUserPreferences(
   userId: string,
   preferences: {
