@@ -12,7 +12,7 @@ import { Route } from "@/app/navigation";
 
 export function Header({
   routes,
-  textColor = "brand",
+  textColor = "brand.8",
   hideUserMenu = false,
   headerColor = "transparent",
 }: {

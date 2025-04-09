@@ -7,7 +7,7 @@ import {
   getPastShipmentsAction,
 } from "../actions";
 import QuotesCard from "./quotes-card";
-
+import { theme } from "@/config/theme/mantine-theme";
 export default async function ShipmentCards() {
   const activeShipments = await getActiveShipmentsAction({});
   const pendingShipments = await getPendingShipmentsAction({});
@@ -37,7 +37,11 @@ export default async function ShipmentCards() {
         <Card shadow="sm" padding="lg" radius="md" withBorder key={index}>
           <Stack align="center" justify="center" gap="xs">
             <Group align="center" maw={125} w={"100%"} justify="center">
-              <card.icon size={40} color="#5474b4" stroke={1.5} />
+              <card.icon
+                size={40}
+                color={theme.colors?.brand?.[8]}
+                stroke={1.5}
+              />
               <Text fz={32} fw={700}>
                 {card.value}
               </Text>

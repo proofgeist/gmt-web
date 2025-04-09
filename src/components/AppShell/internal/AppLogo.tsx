@@ -1,4 +1,4 @@
-import { Group, Image } from "@mantine/core";
+import { Group, Image, Stack, Text } from "@mantine/core";
 import React from "react";
 
 export default function AppLogo() {
@@ -12,14 +12,15 @@ export default function AppLogo() {
         radius={"md"}
         fit="contain"
       />
-      <Image
-        src="/gmt-text.png"
-        alt="Global Marine Transportation"
-        p={4}
-        height={42}
-        radius={"md"}
-        fit="contain"
-      />
+
+      <Stack gap={1} align="flex-end" p={4}>
+        <Text fz={28} lh={1} ff="Arial Black" fw={900}>
+          Global Marine
+        </Text>
+        <Text fz={10} lh={1} ff="Arial Black" fw={900}>
+          TRANSPORTATION INC.
+        </Text>
+      </Stack>
       <Image
         src="/gmt_21-logo.png"
         alt="21"

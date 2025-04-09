@@ -116,7 +116,7 @@ export default function About() {
                   <IconInfoCircle
                     size={60}
                     stroke={1.5}
-                    color={brandColor[7]}
+                    color={brandColor[8]}
                   />
                 </div>
               </Center>
@@ -148,7 +148,7 @@ export default function About() {
             to deliver amazing customer service for our clients.
           </Text>
 
-          <Text size="lg" fw={500} lh={1.7} c={brandColor[7]}>
+          <Text size="lg" fw={500} lh={1.7} c={brandColor[8]}>
             With unrivaled global expertise, we make the impossible possible.
           </Text>
         </Stack>
@@ -177,7 +177,7 @@ export default function About() {
                   >
                     <ServiceIcon
                       size={40}
-                      color={brandColor[7]}
+                      color={brandColor[8]}
                       style={{ marginBottom: "1rem" }}
                     />
                     <Text fw={600} size="lg" mb="xs">
@@ -187,7 +187,7 @@ export default function About() {
                       {service.description}
                     </Text>
                     <div style={{ marginTop: "auto" }}>
-                      <Button variant="light" color="brand.6" fullWidth>
+                      <Button variant="light" color="brand.8" fullWidth>
                         Learn More
                       </Button>
                     </div>

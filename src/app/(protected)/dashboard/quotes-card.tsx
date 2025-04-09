@@ -58,7 +58,7 @@ export default function QuotesCard() {
         <Group align="center" maw={125} w={"100%"} justify="center">
           <IconFileDescription
             size={40}
-            color={theme.colors.brand[7]}
+            color={theme.colors.brand[8]}
             stroke={1.5}
           />
           <Text fz={32} fw={700}>

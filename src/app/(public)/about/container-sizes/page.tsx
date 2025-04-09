@@ -95,7 +95,7 @@ export default function ContainerSizes() {
               >
                 <Center>
                   <div className={styles.serviceIcon}>
-                    <IconRuler size={60} stroke={1.5} color={brandColor[7]} />
+                    <IconRuler size={60} stroke={1.5} color={brandColor[8]} />
                   </div>
                 </Center>
                 <Title ta="center" c="white" size="h1" mb="sm">

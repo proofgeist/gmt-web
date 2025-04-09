@@ -309,7 +309,7 @@ export default async function ServicePage({
               <Card key={index} padding="lg" radius="md" withBorder shadow="sm">
                 <FeatureIcon
                   size={40}
-                  color={brandColor[7]}
+                  color={brandColor[8]}
                   style={{ marginBottom: "1rem" }}
                 />
                 <Text fw={600} size="lg" mb="xs">
