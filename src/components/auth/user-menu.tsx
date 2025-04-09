@@ -1,9 +1,10 @@
 "use client";
 
-import { Button, Menu, px, Skeleton } from "@mantine/core";
+import { Button, Menu, px, Skeleton, Text } from "@mantine/core";
 import { useUser } from "./use-user";
 import Link from "next/link";
 import { IconChevronDown, IconLogout, IconUser } from "@tabler/icons-react";
+import { yellowtail } from "@/config/theme/fonts";
 
 export default function UserMenu() {
   const { state, user, logout } = useUser();
@@ -14,7 +15,10 @@ export default function UserMenu() {
   if (state === "unauthenticated") {
     return (
       <Button component="a" href="/auth/login" variant="white" size="sm">
-        Sign in
+        <Text span className={yellowtail.className}>
+          my
+        </Text>
+        GMT
       </Button>
     );
   }

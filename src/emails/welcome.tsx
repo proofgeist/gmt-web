@@ -29,7 +29,7 @@ export const WelcomeEmail = ({ name, email }: WelcomeEmailProps) => (
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
         <Img
-          src="https://gmt-web.vercel.app/gmt_logo.png"
+          src="https://gmt-web.vercel.app/gmt_logo-sticker.png"
           width="238"
           height="175"
           alt="Global Marine"

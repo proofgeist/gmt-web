@@ -55,7 +55,7 @@ export const AuthCodeEmail = ({ validationCode, type }: AuthCodeEmailProps) => (
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
         <Img
-          src="https://gmt-web.vercel.app/gmt_logo.png"
+          src="https://gmt-web.vercel.app/gmt_logo-sticker.png"
           width="238"
           height="175"
           alt="Global Marine"
