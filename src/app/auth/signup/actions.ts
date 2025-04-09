@@ -73,8 +73,7 @@ export const signupAction = actionClient
       //If the user is not web enabled, send an email to globalmarine to let them know they have a new web request
     } else {
       await sendWebRequestEmail({
-        //TODO: Change to the correct email
-        to: "globalmarine@gmail.com",
+        to: "gmt-bookings@globalmarinetransportation.com",
         email,
         firstName,
         lastName,

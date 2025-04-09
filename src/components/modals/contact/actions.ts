@@ -2,6 +2,7 @@
 import { actionClient } from "@/server/safe-action";
 import { contactSchema } from "./schema";
 import { InquiriesLayout } from "@/config/schemas/filemaker/client";
+import { sendContactEmail } from "@/server/auth/utils/inquiries";
 
 export const contactAction = actionClient
   .schema(contactSchema)
@@ -19,6 +20,16 @@ export const contactAction = actionClient
           phoneNumber: cell,
           message,
         },
+      });
+
+      await sendContactEmail({
+        to: "gmt-bookings@globalmarinetransportation.com",
+        email,
+        firstName,
+        lastName,
+        companyName,
+        message,
+        cell: cell || "",
       });
       return { success: true };
     } catch (error) {
