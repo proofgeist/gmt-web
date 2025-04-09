@@ -3,6 +3,7 @@ import { actionClient } from "@/server/safe-action";
 import { contactSchema } from "./schema";
 import { InquiriesLayout } from "@/config/schemas/filemaker/client";
 import { sendContactEmail } from "@/server/auth/utils/inquiries";
+import { DEFAULT_INBOX } from "@/config/email";
 
 export const contactAction = actionClient
   .schema(contactSchema)
@@ -23,7 +24,7 @@ export const contactAction = actionClient
       });
 
       await sendContactEmail({
-        to: "gmt-bookings@globalmarinetransportation.com",
+        to: DEFAULT_INBOX,
         email,
         firstName,
         lastName,

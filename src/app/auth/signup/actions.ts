@@ -16,6 +16,7 @@ import {
 } from "@/server/auth/utils/email-verification";
 import { cookies } from "next/headers";
 import { sendWebRequestEmail } from "@/server/auth/email";
+import { DEFAULT_INBOX } from "@/config/email";
 
 export const signupAction = actionClient
   .schema(signupSchema)
@@ -73,7 +74,7 @@ export const signupAction = actionClient
       //If the user is not web enabled, send an email to globalmarine to let them know they have a new web request
     } else {
       await sendWebRequestEmail({
-        to: "gmt-bookings@globalmarinetransportation.com",
+        to: DEFAULT_INBOX,
         email,
         firstName,
         lastName,

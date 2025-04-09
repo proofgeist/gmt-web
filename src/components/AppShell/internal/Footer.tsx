@@ -1,3 +1,4 @@
+import { DEFAULT_INBOX } from "@/config/email";
 import {
   Box,
   Container,
@@ -44,13 +45,13 @@ export function Footer() {
                   </Group>
                 </Anchor>
                 <Anchor
-                  href="mailto:GMT-bookings@globalmarinetransportation.com"
+                  href={`mailto:${DEFAULT_INBOX}`}
                   c="white"
                 >
                   <Group gap="xs">
                     <IconMail size={20} />
                     <Text c="white" visibleFrom="sm">
-                      GMT-bookings@globalmarinetransportation.com
+                      {DEFAULT_INBOX}
                     </Text>
                   </Group>
                 </Anchor>
