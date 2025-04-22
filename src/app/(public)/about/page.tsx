@@ -81,7 +81,6 @@ const services = [
 
 export default function About() {
   return (
-    <Container fluid>
       <Card shadow="md" radius={0} padding="xl">
         <CardSection>
           <div style={{ position: "relative" }}>
@@ -247,6 +246,5 @@ export default function About() {
           </Box>
         </CardSection>
       </Card>
-    </Container>
   );
 }

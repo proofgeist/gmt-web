@@ -13,8 +13,10 @@ import {
 } from "@mantine/core";
 import { closeAllModals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
+import { useEffect } from "react";
 
-export function ContactModal() {
+export function ContactModal({ email, firstName, lastName, company }: { email?: string, firstName?: string, lastName?: string, company?: string }) {
+
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     contactAction,
     zodResolver(contactSchema),
@@ -40,6 +42,15 @@ export function ContactModal() {
       },
     }
   );
+
+  useEffect(() => {
+    form.reset({
+      email: email || "",
+      firstName: firstName || "",
+      lastName: lastName || "",
+      companyName: company || "",
+    });
+  }, [email, firstName, lastName, company, form]);
 
   return (
     <form onSubmit={handleSubmitWithAction}>

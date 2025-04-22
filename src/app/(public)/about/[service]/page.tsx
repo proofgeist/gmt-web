@@ -238,7 +238,6 @@ export default async function ServicePage({
   const ServiceIcon = serviceData.icon;
 
   return (
-    <Container fluid>
       <Card shadow="md" radius={0} padding="xl">
         <CardSection>
           <div style={{ position: "relative" }}>
@@ -372,6 +371,5 @@ export default async function ServicePage({
           </Box>
         </CardSection>
       </Card>
-    </Container>
   );
 }
