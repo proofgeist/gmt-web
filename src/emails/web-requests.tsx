@@ -18,6 +18,42 @@ interface WebRequestEmailProps {
   company: string;
 }
 
+// Styles for the web request email table
+const webRequestStyles = {
+  table: {
+    width: "80%",
+    borderCollapse: "collapse" as const,
+    margin: "20px auto",
+  },
+  row: {
+    borderBottom: "1px solid #eee",
+  },
+  cell: {
+    padding: "12px 20px",
+    textAlign: "left" as const,
+    color: "#444",
+    fontSize: "14px",
+    fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
+  },
+  label: {
+    fontWeight: "600",
+    width: "30%",
+    verticalAlign: "top" as const,
+  },
+  value: {
+    width: "70%",
+  },
+  actionText: {
+    backgroundColor: "#f8f9fa",
+    padding: "16px",
+    borderRadius: "6px",
+    margin: "24px 0",
+    color: "#444",
+    fontSize: "14px",
+    textAlign: "center" as const,
+  },
+};
+
 export const WebRequestEmail = ({
   firstName,
   lastName,
@@ -29,25 +65,51 @@ export const WebRequestEmail = ({
       <Container style={emailStyles.container}>
         <Img
           src="https://gmt-web.vercel.app/gmt_logo-sticker.png"
-          width="238"
-          height="175"
+          width="180"
+          height="132"
           alt="Global Marine"
           style={emailStyles.logo}
         />
-        <Heading style={emailStyles.secondary}>New web request</Heading>
-        <Section style={emailStyles.paragraph}>
-          <Text style={emailStyles.paragraph}>
-            New web request from {firstName} {lastName} of {company}
-          </Text>
-        </Section>
-        <Section style={emailStyles.paragraph}>
-          <Text style={emailStyles.paragraph}>
-            Log in to FileMaker Pro to approve or deny the request.
-          </Text>
-        </Section>
+        <Text style={emailStyles.tertiary}>Global Marine Web</Text>
+        <Heading style={emailStyles.secondary}>New Web Access Request</Heading>
 
-        <Text style={emailStyles.paragraph}>
-          If you did not request this code, you can ignore this email.
+        <table style={webRequestStyles.table}>
+          <tbody>
+            <tr style={webRequestStyles.row}>
+              <td
+                style={{ ...webRequestStyles.cell, ...webRequestStyles.label }}
+              >
+                Name
+              </td>
+              <td
+                style={{ ...webRequestStyles.cell, ...webRequestStyles.value }}
+              >
+                {firstName} {lastName}
+              </td>
+            </tr>
+            <tr style={webRequestStyles.row}>
+              <td
+                style={{ ...webRequestStyles.cell, ...webRequestStyles.label }}
+              >
+                Company
+              </td>
+              <td
+                style={{ ...webRequestStyles.cell, ...webRequestStyles.value }}
+              >
+                {company}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style={webRequestStyles.actionText}>
+          Please log in to FileMaker Pro to review and process this request.
+        </div>
+
+        <Text
+          style={{ ...emailStyles.paragraph, color: "#666", fontSize: "13px" }}
+        >
+          If you did not expect this request, you can safely ignore this email.
         </Text>
       </Container>
     </Body>
