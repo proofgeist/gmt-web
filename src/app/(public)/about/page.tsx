@@ -81,8 +81,8 @@ const services = [
 
 export default function About() {
   return (
-    <Container size="lg" py="xl">
-      <Card shadow="md" radius="md" padding="xl" withBorder>
+    <Container fluid>
+      <Card shadow="md" radius={0} padding="xl">
         <CardSection>
           <div style={{ position: "relative" }}>
             <Image
@@ -219,7 +219,7 @@ export default function About() {
                 backgroundImage: 'url("/customer-service-image-1.jpg")',
                 backgroundSize: "cover",
                 backgroundPosition: "top",
-                opacity: 0.25,
+                opacity: 0.4,
               }}
             />
             <div

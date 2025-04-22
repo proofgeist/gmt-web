@@ -238,8 +238,8 @@ export default async function ServicePage({
   const ServiceIcon = serviceData.icon;
 
   return (
-    <Container size="lg" py="xl">
-      <Card shadow="md" radius="md" padding="xl" withBorder>
+    <Container fluid>
+      <Card shadow="md" radius={0} padding="xl">
         <CardSection>
           <div style={{ position: "relative" }}>
             <Image
@@ -270,7 +270,7 @@ export default async function ServicePage({
             >
               <Center mb="lg">
                 <div className={styles.serviceIcon}>
-                  <ServiceIcon size={60} stroke={1.5} color={brandColor[7]} />
+                  <ServiceIcon size={60} stroke={1.5} color={brandColor[8]} />
                 </div>
               </Center>
               <Title ta="center" c="white" size="h1" mb="sm">
@@ -344,7 +344,7 @@ export default async function ServicePage({
                 backgroundImage: `url(${serviceData.contactImage})`,
                 backgroundSize: "cover",
                 backgroundPosition: "top",
-                opacity: 0.25,
+                opacity: 0.4,
               }}
             />
             <div

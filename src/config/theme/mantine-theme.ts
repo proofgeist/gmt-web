@@ -21,4 +21,4 @@ export const theme = createTheme({
   },
 });
 
-export const headerColor = "#003366";
+export const headerColor = "#2052a9";

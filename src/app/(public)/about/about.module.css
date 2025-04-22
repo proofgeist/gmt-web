@@ -150,7 +150,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  backdrop-filter: blur(4px);
   pointer-events: none; /* Allows clicks to pass through */
   z-index: 0;
 }

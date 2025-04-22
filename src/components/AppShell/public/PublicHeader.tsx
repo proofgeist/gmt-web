@@ -1,5 +1,6 @@
 "use client";
 
+import { headerColor } from "@/config/theme/mantine-theme";
 import { Header } from "../internal/Header";
 import { publicRoutes } from "@/app/navigation";
 
@@ -9,7 +10,7 @@ export function PublicHeader() {
       routes={publicRoutes}
       textColor="white"
       hideLogo={false}
-      headerColor="rgba(0, 0, 0, 0.7)"
+      headerColor={headerColor}
     />
   );
 }

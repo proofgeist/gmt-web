@@ -25,8 +25,7 @@ export function Footer() {
       bg={"black"}
       c={"white"}
       w="100%"
-      style={{ zIndex: 1000, borderTop: "2px solid black" }}
-      pos="absolute"
+      style={{ borderTop: "2px solid black" }}
     >
       <Container>
         <Grid align="center">
@@ -44,10 +43,7 @@ export function Footer() {
                     </Text>
                   </Group>
                 </Anchor>
-                <Anchor
-                  href={`mailto:${DEFAULT_INBOX}`}
-                  c="white"
-                >
+                <Anchor href={`mailto:${DEFAULT_INBOX}`} c="white">
                   <Group gap="xs">
                     <IconMail size={20} />
                     <Text c="white" visibleFrom="sm">

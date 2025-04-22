@@ -10,7 +10,7 @@ export default function PublicAppShell({
   children: React.ReactNode;
 }) {
   return (
-    <AppShell header={{ height: headerHeight }} padding="md">
+    <AppShell header={{ height: headerHeight }} >
       <AppShellHeader withBorder={false} bg="transparent">
         <PublicHeader />
       </AppShellHeader>
