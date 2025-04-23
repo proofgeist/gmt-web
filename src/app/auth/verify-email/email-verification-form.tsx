@@ -6,17 +6,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Group, Paper, PinInput, Text } from "@mantine/core";
 import { Stack } from "@mantine/core";
 import { useAction } from "next-safe-action/hooks";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function EmailVerificationForm({ cookie }: { cookie?: string }) {
   const resendAction = useAction(resendEmailVerificationAction);
-  const [hasCookie, setHasCookie] = useState<boolean>(!!cookie);
+  const hasCookie = useRef(!!cookie);
+
   useEffect(() => {
-    if (!hasCookie) {
+    if (!hasCookie.current) {
       resendAction.execute();
-      setHasCookie(true);
+      hasCookie.current = true;
     }
-  }, [hasCookie, resendAction]);
+  }, [resendAction]);
 
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     verifyEmailAction,
