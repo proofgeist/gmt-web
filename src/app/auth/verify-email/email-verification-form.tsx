@@ -1,12 +1,23 @@
 "use client";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { emailVerificationSchema } from "./schema";
-import { verifyEmailAction } from "./actions";
+import { resendEmailVerificationAction, verifyEmailAction } from "./actions";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Paper, PinInput, Text } from "@mantine/core";
+import { Button, Group, Paper, PinInput, Text } from "@mantine/core";
 import { Stack } from "@mantine/core";
+import { useAction } from "next-safe-action/hooks";
+import { useEffect, useState } from "react";
 
-export default function EmailVerificationForm() {
+export default function EmailVerificationForm({ cookie }: { cookie?: string }) {
+  const resendAction = useAction(resendEmailVerificationAction);
+  const [hasCookie, setHasCookie] = useState<boolean>(!!cookie);
+  useEffect(() => {
+    if (!hasCookie) {
+      resendAction.execute();
+      setHasCookie(true);
+    }
+  }, [hasCookie, resendAction]);
+
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     verifyEmailAction,
     zodResolver(emailVerificationSchema),
@@ -42,16 +53,20 @@ export default function EmailVerificationForm() {
           : action.hasErrored ?
             <Text c="red">An error occurred</Text>
           : null}
-          <Button
-            fullWidth
-            type="submit"
-            loading={action.isPending}
-            disabled={
-              !form.getValues("code") || form.getValues("code").length !== 6
-            }
-          >
-            Verify email
-          </Button>
+          <Group>
+            <Button variant="subtle" component={"a"} href="/dashboard">
+              Verify later
+            </Button>
+            <Button
+              type="submit"
+              loading={action.isPending}
+              disabled={
+                !form.getValues("code") || form.getValues("code").length !== 6
+              }
+            >
+              Verify email
+            </Button>
+          </Group>
         </Stack>
       </Paper>
     </form>

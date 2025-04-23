@@ -106,6 +106,7 @@ export const resendEmailVerificationAction = actionClient.action(async () => {
   await setEmailVerificationRequestCookie(verificationRequest);
   return {
     message: "A new code was sent to your inbox.",
+    id: verificationRequest.id,
   };
 });
 

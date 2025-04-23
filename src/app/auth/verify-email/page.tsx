@@ -4,14 +4,14 @@ import { redirect } from "next/navigation";
 import EmailVerificationForm from "./email-verification-form";
 import ResendButton from "./resend-button";
 import { getUserEmailVerificationRequestFromRequest } from "@/server/auth/utils/email-verification";
-import { DEFAULT_REDIRECT_URL } from "@/config/constant";
+import { cookies } from "next/headers";
 
 export default async function Page(props: {
   searchParams: Promise<{ code?: string }>;
 }) {
   const searchParams = await props.searchParams;
   const { user } = await getCurrentSession();
-
+  const cookie = (await cookies()).get("email_verification")?.value;
   if (user === null) {
     return redirect("/auth/login");
   }
@@ -25,7 +25,7 @@ export default async function Page(props: {
   const verificationRequest =
     await getUserEmailVerificationRequestFromRequest();
   if (verificationRequest === null && user.emailVerified) {
-    return redirect(DEFAULT_REDIRECT_URL);
+    return redirect("/dashboard");
   }
 
   return (
@@ -38,7 +38,7 @@ export default async function Page(props: {
         <Anchor href="/auth/profile">Change email</Anchor>
       </Text>
 
-      <EmailVerificationForm />
+      <EmailVerificationForm cookie={cookie} />
       <ResendButton />
     </Container>
   );
