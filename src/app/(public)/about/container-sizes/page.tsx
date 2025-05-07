@@ -72,45 +72,18 @@ export default function ContainerSizes() {
                 backgroundPosition: "center",
                 position: "relative",
               }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  textAlign: "center",
-                  width: "100%",
-                }}
-              >
-                <Center>
-                  <div className={styles.serviceIcon}>
-                    <IconRuler size={60} stroke={1.5} color={brandColor[8]} />
-                  </div>
-                </Center>
-                <Title ta="center" c="white" size="h1" mb="sm">
-                  Standard Container Sizes
-                </Title>
-                <Text ta="center" c="white" size="xl" maw={800} mx="auto">
-                  Comprehensive guide to shipping container dimensions and
-                  specifications
-                </Text>
-              </div>
-            </div>
+            />
           </div>
         </CardSection>
 
         <Stack gap="xl" mt="xl">
+          <Title ta="center" size="h1">
+            Standard Container Sizes
+          </Title>
+          <Text ta="center" size="xl" maw={800} mx="auto" fw={"bold"}>
+            Comprehensive guide to shipping container dimensions and
+            specifications
+          </Text>
           <Text size="lg" lh={1.7}>
             Shipping containers and storage containers can come in a range of
             sizes, with 20ft and 40ft being the most common lengths (externally)

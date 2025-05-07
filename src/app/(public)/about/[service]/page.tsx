@@ -238,138 +238,105 @@ export default async function ServicePage({
   const ServiceIcon = serviceData.icon;
 
   return (
-      <Card shadow="md" radius={0} padding="xl">
-        <CardSection>
-          <div style={{ position: "relative" }}>
-            <Image
-              src={serviceData.image}
-              alt={serviceData.title}
-              height={400}
-              fit="cover"
-            />
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-              }}
-            ></div>
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                textAlign: "center",
-                width: "100%",
-              }}
-            >
-              <Center mb="lg">
-                <div className={styles.serviceIcon}>
-                  <ServiceIcon size={60} stroke={1.5} color={brandColor[8]} />
-                </div>
-              </Center>
-              <Title ta="center" c="white" size="h1" mb="sm">
-                {serviceData.title}
-              </Title>
-              <Text
-                ta="center"
-                px={"md"}
-                c="white"
-                size="xl"
-                maw={800}
-                mx="auto"
-              >
-                {serviceData.subtitle}
-              </Text>
-            </div>
-          </div>
-        </CardSection>
+    <Card shadow="md" radius={0} padding="xl">
+      <CardSection>
+        <div style={{ position: "relative" }}>
+          <Image
+            src={serviceData.image}
+            alt={serviceData.title}
+            height={400}
+            fit="cover"
+          />
+        </div>
+      </CardSection>
 
-        <Stack gap="xl" mt="xl">
-          {serviceData.description.map((paragraph, index) => (
-            <Text key={index} size="lg" lh={1.7}>
-              {paragraph}
-            </Text>
-          ))}
-        </Stack>
-
-        <Title order={2} size="h2" mt="xl" mb="lg">
-          Our Services Include
+      <Stack gap="xl" mt="xl">
+        <Title ta="center" size="h1" >
+          {serviceData.title}
         </Title>
+        <Text ta="center" size="xl" maw={800} px="md" mx="auto" fw={"bold"}>
+          {serviceData.subtitle}
+        </Text>
+        {serviceData.description.map((paragraph, index) => (
+          <Text key={index} size="lg" lh={1.7}>
+            {paragraph}
+          </Text>
+        ))}
+      </Stack>
 
-        <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
-          {serviceData.features.map((feature, index) => {
-            const FeatureIcon = feature.icon;
-            return (
-              <Card key={index} padding="lg" radius="md" withBorder shadow="sm">
-                <FeatureIcon
-                  size={40}
-                  color={brandColor[8]}
-                  style={{ marginBottom: "1rem" }}
-                />
-                <Text fw={600} size="lg" mb="xs">
-                  {feature.title}
-                </Text>
-                <Text size="md" c="dimmed">
-                  {feature.description}
-                </Text>
-              </Card>
-            );
-          })}
-        </SimpleGrid>
+      <Title order={2} size="h2" mt="xl" mb="lg">
+        Our Services Include
+      </Title>
 
-        <CardSection mt="xl" inheritPadding py="xl">
-          <Box
+      <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
+        {serviceData.features.map((feature, index) => {
+          const FeatureIcon = feature.icon;
+          return (
+            <Card key={index} padding="lg" radius="md" withBorder shadow="sm">
+              <FeatureIcon
+                size={40}
+                color={brandColor[9]}
+                style={{ marginBottom: "1rem" }}
+              />
+              <Text fw={600} size="lg" mb="xs">
+                {feature.title}
+              </Text>
+              <Text size="md" c="dimmed">
+                {feature.description}
+              </Text>
+            </Card>
+          );
+        })}
+      </SimpleGrid>
+
+      <CardSection mt="xl" inheritPadding py="xl">
+        <Box
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "2rem",
+            borderRadius: "8px",
+            position: "relative",
+            overflow: "hidden",
+            minHeight: "500px",
+          }}
+        >
+          <div
             style={{
-              backgroundColor: "#f8f9fa",
-              padding: "2rem",
-              borderRadius: "8px",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundImage: `url(${serviceData.contactImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "top",
+              opacity: 0.4,
+            }}
+          />
+          <div
+            style={{
               position: "relative",
-              overflow: "hidden",
-              minHeight: "500px",
+              zIndex: 1,
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "400px",
             }}
           >
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundImage: `url(${serviceData.contactImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "top",
-                opacity: 0.4,
-              }}
-            />
-            <div
-              style={{
-                position: "relative",
-                zIndex: 1,
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                minHeight: "400px",
-              }}
-            >
-              <Title order={2} size="h2" mb="md" ta="center">
-                Ready to Get Started?
-              </Title>
-              <Text size="lg" maw={700} mx="auto" mb="xl" ta="center">
-                Contact our team today to learn more about our{" "}
-                {serviceData.title.toLowerCase()} services and how we can help
-                optimize your logistics operations.
-              </Text>
-              <ContactButton />
-            </div>
-          </Box>
-        </CardSection>
-      </Card>
+            <Title order={2} size="h2" mb="md" ta="center">
+              Ready to Get Started?
+            </Title>
+            <Text size="lg" maw={700} mx="auto" mb="xl" ta="center">
+              Contact our team today to learn more about our{" "}
+              {serviceData.title.toLowerCase()} services and how we can help
+              optimize your logistics operations.
+            </Text>
+            <ContactButton />
+          </div>
+        </Box>
+      </CardSection>
+    </Card>
   );
 }

@@ -81,170 +81,140 @@ const services = [
 
 export default function About() {
   return (
-      <Card shadow="md" radius={0} padding="xl">
-        <CardSection>
-          <div style={{ position: "relative" }}>
-            <Image
-              src="/ship-image-2.jpg"
-              alt="Global Marine Transportation"
-              height={400}
-              fit="cover"
-            />
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-              }}
-            ></div>
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                textAlign: "center",
-                width: "100%",
-              }}
-            >
-              <Center mb="lg">
-                <div className={styles.serviceIcon}>
-                  <IconInfoCircle
-                    size={60}
-                    stroke={1.5}
-                    color={brandColor[8]}
-                  />
-                </div>
-              </Center>
-              <Title ta="center" c="white" size="h1" mb="sm">
-                Growth to Meet Global Challenges
-              </Title>
-              <Text ta="center" c="white" size="xl" maw={800} px="md" mx="auto">
-                Your one-stop logistics service provider specializing in
-                shipping, innovative and cost-effective solutions.
-              </Text>
-            </div>
-          </div>
-        </CardSection>
+    <Card shadow="md" radius={0} padding="xl">
+      <CardSection>
+        <div style={{ position: "relative" }}>
+          <Image
+            src="/ship-image-2.jpg"
+            alt="Global Marine Transportation"
+            height={400}
+            fit="cover"
+          />
+        </div>
+      </CardSection>
 
-        <Stack gap="xl" mt="xl">
-          <Text size="lg" lh={1.7}>
-            Global Marine Transportation is your one-stop logistics service
-            provider specializing in shipping, innovative and cost-effective
-            solutions for each client, large or small. We shaped our evolution
-            around the needs of our clients offering customized transportation
-            services that distinguish us from competitors.
-          </Text>
-
-          <Text size="lg" lh={1.7}>
-            GMT has become a market leader thanks to our engaging enthusiasm. We
-            are a constantly evolving project; with forward-thinking strategies
-            and innovative service offerings, our network has grown into an
-            extraordinary global structure with worldwide operations allowing us
-            to deliver amazing customer service for our clients.
-          </Text>
-
-          <Text size="lg" fw={500} lh={1.7} c={brandColor[8]}>
-            With unrivaled global expertise, we make the impossible possible.
-          </Text>
-        </Stack>
-
-        <Title order={2} size="h2" mt="xl" mb="lg">
-          Our Services
+      <Stack gap="xl" mt="xl">
+        <Title ta="center" size="h1" >
+          Growth to Meet Global Challenges
         </Title>
+        <Text ta="center" size="xl" maw={800} px="md" mx="auto" fw={"bold"}>
+          Your one-stop logistics service provider specializing in shipping,
+          innovative and cost-effective solutions.
+        </Text>
+        <Text size="lg" lh={1.7}>
+          Global Marine Transportation is your one-stop logistics service
+          provider specializing in shipping, innovative and cost-effective
+          solutions for each client, large or small. We shaped our evolution
+          around the needs of our clients offering customized transportation
+          services that distinguish us from competitors.
+        </Text>
 
-        <Grid grow gutter="lg">
-          {services.map((service, index) => {
-            const ServiceIcon = service.icon;
-            return (
-              <GridCol span={{ base: 12, sm: 6, md: 4 }} key={index}>
-                <Link
-                  href={`/about/${service.slug}`}
-                  style={{ textDecoration: "none" }}
-                  prefetch={true}
+        <Text size="lg" lh={1.7}>
+          GMT has become a market leader thanks to our engaging enthusiasm. We
+          are a constantly evolving project; with forward-thinking strategies
+          and innovative service offerings, our network has grown into an
+          extraordinary global structure with worldwide operations allowing us
+          to deliver amazing customer service for our clients.
+        </Text>
+
+        <Text size="lg" fw={500} lh={1.7} c={brandColor[9]}>
+          With unrivaled global expertise, we make the impossible possible.
+        </Text>
+      </Stack>
+
+      <Title order={2} size="h2" mt="xl" mb="lg">
+        Our Services
+      </Title>
+
+      <Grid grow gutter="lg">
+        {services.map((service, index) => {
+          const ServiceIcon = service.icon;
+          return (
+            <GridCol span={{ base: 12, sm: 6, md: 4 }} key={index}>
+              <Link
+                href={`/about/${service.slug}`}
+                style={{ textDecoration: "none" }}
+                prefetch={true}
+              >
+                <Card
+                  padding="lg"
+                  radius="md"
+                  withBorder
+                  shadow="sm"
+                  h="100%"
+                  style={{ display: "flex", flexDirection: "column" }}
                 >
-                  <Card
-                    padding="lg"
-                    radius="md"
-                    withBorder
-                    shadow="sm"
-                    h="100%"
-                    style={{ display: "flex", flexDirection: "column" }}
-                  >
-                    <ServiceIcon
-                      size={40}
-                      color={brandColor[8]}
-                      style={{ marginBottom: "1rem" }}
-                    />
-                    <Text fw={600} size="lg" mb="xs">
-                      {service.title}
-                    </Text>
-                    <Text size="md" c="dimmed" mb="xl">
-                      {service.description}
-                    </Text>
-                    <div style={{ marginTop: "auto" }}>
-                      <Button variant="light" color="brand.8" fullWidth>
-                        Learn More
-                      </Button>
-                    </div>
-                  </Card>
-                </Link>
-              </GridCol>
-            );
-          })}
-        </Grid>
+                  <ServiceIcon
+                    size={40}
+                    color={brandColor[9]}
+                    style={{ marginBottom: "1rem" }}
+                  />
+                  <Text fw={600} size="lg" mb="xs">
+                    {service.title}
+                  </Text>
+                  <Text size="md" c="dimmed" mb="xl">
+                    {service.description}
+                  </Text>
+                  <div style={{ marginTop: "auto" }}>
+                    <Button variant="light" color="brand.9" fullWidth>
+                      Learn More
+                    </Button>
+                  </div>
+                </Card>
+              </Link>
+            </GridCol>
+          );
+        })}
+      </Grid>
 
-        <CardSection mt="xl" inheritPadding py="xl">
-          <Box
+      <CardSection mt="xl" inheritPadding py="xl">
+        <Box
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "2rem",
+            borderRadius: "8px",
+            position: "relative",
+            overflow: "hidden",
+            minHeight: "500px",
+          }}
+        >
+          <div
             style={{
-              backgroundColor: "#f8f9fa",
-              padding: "2rem",
-              borderRadius: "8px",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundImage: 'url("/customer-service-image-1.jpg")',
+              backgroundSize: "cover",
+              backgroundPosition: "top",
+              opacity: 0.4,
+            }}
+          />
+          <div
+            style={{
               position: "relative",
-              overflow: "hidden",
-              minHeight: "500px",
+              zIndex: 1,
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "400px",
             }}
           >
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundImage: 'url("/customer-service-image-1.jpg")',
-                backgroundSize: "cover",
-                backgroundPosition: "top",
-                opacity: 0.4,
-              }}
-            />
-            <div
-              style={{
-                position: "relative",
-                zIndex: 1,
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                minHeight: "400px",
-              }}
-            >
-              <Title order={2} size="h2" mb="md" ta="center">
-                Ready to Ship with Us?
-              </Title>
-              <Text size="lg" maw={700} mx="auto" mb="xl" ta="center">
-                Contact our team today to discuss your shipping needs and
-                discover how Global Marine Transportation can optimize your
-                logistics operations.
-              </Text>
-              <ContactButton />
-            </div>
-          </Box>
-        </CardSection>
-      </Card>
+            <Title order={2} size="h2" mb="md" ta="center">
+              Ready to Ship with Us?
+            </Title>
+            <Text size="lg" maw={700} mx="auto" mb="xl" ta="center">
+              Contact our team today to discuss your shipping needs and discover
+              how Global Marine Transportation can optimize your logistics
+              operations.
+            </Text>
+            <ContactButton />
+          </div>
+        </Box>
+      </CardSection>
+    </Card>
   );
 }
