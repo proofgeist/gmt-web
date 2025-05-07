@@ -1,5 +1,5 @@
 import { Card, Group, Stack, Text } from "@mantine/core";
-import React from "react";
+import React, { Suspense } from "react";
 import { IconShip, IconClockHour4, IconCircleCheck } from "@tabler/icons-react";
 import {
   getActiveShipmentsAction,
@@ -8,6 +8,8 @@ import {
 } from "../actions";
 import QuotesCard from "./quotes-card";
 import { theme } from "@/config/theme/mantine-theme";
+import ShipmentCardsSkeleton from "./shipment-cards-skeleton";
+
 export default async function ShipmentCards() {
   const activeShipments = await getActiveShipmentsAction({});
   const pendingShipments = await getPendingShipmentsAction({});
@@ -32,27 +34,29 @@ export default async function ShipmentCards() {
   ];
 
   return (
-    <>
+    <Group grow align="stretch" preventGrowOverflow>
       {cardData.map((card, index) => (
-        <Card shadow="sm" padding="lg" radius="md" withBorder key={index}>
-          <Stack align="center" justify="center" gap="xs">
-            <Group align="center" maw={125} w={"100%"} justify="center">
-              <card.icon
-                size={40}
-                color={theme.colors?.brand?.[9]}
-                stroke={1.5}
-              />
-              <Text fz={32} fw={700}>
-                {card.value}
+        <Suspense key={index} fallback={<ShipmentCardsSkeleton label={card.title} />}>
+          <Card shadow="sm" padding="lg" radius="md" withBorder key={index}>
+            <Stack align="center" justify="center" gap="xs">
+              <Group align="center" maw={200} w={"100%"} justify="center">
+                <card.icon
+                  size={40}
+                  color={theme.colors?.brand?.[9]}
+                  stroke={1.5}
+                />
+                <Text fz={32} fw={700}>
+                  {card.value}
+                </Text>
+              </Group>
+              <Text fz="lg" c="dimmed" ta="center">
+                {card.title}
               </Text>
-            </Group>
-            <Text fz="lg" c="dimmed" ta="center">
-              {card.title}
-            </Text>
-          </Stack>
-        </Card>
+            </Stack>
+          </Card>
+        </Suspense>
       ))}
       <QuotesCard />
-    </>
+    </Group>
   );
 }

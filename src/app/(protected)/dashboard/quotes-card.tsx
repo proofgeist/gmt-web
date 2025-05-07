@@ -55,7 +55,7 @@ export default function QuotesCard() {
       </Box>
 
       <Stack align="center" justify="center" gap="xs">
-        <Group align="center" maw={125} w={"100%"} justify="center">
+        <Group align="center" maw={200} w={"100%"} justify="center">
           <IconFileDescription
             size={40}
             color={theme.colors.brand[9]}
