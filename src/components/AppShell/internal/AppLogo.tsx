@@ -21,21 +21,6 @@ export default function AppLogo() {
           TRANSPORTATION INC.
         </Text>
       </Stack>
-      <Image
-        src="/gmt_21-logo.png"
-        alt="21"
-        p={4}
-        height={42}
-        radius={"md"}
-        fit="contain"
-        visibleFrom="md"
-      />
-      {/* <Title order={2}>
-        <Text span fz={24} className={yellowtail.className}>
-          my
-        </Text>
-        GMT
-      </Title> */}
     </Group>
   );
 }

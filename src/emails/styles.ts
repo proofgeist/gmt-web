@@ -22,7 +22,7 @@ export const emailStyles = {
   } as CSSProperties,
 
   tertiary: {
-    color: "#0a85ea",
+    color: "#171796",
     fontSize: "11px",
     fontWeight: 700,
     fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
@@ -58,7 +58,7 @@ export const emailStyles = {
   },
 
   button: {
-    backgroundColor: "#0a85ea",
+    backgroundColor: "#171796",
     borderRadius: "5px",
     color: "#fff",
     display: "inline-block",

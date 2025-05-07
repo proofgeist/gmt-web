@@ -61,6 +61,7 @@ export const getPastShipmentsAction = authedActionClient
       query: {
         reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
         ETADatePort: `<${dayjs().format("MM/DD/YYYY")}`,
+        ETDDatePort: `>${dayjs().subtract(1, "year").format("MM/DD/YYYY")}`,
       },
       limit: 1000,
       fetch: { next: { revalidate: 120 } },

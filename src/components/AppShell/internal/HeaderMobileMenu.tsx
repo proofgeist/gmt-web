@@ -8,7 +8,7 @@ import SlotHeaderMobileMenuContent from "../slot-header-mobile-content";
 import { Route } from "@/app/navigation";
 
 export default function HeaderMobileMenu({
-  burgerColor = "brand.8",
+  burgerColor = "brand.9",
   routes,
 }: {
   burgerColor?: string;

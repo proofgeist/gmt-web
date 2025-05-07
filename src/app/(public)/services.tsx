@@ -21,7 +21,7 @@ export default function Services() {
         </Title>
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
           <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <IconShip size={40} color={theme.colors.brand[8]} />
+            <IconShip size={40} color={theme.colors.brand[9]} />
             <Title order={4} mt="md">
               Ocean Transportation
             </Title>
@@ -31,7 +31,7 @@ export default function Services() {
             </Text>
           </Card>
           <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <IconTruck size={40} color={theme.colors.brand[8]} />
+            <IconTruck size={40} color={theme.colors.brand[9]} />
             <Title order={4} mt="md">
               Truck & Rail Freight
             </Title>
@@ -41,7 +41,7 @@ export default function Services() {
             </Text>
           </Card>
           <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <IconShieldCheck size={40} color={theme.colors.brand[8]} />
+            <IconShieldCheck size={40} color={theme.colors.brand[9]} />
             <Title order={4} mt="md">
               Cargo Insurance
             </Title>
@@ -51,7 +51,7 @@ export default function Services() {
             </Text>
           </Card>
           <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <IconBriefcase size={40} color={theme.colors.brand[8]} />
+            <IconBriefcase size={40} color={theme.colors.brand[9]} />
             <Title order={4} mt="md">
               Customs Brokerage
             </Title>
@@ -61,7 +61,7 @@ export default function Services() {
             </Text>
           </Card>
           <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <IconPackage size={40} color={theme.colors.brand[8]} />
+            <IconPackage size={40} color={theme.colors.brand[9]} />
             <Title order={4} mt="md">
               Fumigation
             </Title>
@@ -71,7 +71,7 @@ export default function Services() {
             </Text>
           </Card>
           <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <IconBoxMultiple size={40} color={theme.colors.brand[8]} />
+            <IconBoxMultiple size={40} color={theme.colors.brand[9]} />
             <Title order={4} mt="md">
               Container Sizes
             </Title>

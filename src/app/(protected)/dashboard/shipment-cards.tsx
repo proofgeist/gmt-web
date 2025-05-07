@@ -39,7 +39,7 @@ export default async function ShipmentCards() {
             <Group align="center" maw={125} w={"100%"} justify="center">
               <card.icon
                 size={40}
-                color={theme.colors?.brand?.[8]}
+                color={theme.colors?.brand?.[9]}
                 stroke={1.5}
               />
               <Text fz={32} fw={700}>
