@@ -1,0 +1,64 @@
+{
+  "$schema": "https://proofkit.dev/typegen-config-schema.json",
+  "config": [
+    {
+      "clientSuffix": "Layout",
+      "clearOldFiles": true,
+      "path": "./src/config/schemas/filemaker",
+      "layouts": [
+        {
+          "schemaName": "Bookings",
+          "valueLists": "allowEmpty",
+          "layoutName": "api.Bookings"
+
+        },
+        {
+          "schemaName": "BookingDetails",
+          "valueLists": "allowEmpty",
+          "layoutName": "api.BookingDetails"
+        },
+        {
+          "schemaName": "Contacts",
+          "valueLists": "allowEmpty",
+          "layoutName": "api.Contacts"
+        },
+        {
+          "schemaName": "Inquiries",
+          "valueLists": "allowEmpty",
+          "layoutName": "api.Inquiries"
+        }
+      ],
+      "validator": "zod"
+    },
+    {
+      "clientSuffix": "Layout",
+      "clearOldFiles": true,
+      "path": "./src/server/auth/db",
+      "layouts": [
+        {
+          "schemaName": "sessions",
+          "valueLists": "strict",
+          "strictNumbers": true,
+          "layoutName": "proofkit_auth_sessions"
+        },
+        {
+          "schemaName": "users",
+          "strictNumbers": true,
+          "valueLists": "strict",
+          "layoutName": "proofkit_auth_users"
+        },
+        {
+          "schemaName": "emailVerification",
+          "strictNumbers": true,
+          "layoutName": "proofkit_auth_email_verification"
+        },
+        {
+          "schemaName": "passwordReset",
+          "strictNumbers": true,
+          "layoutName": "proofkit_auth_password_reset"
+        }
+      ],
+      "validator": false
+    }
+  ]
+}
