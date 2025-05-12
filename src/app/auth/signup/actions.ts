@@ -32,7 +32,7 @@ export const signupAction = actionClient
       return { error: "Password is too weak" };
     }
 
-    const webInfo = await getIsContactWebEnabled(email).catch(() => {
+    const webInfo = await getIsContactWebEnabled(email).catch((e) => {
       redirect(`/auth/signup/not-found?email=${email}&firstName=${firstName}&lastName=${lastName}&company=${company}`);
     });
 

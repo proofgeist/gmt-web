@@ -119,8 +119,8 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2(prettier@3.4.2)(zod@3.24.2)
       '@proofkit/typegen':
-        specifier: 1.0.0-beta.3
-        version: 1.0.0-beta.3(@types/node@22.14.0)(jiti@2.4.2)(rollup@4.40.2)(sugarss@4.0.1(postcss@8.5.3))(typescript@5.8.3)
+        specifier: 1.0.0-beta.4
+        version: 1.0.0-beta.4(@types/node@22.14.0)(jiti@2.4.2)(rollup@4.40.2)(sugarss@4.0.1(postcss@8.5.3))(typescript@5.8.3)
       '@tanstack/eslint-plugin-query':
         specifier: ^5.72.1
         version: 5.72.1(eslint@8.57.1)(typescript@5.8.3)
@@ -1103,8 +1103,8 @@ packages:
     resolution: {integrity: sha512-ku6wTlAk+DjVu+4aL4KT7sqJO96T9D4+O1nTXKy16aSujNkFW+HUBf33pt6IXFEJWTBfoUldWBh32XmoxnHsyA==}
     engines: {node: '>=18.0.0'}
 
-  '@proofkit/typegen@1.0.0-beta.3':
-    resolution: {integrity: sha512-kNmgkBDScZxD48r3JOVpWdNjuKOYcZkIvyjXBB13Prp+VDWgRheqxp2jDgSsv7EXdWJOSDMSnd5Y0GiTLTDczA==}
+  '@proofkit/typegen@1.0.0-beta.4':
+    resolution: {integrity: sha512-LQMvkapP8P5YLZFQlhtDu8LMIIQSQudX8Jc9lVwnnU9v/VKBkGM+td3DYGnTMaSrTst9C4Z19gZCrV2cr9wsRQ==}
     hasBin: true
 
   '@react-email/body@0.0.11':
@@ -2146,6 +2146,10 @@ packages:
 
   dotenv@16.4.7:
     resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
+    engines: {node: '>=12'}
+
+  dotenv@16.5.0:
+    resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -5122,7 +5126,7 @@ snapshots:
       - typescript
       - yaml
 
-  '@proofkit/typegen@1.0.0-beta.3(@types/node@22.14.0)(jiti@2.4.2)(rollup@4.40.2)(sugarss@4.0.1(postcss@8.5.3))(typescript@5.8.3)':
+  '@proofkit/typegen@1.0.0-beta.4(@types/node@22.14.0)(jiti@2.4.2)(rollup@4.40.2)(sugarss@4.0.1(postcss@8.5.3))(typescript@5.8.3)':
     dependencies:
       '@clack/prompts': 0.10.1
       '@commander-js/extra-typings': 13.1.0(commander@9.5.0)
@@ -5130,7 +5134,7 @@ snapshots:
       '@tanstack/vite-config': 0.2.0(@types/node@22.14.0)(rollup@4.40.2)(typescript@5.8.3)(vite@6.3.5(@types/node@22.14.0)(jiti@2.4.2)(sugarss@4.0.1(postcss@8.5.3)))
       chalk: 4.1.2
       commander: 9.5.0
-      dotenv: 16.4.7
+      dotenv: 16.5.0
       fs-extra: 11.3.0
       jsonc-parser: 3.3.1
       ts-morph: 25.0.1
@@ -6128,6 +6132,8 @@ snapshots:
       domhandler: 5.0.3
 
   dotenv@16.4.7: {}
+
+  dotenv@16.5.0: {}
 
   dunder-proto@1.0.1:
     dependencies:

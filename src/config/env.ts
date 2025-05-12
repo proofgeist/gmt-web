@@ -1,6 +1,6 @@
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
-import { type OttoAPIKey } from "@proofgeist/fmdapi";
+import { type OttoAPIKey } from "@proofkit/fmdapi";
 
 export const env = createEnv({
   server: {

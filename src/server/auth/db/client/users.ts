@@ -14,7 +14,7 @@
   if (!process.env.FM_SERVER) throw new Error("Missing env var: FM_SERVER")
   if (!process.env.OTTO_API_KEY) throw new Error("Missing env var: OTTO_API_KEY")
 
-  export const client = DataApi<Tusers, TusersPortals>({
+  export const client = DataApi<Tusers>({
       adapter: new OttoAdapter({
           auth: { apiKey: process.env.OTTO_API_KEY as OttoAPIKey },
           db: process.env.FM_DATABASE,
