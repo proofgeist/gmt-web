@@ -207,6 +207,7 @@ export async function getIsContactWebEnabled(
     throw new Error(
       "Multiple contacts found for this email - Please contact support"
     );
+
   return {
     contactID: data[0].fieldData.__kpnID,
     isWebEnabled: data[0].fieldData.hasWebAccess === 1,
