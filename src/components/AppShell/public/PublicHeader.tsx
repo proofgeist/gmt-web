@@ -11,6 +11,7 @@ export function PublicHeader() {
       textColor="white"
       hideLogo={false}
       headerColor={headerColor}
+      hideUserMenu={true}
     />
   );
 }

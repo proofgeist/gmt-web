@@ -1,4 +1,5 @@
 import { ContactModal } from "@/components/modals/contact/contact";
+import { Button } from "@mantine/core";
 import { openModal } from "@mantine/modals";
 import {
   IconShip,
@@ -7,7 +8,6 @@ import {
   IconWorld,
   IconInfoCircle,
   IconPhone,
-  IconDashboard,
   IconShield,
   IconRuler,
 } from "@tabler/icons-react";
@@ -109,7 +109,7 @@ export const publicRoutes: Route[] = [
     type: "link",
     href: "/dashboard",
     visibility: "private",
-    icon: <IconDashboard size={18} />,
+    component: <Button variant="white">Dashboard</Button>,
   },
 ];
 
