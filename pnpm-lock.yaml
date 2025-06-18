@@ -87,6 +87,9 @@ importers:
       libphonenumber-js:
         specifier: ^1.12.6
         version: 1.12.8
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       mantine-react-table:
         specifier: 2.0.0-beta.7
         version: 2.0.0-beta.7(@mantine/core@7.17.7(@mantine/hooks@7.17.7(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(types-react@19.0.0-rc.1))(@mantine/dates@7.17.7(@mantine/core@7.17.7(@mantine/hooks@7.17.7(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(types-react@19.0.0-rc.1))(@mantine/hooks@7.17.7(react@19.0.0))(dayjs@1.11.13)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@mantine/hooks@7.17.7(react@19.0.0))(@tabler/icons-react@3.33.0(react@19.0.0))(clsx@2.1.1)(dayjs@1.11.13)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)

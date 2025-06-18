@@ -1,4 +1,4 @@
-import { ContactsLayout } from "@/config/schemas/filemaker/client";
+import { ContactsLayout } from "@/config/schemas/filemaker/server";
 import { usersLayout } from "../db/client";
 import { Tusers as _User } from "../db/users";
 
@@ -51,8 +51,6 @@ export async function createUser(
   });
   const fmResult = await usersLayout.get({ recordId });
   const { fieldData } = fmResult.data[0];
-
-
 
   const user: User = {
     id: fieldData.id,
@@ -223,10 +221,8 @@ export async function getContactIDFromEmail(email: string): Promise<string> {
   const { data } = await ContactsLayout.find({
     query: { Email1: `==${email}` },
   });
-  if (data.length === 0)
-    throw new Error("Contact not found");
-  else if (data.length > 1)
-    throw new Error("Multiple contacts found");
+  if (data.length === 0) throw new Error("Contact not found");
+  else if (data.length > 1) throw new Error("Multiple contacts found");
   return data[0].fieldData.__kpnID;
 }
 

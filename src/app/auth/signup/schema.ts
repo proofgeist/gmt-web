@@ -1,3 +1,4 @@
+import { isValidPhoneNumber, parsePhoneNumberWithError } from "libphonenumber-js";
 import { z } from "zod";
 
 export const signupSchema = z
@@ -9,6 +10,15 @@ export const signupSchema = z
     firstName: z.string().min(1),
     lastName: z.string().min(1),
     company: z.string().min(1),
+    phoneNumber: z
+      .string()
+      .refine((value) => isValidPhoneNumber(value), {
+        message: "Please enter a valid phone number with country code",
+      })
+      .transform((value) => {
+        const phoneNumber = parsePhoneNumberWithError(value);
+        return phoneNumber.format("E.164"); // Returns number in +12345678900 format
+      }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
