@@ -113,13 +113,6 @@ export const publicRoutes: Route[] = [
   },
 ];
 
-export const privateRoutes: Route[] = [
-  {
-    label: "Dashboard",
-    type: "link",
-    href: "/dashboard",
-    visibility: "private",
-  },
-];
+export const privateRoutes: Route[] = [];
 
 export const secondaryRoutes: Route[] = [];

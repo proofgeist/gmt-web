@@ -29,7 +29,7 @@
       "placeOfReceiptCountry": z.string(),
       "portOfLoadingCity": z.string(),
       "portOfLoadingCountry": z.string(),
-      "holdStatus": z.string(),
+      "holdStatusArray": z.union([z.string(), z.number()]),
   });
 
   export type TBookings = z.infer<typeof ZBookings>;

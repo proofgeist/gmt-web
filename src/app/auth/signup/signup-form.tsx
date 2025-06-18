@@ -13,9 +13,11 @@ import {
   Text,
   Select,
   Group,
+  Divider,
 } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { AsYouType } from "libphonenumber-js";
 
 export default function SignupForm() {
   const searchParams = useSearchParams();
@@ -32,6 +34,14 @@ export default function SignupForm() {
       },
     }
   );
+  const handlePhoneChange = (value: string) => {
+    // Always ensure there's a + at the start
+    const normalizedValue =
+      value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
+    const formatter = new AsYouType();
+    const formattedNumber = formatter.input(normalizedValue);
+    form.setValue("phoneNumber", formattedNumber);
+  };
 
   useEffect(() => {
     if (emailFromUrl) {
@@ -62,14 +72,6 @@ export default function SignupForm() {
             />
           </Group>
           <TextInput
-            label="Company"
-            placeholder="Company"
-            required
-            withAsterisk={false}
-            {...form.register("company")}
-            error={form.formState.errors.company?.message}
-          />
-          <TextInput
             label="Email"
             placeholder="you@globmar.com"
             required
@@ -95,6 +97,25 @@ export default function SignupForm() {
             withAsterisk={false}
             {...form.register("confirmPassword")}
             error={form.formState.errors.confirmPassword?.message}
+          />
+          <Divider />
+          <TextInput
+            label="Company"
+            placeholder="Company"
+            required
+            withAsterisk={false}
+            {...form.register("company")}
+            error={form.formState.errors.company?.message}
+          />
+          <TextInput
+            label="Phone Number"
+            description="Include country code (e.g. +1 for US)"
+            placeholder="+1 234 555 6789"
+            required
+            withAsterisk={false}
+            value={form.watch("phoneNumber") ?? ""}
+            onChange={(e) => handlePhoneChange(e.target.value)}
+            error={form.formState.errors.phoneNumber?.message?.toString()}
           />
           <Select
             label="Preferred Language"

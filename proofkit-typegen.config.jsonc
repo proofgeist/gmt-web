@@ -26,7 +26,11 @@
           "schemaName": "Inquiries",
           "valueLists": "allowEmpty",
           "layoutName": "api.Inquiries"
-        }
+        },
+        {
+          "layoutName": "api.Inbox",
+          "schemaName": "Inbox"
+        } 
       ],
       "validator": "zod/v3"
     },

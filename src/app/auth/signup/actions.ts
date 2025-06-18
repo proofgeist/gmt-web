@@ -17,11 +17,20 @@ import {
 import { cookies } from "next/headers";
 import { sendWebRequestEmail } from "@/server/auth/email";
 import { DEFAULT_INBOX } from "@/config/email";
+import { contactAction } from "@/components/modals/contact/actions";
 
 export const signupAction = actionClient
   .schema(signupSchema)
   .action(async ({ parsedInput }) => {
-    const { email, password, language, firstName, lastName, company } = parsedInput;
+    const {
+      email,
+      password,
+      language,
+      firstName,
+      lastName,
+      company,
+      phoneNumber,
+    } = parsedInput;
     const emailAvailable = await checkEmailAvailability(email);
     if (!emailAvailable) {
       return { error: "Email already in use" };
@@ -32,8 +41,27 @@ export const signupAction = actionClient
       return { error: "Password is too weak" };
     }
 
-    const webInfo = await getIsContactWebEnabled(email).catch((e) => {
-      redirect(`/auth/signup/not-found?email=${email}&firstName=${firstName}&lastName=${lastName}&company=${company}`);
+    const webInfo = await getIsContactWebEnabled(email).catch(() => {
+      contactAction({
+        companyName: company,
+        firstName,
+        lastName,
+        email,
+        cell: phoneNumber,
+        message: `New web request from ${email}`,
+      });
+      const message = `We couldn't find a user with the email address ${email}. A request has been sent to Global Marine to create an account for you. You will receive an email once it is approved.`;
+      const title = "No User Found";
+      const params = new URLSearchParams({
+        title,
+        message,
+        email,
+        firstName,
+        lastName,
+        company,
+        phoneNumber,
+      });
+      redirect(`/auth/signup/status?${params.toString()}`);
     });
 
     const { contactID, isWebEnabled } = webInfo;
@@ -66,7 +94,7 @@ export const signupAction = actionClient
         expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
       });
 
-      return redirect("/auth/mfa/enroll");
+      return redirect(`/auth/mfa/enroll?phoneNumber=${phoneNumber}`);
       //If the user is not web enabled, send an email to globalmarine to let them know they have a new web request
     } else {
       await sendWebRequestEmail({
@@ -76,6 +104,18 @@ export const signupAction = actionClient
         lastName,
         company,
       });
-      return redirect("/auth/signup/request-sent");
+      const message =
+        "Your web request has been sent to Global Marine for approval. You will receive an email once it is approved.";
+      const title = "Request Sent";
+      const params = new URLSearchParams({
+        title,
+        message,
+        email,
+        firstName,
+        lastName,
+        company,
+        phoneNumber,
+      });
+      return redirect(`/auth/signup/status?${params.toString()}`);
     }
   });
