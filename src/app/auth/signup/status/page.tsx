@@ -1,6 +1,5 @@
-import { ContactModal } from "@/components/modals/contact/contact";
-import { Container, Title, Text, Button, Card, Group } from "@mantine/core";
-import { openModal } from "@mantine/modals";
+import { Container, Title, Text, Card } from "@mantine/core";
+import { ReturnRow } from "./return-row";
 
 export default async function Page(props: {
   searchParams: Promise<{
@@ -30,32 +29,13 @@ export default async function Page(props: {
       <Card withBorder my={20} bg="gray.0">
         <Text ta="center">{message}</Text>
       </Card>
-      <Group grow>
-        <Button component="a" href="/" mt={20} fullWidth>
-          Go Home
-        </Button>
-        <Button
-          onClick={() =>
-            openModal({
-              id: "contact",
-              title: "Contact Us",
-              children: (
-                <ContactModal
-                  email={email}
-                  firstName={firstName}
-                  lastName={lastName}
-                  company={company}
-                  cell={phoneNumber}
-                />
-              ),
-            })
-          }
-          mt={20}
-          fullWidth
-        >
-          Send a Message
-        </Button>
-      </Group>
+      <ReturnRow
+        email={email}
+        firstName={firstName}
+        lastName={lastName}
+        company={company}
+        phoneNumber={phoneNumber}
+      />
     </Container>
   );
 }
