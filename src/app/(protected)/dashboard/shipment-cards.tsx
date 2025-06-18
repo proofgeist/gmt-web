@@ -1,16 +1,18 @@
 "use client";
 
-import { Card, Group, Stack, Text, UnstyledButton } from "@mantine/core";
-import React from "react";
-import { IconShip, IconClockHour4, IconCircleCheck } from "@tabler/icons-react";
 import {
-  getActiveShipmentsAction,
-  getPendingShipmentsAction,
-  getPastShipmentsAction,
-} from "../actions";
+  Card,
+  Group,
+  Stack,
+  Text,
+  UnstyledButton,
+  useMantineTheme,
+} from "@mantine/core";
+import React, { useState } from "react";
+import { IconShip, IconClockHour4, IconCircleCheck } from "@tabler/icons-react";
 import QuotesCard from "./quotes-card";
-import { theme } from "@/config/theme/mantine-theme";
 import useShipments from "../use-shipments";
+import { useHover } from "@mantine/hooks";
 
 type ShipmentType = "active" | "pending" | "completed";
 
@@ -24,7 +26,8 @@ export default function ShipmentCards({
   setShipmentType,
 }: ShipmentCardsProps) {
   const { activeShipments, pendingShipments, pastShipments } = useShipments();
-
+  const theme = useMantineTheme();
+  const { hovered, ref } = useHover();
 
   const cardData = [
     {
@@ -50,10 +53,18 @@ export default function ShipmentCards({
   return (
     <Group grow align="stretch" preventGrowOverflow>
       {cardData.map((card, index) => (
-        <UnstyledButton key={index} onClick={() => setShipmentType(card.type)}>
+        <UnstyledButton
+          key={index}
+          ref={ref}
+          onClick={() => setShipmentType(card.type)}
+          style={{
+            cursor: "pointer",
+            borderRadius: theme.radius.md,
+          }}
+        >
           <Card
             shadow="sm"
-            padding="lg"
+            padding="sm"
             radius="md"
             withBorder
             style={{
@@ -62,6 +73,11 @@ export default function ShipmentCards({
                   theme.colors?.brand?.[9]
                 : undefined,
               borderWidth: shipmentType === card.type ? 2 : 1,
+              backgroundColor:
+                hovered || shipmentType === card.type ?
+                  theme.colors.brand[0]
+                : undefined,
+              transition: "background-color 0.3s ease",
             }}
           >
             <Stack align="center" justify="center" gap="xs">

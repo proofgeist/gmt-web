@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, Stack, Text, Group, Box, useMantineTheme } from "@mantine/core";
+import { useHover } from "@mantine/hooks";
 import { IconFileDescription } from "@tabler/icons-react";
 import { useState } from "react";
 
@@ -30,23 +31,23 @@ const quoteCardStyles = {
 };
 
 export default function QuotesCard() {
-  const [isHovered, setIsHovered] = useState(false);
+  const { hovered, ref } = useHover();
   const theme = useMantineTheme();
 
   return (
     <Card
       withBorder
-      padding="lg"
+      padding="sm"
       radius="md"
       shadow="sm"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      ref={ref}
     >
       <Box
         style={{
           ...quoteCardStyles.overlay,
-          opacity: isHovered ? 1 : 0,
-          pointerEvents: isHovered ? "auto" : "none",
+          opacity: hovered ? 1 : 0,
+          pointerEvents: hovered ? "auto" : "none",
+          cursor: "pointer",
         }}
       >
         <Text fz="xl" fw={600} c="white">

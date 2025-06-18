@@ -22,3 +22,4 @@ export const theme = createTheme({
 });
 
 export const headerColor = "#171796";
+export const headerTextColor = "white";

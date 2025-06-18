@@ -9,18 +9,15 @@ import { headerHeight } from "./config";
 import classes from "./Header.module.css";
 import HeaderMobileMenu from "./HeaderMobileMenu";
 import { Route } from "@/app/navigation";
+import { headerColor, headerTextColor } from "@/config/theme/mantine-theme";
 
 export function Header({
   routes,
-  textColor = "brand.9",
   hideUserMenu = false,
-  headerColor = "transparent",
 }: {
   routes: Route[];
-  textColor?: string;
   hideLogo?: boolean;
   hideUserMenu?: boolean;
-  headerColor?: string;
 }) {
   const [scroll] = useWindowScroll();
   const [hidden, setHidden] = useState(false);
@@ -57,7 +54,7 @@ export function Header({
           style={{
             height: "100%",
           }}
-          c={textColor}
+          c={headerTextColor}
         >
           <SlotHeaderLeft />
 
@@ -65,7 +62,7 @@ export function Header({
             <SlotHeaderRight routes={routes} hideUserMenu={hideUserMenu} />
           </Box>
           <Box hiddenFrom="sm">
-            <HeaderMobileMenu routes={routes} burgerColor={textColor} />
+            <HeaderMobileMenu routes={routes} burgerColor={headerTextColor} />
           </Box>
         </Group>
       </Container>

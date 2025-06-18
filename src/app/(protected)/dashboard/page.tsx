@@ -11,10 +11,10 @@ import TableSkeleton from "./table-skeleton";
 function CardsSkeleton() {
   return (
     <Group grow align="stretch" preventGrowOverflow>
-      <ShipmentCardsSkeleton />
-      <ShipmentCardsSkeleton />
-      <ShipmentCardsSkeleton />
-      <ShipmentCardsSkeleton />
+      <ShipmentCardsSkeleton label="Active" />
+      <ShipmentCardsSkeleton label="Pending" />
+      <ShipmentCardsSkeleton label="Completed" />
+      <ShipmentCardsSkeleton label="All" />
     </Group>
   );
 }
