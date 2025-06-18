@@ -28,7 +28,7 @@
           "layoutName": "api.Inquiries"
         }
       ],
-      "validator": "zod"
+      "validator": "zod/v3"
     },
     {
       "clientSuffix": "Layout",

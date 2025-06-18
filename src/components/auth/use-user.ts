@@ -1,14 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { currentSessionAction, logoutAction } from "./actions";
-import { Session } from "@/server/auth/utils/session";
-import { User } from "@/server/auth/utils/user";
+import { Session, UserSession } from "@/server/auth/utils/session";
 
 type LogoutAction = () => Promise<void>;
 type UseUserResult =
   | {
       state: "authenticated";
       session: Session;
-      user: User;
+      user: UserSession;
       logout: LogoutAction;
     }
   | {

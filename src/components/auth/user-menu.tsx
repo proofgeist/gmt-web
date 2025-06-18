@@ -3,7 +3,13 @@
 import { Button, Menu, px, Skeleton, Text } from "@mantine/core";
 import { useUser } from "./use-user";
 import Link from "next/link";
-import { IconChevronDown, IconLogout, IconUser } from "@tabler/icons-react";
+import {
+  IconChevronDown,
+  IconLogin,
+  IconLogout,
+  IconUser,
+  IconUserPlus,
+} from "@tabler/icons-react";
 import { yellowtail } from "@/config/theme/fonts";
 
 export default function UserMenu() {
@@ -14,12 +20,37 @@ export default function UserMenu() {
   }
   if (state === "unauthenticated") {
     return (
-      <Button component="a" href="/auth/login" variant="white" size="sm">
-        <Text span className={yellowtail.className}>
-          my
-        </Text>
-        GMT
-      </Button>
+      <Menu
+        position="bottom-end"
+        trigger="hover"
+        openDelay={50}
+        closeDelay={200}
+      >
+        <Menu.Target>
+          <Button variant="white" size="sm">
+            <Text span className={yellowtail.className}>
+              my
+            </Text>
+            GMT
+          </Button>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item
+            component={Link}
+            href="/auth/login"
+            leftSection={<IconLogin size={px("1rem")} />}
+          >
+            Login
+          </Menu.Item>
+          <Menu.Item
+            component={Link}
+            href="/auth/signup"
+            leftSection={<IconUserPlus size={px("1rem")} />}
+          >
+            Register
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
     );
   }
   return (

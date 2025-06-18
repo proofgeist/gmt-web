@@ -117,7 +117,7 @@ export default function HeaderNavLink(route: Route) {
     return (
       <a
         href={route.href}
-        className={`${classes.link} ${route.customStyles ? classes[route.customStyles] : ""}`}
+        className={`${!route.component && classes.link} ${route.customStyles ? classes[route.customStyles] : ""}`}
         data-active={isActive || undefined}
       >
         {route.component || route.label}
