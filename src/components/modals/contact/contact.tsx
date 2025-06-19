@@ -13,7 +13,6 @@ import {
 } from "@mantine/core";
 import { closeAllModals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import { useEffect } from "react";
 
 export function ContactModal({
   email,
