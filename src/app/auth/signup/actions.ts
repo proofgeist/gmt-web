@@ -41,8 +41,8 @@ export const signupAction = actionClient
       return { error: "Password is too weak" };
     }
 
-    const webInfo = await getIsContactWebEnabled(email).catch(() => {
-      contactAction({
+    const webInfo = await getIsContactWebEnabled(email).catch(async () => {
+      await contactAction({
         companyName: company,
         firstName,
         lastName,
