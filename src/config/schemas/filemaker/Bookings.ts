@@ -18,7 +18,7 @@ export const ZBookings = ZBookings_generated.extend({
     if (typeof val === "string" && val) {
       try {
         return JSON.parse(val);
-      } catch (e) {
+      } catch {
         return [];
       }
     }

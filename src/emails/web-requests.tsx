@@ -5,7 +5,6 @@ import {
   Heading,
   Html,
   Img,
-  Section,
   Text,
 } from "@react-email/components";
 import * as React from "react";

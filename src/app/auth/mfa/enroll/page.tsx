@@ -1,5 +1,6 @@
-import { Container, Text, Title } from "@mantine/core";
+import { Container, Skeleton, Text, Title } from "@mantine/core";
 import MFAEnrollForm from "./mfa-enroll-form";
+import { Suspense } from "react";
 
 export default async function Page() {
   return (
@@ -9,7 +10,9 @@ export default async function Page() {
         Enter your phone number to enable two-factor authentication.
       </Text>
 
-      <MFAEnrollForm />
+      <Suspense fallback={<Skeleton height={400} />}>
+        <MFAEnrollForm />
+      </Suspense>
     </Container>
   );
 }

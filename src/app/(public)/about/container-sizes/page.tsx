@@ -12,11 +12,7 @@ import {
   Stack,
   CardSection,
   Box,
-  Center,
 } from "@mantine/core";
-import { IconRuler } from "@tabler/icons-react";
-import styles from "../about.module.css";
-import { brandColor } from "@/config/theme/mantine-theme";
 import { ContactButton } from "../contact-button";
 
 const containerData = [

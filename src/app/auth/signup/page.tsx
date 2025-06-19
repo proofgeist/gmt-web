@@ -1,8 +1,9 @@
 import { getCurrentSession } from "@/server/auth/utils/session";
-import { Anchor, Container, Text, Title } from "@mantine/core";
+import { Anchor, Container, Skeleton, Text, Title } from "@mantine/core";
 import { redirect } from "next/navigation";
 import SignupForm from "./signup-form";
 import { getRedirectCookie } from "@/server/auth/utils/redirect";
+import { Suspense } from "react";
 
 export default async function Page() {
   const { session } = await getCurrentSession();
@@ -22,7 +23,9 @@ export default async function Page() {
         </Anchor>
       </Text>
 
-      <SignupForm />
+      <Suspense fallback={<Skeleton height={400} />}>
+        <SignupForm />
+      </Suspense>
     </Container>
   );
 }

@@ -10,7 +10,7 @@ export default async function Protect({
 }: {
   children: React.ReactNode;
 }) {
-  const { session, user } = await getCurrentSession();
+  const { session } = await getCurrentSession();
   if (!session) return <AuthRedirect path="/auth/login" />;
   // if (!user.emailVerified) return <AuthRedirect path="/auth/verify-email" />;
   return <>{children}</>;

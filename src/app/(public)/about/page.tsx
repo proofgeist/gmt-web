@@ -1,5 +1,4 @@
 import {
-  Container,
   Title,
   Text,
   Card,
@@ -7,12 +6,10 @@ import {
   Box,
   Image,
   Stack,
-  Center,
   CardSection,
   Grid,
   GridCol,
 } from "@mantine/core";
-import styles from "./about.module.css";
 import React from "react";
 import Link from "next/link";
 import {
@@ -21,7 +18,6 @@ import {
   IconTruck,
   IconWorld,
   IconPackage,
-  IconInfoCircle,
   IconShield,
 } from "@tabler/icons-react";
 import { brandColor } from "@/config/theme/mantine-theme";

@@ -1,5 +1,4 @@
 import {
-  Container,
   Title,
   Text,
   SimpleGrid,
@@ -7,10 +6,8 @@ import {
   Image,
   Box,
   Stack,
-  Center,
   CardSection,
 } from "@mantine/core";
-import styles from "../about.module.css";
 import { notFound } from "next/navigation";
 import {
   IconShip,
@@ -234,8 +231,6 @@ export default async function ServicePage({
   if (!serviceData) {
     notFound();
   }
-
-  const ServiceIcon = serviceData.icon;
 
   return (
     <Card shadow="md" radius={0} padding="xl">

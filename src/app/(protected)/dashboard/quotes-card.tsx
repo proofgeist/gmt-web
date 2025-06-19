@@ -3,7 +3,6 @@
 import { Card, Stack, Text, Group, Box, useMantineTheme } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { IconFileDescription } from "@tabler/icons-react";
-import { useState } from "react";
 
 // Define styles for the quotes card hover effect
 const quoteCardStyles = {

@@ -49,7 +49,11 @@ export default function MyTable({ shipmentType }: MyTableProps) {
     renderTopToolbarCustomActions: () => (
       <Group>
         <Title order={4} p="md">
-          {user?.reportReferenceCustomer} Shipments
+          {`${user?.reportReferenceCustomer} ${
+            shipmentType === "active" ? "Active"
+            : shipmentType === "pending" ? "Pending"
+            : "Completed"
+          } Shipments`}
         </Title>
       </Group>
     ),

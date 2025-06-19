@@ -1,53 +1,61 @@
 "use client";
-import { MRT_ColumnDef } from "mantine-react-table";
+import { MRT_ColumnDef, MRT_Cell } from "mantine-react-table";
 import type { TBookings } from "@/config/schemas/filemaker/Bookings";
 import { Badge, Group, Text } from "@mantine/core";
 import { toProperCase } from "@/utils/functions";
 import dayjs from "dayjs";
-import { openConfirmModal } from "@mantine/modals";
-import { showNotification } from "@mantine/notifications";
 import { IconX } from "@tabler/icons-react";
-import { releaseShipperHold as releaseShipperHoldAction } from "@/app/(protected)/my-shipments/actions";
+import { useReleaseShipperHold } from "@/app/(protected)/my-shipments/hooks/use-release-shipper-hold";
 
-const releaseShipperHold = (gmt_no: string) => {
-  openConfirmModal({
-    title: "Release Shipper Hold",
-    children: <Text>Are you sure you want to release the shipper hold?</Text>,
-    onConfirm: () => {
-      void (async () => {
-        const result = await releaseShipperHoldAction({
-          gmt_no,
-        });
-        if (result?.data?.error) {
-          showNotification({
-            title: "Error",
-            message: result.data.error.text,
-            color: "red",
-          });
-        } else {
-          showNotification({
-            title: "Success",
-            message: "Shipper hold released",
-            color: "green",
-          });
-        }
-      })();
-    },
-  });
-};
+function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
+  const { releaseHold } = useReleaseShipperHold();
+  const value = cell.getValue<TBookings["holdStatusArray"]>();
+  if (!value) return null;
+
+  return (
+    <Group>
+      {value.map((status: string) =>
+        status === "Shipper Hold" ?
+          <Badge
+            key={status}
+            color="red"
+            onClick={() => {
+              const row = cell.row.original;
+              releaseHold({
+                gmt_no: row["_GMT#"],
+                portOfLoading: [row.portOfLoadingCity, row.portOfLoadingCountry]
+                  .filter(Boolean)
+                  .join(", "),
+                portOfDischarge: [
+                  row.portOfDischargeCity,
+                  row.portOfDischargeCountry,
+                ]
+                  .filter(Boolean)
+                  .join(", "),
+                vesselName: row.SSLineCompany,
+              });
+            }}
+            rightSection={<IconX />}
+            style={{ cursor: "pointer" }}
+          >
+            {status}
+          </Badge>
+        : <Badge key={status}>{status}</Badge>
+      )}
+    </Group>
+  );
+}
 
 export const columns: MRT_ColumnDef<TBookings>[] = [
   {
     accessorKey: "_GMT#",
     header: "GMT #",
+    size: 125,
+    maxSize: 125,
   },
   {
     accessorKey: "_shipperReference#",
     header: "Shipper Reference",
-  },
-  {
-    accessorKey: "SSLineCompany",
-    header: "SSL",
   },
   {
     accessorKey: "placeOfReceiptCity",
@@ -136,29 +144,7 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
     id: "holds",
     header: "Holds",
     accessorFn: (row) => row.holdStatusArray,
-    Cell: ({ cell }) => {
-      const value = cell.getValue<TBookings["holdStatusArray"]>();
-      if (!value) return null;
-      return (
-        <Group>
-          {value.map((status) =>
-            status === "Shipper Hold" ?
-              <Badge
-                key={status}
-                color="red"
-                onClick={() => {
-                  releaseShipperHold(cell.row.original["_GMT#"]);
-                }}
-                rightSection={<IconX />}
-                style={{ cursor: "pointer" }}
-              >
-                {status}
-              </Badge>
-            : <Badge key={status}>{status}</Badge>
-          )}
-        </Group>
-      );
-    },
+    Cell: ({ cell }) => <HoldsCell cell={cell} />,
     filterVariant: "text",
   },
 ];
