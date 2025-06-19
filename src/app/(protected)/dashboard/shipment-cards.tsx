@@ -27,8 +27,8 @@ export default function ShipmentCards({
 }: ShipmentCardsProps) {
   const { activeShipments, pendingShipments, pastShipments } = useShipments();
   const theme = useMantineTheme();
-  const { hovered, ref } = useHover();
-
+  const [hovered, setHovered] = useState<number | null>(null);
+  console.log(hovered);
   const cardData = [
     {
       icon: IconShip,
@@ -55,7 +55,8 @@ export default function ShipmentCards({
       {cardData.map((card, index) => (
         <UnstyledButton
           key={index}
-          ref={ref}
+          onMouseEnter={() => setHovered(index)}
+          onMouseLeave={() => setHovered(null)}
           onClick={() => setShipmentType(card.type)}
           style={{
             cursor: "pointer",
@@ -74,7 +75,7 @@ export default function ShipmentCards({
                 : undefined,
               borderWidth: shipmentType === card.type ? 2 : 1,
               backgroundColor:
-                hovered || shipmentType === card.type ?
+                hovered === index || shipmentType === card.type ?
                   theme.colors.brand[0]
                 : undefined,
               transition: "background-color 0.3s ease",
