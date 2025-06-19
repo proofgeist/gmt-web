@@ -14,34 +14,40 @@ function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
 
   return (
     <Group>
-      {value.map((status: string) =>
-        status === "Shipper Hold" ?
-          <Badge
-            key={status}
-            color="red"
-            onClick={() => {
-              const row = cell.row.original;
-              releaseHold({
-                gmt_no: row["_GMT#"],
-                portOfLoading: [row.portOfLoadingCity, row.portOfLoadingCountry]
-                  .filter(Boolean)
-                  .join(", "),
-                portOfDischarge: [
-                  row.portOfDischargeCity,
-                  row.portOfDischargeCountry,
-                ]
-                  .filter(Boolean)
-                  .join(", "),
-                vesselName: row.SSLineCompany,
-              });
-            }}
-            rightSection={<IconX />}
-            style={{ cursor: "pointer" }}
-          >
-            {status}
-          </Badge>
-        : <Badge key={status}>{status}</Badge>
-      )}
+      {value.length > 0 ?
+        value.map((status: string) =>
+          status === "Shipper Hold" ?
+            <Badge
+              key={status}
+              color="red"
+              onClick={(e) => {
+                e.stopPropagation();
+                const row = cell.row.original;
+                releaseHold({
+                  gmt_no: row["_GMT#"],
+                  portOfLoading: [
+                    row.portOfLoadingCity,
+                    row.portOfLoadingCountry,
+                  ]
+                    .filter(Boolean)
+                    .join(", "),
+                  portOfDischarge: [
+                    row.portOfDischargeCity,
+                    row.portOfDischargeCountry,
+                  ]
+                    .filter(Boolean)
+                    .join(", "),
+                  vesselName: row.SSLineCompany,
+                });
+              }}
+              rightSection={<IconX size={12} />}
+              style={{ cursor: "pointer" }}
+            >
+              {status}
+            </Badge>
+          : <Badge key={status}>{status}</Badge>
+        )
+      : <Text c="dimmed">No holds</Text>}
     </Group>
   );
 }

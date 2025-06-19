@@ -2,7 +2,7 @@
 import { Drawer, Stack, Card, Group, Text, Title, Button } from "@mantine/core";
 import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getMyShipmentsByGMTNumberAction } from "../../actions";
 import { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ export default function BookingDetails() {
   const searchParams = useSearchParams();
   const bookingNumberFromParams = searchParams.get("bookingNumber");
   const [bookingNumber, setBookingNumber] = useState<string | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     setBookingNumber(bookingNumberFromParams ?? null);
@@ -20,7 +21,7 @@ export default function BookingDetails() {
 
   // Fetch shipment details when a booking is selected
   const { data: shipmentDetails } = useQuery({
-    queryKey: ["shipment", bookingNumber],
+    queryKey: ["booking-detail", bookingNumber],
     queryFn: async () => {
       if (!bookingNumber) return null;
       const result = await getMyShipmentsByGMTNumberAction({
@@ -34,7 +35,8 @@ export default function BookingDetails() {
   return (
     <Drawer
       opened={!!bookingNumber}
-      onClose={() => router.push("/my-shipments")}
+      //remove query params
+      onClose={() => router.replace(pathname)}
       position="right"
       size="md"
       title={<Text fw={700}>Shipment Details</Text>}
