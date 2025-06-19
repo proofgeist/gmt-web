@@ -15,8 +15,19 @@ import { closeAllModals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import { useEffect } from "react";
 
-export function ContactModal({ email, firstName, lastName, company }: { email?: string, firstName?: string, lastName?: string, company?: string }) {
-
+export function ContactModal({
+  email,
+  firstName,
+  lastName,
+  company,
+  cell,
+}: {
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  company?: string;
+  cell?: string;
+}) {
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     contactAction,
     zodResolver(contactSchema),
@@ -40,17 +51,17 @@ export function ContactModal({ email, firstName, lastName, company }: { email?: 
           });
         },
       },
+      formProps: {
+        defaultValues: {
+          email: email || "",
+          firstName: firstName || "",
+          lastName: lastName || "",
+          companyName: company || "",
+          cell: cell || "",
+        },
+      },
     }
   );
-
-  useEffect(() => {
-    form.reset({
-      email: email || "",
-      firstName: firstName || "",
-      lastName: lastName || "",
-      companyName: company || "",
-    });
-  }, [email, firstName, lastName, company, form]);
 
   return (
     <form onSubmit={handleSubmitWithAction}>

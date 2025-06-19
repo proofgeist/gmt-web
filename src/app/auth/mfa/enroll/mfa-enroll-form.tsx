@@ -7,14 +7,17 @@ import { mfaEnrollSchema } from "./schema";
 import { mfaEnrollAction } from "./actions";
 import { useState, useEffect } from "react";
 import { AsYouType } from "libphonenumber-js";
+import { useSearchParams } from "next/navigation";
 
 export default function MFAEnrollForm() {
+  const searchParams = useSearchParams();
+  const phoneNumber = searchParams.get("phoneNumber");
   const [codeSent, setCodeSent] = useState(false);
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     mfaEnrollAction,
     zodResolver(mfaEnrollSchema),
     {
-      formProps: {},
+      formProps: { defaultValues: { phoneNumber: phoneNumber ?? undefined } },
     }
   );
 

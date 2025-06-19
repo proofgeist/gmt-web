@@ -9,10 +9,11 @@
   // @generated
   // prettier-ignore
   /* eslint-disable */
-  export const ZContacts = z.object({
-      "__kpnID": z.string(),
-      "hasWebAccess": z.union([z.string(), z.number()]),
-      "Email1": z.string(),
+  export const ZInbox = z.object({
+      "scriptName": z.string(),
+      "CreationTimestamp": z.string(),
+      "inboxPayload": z.string(),
+      "scriptResult": z.string(),
   });
 
-  export type TContacts = z.infer<typeof ZContacts>;
+  export type TInbox = z.infer<typeof ZInbox>;

@@ -5,7 +5,7 @@ export default function AppLogo() {
   return (
     <Group gap="0">
       <Image
-        src="/gmt_logo-only.png"
+        src="/gmt-icon.png"
         alt="GMT"
         p={4}
         height={42}
