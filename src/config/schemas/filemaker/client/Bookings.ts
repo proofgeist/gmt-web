@@ -9,7 +9,7 @@
 
   // @generated
   // prettier-ignore
-/* eslint-disable */
+  /* eslint-disable */
   if (!process.env.FM_DATABASE) throw new Error("Missing env var: FM_DATABASE")
   if (!process.env.FM_SERVER) throw new Error("Missing env var: FM_SERVER")
   if (!process.env.OTTO_API_KEY) throw new Error("Missing env var: OTTO_API_KEY")

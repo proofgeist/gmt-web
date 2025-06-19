@@ -12,7 +12,6 @@ import React, { useState } from "react";
 import { IconShip, IconClockHour4, IconCircleCheck } from "@tabler/icons-react";
 import QuotesCard from "./quotes-card";
 import useShipments from "../use-shipments";
-import { useHover } from "@mantine/hooks";
 
 type ShipmentType = "active" | "pending" | "completed";
 

@@ -15,7 +15,7 @@ import {
   setEmailVerificationRequestCookie,
 } from "@/server/auth/utils/email-verification";
 import { cookies } from "next/headers";
-import { sendWebRequestEmail } from "@/server/auth/email";
+import { sendWebRequestEmail } from "@/utils/email";
 import { DEFAULT_INBOX } from "@/config/email";
 import { contactAction } from "@/components/modals/contact/actions";
 

@@ -5,18 +5,10 @@ import {
   Heading,
   Html,
   Img,
-  Section,
   Text,
-  Link,
 } from "@react-email/components";
 import * as React from "react";
-import { env } from "@/config/env";
 import { emailStyles } from "./styles";
-
-const BASE_URL =
-  env.NODE_ENV === "production" ?
-    "https://gmt-web.vercel.app/"
-  : "http://localhost:3000";
 
 interface InquiryEmailProps {
   email: string;

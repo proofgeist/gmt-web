@@ -1,11 +1,12 @@
 "use client";
-import { Drawer, Stack, Card, Group, Text, Title } from "@mantine/core";
+import { Drawer, Stack, Card, Group, Text, Title, Button } from "@mantine/core";
 import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getMyShipmentsByGMTNumberAction } from "../../actions";
 import { useEffect, useState } from "react";
+import { useReleaseShipperHold } from "../hooks/use-release-shipper-hold";
 
 export default function BookingDetails() {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function BookingDetails() {
     },
     enabled: !!bookingNumber,
   });
+  const { releaseHold } = useReleaseShipperHold();
   return (
     <Drawer
       opened={!!bookingNumber}
@@ -49,10 +51,6 @@ export default function BookingDetails() {
               <Group justify="space-between">
                 <Text fw={500}>Booking Number</Text>
                 <Text>{shipmentDetails["_Booking#"]}</Text>
-              </Group>
-              <Group justify="space-between">
-                <Text fw={500}>Customer Reference</Text>
-                <Text>{shipmentDetails.reportReferenceCustomer || "-"}</Text>
               </Group>
               <Group justify="space-between">
                 <Text fw={500}>Shipper Reference</Text>
@@ -191,19 +189,45 @@ export default function BookingDetails() {
             </Stack>
           </Card>
 
-          {shipmentDetails.holdStatus && (
+          {shipmentDetails.holdStatusArray.length > 0 && (
             <Card withBorder>
               <Stack>
                 <Title order={4}>Hold Status</Title>
+
                 {shipmentDetails.onHoldByShipperTStamp && (
-                  <Group justify="space-between">
-                    <Text fw={500}>On Hold By Shipper</Text>
-                    <Text>
-                      {dayjs(shipmentDetails.onHoldByShipperTStamp).format(
-                        "MMM D, YYYY"
-                      )}
-                    </Text>
-                  </Group>
+                  <Stack>
+                    <Group justify="space-between">
+                      <Text fw={500}>On Hold By Shipper</Text>
+                      <Text>
+                        {dayjs(shipmentDetails.onHoldByShipperTStamp).format(
+                          "MMM D, YYYY"
+                        )}
+                      </Text>
+                    </Group>
+                    <Button
+                      onClick={() => {
+                        releaseHold({
+                          gmt_no: shipmentDetails["_GMT#"],
+                          portOfLoading: [
+                            shipmentDetails.portOfLoadingCity,
+                            shipmentDetails.portOfLoadingCountry,
+                          ]
+                            .filter(Boolean)
+                            .join(", "),
+                          portOfDischarge: [
+                            shipmentDetails.portOfDischargeCity,
+                            shipmentDetails.portOfDischargeCountry,
+                          ]
+                            .filter(Boolean)
+                            .join(", "),
+                          vesselName: shipmentDetails.SSLineVessel,
+                        });
+                      }}
+                      color="red"
+                    >
+                      Release Shipper Hold
+                    </Button>
+                  </Stack>
                 )}
                 {shipmentDetails.onHoldGmtTStamp && (
                   <Group justify="space-between">
