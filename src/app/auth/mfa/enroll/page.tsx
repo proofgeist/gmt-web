@@ -1,6 +1,6 @@
 import { Container, Skeleton, Text, Title } from "@mantine/core";
 import MFAEnrollForm from "./mfa-enroll-form";
-import { Suspense } from "react 2";
+import { Suspense } from "react";
 
 export default async function Page() {
   return (
