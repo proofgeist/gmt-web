@@ -5,9 +5,8 @@ import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
 import { useRouter } from "next/navigation";
 import { columns } from "@/components/tables/bookings-columns";
 import { Group, Title } from "@mantine/core";
-import { getShipmentByTypeAction } from "../actions";
-import { useQuery } from "@tanstack/react-query";
 import { useUser } from "@/components/auth/use-user";
+import useShipments from "../use-shipments";
 
 interface MyTableProps {
   shipmentType: "active" | "pending" | "completed";
@@ -18,13 +17,9 @@ export default function MyTable({ shipmentType }: MyTableProps) {
   const { user } = useUser();
 
   // Fetch shipment details based on the selected type
-  const { data, isLoading } = useQuery({
-    queryKey: ["shipmentData", shipmentType],
-    queryFn: async () => {
-      const result = await getShipmentByTypeAction({ type: shipmentType });
-      return result?.data ?? [];
-    },
-  });
+  const {
+    shipmentsByType: { data, isLoading },
+  } = useShipments(shipmentType );
 
   const table = useMantineReactTable({
     data: data ?? [],

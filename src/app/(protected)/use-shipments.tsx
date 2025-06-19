@@ -2,10 +2,13 @@ import {
   getActiveShipmentsAction,
   getPendingShipmentsAction,
   getPastShipmentsAction,
+  getShipmentByTypeAction,
 } from "./actions";
 import { useQuery } from "@tanstack/react-query";
 
-export default function useShipments() {
+type ShipmentType = "active" | "pending" | "completed";
+
+export default function useShipments(shipmentType?: ShipmentType) {
   const activeShipments = useQuery({
     queryKey: ["activeShipments"],
     queryFn: () => getActiveShipmentsAction({}),
@@ -18,9 +21,20 @@ export default function useShipments() {
     queryKey: ["pastShipments"],
     queryFn: () => getPastShipmentsAction({}),
   });
+  const shipmentsByType = useQuery({
+    queryKey: ["shipmentData", shipmentType],
+    queryFn: async () => {
+      if (!shipmentType) return [];
+      const result = await getShipmentByTypeAction({ type: shipmentType });
+      return result?.data ?? [];
+    },
+    enabled: !!shipmentType,
+  });
+
   return {
     activeShipments,
     pendingShipments,
     pastShipments,
+    shipmentsByType,
   };
 }

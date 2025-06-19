@@ -27,7 +27,6 @@ export default function ShipmentCards({
   const { activeShipments, pendingShipments, pastShipments } = useShipments();
   const theme = useMantineTheme();
   const [hovered, setHovered] = useState<number | null>(null);
-  console.log(hovered);
   const cardData = [
     {
       icon: IconShip,
