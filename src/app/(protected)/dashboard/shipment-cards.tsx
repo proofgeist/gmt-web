@@ -3,6 +3,7 @@
 import {
   Card,
   Group,
+  SimpleGrid,
   Stack,
   Text,
   UnstyledButton,
@@ -49,7 +50,7 @@ export default function ShipmentCards({
   ];
 
   return (
-    <Group grow align="stretch" preventGrowOverflow>
+    <SimpleGrid cols={{ base: 2, sm: 4, md: 4 }}>
       {cardData.map((card, index) => (
         <UnstyledButton
           key={index}
@@ -59,6 +60,7 @@ export default function ShipmentCards({
           style={{
             cursor: "pointer",
             borderRadius: theme.radius.md,
+            height: "100%",
           }}
         >
           <Card
@@ -77,6 +79,7 @@ export default function ShipmentCards({
                   theme.colors.brand[0]
                 : undefined,
               transition: "background-color 0.3s ease",
+              height: "100%",
             }}
           >
             <Stack align="center" justify="center" gap="xs">
@@ -98,6 +101,6 @@ export default function ShipmentCards({
         </UnstyledButton>
       ))}
       <QuotesCard />
-    </Group>
+    </SimpleGrid>
   );
 }

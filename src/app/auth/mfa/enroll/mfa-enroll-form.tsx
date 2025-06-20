@@ -2,12 +2,21 @@
 
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Paper, Stack, Text, TextInput, PinInput } from "@mantine/core";
+import {
+  Button,
+  Paper,
+  Stack,
+  Text,
+  TextInput,
+  PinInput,
+  Group,
+} from "@mantine/core";
 import { mfaEnrollSchema } from "./schema";
 import { mfaEnrollAction } from "./actions";
 import { useState, useEffect } from "react";
 import { AsYouType } from "libphonenumber-js";
 import { useSearchParams } from "next/navigation";
+import { sendVerificationCodeAction } from "../actions";
 
 export default function MFAEnrollForm() {
   const searchParams = useSearchParams();
@@ -20,6 +29,20 @@ export default function MFAEnrollForm() {
       formProps: { defaultValues: { phoneNumber: phoneNumber ?? undefined } },
     }
   );
+  const [isResending, setIsResending] = useState(false);
+
+  const handleResendCode = async () => {
+    try {
+      setIsResending(true);
+      await sendVerificationCodeAction({
+        phoneNumber: form.getValues("phoneNumber"),
+      });
+    } catch (error) {
+      console.error("Error resending code:", error);
+    } finally {
+      setIsResending(false);
+    }
+  };
 
   useEffect(() => {
     if (action.result?.data && "codeSent" in action.result.data) {
@@ -72,10 +95,22 @@ export default function MFAEnrollForm() {
               />
             </Stack>
           )}
+          <Group justify="space-between">
+            {codeSent && (
+              <Button
+                variant="subtle"
+                onClick={handleResendCode}
+                loading={isResending}
+                fullWidth
+              >
+                Resend Code
+              </Button>
+            )}
 
-          <Button fullWidth type="submit" loading={action.isPending}>
-            {codeSent ? "Verify Code" : "Send Code"}
-          </Button>
+            <Button fullWidth type="submit" loading={action.isPending}>
+              {codeSent ? "Verify Code" : "Send Code"}
+            </Button>
+          </Group>
 
           {action.result?.data && "error" in action.result.data ?
             <Text c="red">{action.result.data.error}</Text>

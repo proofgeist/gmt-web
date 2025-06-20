@@ -16,7 +16,7 @@ export default function UserMenu() {
   const { state, user, logout } = useUser();
 
   if (state === "loading") {
-    return <Skeleton w={100} h={20} color="brand.4" />;
+    return <Skeleton w={100} h={30} color="brand.4" />;
   }
   if (state === "unauthenticated") {
     return (
