@@ -15,7 +15,7 @@ import { emailStyles } from "./styles";
 
 const BASE_URL =
   env.NODE_ENV === "production" ?
-    "https://gmt-web.vercel.app/"
+    "https://www.mygmt.com/"
   : "http://localhost:3000";
 
 interface ActivatedEmailProps {
@@ -28,7 +28,7 @@ export const ActivatedEmail = ({ name }: ActivatedEmailProps) => (
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
         <Img
-          src="https://gmt-web.vercel.app/gmt_logo-sticker.png"
+          src="https://www.mygmt.com/gmt_logo-sticker.png"
           width="238"
           height="175"
           alt="Global Marine"
@@ -47,10 +47,7 @@ export const ActivatedEmail = ({ name }: ActivatedEmailProps) => (
           Your account has been activated. You can now login to the platform.
         </Text>
         <Section style={{ textAlign: "center", marginTop: "20px" }}>
-          <Link
-            href={`${BASE_URL}/login`}
-            style={emailStyles.button}
-          >
+          <Link href={`${BASE_URL}/login`} style={emailStyles.button}>
             Login to Global Marine
           </Link>
         </Section>

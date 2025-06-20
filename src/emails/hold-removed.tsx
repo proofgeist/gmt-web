@@ -60,7 +60,7 @@ export const HoldRemovedEmail = ({
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
         <Img
-          src="https://gmt-web.vercel.app/gmt_logo-sticker.png"
+          src="https://www.mygmt.com/gmt_logo-sticker.png"
           width="180"
           height="132"
           alt="Global Marine"
@@ -116,7 +116,7 @@ export const HoldRemovedEmail = ({
         <Section style={{ textAlign: "center", marginTop: "20px" }}>
           <Button
             style={emailStyles.button}
-            href="https://gmt-web.vercel.app/my-shipments"
+            href="https://www.mygmt.com/my-shipments"
           >
             View My Shipments
           </Button>
