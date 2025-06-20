@@ -60,7 +60,7 @@ export const InquiryEmail = ({
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
         <Img
-          src="https://gmt-web.vercel.app/gmt_logo-sticker.png"
+          src="https://www.mygmt.com/gmt_logo-sticker.png"
           width="180"
           height="132"
           alt="Global Marine"

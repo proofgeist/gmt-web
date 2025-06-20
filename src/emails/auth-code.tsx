@@ -15,8 +15,8 @@ import { emailStyles } from "./styles";
 
 const BASE_URL =
   env.NODE_ENV === "production" ?
-    "https://gmt-web.vercel.app/"
-  : "https://gmt-web.vercel.app/";
+    "https://www.mygmt.com/"
+  : "https://www.mygmt.com/";
 
 interface AuthCodeEmailProps {
   validationCode: string;
@@ -55,7 +55,7 @@ export const AuthCodeEmail = ({ validationCode, type }: AuthCodeEmailProps) => (
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
         <Img
-          src="https://gmt-web.vercel.app/gmt_logo-sticker.png"
+          src="https://www.mygmt.com/gmt_logo-sticker.png"
           width="238"
           height="175"
           alt="Global Marine"
