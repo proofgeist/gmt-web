@@ -6,11 +6,6 @@ import { IconFileDescription } from "@tabler/icons-react";
 
 // Define styles for the quotes card hover effect
 const quoteCardStyles = {
-  container: {
-    position: "relative" as const,
-    overflow: "hidden" as const,
-    flexGrow: 1,
-  },
   overlay: {
     position: "absolute" as const,
     top: 0,
