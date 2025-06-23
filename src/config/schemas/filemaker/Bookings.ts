@@ -14,13 +14,11 @@ export const HoldStatusEnum = z.enum([
 ]);
 
 export const ZBookings = ZBookings_generated.extend({
-  holdStatusArray: z.preprocess((val) => {
+  holdStatusList: z.preprocess((val) => {
     if (typeof val === "string" && val) {
-      try {
-        return JSON.parse(val);
-      } catch {
-        return [];
-      }
+      return val.split("\r");
+    } else if (Array.isArray(val)) {
+      return val as string[];
     }
     return [];
   }, z.array(HoldStatusEnum)),

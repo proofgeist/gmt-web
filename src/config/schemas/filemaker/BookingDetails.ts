@@ -13,30 +13,14 @@ const HoldStatusEnum = z.enum([
 ]);
 
 export const ZBookingDetails = ZBookingDetails_generated.extend({
-  holdStatusArray: z
-    .union([z.string(), z.array(HoldStatusEnum)])
-    .transform((val, ctx) => {
-      if (val === "") return [];
-      let array = [];
-      if (typeof val === "string") {
-        try {
-          array = JSON.parse(val);
-        } catch {
-          return [];
-        }
-      } else if (Array.isArray(val)) {
-        array = val;
-      }
-      if (Array.isArray(array)) {
-        const result = z.array(HoldStatusEnum).safeParse(array);
-        if (result.success) {
-          return result.data;
-        }
-        result.error.issues.forEach(ctx.addIssue);
-        return z.NEVER;
-      }
-      return [];
-    }),
+  holdStatusList: z.preprocess((val) => {
+    if (typeof val === "string" && val) {
+      return val.split("\r");
+    } else if (Array.isArray(val)) {
+      return val as string[];
+    }
+    return [];
+  }, z.array(HoldStatusEnum)),
 });
 
 export type TBookingDetails = z.infer<typeof ZBookingDetails>;

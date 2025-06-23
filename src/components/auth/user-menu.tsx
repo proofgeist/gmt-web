@@ -15,10 +15,8 @@ import { yellowtail } from "@/config/theme/fonts";
 export default function UserMenu() {
   const { state, user, logout } = useUser();
 
-  if (state === "loading") {
-    return <Skeleton w={100} h={30} color="brand.4" />;
-  }
-  if (state === "unauthenticated") {
+
+  if (state === "unauthenticated" || state === "loading") {
     return (
       <Menu
         position="bottom-end"
@@ -27,7 +25,7 @@ export default function UserMenu() {
         closeDelay={200}
       >
         <Menu.Target>
-          <Button variant="white" size="sm">
+          <Button variant="white" size="sm" miw={111.59}>
             <Text span className={yellowtail.className}>
               my
             </Text>

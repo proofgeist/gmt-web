@@ -191,7 +191,7 @@ export default function BookingDetails() {
             </Stack>
           </Card>
 
-          {shipmentDetails.holdStatusArray.length > 0 && (
+          {shipmentDetails.holdStatusList.length > 0 && (
             <Card withBorder>
               <Stack>
                 <Title order={4}>Hold Status</Title>
