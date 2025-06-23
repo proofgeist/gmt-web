@@ -17,7 +17,7 @@ export function SlotHeaderRight({ routes, hideUserMenu = false }: { routes: Rout
 
   return (
     <>
-      <Group>
+      <Group gap={5}>
         <Group gap={5} visibleFrom="xs">
           {routes
             .filter(

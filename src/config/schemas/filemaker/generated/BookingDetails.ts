@@ -47,7 +47,7 @@
       "portOfLoadingCity": z.string(),
       "portOfLoadingCountry": z.string(),
       "onHoldByShipperTStamp": z.string(),
-      "holdStatusArray": z.union([z.string(), z.number()]),
+      "holdStatusList": z.string(),
       "onHoldGmtTStamp": z.string(),
       "agentOnHoldTStamp": z.string(),
       "customsHoldTStamp": z.string(),

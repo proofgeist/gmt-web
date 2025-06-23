@@ -9,13 +9,13 @@ import { useReleaseShipperHold } from "@/app/(protected)/my-shipments/hooks/use-
 
 function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
   const { releaseHold } = useReleaseShipperHold();
-  const value = cell.getValue<TBookings["holdStatusArray"]>();
+  const value = cell.getValue<TBookings["holdStatusList"]>();
   if (!value) return null;
 
   return (
     <Group>
       {value.length > 0 ?
-        value.map((status: string) =>
+        value.map((status) =>
           status === "Shipper Hold" ?
             <Badge
               key={status}
@@ -149,7 +149,7 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
   {
     id: "holds",
     header: "Holds",
-    accessorFn: (row) => row.holdStatusArray,
+    accessorFn: (row) => row.holdStatusList,
     Cell: ({ cell }) => <HoldsCell cell={cell} />,
     filterVariant: "text",
   },
