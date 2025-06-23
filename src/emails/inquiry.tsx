@@ -59,13 +59,7 @@ export const InquiryEmail = ({
     <Head />
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
-        <Img
-          src="https://www.mygmt.com/gmt_logo-sticker.png"
-          width="180"
-          height="132"
-          alt="Global Marine"
-          style={emailStyles.logo}
-        />
+        
         <Text style={emailStyles.tertiary}>Global Marine Web</Text>
         <Heading style={emailStyles.secondary}>New Contact Inquiry</Heading>
 

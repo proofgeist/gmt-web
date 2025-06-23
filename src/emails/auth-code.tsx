@@ -54,13 +54,7 @@ export const AuthCodeEmail = ({ validationCode, type }: AuthCodeEmailProps) => (
     <Head />
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
-        <Img
-          src="https://www.mygmt.com/gmt_logo-sticker.png"
-          width="238"
-          height="175"
-          alt="Global Marine"
-          style={emailStyles.logo}
-        />
+        
         <Text style={emailStyles.tertiary}>
           {type === "verification" ?
             "Verify Your Email"
