@@ -93,24 +93,23 @@ export default function MFAEnrollForm() {
                 }}
                 error={!!form.formState.errors.code}
               />
+
+              {codeSent && (
+                <Button
+                  variant="subtle"
+                  onClick={handleResendCode}
+                  loading={isResending}
+                  fullWidth
+                >
+                  Resend Code
+                </Button>
+              )}
             </Stack>
           )}
-          <Group justify="space-between">
-            {codeSent && (
-              <Button
-                variant="subtle"
-                onClick={handleResendCode}
-                loading={isResending}
-                fullWidth
-              >
-                Resend Code
-              </Button>
-            )}
 
-            <Button fullWidth type="submit" loading={action.isPending}>
-              {codeSent ? "Verify Code" : "Send Code"}
-            </Button>
-          </Group>
+          <Button fullWidth type="submit" loading={action.isPending}>
+            {codeSent ? "Verify Code" : "Send Code"}
+          </Button>
 
           {action.result?.data && "error" in action.result.data ?
             <Text c="red">{action.result.data.error}</Text>
