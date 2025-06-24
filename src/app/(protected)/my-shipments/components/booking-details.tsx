@@ -181,16 +181,6 @@ export default function BookingDetails() {
             </Stack>
           </Card>
 
-          <Card withBorder>
-            <Stack>
-              <Title order={4}>Shipping Line Contact</Title>
-              <Group justify="space-between">
-                <Text fw={500}>Website</Text>
-                <Text>{shipmentDetails.SSLineCSWebsite || "-"}</Text>
-              </Group>
-            </Stack>
-          </Card>
-
           {shipmentDetails.holdStatusList.length > 0 && (
             <Card withBorder>
               <Stack>
