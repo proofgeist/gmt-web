@@ -12,7 +12,7 @@ import { useUser } from "../auth/use-user";
  *
  * If you don't want it to be used, you may return null or an empty fragment
  */
-export function SlotHeaderRight({ routes, hideUserMenu = false }: { routes: Route[], hideUserMenu?: boolean }) {
+export function SlotHeaderRight({ routes, isPublic }: { routes: Route[], isPublic: boolean }) {
   const { session } = useUser();
 
   return (
@@ -30,7 +30,7 @@ export function SlotHeaderRight({ routes, hideUserMenu = false }: { routes: Rout
               <HeaderNavLink key={route.label} {...route} />
             ))}
         </Group>
-        {!hideUserMenu && <UserMenu />}
+        <UserMenu isPublic={isPublic} />
       </Group>
     </>
   );

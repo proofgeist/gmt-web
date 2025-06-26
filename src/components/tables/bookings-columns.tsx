@@ -1,10 +1,20 @@
 "use client";
 import { MRT_ColumnDef, MRT_Cell } from "mantine-react-table";
-import type { TBookings } from "@/config/schemas/filemaker/Bookings";
-import { Badge, Group, Text } from "@mantine/core";
+import {
+  HoldStatusEnum,
+  type TBookings,
+} from "@/config/schemas/filemaker/Bookings";
+import {
+  ActionIcon,
+  Badge,
+  CopyButton,
+  Group,
+  Text,
+  Tooltip,
+} from "@mantine/core";
 import { toProperCase } from "@/utils/functions";
 import dayjs from "dayjs";
-import { IconX } from "@tabler/icons-react";
+import { IconCheck, IconCopy, IconX } from "@tabler/icons-react";
 import { useReleaseShipperHold } from "@/app/(protected)/my-shipments/hooks/use-release-shipper-hold";
 
 function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
@@ -14,7 +24,7 @@ function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
 
   return (
     <Group>
-      {value.length > 0 ?
+      {value.length > 0 &&
         value.map((status) =>
           status === "Shipper Hold" ?
             <Badge
@@ -46,9 +56,31 @@ function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
               {status}
             </Badge>
           : <Badge key={status}>{status}</Badge>
-        )
-      : <Text c="dimmed">No holds</Text>}
+        )}
     </Group>
+  );
+}
+
+function copyButton(value: string) {
+  return (
+    <CopyButton value={value} timeout={2000}>
+      {({ copied, copy }) => (
+        <Tooltip label={copied ? "Copied" : "Copy"} withArrow position="right">
+          <ActionIcon
+            color={copied ? "teal" : "gray"}
+            variant="subtle"
+            onClick={(e) => {
+              e.stopPropagation();
+              copy();
+            }}
+          >
+            {copied ?
+              <IconCheck size={16} />
+            : <IconCopy size={16} />}
+          </ActionIcon>
+        </Tooltip>
+      )}
+    </CopyButton>
   );
 }
 
@@ -56,41 +88,64 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
   {
     accessorKey: "_GMT#",
     header: "GMT #",
-    size: 125,
-    maxSize: 125,
+    Cell: ({ cell }) =>
+      cell.getValue<string>() && (
+        <Group gap="xs">
+          <Text>{cell.getValue<string>()}</Text>
+          {copyButton(cell.getValue<string>())}
+        </Group>
+      ),
   },
   {
     accessorKey: "_shipperReference#",
     header: "Shipper Reference",
+    Cell: ({ cell }) =>
+      cell.getValue<string>() && (
+        <Group gap="xs">
+          <Text>{cell.getValue<string>().toUpperCase()}</Text>
+          {copyButton(cell.getValue<string>())}
+        </Group>
+      ),
   },
   {
     accessorKey: "placeOfReceiptCity",
     header: "Place of Receipt",
-    Cell: ({ row }) => {
-      const {
-        placeOfReceiptCity,
-        placeOfReceiptCountry,
-        placeOfReceiptState,
-        placeOfReceiptZipCode,
-      } = row.original;
-      return (
-        <Text>
-          {[
-            toProperCase(placeOfReceiptCity),
-            [placeOfReceiptState, placeOfReceiptZipCode]
-              .filter(Boolean)
-              .join(" "),
-            toProperCase(placeOfReceiptCountry),
-          ]
-            .filter(Boolean)
-            .join(", ")}
-        </Text>
-      );
-    },
+    Cell: ({ cell }) =>
+      cell.getValue<string>() && (
+        <Group gap="xs">
+          <Text>{toProperCase(cell.getValue<string>())}</Text>
+          {copyButton(cell.getValue<string>())}
+        </Group>
+      ),
+    filterVariant: "text",
+  },
+  {
+    header: "Port of Loading",
+    accessorKey: "portOfLoadingCity",
+    Cell: ({ cell }) =>
+      cell.getValue<string>() && (
+        <Group gap="xs">
+          <Text>{toProperCase(cell.getValue<string>())}</Text>
+          {copyButton(cell.getValue<string>())}
+        </Group>
+      ),
+    filterVariant: "text",
+  },
+  {
+    header: "Port of Discharge",
+    accessorKey: "portOfDischargeCity",
+    Cell: ({ cell }) =>
+      cell.getValue<string>() && (
+        <Group gap="xs">
+          <Text>{toProperCase(cell.getValue<string>())}</Text>
+          {copyButton(cell.getValue<string>())}
+        </Group>
+      ),
+    filterVariant: "text",
   },
   {
     accessorKey: "ETDDatePort",
-    header: "Sailing Date",
+    header: "Estimated Sailing",
     filterFn: (row, _, filterValue: string) => {
       return dayjs(row.original.ETDDatePort).isSame(dayjs(filterValue));
     },
@@ -102,14 +157,20 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
     },
     Cell: ({ cell }) => {
       const value = cell.getValue<string | null>();
-      if (!value) return null;
-      return <Text>{dayjs(value).format("M/DD/YYYY")}</Text>;
+      return (
+        value && (
+          <Group gap="xs">
+            <Text>{dayjs(value).format("M/DD/YYYY")}</Text>
+            {copyButton(value || "")}
+          </Group>
+        )
+      );
     },
     filterVariant: "date",
   },
   {
     accessorKey: "ETADatePort",
-    header: "Arrival Date",
+    header: "Estimated Arrival",
     filterFn: (row, _, filterValue: string) => {
       return dayjs(row.original.ETADatePort).isSame(dayjs(filterValue));
     },
@@ -121,36 +182,26 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
     },
     Cell: ({ cell }) => {
       const value = cell.getValue<string | null>();
-      if (!value) return <Text>-</Text>;
-      return <Text>{dayjs(value).format("M/DD/YYYY")}</Text>;
+      return (
+        value && (
+          <Group gap="xs">
+            <Text>{dayjs(value).format("M/DD/YYYY")}</Text>
+            {copyButton(value)}
+          </Group>
+        )
+      );
     },
     filterVariant: "date",
-  },
-  {
-    header: "Port of Discharge",
-    accessorFn: (row) =>
-      [row.portOfDischargeCity, row.portOfDischargeCountry]
-        .filter(Boolean)
-        .join(", "),
-    id: "portOfDischarge",
-    Cell: ({ cell }) => <Text>{toProperCase(cell.getValue<string>())}</Text>,
-    filterVariant: "text",
-  },
-  {
-    header: "Place of Delivery",
-    accessorFn: (row) =>
-      [row.placeOfDeliveryCity, row.placeOfDeliveryCountry]
-        .filter(Boolean)
-        .join(", "),
-    id: "deliveryPlace",
-    Cell: ({ cell }) => <Text>{toProperCase(cell.getValue<string>())}</Text>,
-    filterVariant: "text",
   },
   {
     id: "holds",
     header: "Holds",
     accessorFn: (row) => row.holdStatusList,
     Cell: ({ cell }) => <HoldsCell cell={cell} />,
-    filterVariant: "text",
+    filterVariant: "multi-select",
+    filterFn: "arrIncludesSome",
+    mantineFilterSelectProps: {
+      data: HoldStatusEnum.options,
+    },
   },
 ];

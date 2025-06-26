@@ -1,0 +1,25 @@
+# .coderabbit.yaml
+
+# Enable CodeRabbit on pull requests to these branches
+trigger:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+# General review settings
+reviews:
+  enable: true
+  summary: true
+  suggestions: true
+  approve_on_pass: false
+
+# Optional: Exclude files or directories from review
+path_filters:
+  - 'docs/**'
+  - '*.md'
+  - '*.mdc'
+
+# Optional: Custom review prompt (uncomment to use)
+prompt: |
+  Please review this pull request for code quality, security, and adherence to best practices.

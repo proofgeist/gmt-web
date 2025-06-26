@@ -44,7 +44,7 @@ export async function createUser(
     fieldData: {
       email,
       password_hash,
-      emailVerified: 0,
+      emailVerified: 1,
       contact_id: contactID,
       active: active ? 1 : 0,
     },
@@ -55,7 +55,7 @@ export async function createUser(
   const user: User = {
     id: fieldData.id,
     email,
-    emailVerified: false,
+    emailVerified: true,
     username: "",
     contact_id: contactID,
     preferredLanguage: language,

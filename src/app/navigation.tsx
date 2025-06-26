@@ -1,5 +1,4 @@
 import { ContactModal } from "@/components/modals/contact/contact";
-import { Button } from "@mantine/core";
 import { openModal } from "@mantine/modals";
 import {
   IconShip,
@@ -103,14 +102,7 @@ export const publicRoutes: Route[] = [
         children: <ContactModal />,
       }),
     visibility: "all",
-  },
-  {
-    label: "Dashboard",
-    type: "link",
-    href: "/dashboard",
-    visibility: "private",
-    component: <Button variant="white">Dashboard</Button>,
-  },
+  }
 ];
 
 export const privateRoutes: Route[] = [];

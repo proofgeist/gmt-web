@@ -1,5 +1,14 @@
 "use client";
-import { Drawer, Stack, Card, Group, Text, Title, Button } from "@mantine/core";
+import {
+  Drawer,
+  Stack,
+  Card,
+  Group,
+  Text,
+  Title,
+  Button,
+  Tooltip,
+} from "@mantine/core";
 import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -7,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getMyShipmentsByGMTNumberAction } from "../../actions";
 import { useEffect, useState } from "react";
 import { useReleaseShipperHold } from "../hooks/use-release-shipper-hold";
+import { IconRefresh } from "@tabler/icons-react";
 
 export default function BookingDetails() {
   const router = useRouter();
@@ -42,9 +52,9 @@ export default function BookingDetails() {
       title={<Text fw={700}>Shipment Details</Text>}
     >
       {shipmentDetails && (
-        <Stack>
-          <Card withBorder>
-            <Stack>
+        <Stack gap="xs">
+          <Card withBorder padding="sm" my={0}>
+            <Stack gap="xs">
               <Title order={4}>Reference Numbers</Title>
               <Group justify="space-between">
                 <Text fw={500}>GMT Number</Text>
@@ -61,8 +71,8 @@ export default function BookingDetails() {
             </Stack>
           </Card>
 
-          <Card withBorder>
-            <Stack>
+          <Card withBorder padding="sm" my={0}>
+            <Stack gap="xs">
               <Title order={4}>Dates</Title>
               <Group justify="space-between">
                 <Text fw={500}>Sailing Date</Text>
@@ -93,8 +103,8 @@ export default function BookingDetails() {
             </Stack>
           </Card>
 
-          <Card withBorder>
-            <Stack>
+          <Card withBorder padding="sm" my={0}>
+            <Stack gap="xs">
               <Title order={4}>Locations</Title>
               <Group justify="space-between">
                 <Text fw={500}>Place of Receipt</Text>
@@ -110,7 +120,7 @@ export default function BookingDetails() {
                     toProperCase(shipmentDetails.placeOfReceiptCountry),
                   ]
                     .filter(Boolean)
-                    .join(", ")}
+                    .join(", ") || "-"}
                 </Text>
               </Group>
               <Group justify="space-between">
@@ -123,7 +133,7 @@ export default function BookingDetails() {
                     ]
                       .filter(Boolean)
                       .join(", ")
-                  )}
+                  ) || "-"}
                 </Text>
               </Group>
               <Group justify="space-between">
@@ -136,7 +146,7 @@ export default function BookingDetails() {
                     ]
                       .filter(Boolean)
                       .join(", ")
-                  )}
+                  ) || "-"}
                 </Text>
               </Group>
               <Group justify="space-between">
@@ -149,14 +159,14 @@ export default function BookingDetails() {
                     ]
                       .filter(Boolean)
                       .join(", ")
-                  )}
+                  ) || "-"}
                 </Text>
               </Group>
             </Stack>
           </Card>
 
-          <Card withBorder>
-            <Stack>
+          <Card withBorder padding="sm" my={0}>
+            <Stack gap="xs">
               <Title order={4}>Shipping Line Details</Title>
               <Group justify="space-between" wrap="nowrap">
                 <Text fw={500}>Company</Text>
@@ -181,55 +191,48 @@ export default function BookingDetails() {
             </Stack>
           </Card>
 
-          <Card withBorder>
-            <Stack>
-              <Title order={4}>Shipping Line Contact</Title>
-              <Group justify="space-between">
-                <Text fw={500}>Website</Text>
-                <Text>{shipmentDetails.SSLineCSWebsite || "-"}</Text>
-              </Group>
-            </Stack>
-          </Card>
-
           {shipmentDetails.holdStatusList.length > 0 && (
-            <Card withBorder>
-              <Stack>
+            <Card withBorder padding="sm" my={0}>
+              <Stack gap="xs">
                 <Title order={4}>Hold Status</Title>
 
                 {shipmentDetails.onHoldByShipperTStamp && (
-                  <Stack>
-                    <Group justify="space-between">
-                      <Text fw={500}>On Hold By Shipper</Text>
-                      <Text>
+                  <Group justify="space-between" align="center" wrap="nowrap">
+                    <Text fw={500}>On Hold By Shipper</Text>
+
+                    <Tooltip label="Release Shipper Hold" withArrow>
+                      <Button
+                        size="compact-md"
+                        color="red"
+                        px="xs"
+                        leftSection={<IconRefresh size={16} />}
+                        onClick={() => {
+                          releaseHold({
+                            gmt_no: shipmentDetails["_GMT#"],
+                            portOfLoading: [
+                              shipmentDetails.portOfLoadingCity,
+                              shipmentDetails.portOfLoadingCountry,
+                            ]
+                              .filter(Boolean)
+                              .join(", "),
+                            portOfDischarge: [
+                              shipmentDetails.portOfDischargeCity,
+                              shipmentDetails.portOfDischargeCountry,
+                            ]
+                              .filter(Boolean)
+                              .join(", "),
+                            vesselName: shipmentDetails.SSLineVessel,
+                          });
+                        }}
+                        variant="light"
+                        style={{ minWidth: 0 }}
+                      >
                         {dayjs(shipmentDetails.onHoldByShipperTStamp).format(
                           "MMM D, YYYY"
                         )}
-                      </Text>
-                    </Group>
-                    <Button
-                      onClick={() => {
-                        releaseHold({
-                          gmt_no: shipmentDetails["_GMT#"],
-                          portOfLoading: [
-                            shipmentDetails.portOfLoadingCity,
-                            shipmentDetails.portOfLoadingCountry,
-                          ]
-                            .filter(Boolean)
-                            .join(", "),
-                          portOfDischarge: [
-                            shipmentDetails.portOfDischargeCity,
-                            shipmentDetails.portOfDischargeCountry,
-                          ]
-                            .filter(Boolean)
-                            .join(", "),
-                          vesselName: shipmentDetails.SSLineVessel,
-                        });
-                      }}
-                      color="red"
-                    >
-                      Release Shipper Hold
-                    </Button>
-                  </Stack>
+                      </Button>
+                    </Tooltip>
+                  </Group>
                 )}
                 {shipmentDetails.onHoldGmtTStamp && (
                   <Group justify="space-between">
@@ -266,8 +269,8 @@ export default function BookingDetails() {
           )}
 
           {shipmentDetails.SSLineInstructionsRemarks && (
-            <Card withBorder>
-              <Stack>
+            <Card withBorder padding="sm" my={0}>
+              <Stack gap="xs">
                 <Title order={4}>Instructions & Remarks</Title>
                 <Text>{shipmentDetails.SSLineInstructionsRemarks}</Text>
               </Stack>

@@ -45,10 +45,10 @@ export default function MyTable({ shipmentType }: MyTableProps) {
       <Group>
         <Title order={4} p="md">
           {`${user?.reportReferenceCustomer} ${
-            shipmentType === "active" ? "Active"
-            : shipmentType === "pending" ? "Pending"
-            : "Completed"
-          } Shipments`}
+            shipmentType === "active" ? "In-Transit Shipments"
+            : shipmentType === "pending" ? "Scheduled to Sail Shipments"
+            : "Previous Shipments"
+          }`}
         </Title>
       </Group>
     ),

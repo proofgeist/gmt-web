@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Menu, px, Skeleton, Text } from "@mantine/core";
+import { Button, Loader, Menu, px, Skeleton, Text } from "@mantine/core";
 import { useUser } from "./use-user";
 import Link from "next/link";
 import {
@@ -12,11 +12,26 @@ import {
 } from "@tabler/icons-react";
 import { yellowtail } from "@/config/theme/fonts";
 
-export default function UserMenu() {
+export default function UserMenu({ isPublic }: { isPublic: boolean }) {
   const { state, user, logout } = useUser();
 
+  if (state === "loading") {
+    return (
+      <Button
+        variant="white"
+        size="sm"
+        miw={120}
+        rightSection={<Loader size="xs" color="gray" />}
+      >
+        <Text span className={yellowtail.className}>
+          my
+        </Text>
+        GMT
+      </Button>
+    );
+  }
 
-  if (state === "unauthenticated" || state === "loading") {
+  if (state === "unauthenticated") {
     return (
       <Menu
         position="bottom-end"
@@ -25,7 +40,12 @@ export default function UserMenu() {
         closeDelay={200}
       >
         <Menu.Target>
-          <Button variant="white" size="sm" miw={111.59}>
+          <Button
+            variant="white"
+            size="sm"
+            miw={120}
+            rightSection={<IconChevronDown size={px("1rem")} color="gray" />}
+          >
             <Text span className={yellowtail.className}>
               my
             </Text>
@@ -49,6 +69,19 @@ export default function UserMenu() {
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
+    );
+  }
+  if (isPublic) {
+    return (
+      <Button
+        component={Link}
+        href="/dashboard"
+        variant="white"
+        size="sm"
+        miw={120}
+      >
+        Dashboard
+      </Button>
     );
   }
   return (

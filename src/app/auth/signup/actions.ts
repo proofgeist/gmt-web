@@ -9,11 +9,6 @@ import {
 } from "@/server/auth/utils/user";
 import { verifyPasswordStrength } from "@/server/auth/utils/password";
 import { redirect } from "next/navigation";
-import {
-  createEmailVerificationRequest,
-  sendVerificationEmail,
-  setEmailVerificationRequestCookie,
-} from "@/server/auth/utils/email-verification";
 import { cookies } from "next/headers";
 import { sendWebRequestEmail } from "@/utils/email";
 import { DEFAULT_INBOX } from "@/config/email";
@@ -73,17 +68,7 @@ export const signupAction = actionClient
       language,
       isWebEnabled
     );
-    //If the user is web enabled, send them a verification email
     if (isWebEnabled) {
-      const emailVerificationRequest = await createEmailVerificationRequest(
-        user.id,
-        user.email
-      );
-      await sendVerificationEmail(
-        emailVerificationRequest.email,
-        emailVerificationRequest.code
-      );
-      await setEmailVerificationRequestCookie(emailVerificationRequest);
 
       // Store user ID and phone number for MFA verification
       const cookieStore = await cookies();
