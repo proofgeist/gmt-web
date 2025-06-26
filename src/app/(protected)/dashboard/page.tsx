@@ -11,10 +11,9 @@ import TableSkeleton from "./table-skeleton";
 function CardsSkeleton() {
   return (
     <Group grow align="stretch" preventGrowOverflow>
-      <ShipmentCardsSkeleton label="Active" />
-      <ShipmentCardsSkeleton label="Pending" />
-      <ShipmentCardsSkeleton label="Completed" />
-      <ShipmentCardsSkeleton label="All" />
+      <ShipmentCardsSkeleton label="In-Transit" />
+      <ShipmentCardsSkeleton label="Scheduled to Sail" />
+      <ShipmentCardsSkeleton label="Previous Shipments" />
     </Group>
   );
 }

@@ -31,19 +31,19 @@ export default function ShipmentCards({
   const cardData = [
     {
       icon: IconShip,
-      title: "Active Shipments",
+      title: "In-Transit",
       value: activeShipments?.data?.data?.length || 0,
       type: "active" as ShipmentType,
     },
     {
       icon: IconClockHour4,
-      title: "Pending Shipments",
+      title: "Scheduled to Sail",
       value: pendingShipments?.data?.data?.length || 0,
       type: "pending" as ShipmentType,
     },
     {
       icon: IconCircleCheck,
-      title: "Complete Shipments",
+      title: "Previous Shipments",
       value: pastShipments?.data?.data?.length || 0,
       type: "completed" as ShipmentType,
     },

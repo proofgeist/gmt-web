@@ -11,7 +11,8 @@
     "start": "next start",
     "typegen": "doppler run -- pnpm dlx @proofkit/typegen@latest",
     "check:types": "tsc --noEmit",
-    "check:all": "./scripts/check-code-quality.sh"
+    "check:all": "./scripts/check-code-quality.sh",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -43,6 +44,7 @@
     "mantine-react-table": "2.0.0-beta.7",
     "next": "15.1.0",
     "next-safe-action": "^7.10.5",
+    "next-sitemap": "^4.2.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-hook-form": "^7.55.0",

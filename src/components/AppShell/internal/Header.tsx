@@ -13,11 +13,10 @@ import { headerColor, headerTextColor } from "@/config/theme/mantine-theme";
 
 export function Header({
   routes,
-  hideUserMenu = false,
+  isPublic = true,
 }: {
   routes: Route[];
-  hideLogo?: boolean;
-  hideUserMenu?: boolean;
+  isPublic?: boolean;
 }) {
   const [scroll] = useWindowScroll();
   const [hidden, setHidden] = useState(false);
@@ -59,7 +58,7 @@ export function Header({
           <SlotHeaderLeft />
 
           <Box visibleFrom="sm">
-            <SlotHeaderRight routes={routes} hideUserMenu={hideUserMenu} />
+            <SlotHeaderRight routes={routes} isPublic={isPublic} />
           </Box>
           <Box hiddenFrom="sm">
             <HeaderMobileMenu routes={routes} burgerColor={headerTextColor} />

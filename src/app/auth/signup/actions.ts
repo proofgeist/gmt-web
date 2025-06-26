@@ -73,17 +73,7 @@ export const signupAction = actionClient
       language,
       isWebEnabled
     );
-    //If the user is web enabled, send them a verification email
     if (isWebEnabled) {
-      const emailVerificationRequest = await createEmailVerificationRequest(
-        user.id,
-        user.email
-      );
-      await sendVerificationEmail(
-        emailVerificationRequest.email,
-        emailVerificationRequest.code
-      );
-      await setEmailVerificationRequestCookie(emailVerificationRequest);
 
       // Store user ID and phone number for MFA verification
       const cookieStore = await cookies();
