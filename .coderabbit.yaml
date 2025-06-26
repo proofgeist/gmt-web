@@ -8,14 +8,14 @@ trigger:
       - dev
 
 # General review settings
-review:
+reviews:
   enable: true
   summary: true
   suggestions: true
   approve_on_pass: false
 
 # Optional: Exclude files or directories from review
-exclude:
+path_filters:
   - 'docs/**'
   - '*.md'
   - '*.mdc'

@@ -9,11 +9,6 @@ import {
 } from "@/server/auth/utils/user";
 import { verifyPasswordStrength } from "@/server/auth/utils/password";
 import { redirect } from "next/navigation";
-import {
-  createEmailVerificationRequest,
-  sendVerificationEmail,
-  setEmailVerificationRequestCookie,
-} from "@/server/auth/utils/email-verification";
 import { cookies } from "next/headers";
 import { sendWebRequestEmail } from "@/utils/email";
 import { DEFAULT_INBOX } from "@/config/email";

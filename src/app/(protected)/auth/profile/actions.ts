@@ -19,12 +19,8 @@ import {
   validateLogin,
   updateUserPhoneNumber,
   updateUserPreferences,
+  updateUserEmailAndSetEmailAsVerified,
 } from "@/server/auth/utils/user";
-import {
-  createEmailVerificationRequest,
-  sendVerificationEmail,
-  setEmailVerificationRequestCookie,
-} from "@/server/auth/utils/email-verification";
 import { redirect } from "next/navigation";
 import { verifyPasswordStrength } from "@/server/auth/utils/password";
 import twilio from "twilio";
@@ -71,22 +67,11 @@ export const updateEmailAction = actionClient
       };
     }
 
-    const verificationRequest = await createEmailVerificationRequest(
-      user.id,
-      email
-    );
-    const result = await sendVerificationEmail(
-      verificationRequest.email,
-      verificationRequest.code
-    );
-    if (result.error) {
-      console.error("result", result.error);
-      return {
-        error: "Failed to send verification email",
-      };
-    }
-    await setEmailVerificationRequestCookie(verificationRequest);
-    return redirect("/auth/verify-email");
+    await updateUserEmailAndSetEmailAsVerified(user.id, email);
+
+    return {
+      message: "Email updated",
+    };
   });
 
 export const updatePasswordAction = actionClient
