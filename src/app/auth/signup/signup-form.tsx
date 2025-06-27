@@ -94,7 +94,9 @@ export default function SignupForm({
     return !!data && typeof data === "object" && "error" in data;
   }
 
-  return isStatusResult(action.result.data) ?
+  // Show status page if signup was successful
+  if (isStatusResult(action.result.data)) {
+    return (
       <SignupStatus
         email={form.watch("email")}
         firstName={form.watch("firstName")}
@@ -102,99 +104,105 @@ export default function SignupForm({
         company={form.watch("company")}
         phoneNumber={form.watch("phoneNumber")}
       />
-    : <form onSubmit={handleSubmitWithAction}>
-        <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-          <Stack>
-            <Group wrap="nowrap">
-              <TextInput
-                label="First Name"
-                placeholder="First Name"
-                required
-                withAsterisk={false}
-                {...form.register("firstName")}
-                error={form.formState.errors.firstName?.message}
-              />
-              <TextInput
-                label="Last Name"
-                placeholder="Last Name"
-                required
-                withAsterisk={false}
-                {...form.register("lastName")}
-                error={form.formState.errors.lastName?.message}
-              />
-            </Group>
-            <TextInput
-              label="Email"
-              placeholder="you@globmar.com"
-              required
-              withAsterisk={false}
-              {...form.register("email")}
-              error={form.formState.errors.email?.message}
-              disabled={!!emailFromUrl}
-            />
-            <PasswordInput
-              label="Password"
-              placeholder="Your password"
-              autoComplete="new-password"
-              required
-              withAsterisk={false}
-              {...form.register("password")}
-              error={form.formState.errors.password?.message}
-            />
-            <PasswordInput
-              label="Confirm Password"
-              placeholder="Your password (again)"
-              autoComplete="new-password"
-              required
-              withAsterisk={false}
-              {...form.register("confirmPassword")}
-              error={form.formState.errors.confirmPassword?.message}
-            />
-            <Divider />
-            <TextInput
-              label="Company"
-              placeholder="Company"
-              required
-              withAsterisk={false}
-              {...form.register("company")}
-              error={form.formState.errors.company?.message}
-            />
-            <TextInput
-              label="Phone Number"
-              description="Include country code (e.g. +1 for US)"
-              placeholder="+1 234 555 6789"
-              required
-              withAsterisk={false}
-              value={form.watch("phoneNumber") ?? ""}
-              onChange={(e) => handlePhoneChange(e.target.value)}
-              error={form.formState.errors.phoneNumber?.message?.toString()}
-            />
-            <Select
-              label="Preferred Language"
-              data={[
-                { value: "en", label: "English" },
-                { value: "es", label: "Spanish" },
-              ]}
-              value={form.watch("language")}
-              withAsterisk={false}
-              error={form.formState.errors.language?.message}
-              disabled={action.isPending}
-              onChange={(value) => {
-                form.setValue("language", value as "en" | "es", {
-                  shouldDirty: true,
-                });
-              }}
-            />
+    );
+  }
 
-            {isErrorResult(action.result.data) ?
-              <Text c="red">{action.result.data.error}</Text>
-            : action.hasErrored ?
-              <Text c="red">{action.result.serverError}</Text>
-            : null}
-            <Button fullWidth type="submit" loading={action.isPending}>
-              Request Access
-            </Button>
-          </Stack>
-        </Paper>
-      </form>;
+  // Show signup form
+  return (
+    <form onSubmit={handleSubmitWithAction}>
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <Stack>
+          <Group wrap="nowrap">
+            <TextInput
+              label="First Name"
+              placeholder="First Name"
+              required
+              withAsterisk={false}
+              {...form.register("firstName")}
+              error={form.formState.errors.firstName?.message}
+            />
+            <TextInput
+              label="Last Name"
+              placeholder="Last Name"
+              required
+              withAsterisk={false}
+              {...form.register("lastName")}
+              error={form.formState.errors.lastName?.message}
+            />
+          </Group>
+          <TextInput
+            label="Email"
+            placeholder="you@globmar.com"
+            required
+            withAsterisk={false}
+            {...form.register("email")}
+            error={form.formState.errors.email?.message}
+            disabled={!!emailFromUrl}
+          />
+          <PasswordInput
+            label="Password"
+            placeholder="Your password"
+            autoComplete="new-password"
+            required
+            withAsterisk={false}
+            {...form.register("password")}
+            error={form.formState.errors.password?.message}
+          />
+          <PasswordInput
+            label="Confirm Password"
+            placeholder="Your password (again)"
+            autoComplete="new-password"
+            required
+            withAsterisk={false}
+            {...form.register("confirmPassword")}
+            error={form.formState.errors.confirmPassword?.message}
+          />
+          <Divider />
+          <TextInput
+            label="Company"
+            placeholder="Company"
+            required
+            withAsterisk={false}
+            {...form.register("company")}
+            error={form.formState.errors.company?.message}
+          />
+          <TextInput
+            label="Phone Number"
+            description="Include country code (e.g. +1 for US)"
+            placeholder="+1 234 555 6789"
+            required
+            withAsterisk={false}
+            value={form.watch("phoneNumber") ?? ""}
+            onChange={(e) => handlePhoneChange(e.target.value)}
+            error={form.formState.errors.phoneNumber?.message?.toString()}
+          />
+          <Select
+            label="Preferred Language"
+            data={[
+              { value: "en", label: "English" },
+              { value: "es", label: "Spanish" },
+            ]}
+            value={form.watch("language")}
+            withAsterisk={false}
+            error={form.formState.errors.language?.message}
+            disabled={action.isPending}
+            onChange={(value) => {
+              form.setValue("language", value as "en" | "es", {
+                shouldDirty: true,
+              });
+            }}
+          />
+
+          {isErrorResult(action.result.data) ?
+            <Text c="red">{action.result.data.error}</Text>
+          : action.hasErrored ?
+            <Text c="red">{action.result.serverError}</Text>
+          : null}
+          <Button fullWidth type="submit" loading={action.isPending}>
+            Request Access
+          </Button>
+        </Stack>
+      </Paper>
+    </form>
+  );
 }
