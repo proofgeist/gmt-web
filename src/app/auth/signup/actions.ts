@@ -5,14 +5,14 @@ import { signupSchema } from "./schema";
 import {
   checkEmailAvailability,
   createUser,
+  createUserRequest,
   getIsContactWebEnabled,
 } from "@/server/auth/utils/user";
 import { verifyPasswordStrength } from "@/server/auth/utils/password";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { sendWebRequestEmail } from "@/utils/email";
-import { DEFAULT_INBOX } from "@/config/email";
-import { contactAction } from "@/components/modals/contact/actions";
+import { DEFAULT_MANAGER_INBOX } from "@/config/email";
 
 export const signupAction = actionClient
   .schema(signupSchema)
@@ -37,39 +37,37 @@ export const signupAction = actionClient
     }
 
     const webInfo = await getIsContactWebEnabled(email).catch(async () => {
-      await contactAction({
-        companyName: company,
-        firstName,
-        lastName,
+      return {
+        status: "no-user",
+      };
+    });
+
+    // If webInfo is a status object, return it immediately
+    if (webInfo && "status" in webInfo) {
+      await createUserRequest(
         email,
-        cell: phoneNumber,
-        message: `New web request from ${email}`,
-      });
-      const message = `We couldn't find a user with the email address ${email}. A request has been sent to Global Marine to create an account for you. You will receive an email once it is approved.`;
-      const title = "No User Found";
-      const params = new URLSearchParams({
-        title,
-        message,
-        email,
+        password,
+        language,
         firstName,
         lastName,
         company,
-        phoneNumber,
-      });
-      redirect(`/auth/signup/status?${params.toString()}`);
-    });
+        phoneNumber
+      );
+
+      return webInfo;
+    }
 
     const { contactID, isWebEnabled } = webInfo;
 
-    const user = await createUser(
-      email,
-      password,
-      contactID,
-      language,
-      isWebEnabled
-    );
+    //If the contact is web enabled, create a user and redirect to MFA enrollment
     if (isWebEnabled) {
-
+      const user = await createUser(
+        email,
+        password,
+        contactID,
+        language,
+        isWebEnabled
+      );
       // Store user ID and phone number for MFA verification
       const cookieStore = await cookies();
       cookieStore.set("pending_user_id", user.id, {
@@ -78,29 +76,28 @@ export const signupAction = actionClient
         sameSite: "lax",
         expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
       });
-
       return redirect(`/auth/mfa/enroll?phoneNumber=${phoneNumber}`);
-      //If the user is not web enabled, send an email to globalmarine to let them know they have a new web request
     } else {
-      await sendWebRequestEmail({
-        to: DEFAULT_INBOX,
+      //If the contact is not web enabled, send a web request email
+      await createUserRequest(
         email,
-        firstName,
-        lastName,
-        company,
-      });
-      const message =
-        "Your web request has been sent to Global Marine for approval. You will receive an email once it is approved.";
-      const title = "Request Sent";
-      const params = new URLSearchParams({
-        title,
-        message,
-        email,
+        password,
+        language,
         firstName,
         lastName,
         company,
         phoneNumber,
+        contactID
+      );
+      await sendWebRequestEmail({
+        to: DEFAULT_MANAGER_INBOX,
+        email,
+        firstName,
+        lastName,
+        company,
       });
-      return redirect(`/auth/signup/status?${params.toString()}`);
+      return {
+        status: "web-request-sent",
+      };
     }
   });

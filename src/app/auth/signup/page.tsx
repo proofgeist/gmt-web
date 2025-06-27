@@ -4,6 +4,11 @@ import { redirect } from "next/navigation";
 import SignupForm from "./signup-form";
 import { getRedirectCookie } from "@/server/auth/utils/redirect";
 import { Suspense } from "react";
+import {
+  getCountries,
+  getCountryCallingCode,
+  CountryCode,
+} from "libphonenumber-js";
 
 export default async function Page() {
   const { session } = await getCurrentSession();
@@ -11,6 +16,28 @@ export default async function Page() {
   if (session !== null) {
     const redirectTo = await getRedirectCookie();
     return redirect(redirectTo);
+  }
+
+  // Server-side geolocation
+  let initialPhonePrefix = "";
+  try {
+    // Use a public IP geolocation API
+    const res = await fetch("https://ipapi.co/json/", {
+      next: { revalidate: 60 },
+    });
+    if (res.ok) {
+      type IpApiResponse = { country_code?: string };
+      const data: IpApiResponse = await res.json();
+      const countryCode = data.country_code;
+      if (
+        typeof countryCode === "string" &&
+        getCountries().includes(countryCode as CountryCode)
+      ) {
+        initialPhonePrefix = `+${getCountryCallingCode(countryCode as CountryCode)}`;
+      }
+    }
+  } catch {
+    // fallback: leave initialPhonePrefix as empty string
   }
 
   return (
@@ -24,7 +51,7 @@ export default async function Page() {
       </Text>
 
       <Suspense fallback={<Skeleton height={400} />}>
-        <SignupForm />
+        <SignupForm initialPhonePrefix={initialPhonePrefix} />
       </Suspense>
     </Container>
   );

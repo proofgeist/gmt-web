@@ -32,7 +32,7 @@ importers:
         specifier: ^7.17.4
         version: 7.17.7(@mantine/core@7.17.7(@mantine/hooks@7.17.7(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(types-react@19.0.0-rc.1))(@mantine/hooks@7.17.7(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@mantine/notifications':
-        specifier: ^7.17.4
+        specifier: ^7.17.7
         version: 7.17.7(@mantine/core@7.17.7(@mantine/hooks@7.17.7(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(types-react@19.0.0-rc.1))(@mantine/hooks@7.17.7(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@next-safe-action/adapter-react-hook-form':
         specifier: ^1.0.14

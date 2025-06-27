@@ -4,7 +4,6 @@ import {
   Head,
   Heading,
   Html,
-  Img,
   Section,
   Text,
   Link,
@@ -19,11 +18,14 @@ const BASE_URL =
   : "http://localhost:3000";
 
 interface WelcomeEmailProps {
-  name?: string;
   email: string;
+  firstName?: string;
+  lastName?: string;
+  company?: string;
+  phoneNumber?: string;
 }
 
-export const WelcomeEmail = ({ name, email }: WelcomeEmailProps) => (
+export const WelcomeEmail = ({ email, firstName, lastName, company, phoneNumber }: WelcomeEmailProps) => (
   <Html>
     <Head />
     <Body style={emailStyles.main}>
@@ -31,7 +33,7 @@ export const WelcomeEmail = ({ name, email }: WelcomeEmailProps) => (
         
         <Text style={emailStyles.tertiary}>Welcome to Global Marine</Text>
         <Heading style={emailStyles.secondary}>
-          {name ? `Hello ${name}!` : "Hello!"}
+          {firstName ? `Hello ${firstName}!` : "Hello!"}
         </Heading>
         <Text style={emailStyles.paragraph}>
           We&apos;re excited to have you join Global Marine. Our platform helps
@@ -43,7 +45,7 @@ export const WelcomeEmail = ({ name, email }: WelcomeEmailProps) => (
         </Text>
         <Section style={{ textAlign: "center", marginTop: "20px" }}>
           <Link
-            href={`${BASE_URL}/auth/signup?email=${encodeURIComponent(email)}`}
+            href={`${BASE_URL}/auth/signup?email=${encodeURIComponent(email)}&firstName=${encodeURIComponent(firstName ?? "")}&lastName=${encodeURIComponent(lastName ?? "")}&company=${encodeURIComponent(company ?? "")}&phoneNumber=${encodeURIComponent(phoneNumber ?? "")}`}
             style={emailStyles.button}
           >
             Create Your Account

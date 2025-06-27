@@ -18,7 +18,11 @@ import { AsYouType } from "libphonenumber-js";
 import { useSearchParams } from "next/navigation";
 import { sendVerificationCodeAction } from "../actions";
 
-export default function MFAEnrollForm() {
+export default function MFAEnrollForm({
+  initialPhonePrefix,
+}: {
+  initialPhonePrefix?: string;
+}) {
   const searchParams = useSearchParams();
   const phoneNumber = searchParams.get("phoneNumber");
   const [codeSent, setCodeSent] = useState(false);
@@ -30,6 +34,13 @@ export default function MFAEnrollForm() {
     }
   );
   const [isResending, setIsResending] = useState(false);
+
+  useEffect(() => {
+    // Only prefill if no phone number is present from search params or form state
+    if (!phoneNumber && initialPhonePrefix && !form.watch("phoneNumber")) {
+      form.setValue("phoneNumber", initialPhonePrefix);
+    }
+  }, [phoneNumber, initialPhonePrefix, form]);
 
   const handleResendCode = async () => {
     try {

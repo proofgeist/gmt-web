@@ -51,7 +51,7 @@ export async function sendWebRequestEmail({
   lastName,
   company,
 }: {
-  to: string;
+  to: string | string[];
   email: string;
   firstName: string;
   lastName: string;

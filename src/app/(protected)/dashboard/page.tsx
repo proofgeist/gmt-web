@@ -1,12 +1,13 @@
 "use client";
 
-import { Group, Stack } from "@mantine/core";
+import { Group, Stack, Alert } from "@mantine/core";
 import React, { Suspense } from "react";
 import { useLocalStorage } from "@mantine/hooks";
 import TableContent from "./table";
 import ShipmentCards from "./shipment-cards";
 import ShipmentCardsSkeleton from "./shipment-cards-skeleton";
 import TableSkeleton from "./table-skeleton";
+import { IconInfoCircle } from "@tabler/icons-react";
 
 function CardsSkeleton() {
   return (
@@ -34,6 +35,17 @@ export default function TablePage() {
           setShipmentType={setShipmentType}
         />
       </Suspense>
+      {(shipmentType === "active" || shipmentType === "pending") && (
+        <Alert
+          icon={<IconInfoCircle size={20} />}
+          color="blue"
+          variant="light"
+          radius="md"
+          my="xs"
+        >
+          <b>{shipmentType === "active" ? "In-Transit" : "Scheduled"} Shipments:</b> Schedules are estimates and subject to change.
+        </Alert>
+      )}
       <Suspense fallback={<TableSkeleton />}>
         <TableContent shipmentType={shipmentType} />
       </Suspense>

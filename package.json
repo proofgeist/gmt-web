@@ -21,7 +21,7 @@
     "@mantine/dates": "^7.17.4",
     "@mantine/hooks": "^7.17.4",
     "@mantine/modals": "^7.17.4",
-    "@mantine/notifications": "^7.17.4",
+    "@mantine/notifications": "^7.17.7",
     "@next-safe-action/adapter-react-hook-form": "^1.0.14",
     "@node-rs/argon2": "^2.0.2",
     "@oslojs/binary": "^1.0.0",

@@ -1,5 +1,5 @@
 import { ContactsLayout } from "@/config/schemas/filemaker/server";
-import { usersLayout } from "../db/client";
+import { usersLayout, webAccessRequestsLayout } from "../db/client";
 import { Tusers as _User } from "../db/users";
 
 export type User = Partial<
@@ -61,6 +61,40 @@ export async function createUser(
     preferredLanguage: language,
   };
   return user;
+}
+
+/**
+ * Create a new user request in the database.
+ * @param email - The email address of the user.
+ * @param password - The password of the user.
+ * @param language - The language of the user.
+ * @param firstName - The first name of the user.
+ * @param lastName - The last name of the user.
+ * @param company - The company of the user.
+ * @param phoneNumber - The phone number of the user.
+ * @param contactID - The contact ID of the user.
+ */
+export async function createUserRequest(
+  email: string,
+  password: string,
+  language: "en" | "es",
+  firstName: string,
+  lastName: string,
+  company: string,
+  phoneNumber: string,
+  contactID = "",
+): Promise<void> {
+  await webAccessRequestsLayout.create({
+    fieldData: {
+      email,
+      password_hash: await hashPassword(password),
+      contact_id: contactID,
+      firstName,
+      lastName,
+      company,
+      phoneNumber,
+    },
+  });
 }
 
 /**

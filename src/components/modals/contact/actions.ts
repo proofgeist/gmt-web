@@ -1,7 +1,6 @@
 "use server";
 import { actionClient } from "@/server/safe-action";
 import { contactSchema } from "./schema";
-import { InquiriesLayout } from "@/config/schemas/filemaker/client";
 import { sendContactEmail } from "@/server/auth/utils/inquiries";
 import { DEFAULT_INBOX } from "@/config/email";
 
@@ -12,17 +11,6 @@ export const contactAction = actionClient
       parsedInput;
 
     try {
-      await InquiriesLayout.create({
-        fieldData: {
-          companyName,
-          firstName,
-          lastName,
-          emailAddress: email,
-          phoneNumber: cell,
-          message,
-        },
-      });
-
       await sendContactEmail({
         to: DEFAULT_INBOX,
         email,
