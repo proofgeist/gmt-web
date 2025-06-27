@@ -16,16 +16,18 @@ export function SignupStatus({
   phoneNumber?: string;
 }) {
   return (
-    <Card withBorder shadow="md" p={30} mt={30} radius="md">
-      <Title ta="center">Request Sent</Title>
-      <Box my={20} bg="gray.0">
+    <Card withBorder shadow="md" p={30}  radius="md" mt={75}>
+      <Title ta="center" order={2}>
+        Request Sent
+      </Title>
+      <Box my={20} bg="gray.0" p="md">
         <Text ta="center">
-          Your web request has been sent to Global Marine for approval. You
-          will receive an email once it is approved.
+          Your web request has been sent to Global Marine for approval. You will
+          receive an email once it is approved.
         </Text>
       </Box>
       <Group grow>
-        <Button component="a" href="/" mt={20} fullWidth>
+        <Button component="a" href="/" fullWidth>
           Go Home
         </Button>
         <Button
@@ -44,7 +46,6 @@ export function SignupStatus({
               ),
             })
           }
-          mt={20}
           fullWidth
         >
           Send a Message
