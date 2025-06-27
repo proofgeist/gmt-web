@@ -23,11 +23,6 @@
           "layoutName": "api.Contacts"
         },
         {
-          "schemaName": "Inquiries",
-          "valueLists": "allowEmpty",
-          "layoutName": "api.Inquiries"
-        },
-        {
           "layoutName": "api.Inbox",
           "schemaName": "Inbox"
         } 
@@ -50,6 +45,12 @@
           "strictNumbers": true,
           "valueLists": "strict",
           "layoutName": "proofkit_auth_users"
+        },
+        {
+          "schemaName": "webAccessRequests",
+          "strictNumbers": true,
+          "valueLists": "strict",
+          "layoutName": "web_access_requests"
         },
         {
           "schemaName": "emailVerification",
