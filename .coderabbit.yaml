@@ -3,9 +3,6 @@
 # Enable CodeRabbit on pull requests to these branches
 trigger:
   pull_request:
-    branches:
-      - main
-      - dev
 
 # General review settings
 reviews:

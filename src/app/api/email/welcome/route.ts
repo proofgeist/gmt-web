@@ -8,7 +8,10 @@ import { EMAIL_FROM } from "@/config/email";
 
 const welcomeEmailSchema = z.object({
   email: z.string().email(),
-  name: z.string().optional(),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  company: z.string().optional(),
+  phoneNumber: z.string().optional(),
 });
 
 type WelcomeEmailProps = z.infer<typeof welcomeEmailSchema>;
@@ -33,13 +36,13 @@ export async function POST(request: Request) {
 
   try {
     const body = (await request.json()) as WelcomeEmailProps;
-    const { email, name } = welcomeEmailSchema.parse(body);
+    const { email, firstName, lastName, company, phoneNumber } = welcomeEmailSchema.parse(body);
 
     await resend.emails.send({
       from: EMAIL_FROM,
       to: email,
       subject: "Welcome to Global Marine",
-      react: WelcomeEmail({ name, email }) as ReactElement,
+      react: WelcomeEmail({ email, firstName, lastName, company, phoneNumber }) as ReactElement,
     });
 
     return NextResponse.json(
