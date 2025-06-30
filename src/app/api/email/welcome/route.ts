@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     await resend.emails.send({
       from: EMAIL_FROM,
       to: email,
-      subject: "Welcome to Global Marine",
+      subject: "Welcome to Global Marine Transportation Inc.",
       react: WelcomeEmail({ email, firstName, lastName, company, phoneNumber }) as ReactElement,
     });
 

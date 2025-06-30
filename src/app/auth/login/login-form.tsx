@@ -13,8 +13,15 @@ import {
 } from "@mantine/core";
 import { TextInput } from "@mantine/core";
 import { Stack } from "@mantine/core";
+import { useUser } from "@/components/auth/use-user";
+import { redirectAction } from "@/server/auth/utils/redirect-action";
 
 export default function LoginForm() {
+  const { session } = useUser();
+  if (session) {
+    redirectAction();
+  }
+
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     loginAction,
     zodResolver(loginSchema),

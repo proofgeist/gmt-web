@@ -40,7 +40,7 @@ export const emailStyles = {
     fontSize: "20px",
     fontWeight: 500,
     lineHeight: "24px",
-    marginBottom: "0",
+    marginBottom: "24px",
     marginTop: "0",
     textAlign: "center" as const,
     padding: "0 40px",
