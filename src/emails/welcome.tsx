@@ -25,23 +25,26 @@ interface WelcomeEmailProps {
   phoneNumber?: string;
 }
 
-export const WelcomeEmail = ({ email, firstName, lastName, company, phoneNumber }: WelcomeEmailProps) => (
+export const WelcomeEmail = ({
+  email,
+  firstName,
+  lastName,
+  company,
+  phoneNumber,
+}: WelcomeEmailProps) => (
   <Html>
     <Head />
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
-        
-        <Text style={emailStyles.tertiary}>Welcome to Global Marine</Text>
         <Heading style={emailStyles.secondary}>
-          {firstName ? `Hello ${firstName}!` : "Hello!"}
+          {firstName ? `Welcome ${firstName}!` : "Welcome!"}
         </Heading>
         <Text style={emailStyles.paragraph}>
-          We&apos;re excited to have you join Global Marine. Our platform helps
-          you manage your shipments efficiently and securely. manage your
-          shipments efficiently and securely.
+          At <Link href="https://mygmt.com">MyGMT.com</Link>, you can manage all
+          your shipments efficiently and securely.
         </Text>
         <Text style={emailStyles.paragraph}>
-          To get started, create your account by clicking the button below.
+          To get started, please click the button below to create your account.
         </Text>
         <Section style={{ textAlign: "center", marginTop: "20px" }}>
           <Link

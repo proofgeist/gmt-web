@@ -19,7 +19,9 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { AsYouType } from "libphonenumber-js";
 import { SignupStatus } from "./signup-result";
-
+import { useUser } from "@/components/auth/use-user";
+import { redirectAction } from "@/server/auth/utils/redirect-action";
+  
 export default function SignupForm({
   initialPhonePrefix,
 }: {
@@ -31,6 +33,11 @@ export default function SignupForm({
   const lastNameFromUrl = searchParams.get("lastName");
   const companyFromUrl = searchParams.get("company");
   const phoneNumberFromUrl = searchParams.get("phoneNumber");
+
+  const { session } = useUser();
+  if (session) {
+    redirectAction();
+  }
 
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     signupAction,

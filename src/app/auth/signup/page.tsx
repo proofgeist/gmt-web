@@ -1,8 +1,6 @@
-import { getCurrentSession } from "@/server/auth/utils/session";
+
 import { Anchor, Container, Skeleton, Text, Title } from "@mantine/core";
-import { redirect } from "next/navigation";
 import SignupForm from "./signup-form";
-import { getRedirectCookie } from "@/server/auth/utils/redirect";
 import { Suspense } from "react";
 import {
   getCountries,
@@ -10,13 +8,8 @@ import {
   CountryCode,
 } from "libphonenumber-js";
 
-export default async function Page() {
-  const { session } = await getCurrentSession();
 
-  if (session !== null) {
-    const redirectTo = await getRedirectCookie();
-    return redirect(redirectTo);
-  }
+export default async function Page() {
 
   // Server-side geolocation
   let initialPhonePrefix = "";
