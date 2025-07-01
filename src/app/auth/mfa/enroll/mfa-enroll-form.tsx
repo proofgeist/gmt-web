@@ -18,6 +18,14 @@ import { AsYouType } from "libphonenumber-js";
 import { useSearchParams } from "next/navigation";
 import { sendVerificationCodeAction } from "../actions";
 
+const handlePhoneChange = (value: string) => {
+  // Always ensure there's a + at the start
+  const normalizedValue =
+    value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
+  const formatter = new AsYouType();
+  return formatter.input(normalizedValue);
+};
+
 export default function MFAEnrollForm({
   initialPhonePrefix,
 }: {
@@ -26,11 +34,14 @@ export default function MFAEnrollForm({
   const searchParams = useSearchParams();
   const phoneNumber = searchParams.get("phoneNumber");
   const [codeSent, setCodeSent] = useState(false);
+
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     mfaEnrollAction,
     zodResolver(mfaEnrollSchema),
     {
-      formProps: { defaultValues: { phoneNumber: phoneNumber ?? undefined } },
+      formProps: {
+        defaultValues: { phoneNumber: handlePhoneChange(phoneNumber ?? "") },
+      },
     }
   );
   const [isResending, setIsResending] = useState(false);
@@ -61,15 +72,6 @@ export default function MFAEnrollForm({
     }
   }, [action.result]);
 
-  const handlePhoneChange = (value: string) => {
-    // Always ensure there's a + at the start
-    const normalizedValue =
-      value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
-    const formatter = new AsYouType();
-    const formattedNumber = formatter.input(normalizedValue);
-    form.setValue("phoneNumber", formattedNumber);
-  };
-
   return (
     <form onSubmit={handleSubmitWithAction}>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
@@ -81,7 +83,9 @@ export default function MFAEnrollForm({
             required
             withAsterisk={false}
             value={form.watch("phoneNumber") ?? ""}
-            onChange={(e) => handlePhoneChange(e.target.value)}
+            onChange={(e) =>
+              form.setValue("phoneNumber", handlePhoneChange(e.target.value))
+            }
             error={form.formState.errors.phoneNumber?.message?.toString()}
             disabled={codeSent}
           />

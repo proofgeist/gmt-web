@@ -14,7 +14,7 @@ export const emailStyles = {
     marginTop: "20px",
     maxWidth: "720px",
     margin: "0 auto",
-    padding: "68px 0 130px",
+    padding: "68px 0 68px",
   },
 
   logo: {

@@ -27,21 +27,19 @@ export const ActivatedEmail = ({ name }: ActivatedEmailProps) => (
     <Head />
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
-        <Text style={emailStyles.tertiary}>Welcome to Global Marine</Text>
         <Heading style={emailStyles.secondary}>
-          {name ? `Hello ${name}!` : "Hello!"}
+          {name ? `Welcome ${name}!` : "Welcome!"}
         </Heading>
         <Text style={emailStyles.paragraph}>
-          We&apos;re excited to have you join Global Marine. Our platform helps
-          you manage your shipments efficiently and securely. manage your
-          shipments efficiently and securely.
+          At <Link href="https://mygmt.com">MyGMT.com</Link>, you can manage all
+          your shipments efficiently and securely.
         </Text>
         <Text style={emailStyles.paragraph}>
           Your account has been activated. You can now login to the platform.
         </Text>
         <Section style={{ textAlign: "center", marginTop: "20px" }}>
-          <Link href={`${BASE_URL}/login`} style={emailStyles.button}>
-            Login to Global Marine
+          <Link href={`${BASE_URL}/auth/login`} style={emailStyles.button}>
+            Login to MyGMT
           </Link>
         </Section>
         <Text style={emailStyles.paragraph}>

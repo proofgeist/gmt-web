@@ -172,6 +172,7 @@ export default function SignupForm({
             withAsterisk={false}
             {...form.register("company")}
             error={form.formState.errors.company?.message}
+            disabled={!!companyFromUrl}
           />
           <TextInput
             label="Phone Number"
@@ -206,7 +207,7 @@ export default function SignupForm({
             <Text c="red">{action.result.serverError}</Text>
           : null}
           <Button fullWidth type="submit" loading={action.isPending}>
-            Request Access
+            {emailFromUrl ? "Activate Account" : "Request Access"}
           </Button>
         </Stack>
       </Paper>

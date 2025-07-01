@@ -57,7 +57,7 @@ export const signupAction = actionClient
       return webInfo;
     }
 
-    const { contactID, isWebEnabled } = webInfo;
+    const { contactID, isWebEnabled, hasMultipleContacts } = webInfo;
 
     //If the contact is web enabled, create a user and redirect to MFA enrollment
     if (isWebEnabled) {
