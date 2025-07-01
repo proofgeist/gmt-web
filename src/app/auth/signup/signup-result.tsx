@@ -22,13 +22,13 @@ export function SignupStatus({
       </Title>
       <Box my={20} bg="gray.0" p="md">
         <Text ta="center">
-          Your web request has been sent to Global Marine for approval. You will
+          Your web request for web access has been sent. You will
           receive an email once it is approved.
         </Text>
       </Box>
       <Group grow>
         <Button component="a" href="/" fullWidth>
-          Go Home
+          MyGmt.com
         </Button>
         <Button
           onClick={() =>
