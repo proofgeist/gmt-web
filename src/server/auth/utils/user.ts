@@ -229,20 +229,43 @@ export async function checkEmailAvailability(email: string): Promise<boolean> {
  */
 export async function getIsContactWebEnabled(
   email: string
-): Promise<{ contactID: string; isWebEnabled: boolean }> {
+): Promise<{
+  contactID: string;
+  isWebEnabled: boolean;
+  hasMultipleContacts: boolean;
+}> {
   const { data } = await ContactsLayout.find({
     query: { Email1: `==${email}` },
   });
-  if (data.length === 0)
-    throw new Error("No account found for this email - Please contact support");
-  else if (data.length > 1)
-    throw new Error(
-      "Multiple contacts found for this email - Please contact support"
+  if (data.length === 0) throw new Error("No account");
+  else if (data.length > 1) {
+    const enabled = data.filter(
+      (contact) => contact.fieldData.hasWebAccess === 1
     );
+    if (enabled.length === 0)
+      return {
+        contactID: data[0].fieldData.__kpnID,
+        isWebEnabled: false,
+        hasMultipleContacts: true,
+      };
+    else if (enabled.length > 1)
+      return {
+        contactID: enabled[0].fieldData.__kpnID,
+        isWebEnabled: true,
+        hasMultipleContacts: true,
+      };
+    else
+      return {
+        contactID: enabled[0].fieldData.__kpnID,
+        isWebEnabled: true,
+        hasMultipleContacts: false,
+      };
+  }
 
   return {
     contactID: data[0].fieldData.__kpnID,
     isWebEnabled: data[0].fieldData.hasWebAccess === 1,
+    hasMultipleContacts: false,
   };
 }
 

@@ -26,49 +26,51 @@ export default function MFAEnrollForm({
   const searchParams = useSearchParams();
   const phoneNumber = searchParams.get("phoneNumber");
   const [codeSent, setCodeSent] = useState(false);
-  const { form, handleSubmitWithAction, action } = useHookFormAction(
-    mfaEnrollAction,
-    zodResolver(mfaEnrollSchema),
-    {
-      formProps: { defaultValues: { phoneNumber: phoneNumber ?? undefined } },
-    }
-  );
-  const [isResending, setIsResending] = useState(false);
+    const handlePhoneChange = (value: string) => {
+      // Always ensure there's a + at the start
+      const normalizedValue =
+        value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
+      const formatter = new AsYouType();
+      return formatter.input(normalizedValue);
+    };
 
-  useEffect(() => {
-    // Only prefill if no phone number is present from search params or form state
-    if (!phoneNumber && initialPhonePrefix && !form.watch("phoneNumber")) {
-      form.setValue("phoneNumber", initialPhonePrefix);
-    }
-  }, [phoneNumber, initialPhonePrefix, form]);
+    const { form, handleSubmitWithAction, action } = useHookFormAction(
+      mfaEnrollAction,
+      zodResolver(mfaEnrollSchema),
+      {
+        formProps: {
+          defaultValues: { phoneNumber: handlePhoneChange(phoneNumber ?? "") },
+        },
+      }
+    );
+    const [isResending, setIsResending] = useState(false);
 
-  const handleResendCode = async () => {
-    try {
-      setIsResending(true);
-      await sendVerificationCodeAction({
-        phoneNumber: form.getValues("phoneNumber"),
-      });
-    } catch (error) {
-      console.error("Error resending code:", error);
-    } finally {
-      setIsResending(false);
-    }
-  };
+    useEffect(() => {
+      // Only prefill if no phone number is present from search params or form state
+      if (!phoneNumber && initialPhonePrefix && !form.watch("phoneNumber")) {
+        form.setValue("phoneNumber", initialPhonePrefix);
+      }
+    }, [phoneNumber, initialPhonePrefix, form]);
 
-  useEffect(() => {
-    if (action.result?.data && "codeSent" in action.result.data) {
-      setCodeSent(true);
-    }
-  }, [action.result]);
+    const handleResendCode = async () => {
+      try {
+        setIsResending(true);
+        await sendVerificationCodeAction({
+          phoneNumber: form.getValues("phoneNumber"),
+        });
+      } catch (error) {
+        console.error("Error resending code:", error);
+      } finally {
+        setIsResending(false);
+      }
+    };
 
-  const handlePhoneChange = (value: string) => {
-    // Always ensure there's a + at the start
-    const normalizedValue =
-      value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
-    const formatter = new AsYouType();
-    const formattedNumber = formatter.input(normalizedValue);
-    form.setValue("phoneNumber", formattedNumber);
-  };
+    useEffect(() => {
+      if (action.result?.data && "codeSent" in action.result.data) {
+        setCodeSent(true);
+      }
+    }, [action.result]);
+
 
   return (
     <form onSubmit={handleSubmitWithAction}>
@@ -81,7 +83,9 @@ export default function MFAEnrollForm({
             required
             withAsterisk={false}
             value={form.watch("phoneNumber") ?? ""}
-            onChange={(e) => handlePhoneChange(e.target.value)}
+            onChange={(e) =>
+              form.setValue("phoneNumber", handlePhoneChange(e.target.value))
+            }
             error={form.formState.errors.phoneNumber?.message?.toString()}
             disabled={codeSent}
           />
