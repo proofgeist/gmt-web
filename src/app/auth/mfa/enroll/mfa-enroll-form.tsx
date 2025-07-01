@@ -18,6 +18,14 @@ import { AsYouType } from "libphonenumber-js";
 import { useSearchParams } from "next/navigation";
 import { sendVerificationCodeAction } from "../actions";
 
+const handlePhoneChange = (value: string) => {
+  // Always ensure there's a + at the start
+  const normalizedValue =
+    value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
+  const formatter = new AsYouType();
+  return formatter.input(normalizedValue);
+};
+
 export default function MFAEnrollForm({
   initialPhonePrefix,
 }: {
@@ -26,51 +34,43 @@ export default function MFAEnrollForm({
   const searchParams = useSearchParams();
   const phoneNumber = searchParams.get("phoneNumber");
   const [codeSent, setCodeSent] = useState(false);
-    const handlePhoneChange = (value: string) => {
-      // Always ensure there's a + at the start
-      const normalizedValue =
-        value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
-      const formatter = new AsYouType();
-      return formatter.input(normalizedValue);
-    };
 
-    const { form, handleSubmitWithAction, action } = useHookFormAction(
-      mfaEnrollAction,
-      zodResolver(mfaEnrollSchema),
-      {
-        formProps: {
-          defaultValues: { phoneNumber: handlePhoneChange(phoneNumber ?? "") },
-        },
-      }
-    );
-    const [isResending, setIsResending] = useState(false);
+  const { form, handleSubmitWithAction, action } = useHookFormAction(
+    mfaEnrollAction,
+    zodResolver(mfaEnrollSchema),
+    {
+      formProps: {
+        defaultValues: { phoneNumber: handlePhoneChange(phoneNumber ?? "") },
+      },
+    }
+  );
+  const [isResending, setIsResending] = useState(false);
 
-    useEffect(() => {
-      // Only prefill if no phone number is present from search params or form state
-      if (!phoneNumber && initialPhonePrefix && !form.watch("phoneNumber")) {
-        form.setValue("phoneNumber", initialPhonePrefix);
-      }
-    }, [phoneNumber, initialPhonePrefix, form]);
+  useEffect(() => {
+    // Only prefill if no phone number is present from search params or form state
+    if (!phoneNumber && initialPhonePrefix && !form.watch("phoneNumber")) {
+      form.setValue("phoneNumber", initialPhonePrefix);
+    }
+  }, [phoneNumber, initialPhonePrefix, form]);
 
-    const handleResendCode = async () => {
-      try {
-        setIsResending(true);
-        await sendVerificationCodeAction({
-          phoneNumber: form.getValues("phoneNumber"),
-        });
-      } catch (error) {
-        console.error("Error resending code:", error);
-      } finally {
-        setIsResending(false);
-      }
-    };
+  const handleResendCode = async () => {
+    try {
+      setIsResending(true);
+      await sendVerificationCodeAction({
+        phoneNumber: form.getValues("phoneNumber"),
+      });
+    } catch (error) {
+      console.error("Error resending code:", error);
+    } finally {
+      setIsResending(false);
+    }
+  };
 
-    useEffect(() => {
-      if (action.result?.data && "codeSent" in action.result.data) {
-        setCodeSent(true);
-      }
-    }, [action.result]);
-
+  useEffect(() => {
+    if (action.result?.data && "codeSent" in action.result.data) {
+      setCodeSent(true);
+    }
+  }, [action.result]);
 
   return (
     <form onSubmit={handleSubmitWithAction}>
