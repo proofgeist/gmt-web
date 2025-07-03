@@ -82,13 +82,13 @@ export async function createUserRequest(
   lastName: string,
   company: string,
   phoneNumber: string,
-  contactID = "",
+  contactIDs: string[] = []
 ): Promise<void> {
   await webAccessRequestsLayout.create({
     fieldData: {
       email,
       password_hash: await hashPassword(password),
-      contact_id: contactID,
+      contact_id: contactIDs.join("\r"),
       firstName,
       lastName,
       company,
@@ -227,45 +227,35 @@ export async function checkEmailAvailability(email: string): Promise<boolean> {
  * @param email - The email address of the contact.
  * @returns The contact ID.
  */
-export async function getIsContactWebEnabled(
-  email: string
-): Promise<{
-  contactID: string;
+export async function getIsContactWebEnabled(email: string): Promise<{
+  contactIDs: string[];
   isWebEnabled: boolean;
-  hasMultipleContacts: boolean;
 }> {
   const { data } = await ContactsLayout.find({
     query: { Email1: `==${email}` },
   });
-  if (data.length === 0) throw new Error("No account");
-  else if (data.length > 1) {
-    const enabled = data.filter(
-      (contact) => contact.fieldData.hasWebAccess === 1
-    );
+  if (data.length === 0) {
+    return {
+      contactIDs: [],
+      isWebEnabled: false,
+    };
+  } else if (data.length > 1) {
+    const enabled = data.filter((contact) => contact.fieldData.hasWebAccess);
     if (enabled.length === 0)
       return {
-        contactID: data[0].fieldData.__kpnID,
+        contactIDs: data.map((contact) => contact.fieldData.__kpnID),
         isWebEnabled: false,
-        hasMultipleContacts: true,
-      };
-    else if (enabled.length > 1)
-      return {
-        contactID: enabled[0].fieldData.__kpnID,
-        isWebEnabled: true,
-        hasMultipleContacts: true,
       };
     else
       return {
-        contactID: enabled[0].fieldData.__kpnID,
+        contactIDs: enabled.map((contact) => contact.fieldData.__kpnID),
         isWebEnabled: true,
-        hasMultipleContacts: false,
       };
   }
 
   return {
-    contactID: data[0].fieldData.__kpnID,
-    isWebEnabled: data[0].fieldData.hasWebAccess === 1,
-    hasMultipleContacts: false,
+    contactIDs: [data[0].fieldData.__kpnID],
+    isWebEnabled: data[0].fieldData.hasWebAccess,
   };
 }
 
