@@ -36,14 +36,10 @@ export const signupAction = actionClient
       return { error: "Password is too weak" };
     }
 
-    const webInfo = await getIsContactWebEnabled(email).catch(async () => {
-      return {
-        status: "no-user",
-      };
-    });
-
-    // If webInfo is a status object, return it immediately
-    if (webInfo && "status" in webInfo) {
+    const webInfo = await getIsContactWebEnabled(email);
+    const { contactIDs, isWebEnabled } = webInfo;
+    if (contactIDs.length === 0) {
+      //If the contact is not found, create a user request
       await createUserRequest(
         email,
         password,
@@ -57,14 +53,35 @@ export const signupAction = actionClient
       return webInfo;
     }
 
-    const { contactID, isWebEnabled, hasMultipleContacts } = webInfo;
 
-    //If the contact is web enabled, create a user and redirect to MFA enrollment
-    if (isWebEnabled) {
+    if (!isWebEnabled || contactIDs.length > 1) {
+      //If the contact is not web enabled or has multiple contacts, send a web request email
+      await createUserRequest(
+        email,
+        password,
+        language,
+        firstName,
+        lastName,
+        company,
+        phoneNumber,
+        contactIDs
+      );
+      await sendWebRequestEmail({
+        to: DEFAULT_MANAGER_INBOX,
+        email,
+        firstName,
+        lastName,
+        company,
+      });
+      return {
+        status: "web-request-sent",
+      };
+    } else {
+      //If the contact is web enabled, create a user and redirect to MFA enrollment
       const user = await createUser(
         email,
         password,
-        contactID,
+        contactIDs[0],
         language,
         isWebEnabled
       );
@@ -77,27 +94,5 @@ export const signupAction = actionClient
         expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
       });
       return redirect(`/auth/mfa/enroll?phoneNumber=${phoneNumber}`);
-    } else {
-      //If the contact is not web enabled, send a web request email
-      await createUserRequest(
-        email,
-        password,
-        language,
-        firstName,
-        lastName,
-        company,
-        phoneNumber,
-        contactID
-      );
-      await sendWebRequestEmail({
-        to: DEFAULT_MANAGER_INBOX,
-        email,
-        firstName,
-        lastName,
-        company,
-      });
-      return {
-        status: "web-request-sent",
-      };
     }
   });
