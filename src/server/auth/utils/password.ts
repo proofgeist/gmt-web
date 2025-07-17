@@ -32,13 +32,13 @@ export async function verifyPasswordHash(
 /**
  * Verify that a password is strong enough.
  * @param password - The password to verify.
- * @returns True if the password is strong enough, false otherwise.
+ * @returns { success: boolean; message?: string } - True if the password is strong enough, false otherwise.
  */
 export async function verifyPasswordStrength(
   password: string,
-): Promise<boolean> {
+): Promise<{ success: boolean; message?: string }> {
   if (password.length < 8 || password.length > 255) {
-    return false;
+    return { success: false, message: "Password must be greater than 8 characters" };
   }
   const hash = encodeHexLowerCase(sha1(new TextEncoder().encode(password)));
   const hashPrefix = hash.slice(0, 5);
@@ -50,8 +50,8 @@ export async function verifyPasswordStrength(
   for (const item of items) {
     const hashSuffix = item.slice(0, 35).toLowerCase();
     if (hash === hashPrefix + hashSuffix) {
-      return false;
+      return { success: false, message: "Password is too common" };
     }
   }
-  return true;
+  return { success: true };
 }
