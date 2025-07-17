@@ -34,9 +34,9 @@ export const resetPasswordAction = actionClient
     }
 
     const strongPassword = await verifyPasswordStrength(password);
-    if (!strongPassword) {
+    if (!strongPassword.success) {
       return {
-        error: "Weak password",
+        error: strongPassword.message,
       };
     }
     await invalidateUserPasswordResetSessions(passwordResetSession.id_user);

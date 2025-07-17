@@ -87,9 +87,9 @@ export const updatePasswordAction = actionClient
     }
 
     const strongPassword = await verifyPasswordStrength(newPassword);
-    if (!strongPassword) {
+    if (!strongPassword.success) {
       return {
-        error: "Weak password",
+        error: strongPassword.message,
       };
     }
 
