@@ -182,12 +182,6 @@ export default function BookingDetails() {
                 <Text fw={500}>Voyage</Text>
                 <Text>{shipmentDetails.SSLineVoyage || "-"}</Text>
               </Group>
-              <Group justify="space-between">
-                <Text fw={500}>Service Contract</Text>
-                <Text>
-                  {shipmentDetails["SSLineCSServiceContract#"] || "-"}
-                </Text>
-              </Group>
             </Stack>
           </Card>
 

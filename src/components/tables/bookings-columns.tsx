@@ -114,7 +114,6 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
       cell.getValue<string>() && (
         <Group gap="xs">
           <Text>{toProperCase(cell.getValue<string>())}</Text>
-          {copyButton(cell.getValue<string>())}
         </Group>
       ),
     filterVariant: "text",
@@ -126,7 +125,6 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
       cell.getValue<string>() && (
         <Group gap="xs">
           <Text>{toProperCase(cell.getValue<string>())}</Text>
-          {copyButton(cell.getValue<string>())}
         </Group>
       ),
     filterVariant: "text",
@@ -138,7 +136,6 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
       cell.getValue<string>() && (
         <Group gap="xs">
           <Text>{toProperCase(cell.getValue<string>())}</Text>
-          {copyButton(cell.getValue<string>())}
         </Group>
       ),
     filterVariant: "text",
@@ -161,7 +158,6 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
         value && (
           <Group gap="xs">
             <Text>{dayjs(value).format("M/DD/YYYY")}</Text>
-            {copyButton(value || "")}
           </Group>
         )
       );
@@ -186,7 +182,6 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
         value && (
           <Group gap="xs">
             <Text>{dayjs(value).format("M/DD/YYYY")}</Text>
-            {copyButton(value)}
           </Group>
         )
       );
