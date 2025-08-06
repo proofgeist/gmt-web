@@ -6,7 +6,7 @@
     "build": "next build",
     "dev": "doppler run -- next dev --turbopack",
     "email:preview": "cp .env ./node_modules/react-email/dist/preview && email dev --port 3010 --dir=src/emails",
-    "lint": "next lint",
+    "lint": "doppler run -- next lint",
     "proofkit": "proofkit",
     "start": "next start",
     "typegen": "doppler run -- pnpm dlx @proofkit/typegen@latest",
