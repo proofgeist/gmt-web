@@ -8,7 +8,7 @@ export default function AppLogo() {
         src="/gmt-icon.png"
         alt="GMT"
         p={4}
-        height={42}
+        style={{ height: "42px", width: "60px"}}
         radius={"md"}
         fit="contain"
       />
