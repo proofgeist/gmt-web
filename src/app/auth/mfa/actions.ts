@@ -12,6 +12,10 @@ import {
   getCurrentSession,
   setSessionTokenCookie,
 } from "@/server/auth/utils/session";
+import {
+  generateDeviceToken,
+  setDeviceTokenCookie,
+} from "@/server/auth/utils/device-token";
 import twilio from "twilio";
 
 const client = twilio(
@@ -21,6 +25,7 @@ const client = twilio(
 
 const verifyMFASchema = z.object({
   code: z.string().length(6),
+  rememberDevice: z.boolean().default(false),
 });
 
 const sendVerificationSchema = z.object({
@@ -54,7 +59,7 @@ export const sendVerificationCodeAction = actionClient
 export const verifyMFAAction = actionClient
   .schema(verifyMFASchema)
   .action(async ({ parsedInput }) => {
-    const { code } = parsedInput;
+    const { code, rememberDevice } = parsedInput;
     const cookieStore = await cookies();
 
     const phoneNumber = cookieStore.get("pending_phone_number")?.value;
@@ -84,6 +89,12 @@ export const verifyMFAAction = actionClient
       const sessionToken = generateSessionToken();
       const session = await createSession(sessionToken, pendingUserID);
       setSessionTokenCookie(sessionToken, session.expiresAt);
+
+      // If remember device is enabled, generate and store device token
+      if (rememberDevice) {
+        const deviceToken = generateDeviceToken(pendingUserID);
+        setDeviceTokenCookie(deviceToken);
+      }
 
       // Check if the user is verified
       const { user } = await getCurrentSession();

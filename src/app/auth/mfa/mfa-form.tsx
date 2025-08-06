@@ -4,12 +4,13 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { verifyMFAAction } from "./actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button, Paper, PinInput, Stack, Text } from "@mantine/core";
+import { Button, Checkbox, Paper, PinInput, Stack, Text } from "@mantine/core";
 import { sendVerificationCodeAction } from "./actions";
 import { useEffect, useState } from "react";
 
 const verifyMFASchema = z.object({
   code: z.string().length(6),
+  rememberDevice: z.boolean().default(false),
 });
 
 export default function MFAVerificationForm({
@@ -74,6 +75,11 @@ export default function MFAVerificationForm({
           >
             Resend Code
           </Button>
+
+          <Checkbox
+            label="Remember this device for 1 week"
+            {...form.register("rememberDevice")}
+          />
 
           <Button fullWidth type="submit" loading={action.isPending}>
             Verify
