@@ -112,6 +112,7 @@ export default function SignupForm({
     lastNameFromUrl,
     companyFromUrl,
     phoneNumberFromUrl,
+    selectedCountry,
   ]);
 
   // Helper type guards
