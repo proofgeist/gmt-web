@@ -40,13 +40,12 @@ export default function TablePage() {
       </Suspense>
       {(shipmentType === "active" || shipmentType === "pending") && (
         <Alert
-          icon={<IconInfoCircle size={20} />}
           color="blue"
           variant="light"
           radius="md"
           my="xs"
         >
-          <b>{shipmentType === "active" ? "In-Transit" : "Scheduled"} Shipments:</b> Schedules are estimates and subject to change.
+         <em>Schedules are estimates and subject to change.</em>
         </Alert>
       )}
     </Stack>
