@@ -142,7 +142,7 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
   },
   {
     accessorKey: "ETDDatePort",
-    header: "Estimated Sailing",
+    header: "ETD",
     filterFn: (row, _, filterValue: string) => {
       return dayjs(row.original.ETDDatePort).isSame(dayjs(filterValue));
     },
@@ -166,7 +166,7 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
   },
   {
     accessorKey: "ETADatePort",
-    header: "Estimated Arrival",
+    header: "ETA",
     filterFn: (row, _, filterValue: string) => {
       return dayjs(row.original.ETADatePort).isSame(dayjs(filterValue));
     },
@@ -190,7 +190,7 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
   },
   {
     id: "holds",
-    header: "Holds",
+    header: "Status",
     accessorFn: (row) => row.holdStatusList,
     Cell: ({ cell }) => <HoldsCell cell={cell} />,
     filterVariant: "multi-select",

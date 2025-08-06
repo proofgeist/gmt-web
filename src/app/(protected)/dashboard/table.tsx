@@ -18,8 +18,9 @@ export default function MyTable({ shipmentType }: MyTableProps) {
 
   // Fetch shipment details based on the selected type
   const {
-    shipmentsByType: { data, isLoading },
-  } = useShipments(shipmentType );
+    shipmentsByType: { data, isLoading, error },
+  } = useShipments(shipmentType);
+
 
   const table = useMantineReactTable({
     data: data ?? [],

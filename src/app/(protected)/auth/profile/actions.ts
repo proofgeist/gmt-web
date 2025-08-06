@@ -137,7 +137,6 @@ export const updatePhoneNumberAction = actionClient
 
         return { codeSent: true };
       } catch (error) {
-        console.error("Error sending verification code:", error);
         return { error: "Failed to send verification code" };
       }
     }
@@ -160,7 +159,6 @@ export const updatePhoneNumberAction = actionClient
 
       return { success: true, message: "Phone number updated successfully" };
     } catch (error) {
-      console.error("Error verifying code:", error);
       return { error: "Failed to verify code" };
     }
   });

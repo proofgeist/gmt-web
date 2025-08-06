@@ -16,7 +16,6 @@ export async function sendVerificationCode(phoneNumber: string) {
 
     return { success: true };
   } catch (error) {
-    console.error("Error sending verification:", error);
     throw new Error("Failed to send verification code");
   }
 }
@@ -35,7 +34,6 @@ export async function verifyCode(phoneNumber: string, code: string) {
       verified: verification.status === "approved",
     };
   } catch (error) {
-    console.error("Error verifying code:", error);
     throw new Error("Failed to verify code");
   }
 }
