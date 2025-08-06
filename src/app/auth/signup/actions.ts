@@ -38,24 +38,10 @@ export const signupAction = actionClient
 
     const webInfo = await getIsContactWebEnabled(email);
     const { contactIDs, isWebEnabled } = webInfo;
-    if (contactIDs.length === 0) {
-      //If the contact is not found, create a user request
-      await createUserRequest(
-        email,
-        password,
-        language,
-        firstName,
-        lastName,
-        company,
-        phoneNumber
-      );
-
-      return webInfo;
-    }
 
 
-    if (!isWebEnabled || contactIDs.length > 1) {
-      //If the contact is not web enabled or has multiple contacts, send a web request email
+    if (!isWebEnabled || contactIDs.length !== 1) {
+      //If the contact is not web enabled or has none or multiple contacts, send a web request email
       await createUserRequest(
         email,
         password,

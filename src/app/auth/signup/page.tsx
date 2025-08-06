@@ -12,7 +12,7 @@ import {
 export default async function Page() {
 
   // Server-side geolocation
-  let initialPhonePrefix = "";
+  let userCountryCode: CountryCode | undefined = undefined;
   try {
     // Use a public IP geolocation API
     const res = await fetch("https://ipapi.co/json/", {
@@ -26,7 +26,7 @@ export default async function Page() {
         typeof countryCode === "string" &&
         getCountries().includes(countryCode as CountryCode)
       ) {
-        initialPhonePrefix = `+${getCountryCallingCode(countryCode as CountryCode)}`;
+        userCountryCode = countryCode as CountryCode;
       }
     }
   } catch {
@@ -44,7 +44,7 @@ export default async function Page() {
       </Text>
 
       <Suspense fallback={<Skeleton height={400} />}>
-        <SignupForm initialPhonePrefix={initialPhonePrefix} />
+        <SignupForm userCountryCode={userCountryCode} />
       </Suspense>
     </Container>
   );

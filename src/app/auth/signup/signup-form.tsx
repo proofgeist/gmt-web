@@ -14,19 +14,39 @@ import {
   Select,
   Group,
   Divider,
+  Combobox,
+  useCombobox,
+  InputBase,
+  ScrollArea,
 } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
-import { AsYouType } from "libphonenumber-js";
+import { useEffect, useState } from "react";
+import {
+  AsYouType,
+  CountryCode,
+  getCountries,
+  getCountryCallingCode,
+} from "libphonenumber-js";
 import { SignupStatus } from "./signup-result";
 import { useUser } from "@/components/auth/use-user";
 import { redirectAction } from "@/server/auth/utils/redirect-action";
-  
+// Get country data
+const countries = getCountries()
+  .map((country) => ({
+    value: country,
+    label: `${country} (+${getCountryCallingCode(country)})`,
+    code: getCountryCallingCode(country),
+  }))
+  .sort((a, b) => a.label.localeCompare(b.label));
+
 export default function SignupForm({
-  initialPhonePrefix,
+  userCountryCode,
 }: {
-  initialPhonePrefix?: string;
+  userCountryCode?: CountryCode;
 }) {
+  const combobox = useCombobox({
+    onDropdownClose: () => combobox.resetSelectedOption(),
+  });
   const searchParams = useSearchParams();
   const emailFromUrl = searchParams.get("email");
   const firstNameFromUrl = searchParams.get("firstName");
@@ -34,6 +54,10 @@ export default function SignupForm({
   const companyFromUrl = searchParams.get("company");
   const phoneNumberFromUrl = searchParams.get("phoneNumber");
 
+  const [search, setSearch] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState<CountryCode>(
+    userCountryCode || "US"
+  );
   const { session } = useUser();
   if (session) {
     redirectAction();
@@ -63,9 +87,10 @@ export default function SignupForm({
     if (emailFromUrl) {
       form.setValue("email", emailFromUrl);
     }
-    // Prefill phone number with initialPhonePrefix if not already set
-    if (initialPhonePrefix && !form.watch("phoneNumber")) {
-      form.setValue("phoneNumber", initialPhonePrefix);
+    // Prefill phone number with the selected country code if not already set
+    if (!form.watch("phoneNumber")) {
+      const countryCode = getCountryCallingCode(selectedCountry);
+      form.setValue("phoneNumber", `+${countryCode}`);
     }
     if (firstNameFromUrl) {
       form.setValue("firstName", firstNameFromUrl);
@@ -82,7 +107,7 @@ export default function SignupForm({
   }, [
     emailFromUrl,
     form,
-    initialPhonePrefix,
+    userCountryCode,
     firstNameFromUrl,
     lastNameFromUrl,
     companyFromUrl,
@@ -102,7 +127,9 @@ export default function SignupForm({
   }
 
   // Show status page if signup was successful
+  console.log(action.result.data);
   if (isStatusResult(action.result.data)) {
+    console.log("signup successful");
     return (
       <SignupStatus
         email={form.watch("email")}
@@ -174,22 +201,98 @@ export default function SignupForm({
             error={form.formState.errors.company?.message}
             disabled={!!companyFromUrl}
           />
-          <TextInput
-            label="Phone Number"
-            description="Include country code (e.g. +1 for US)"
-            placeholder="+1 234 555 6789"
-            required
-            withAsterisk={false}
-            value={form.watch("phoneNumber") ?? ""}
-            onChange={(e) => handlePhoneChange(e.target.value)}
-            error={form.formState.errors.phoneNumber?.message?.toString()}
-          />
+          <Stack gap="xs">
+            <Text size="sm" fw={500}>
+              Phone Number
+            </Text>
+            <Group wrap="nowrap" gap="xs">
+              <Combobox
+                store={combobox}
+                withinPortal={false}
+                onOptionSubmit={(val) => {
+                  const country = countries.find((c) => c.value === val);
+                  if (country) {
+                    setSelectedCountry(val as CountryCode);
+                    const currentNumber = form.watch("phoneNumber") || "";
+                    const numberWithoutCode = currentNumber.replace(
+                      /^\+\d+\s*/,
+                      ""
+                    );
+                    handlePhoneChange(`+${country.code} ${numberWithoutCode}`);
+                  }
+                  combobox.closeDropdown();
+                }}
+              >
+                <Combobox.Target>
+                  <InputBase
+                    component="button"
+                    type="button"
+                    pointer
+                    rightSection={<Combobox.Chevron />}
+                    onClick={() => combobox.toggleDropdown()}
+                    rightSectionPointerEvents="none"
+                    w={120}
+                  >
+                    {countries.find((item) => item.value === selectedCountry)
+                      ?.label || "Select country"}
+                  </InputBase>
+                </Combobox.Target>
+
+                <Combobox.Dropdown>
+                  <Combobox.Search
+                    placeholder="Search"
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                    }}
+                  />
+                  <ScrollArea mah={200}>
+                    <Combobox.Options>
+                      {countries
+                        .filter((item) =>
+                          item.label
+                            .toLowerCase()
+                            .includes(search.toLowerCase())
+                        )
+                        .map((item) => (
+                          <Combobox.Option value={item.value} key={item.value}>
+                            {item.label}
+                          </Combobox.Option>
+                        ))}
+                    </Combobox.Options>
+                  </ScrollArea>
+                </Combobox.Dropdown>
+              </Combobox>
+
+              <TextInput
+                placeholder="234 555 6789"
+                required
+                withAsterisk={false}
+                value={
+                  form.watch("phoneNumber")?.replace(/^\+\d+\s*/, "") ?? ""
+                }
+                onChange={(e) => {
+                  const countryCode = form
+                    .watch("phoneNumber")
+                    ?.match(/^\+(\d+)/)?.[1];
+                  handlePhoneChange(
+                    countryCode ?
+                      `+${countryCode} ${e.target.value}`
+                    : e.target.value
+                  );
+                }}
+                error={form.formState.errors.phoneNumber?.message?.toString()}
+                style={{ flex: 1 }}
+              />
+            </Group>
+          </Stack>
           <Select
             label="Preferred Language"
             data={[
               { value: "en", label: "English" },
               { value: "es", label: "Spanish" },
             ]}
+            defaultValue="en"
+            searchable
             value={form.watch("language")}
             withAsterisk={false}
             error={form.formState.errors.language?.message}
