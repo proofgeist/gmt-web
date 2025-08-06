@@ -30,7 +30,7 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmitWithAction}>
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+      <Paper withBorder shadow="md" p={30} mt={10} radius="md">
         <Stack>
           <TextInput
             autoFocus

@@ -35,6 +35,9 @@ export default function TablePage() {
           setShipmentType={setShipmentType}
         />
       </Suspense>
+      <Suspense fallback={<TableSkeleton />}>
+        <TableContent shipmentType={shipmentType} />
+      </Suspense>
       {(shipmentType === "active" || shipmentType === "pending") && (
         <Alert
           icon={<IconInfoCircle size={20} />}
@@ -46,9 +49,6 @@ export default function TablePage() {
           <b>{shipmentType === "active" ? "In-Transit" : "Scheduled"} Shipments:</b> Schedules are estimates and subject to change.
         </Alert>
       )}
-      <Suspense fallback={<TableSkeleton />}>
-        <TableContent shipmentType={shipmentType} />
-      </Suspense>
     </Stack>
   );
 }

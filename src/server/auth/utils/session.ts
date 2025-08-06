@@ -96,6 +96,10 @@ export async function validateSessionToken(
       : new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
   };
 
+  if (!fmResult["pka_company::reportReferenceCustomer"]) {
+    return { session: null, user: null };
+  }
+
   const user: UserSession = {
     id: session.id_user,
     email: fmResult["proofkit_auth_users::email"],
