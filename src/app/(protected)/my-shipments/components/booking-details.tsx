@@ -75,7 +75,7 @@ export default function BookingDetails() {
             <Stack gap="xs">
               <Title order={4}>Dates</Title>
               <Group justify="space-between">
-                <Text fw={500}>Sailing Date</Text>
+                <Text fw={500}>Sailing Date (ETD)</Text>
                 <Text>
                   {shipmentDetails.ETDDatePort ?
                     dayjs(shipmentDetails.ETDDatePort).format("MMM D, YYYY")
@@ -83,7 +83,7 @@ export default function BookingDetails() {
                 </Text>
               </Group>
               <Group justify="space-between">
-                <Text fw={500}>Arrival Date</Text>
+                <Text fw={500}>Arrival Date (ETA)</Text>
                 <Text>
                   {shipmentDetails.ETADatePort ?
                     dayjs(shipmentDetails.ETADatePort).format("MMM D, YYYY")
@@ -188,7 +188,7 @@ export default function BookingDetails() {
           {shipmentDetails.holdStatusList.length > 0 && (
             <Card withBorder padding="sm" my={0}>
               <Stack gap="xs">
-                <Title order={4}>Hold Status</Title>
+                <Title order={4}>Status</Title>
 
                 {shipmentDetails.onHoldByShipperTStamp && (
                   <Group justify="space-between" align="center" wrap="nowrap">

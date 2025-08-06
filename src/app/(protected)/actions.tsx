@@ -14,14 +14,23 @@ import {
 export const getShipmentByTypeAction = authedActionClient
   .schema(getShipmentByTypeSchema)
   .action(async ({ ctx, parsedInput }) => {
-    const { type } = parsedInput;
+    try {
+      const { type } = parsedInput;
 
-    if (type === "active") {
-      return getActiveShipmentsAction({ ctx }).then((data) => data?.data);
-    } else if (type === "pending") {
-      return getPendingShipmentsAction({ ctx }).then((data) => data?.data);
-    } else if (type === "completed") {
-      return getPastShipmentsAction({ ctx }).then((data) => data?.data);
+      switch (type) {
+        case "active":
+          return getActiveShipmentsAction({ ctx }).then((data) => data?.data);
+        case "pending":
+          return getPendingShipmentsAction({ ctx }).then((data) => data?.data);
+        case "completed":
+          return getPastShipmentsAction({ ctx }).then((data) => data?.data);
+        default:
+          throw new Error(`Unhandled shipment type`);
+      }
+    } catch (error) {
+      throw error instanceof Error ? error : (
+          new Error("Failed to fetch shipments")
+        );
     }
   });
 

@@ -13,14 +13,17 @@ export default function useShipments(shipmentType?: ShipmentType) {
     queryKey: ["activeShipments"],
     queryFn: () => getActiveShipmentsAction({}),
   });
+
   const pendingShipments = useQuery({
     queryKey: ["pendingShipments"],
     queryFn: () => getPendingShipmentsAction({}),
   });
+
   const pastShipments = useQuery({
     queryKey: ["pastShipments"],
     queryFn: () => getPastShipmentsAction({}),
   });
+
   const shipmentsByType = useQuery({
     queryKey: ["shipmentData", shipmentType],
     queryFn: async () => {

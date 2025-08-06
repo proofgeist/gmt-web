@@ -22,7 +22,6 @@ export const contactAction = actionClient
       });
       return { success: true };
     } catch (error) {
-      console.error(error);
       return { success: false, error: "Failed to submit inquiry" };
     }
   });

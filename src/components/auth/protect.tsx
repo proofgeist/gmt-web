@@ -1,4 +1,7 @@
-import { getCurrentSession } from "@/server/auth/utils/session";
+import {
+  getCurrentSession,
+  invalidateSession,
+} from "@/server/auth/utils/session";
 import AuthRedirect from "./redirect";
 
 /**
@@ -10,8 +13,16 @@ export default async function Protect({
 }: {
   children: React.ReactNode;
 }) {
-  const { session } = await getCurrentSession();
+  const { session, user } = await getCurrentSession();
   if (!session) return <AuthRedirect path="/auth/login" />;
+  if (!user?.reportReferenceCustomer) {
+    await invalidateSession(session.id);
+    return (
+      <AuthRedirect
+        path={`/auth/login?error=Missing Report Reference Number. Contact an admin for assistance.`}
+      />
+    );
+  }
   // if (!user.emailVerified) return <AuthRedirect path="/auth/verify-email" />;
   return <>{children}</>;
 }

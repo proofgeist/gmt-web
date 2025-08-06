@@ -55,7 +55,6 @@ export const loginAction = actionClient
       if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
         throw error;
       }
-      console.error("Error sending MFA code:", error);
       return { error: "Failed to send verification code" };
     }
   });

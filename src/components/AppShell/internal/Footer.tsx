@@ -11,6 +11,7 @@ import {
   Title,
   Flex,
 } from "@mantine/core";
+import { headerColor } from "@/config/theme/mantine-theme";
 import {
   IconBrandInstagram,
   IconMail,
@@ -22,10 +23,10 @@ export function Footer() {
   return (
     <Box
       p={"3rem 0 4rem 0"}
-      bg={"black"}
+      bg={headerColor}
       c={"white"}
       w="100%"
-      style={{ borderTop: "2px solid black" }}
+      style={{ borderTop: "2px solid " + headerColor }}
     >
       <Container>
         <Grid align="center">

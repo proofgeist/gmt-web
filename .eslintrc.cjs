@@ -35,6 +35,7 @@ const config = {
     "@typescript-eslint/prefer-nullish-coalescing": "off",
     "react-hooks/exhaustive-deps": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/prefer-regexp-exec": "off",
   },
 };
 module.exports = config;
