@@ -4,7 +4,7 @@ import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
 
 import { useRouter } from "next/navigation";
 import { columns } from "@/components/tables/bookings-columns";
-import { Group, Title } from "@mantine/core";
+import { Group, Text } from "@mantine/core";
 import { useUser } from "@/components/auth/use-user";
 import useShipments from "../use-shipments";
 
@@ -44,13 +44,14 @@ export default function MyTable({ shipmentType }: MyTableProps) {
     }),
     renderTopToolbarCustomActions: () => (
       <Group>
-        <Title order={4} p="md">
-          {`${user?.reportReferenceCustomer} ${
+        <Text size="lg" p="md">
+          <strong>{user?.reportReferenceCustomer}</strong>
+          {` ${
             shipmentType === "active" ? "In-Transit Shipments"
             : shipmentType === "pending" ? "Scheduled to Sail Shipments"
             : "Previous Shipments"
           }`}
-        </Title>
+        </Text>
       </Group>
     ),
   });

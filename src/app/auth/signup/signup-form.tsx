@@ -30,6 +30,7 @@ import {
 import { SignupStatus } from "./signup-result";
 import { useUser } from "@/components/auth/use-user";
 import { redirectAction } from "@/server/auth/utils/redirect-action";
+import { IconCheck } from "@tabler/icons-react";
 // Get country data
 const countries = getCountries()
   .map((country) => ({
@@ -232,7 +233,7 @@ export default function SignupForm({
                     rightSection={<Combobox.Chevron />}
                     onClick={() => combobox.toggleDropdown()}
                     rightSectionPointerEvents="none"
-                    w={120}
+                    w={140}
                   >
                     {countries.find((item) => item.value === selectedCountry)
                       ?.label || "Select country"}
@@ -246,21 +247,24 @@ export default function SignupForm({
                       setSearch(e.target.value);
                     }}
                   />
-                  <ScrollArea mah={200}>
-                    <Combobox.Options>
-                      {countries
-                        .filter((item) =>
-                          item.label
-                            .toLowerCase()
-                            .includes(search.toLowerCase())
-                        )
-                        .map((item) => (
-                          <Combobox.Option value={item.value} key={item.value}>
-                            {item.label}
-                          </Combobox.Option>
-                        ))}
-                    </Combobox.Options>
-                  </ScrollArea>
+                  <Combobox.Options mah={200} style={{ overflowY: "auto" }}>
+                    {countries
+                      .filter((item) =>
+                        item.label.toLowerCase().includes(search.toLowerCase())
+                      )
+                      .map((item) => (
+                        <Combobox.Option value={item.value} key={item.value}>
+                          {selectedCountry === item.value ? (
+                            <Group gap="xs" wrap="nowrap">
+                              <IconCheck size={16} />
+                              <Text>{item.label}</Text>
+                            </Group>
+                          ) : (
+                            <Text>{item.label}</Text>
+                          )}
+                        </Combobox.Option>
+                      ))}
+                  </Combobox.Options>
                 </Combobox.Dropdown>
               </Combobox>
 
