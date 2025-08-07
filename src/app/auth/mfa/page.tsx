@@ -6,7 +6,10 @@ import {
   getCurrentSession,
   invalidateSession,
 } from "@/server/auth/utils/session";
-import { getDeviceToken } from "@/server/auth/utils/device-token";
+import {
+  getDeviceToken,
+  parseDeviceToken,
+} from "@/server/auth/utils/device-token";
 import DeviceTokenVerifier from "./device-token-verifier";
 
 export default async function Page() {
@@ -15,9 +18,12 @@ export default async function Page() {
   const deviceToken = await getDeviceToken();
   const pendingUserId = cookieStore.get("pending_user_id")?.value;
 
-  // If device token exists and matches the current user, render the verifier component
+  // Parse and validate the device token
   if (deviceToken && pendingUserId) {
-    return <DeviceTokenVerifier pendingUserId={pendingUserId} />;
+    const parsedToken = parseDeviceToken(deviceToken);
+    if (parsedToken && parsedToken.userId === pendingUserId) {
+      return <DeviceTokenVerifier pendingUserId={pendingUserId} />;
+    }
   }
 
   const phoneNumber =
