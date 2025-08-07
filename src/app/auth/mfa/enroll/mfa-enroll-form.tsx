@@ -14,7 +14,7 @@ import {
 import { mfaEnrollSchema } from "./schema";
 import { mfaEnrollAction } from "./actions";
 import { useState, useEffect } from "react";
-import { CountryCode } from "libphonenumber-js";
+import { AsYouType, CountryCode } from "libphonenumber-js";
 import { useSearchParams } from "next/navigation";
 import { sendVerificationCodeAction } from "../actions";
 import { PhoneNumberInput } from "@/components/ui/PhoneNumberInput";
@@ -28,12 +28,21 @@ export default function MFAEnrollForm({
   const phoneNumber = searchParams.get("phoneNumber");
   const [codeSent, setCodeSent] = useState(false);
 
+  const handlePhoneChange = (value: string) => {
+      // Always ensure there's a + at the start
+      const normalizedValue =
+        value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
+      const formatter = new AsYouType();
+      const formattedNumber = formatter.input(normalizedValue);
+      return formattedNumber;
+    };
+
   const { form, handleSubmitWithAction, action } = useHookFormAction(
     mfaEnrollAction,
     zodResolver(mfaEnrollSchema),
     {
       formProps: {
-        defaultValues: { phoneNumber: handlePhoneChange(phoneNumber ?? "") },
+        defaultValues: { phoneNumber: phoneNumber ? handlePhoneChange(phoneNumber) : "" },
       },
     }
   );
