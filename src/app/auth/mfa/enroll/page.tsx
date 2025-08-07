@@ -9,7 +9,7 @@ import {
 
 export default async function Page() {
   // Server-side geolocation for initial phone prefix
-  let initialPhonePrefix = "";
+  let userCountryCode: CountryCode | undefined = undefined;
   try {
     const res = await fetch("https://ipapi.co/json/", {
       next: { revalidate: 60 },
@@ -22,7 +22,7 @@ export default async function Page() {
         typeof countryCode === "string" &&
         getCountries().includes(countryCode as CountryCode)
       ) {
-        initialPhonePrefix = `+${getCountryCallingCode(countryCode as CountryCode)}`;
+        userCountryCode = countryCode as CountryCode;
       }
     }
   } catch {
@@ -37,7 +37,7 @@ export default async function Page() {
       </Text>
 
       <Suspense fallback={<Skeleton height={400} />}>
-        <MFAEnrollForm initialPhonePrefix={initialPhonePrefix} />
+        <MFAEnrollForm userCountryCode={userCountryCode} />
       </Suspense>
     </Container>
   );

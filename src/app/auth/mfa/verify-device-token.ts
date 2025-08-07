@@ -2,7 +2,10 @@
 
 import { actionClient } from "@/server/safe-action";
 import { z } from "zod";
-import { getDeviceToken } from "@/server/auth/utils/device-token";
+import {
+  getDeviceToken,
+  parseDeviceToken,
+} from "@/server/auth/utils/device-token";
 import { createSession, generateSessionToken, setSessionTokenCookie } from "@/server/auth/utils/session";
 import { getRedirectCookie } from "@/server/auth/utils/redirect";
 import { redirect } from "next/navigation";
@@ -19,6 +22,12 @@ export const verifyDeviceTokenAction = actionClient
 
     if (!deviceToken) {
       return { error: "No device token found" };
+    }
+
+    // Parse and validate the device token
+    const parsedToken = parseDeviceToken(deviceToken);
+    if (!parsedToken || parsedToken.userId !== pendingUserId) {
+      return { error: "Invalid device token" };
     }
 
     // Set the actual session cookie
