@@ -4,11 +4,33 @@ import { cookies } from "next/headers";
 const DEVICE_TOKEN_COOKIE = "mfa_device_token";
 const TOKEN_EXPIRY_DAYS = 7;
 
+interface DeviceToken {
+  token: string;
+  userId: string;
+}
+
 export function generateDeviceToken(userId: string): string {
   const randomToken = randomBytes(32).toString("hex");
   const hash = createHash("sha256");
   hash.update(userId + randomToken);
-  return hash.digest("hex");
+
+  // Create a token object that includes both the hash and userId
+  const tokenData: DeviceToken = {
+    token: hash.digest("hex"),
+    userId,
+  };
+
+  // Return encoded token
+  return Buffer.from(JSON.stringify(tokenData)).toString("base64");
+}
+
+export function parseDeviceToken(token: string): DeviceToken | null {
+  try {
+    const decoded = Buffer.from(token, "base64").toString();
+    return JSON.parse(decoded) as DeviceToken;
+  } catch {
+    return null;
+  }
 }
 
 export async function setDeviceTokenCookie(token: string) {
