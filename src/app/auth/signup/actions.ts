@@ -41,6 +41,7 @@ export const signupAction = actionClient
 
 
     if (!isWebEnabled || contactIDs.length !== 1) {
+      console.log("Sending web request email");
       //If the contact is not web enabled or has none or multiple contacts, send a web request email
       await createUserRequest(
         email,

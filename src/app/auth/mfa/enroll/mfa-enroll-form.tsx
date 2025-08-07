@@ -14,22 +14,15 @@ import {
 import { mfaEnrollSchema } from "./schema";
 import { mfaEnrollAction } from "./actions";
 import { useState, useEffect } from "react";
-import { AsYouType } from "libphonenumber-js";
+import { CountryCode } from "libphonenumber-js";
 import { useSearchParams } from "next/navigation";
 import { sendVerificationCodeAction } from "../actions";
-
-const handlePhoneChange = (value: string) => {
-  // Always ensure there's a + at the start
-  const normalizedValue =
-    value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
-  const formatter = new AsYouType();
-  return formatter.input(normalizedValue);
-};
+import { PhoneNumberInput } from "@/components/ui/PhoneNumberInput";
 
 export default function MFAEnrollForm({
-  initialPhonePrefix,
+  userCountryCode,
 }: {
-  initialPhonePrefix?: string;
+  userCountryCode?: CountryCode;
 }) {
   const searchParams = useSearchParams();
   const phoneNumber = searchParams.get("phoneNumber");
@@ -45,13 +38,6 @@ export default function MFAEnrollForm({
     }
   );
   const [isResending, setIsResending] = useState(false);
-
-  useEffect(() => {
-    // Only prefill if no phone number is present from search params or form state
-    if (!phoneNumber && initialPhonePrefix && !form.watch("phoneNumber")) {
-      form.setValue("phoneNumber", initialPhonePrefix);
-    }
-  }, [phoneNumber, initialPhonePrefix, form]);
 
   const handleResendCode = async () => {
     try {
@@ -76,17 +62,12 @@ export default function MFAEnrollForm({
     <form onSubmit={handleSubmitWithAction}>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <Stack>
-          <TextInput
-            label="Phone Number"
-            description="Include country code (e.g. +1 for US)"
-            placeholder="+1 234 555 6789"
-            required
-            withAsterisk={false}
+          <PhoneNumberInput
             value={form.watch("phoneNumber") ?? ""}
-            onChange={(e) =>
-              form.setValue("phoneNumber", handlePhoneChange(e.target.value))
-            }
+            onChange={(value) => form.setValue("phoneNumber", value)}
             error={form.formState.errors.phoneNumber?.message?.toString()}
+            defaultCountry={userCountryCode}
+            required
             disabled={codeSent}
           />
 
