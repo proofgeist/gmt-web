@@ -114,7 +114,7 @@ export default function SignupForm({ userCountryCode }: { userCountryCode?: Coun
   // Show signup form
   return (
     <form onSubmit={handleSubmitWithAction}>
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md" >
         <Stack>
           <Group wrap="nowrap">
             <TextInput
