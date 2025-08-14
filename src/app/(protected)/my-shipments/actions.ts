@@ -25,13 +25,12 @@ export const releaseShipperHoldAction = authedActionClient
     }
 
     const { user } = ctx;
-    if (!user.email || !user.username) {
+    if (!user.email) {
       throw new Error("User not found");
     }
 
     sendHoldRemovedEmail({
       to: user.email,
-      firstName: user.username,
       bookingNumber: parsedInput.gmt_no,
       portOfLoading: parsedInput.portOfLoading,
       portOfDischarge: parsedInput.portOfDischarge,
