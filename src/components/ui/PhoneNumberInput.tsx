@@ -79,7 +79,13 @@ export function PhoneNumberInput({
   }, [selectedCountry, value]);
 
   const CountryFlag = flags[selectedCountry];
-  console.log(CountryFlag);
+  
+  const getPlaceholder = () => {
+    const countryCode = getCountryCallingCode(selectedCountry);
+    const formatter = new AsYouType();
+    const formattedNumber = formatter.input(`+${countryCode} 234 555 6789`);
+    return formattedNumber.replace(/^\+\d+\s*/, "");
+  }
 
   return (
     <Box>
@@ -145,7 +151,7 @@ export function PhoneNumberInput({
         <Grid align="center" gutter="xs">
           <Grid.Col span="content">
             {CountryFlag && (
-              <Box w={50} ml={1} style={{ display: "flex", alignItems: "center", height: "100%", borderRadius: "4px", overflow: "hidden" }}>
+              <Box w={45} ml={1}  style={{ display: "flex", alignItems: "center", height: "100%", borderRadius: "4px", overflow: "hidden" }}>
                 <CountryFlag
                   title={
                     countries.find((c) => c.value === selectedCountry)?.label ||
@@ -157,7 +163,7 @@ export function PhoneNumberInput({
           </Grid.Col>
           <Grid.Col span="auto">
             <TextInput
-              placeholder="234 555 6789"
+              placeholder={getPlaceholder()}
               required={required}
               withAsterisk={false}
               value={value?.replace(/^\+\d+\s*/, "") ?? ""}

@@ -98,7 +98,7 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
   },
   {
     accessorKey: "_shipperReference#",
-    header: "Shipper Reference",
+    header: "Shipper Ref",
     Cell: ({ cell }) =>
       cell.getValue<string>() && (
         <Group gap="xs">
@@ -109,7 +109,7 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
   },
   {
     accessorKey: "placeOfReceiptCity",
-    header: "Place of Receipt",
+    header: "PO Receipt",
     Cell: ({ cell }) =>
       cell.getValue<string>() && (
         <Group gap="xs">
@@ -119,7 +119,7 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
     filterVariant: "text",
   },
   {
-    header: "Port of Loading",
+    header: "PO Loading",
     accessorKey: "portOfLoadingCity",
     Cell: ({ cell }) =>
       cell.getValue<string>() && (
@@ -130,8 +130,19 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
     filterVariant: "text",
   },
   {
-    header: "Port of Discharge",
+    header: "PO Discharge",
     accessorKey: "portOfDischargeCity",
+    Cell: ({ cell }) =>
+      cell.getValue<string>() && (
+        <Group gap="xs">
+          <Text>{toProperCase(cell.getValue<string>())}</Text>
+        </Group>
+      ),
+    filterVariant: "text",
+  },
+  {
+    header: "PO Delivery",
+    accessorKey: "placeOfDeliveryCity",
     Cell: ({ cell }) =>
       cell.getValue<string>() && (
         <Group gap="xs">
