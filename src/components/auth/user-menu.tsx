@@ -15,23 +15,8 @@ import { yellowtail } from "@/config/theme/fonts";
 export default function UserMenu({ isPublic }: { isPublic: boolean }) {
   const { state, user, logout } = useUser();
 
-  if (state === "loading") {
-    return (
-      <Button
-        variant="white"
-        size="sm"
-        miw={120}
-        rightSection={<Loader size="xs" color="gray" />}
-      >
-        <Text span className={yellowtail.className}>
-          my
-        </Text>
-        GMT
-      </Button>
-    );
-  }
 
-  if (state === "unauthenticated") {
+  if (state === "unauthenticated" || state === "loading") {
     return (
       <Menu
         position="bottom-end"
