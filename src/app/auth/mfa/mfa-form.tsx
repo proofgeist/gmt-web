@@ -68,6 +68,10 @@ export default function MFAVerificationForm({
             <Text c="red">An error occurred</Text>
           : null}
 
+          <Checkbox
+            label="Remember this device for 30 days"
+            {...form.register("rememberDevice")}
+          />
           <Button
             variant="subtle"
             onClick={handleResendCode}
@@ -75,11 +79,6 @@ export default function MFAVerificationForm({
           >
             Resend Code
           </Button>
-
-          <Checkbox
-            label="Remember this device for 1 week"
-            {...form.register("rememberDevice")}
-          />
 
           <Button fullWidth type="submit" loading={action.isPending}>
             Verify

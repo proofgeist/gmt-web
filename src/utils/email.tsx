@@ -15,7 +15,6 @@ interface HoldRemovedEmailProps {
 
 export async function sendHoldRemovedEmail({
   to,
-  firstName,
   bookingNumber,
   portOfLoading,
   portOfDischarge,
@@ -30,7 +29,6 @@ export async function sendHoldRemovedEmail({
     subject,
     react: (
       <HoldRemovedEmail
-        firstName={firstName}
         bookingNumber={bookingNumber}
         portOfLoading={portOfLoading}
         portOfDischarge={portOfDischarge}

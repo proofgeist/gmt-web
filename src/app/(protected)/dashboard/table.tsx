@@ -25,6 +25,7 @@ export default function MyTable({ shipmentType }: MyTableProps) {
   const table = useMantineReactTable({
     data: data ?? [],
     state: { isLoading },
+    layoutMode: "grid",
     columns,
     enableFullScreenToggle: false,
     enableHiding: false,
@@ -34,6 +35,9 @@ export default function MyTable({ shipmentType }: MyTableProps) {
       pagination: { pageIndex: 0, pageSize: 10 },
       density: "xs",
       showGlobalFilter: true,
+    },
+    defaultColumn: {
+      size: 160,
     },
     mantineTableBodyRowProps: ({ row }) => ({
       style: { cursor: "pointer" },

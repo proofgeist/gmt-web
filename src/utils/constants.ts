@@ -5,21 +5,21 @@ export const errorObject = z.object({
   error: z.object({
     code: z.number().refine((val) => val === 0, {
       message: "FM Script Error",
-    }),
+    }).optional(),
     environment: z.object({
-      fileName: z.string(),
-      layoutName: z.string(),
-      scriptName: z.string(),
-      scriptParameter: z.string(),
-      systemPlatform: z.string(),
-      systemVersion: z.string(),
-    }),
-    lineNumber: z.number(),
-    scriptName: z.string(),
-    scriptStep: z.string(),
-    text: z.string(),
+      fileName: z.string().optional(),
+      layoutName: z.string().optional(),
+      scriptName: z.string().optional(),
+      scriptParameter: z.string().optional(),
+      systemPlatform: z.string().optional(),
+      systemVersion: z.string().optional(),
+    }).optional(),
+    lineNumber: z.number().optional(),
+    scriptName: z.string().optional(),
+    scriptStep: z.string().optional(),
+    text: z.string().optional(),
   }),
-});
+}).optional();
 
 export type FMScript<
   TInput extends z.ZodTypeAny,

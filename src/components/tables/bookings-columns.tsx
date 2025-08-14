@@ -153,6 +153,7 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
   },
   {
     accessorKey: "ETDDatePort",
+    size: 100,  
     header: "ETD",
     filterFn: (row, _, filterValue: string) => {
       return dayjs(row.original.ETDDatePort).isSame(dayjs(filterValue));
@@ -178,6 +179,7 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
   {
     accessorKey: "ETADatePort",
     header: "ETA",
+    size: 100,
     filterFn: (row, _, filterValue: string) => {
       return dayjs(row.original.ETADatePort).isSame(dayjs(filterValue));
     },

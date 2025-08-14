@@ -44,7 +44,6 @@ export const getActiveShipmentsAction = authedActionClient
         ETDDatePort: `<=${dayjs().format("MM/DD/YYYY")}`,
       },
       limit: 1000,
-      fetch: { next: { revalidate: 120 } },
     });
 
     return data.map((record) => record.fieldData);
@@ -58,7 +57,6 @@ export const getPendingShipmentsAction = authedActionClient
         ETDDatePort: `>${dayjs().format("MM/DD/YYYY")}`,
       },
       limit: 1000,
-      fetch: { next: { revalidate: 120 } },
     });
 
     return data.map((record) => record.fieldData);
@@ -73,7 +71,6 @@ export const getPastShipmentsAction = authedActionClient
         ETDDatePort: `>${dayjs().subtract(1, "year").format("MM/DD/YYYY")}`,
       },
       limit: 1000,
-      fetch: { next: { revalidate: 120 } },
     });
 
     return data.map((record) => record.fieldData);

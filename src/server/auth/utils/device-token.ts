@@ -2,7 +2,7 @@ import { randomBytes, createHash } from "crypto";
 import { cookies } from "next/headers";
 
 const DEVICE_TOKEN_COOKIE = "mfa_device_token";
-const TOKEN_EXPIRY_DAYS = 7;
+const TOKEN_EXPIRY_DAYS = 30;
 
 interface DeviceToken {
   token: string;

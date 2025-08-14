@@ -97,9 +97,7 @@ export default function SignupForm({ userCountryCode }: { userCountryCode?: Coun
   }
 
   // Show status page if signup was successful
-  console.log(action.result.data);
   if (isStatusResult(action.result.data)) {
-    console.log("signup successful");
     return (
       <SignupStatus
         email={form.watch("email")}

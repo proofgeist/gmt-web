@@ -48,7 +48,6 @@ const detailRowStyle = {
 };
 
 export const HoldRemovedEmail = ({
-  firstName = "Valued Customer",
   bookingNumber,
   portOfLoading,
   portOfDischarge,
@@ -63,9 +62,7 @@ export const HoldRemovedEmail = ({
         <Text style={emailStyles.tertiary}>Shipment Notification</Text>
         <Heading style={emailStyles.secondary}>Shipment Hold Removed</Heading>
         <Text style={emailStyles.paragraph}>
-          Dear {firstName},
-          <br />
-          This is to notify you that a hold on the shipment detailed below was
+          This email is to notify you that a hold on the shipment detailed below was
           removed on {holdRemovedAt}.
         </Text>
 
