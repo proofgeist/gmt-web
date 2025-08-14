@@ -79,7 +79,7 @@ export function useReleaseShipperHold() {
         confirm: "Confirm",
         cancel: "Cancel",
       },
-      onConfirm: async () => {
+      onConfirm: () => {
         notifications.show({
           title: "Releasing shipper hold",
           message: "Please wait while we release the shipper hold",
@@ -87,7 +87,7 @@ export function useReleaseShipperHold() {
           id: "release-shipper-hold",
           autoClose: false,
         });
-        await mutateAsync({
+        void mutateAsync({
           gmt_no,
           portOfLoading,
           portOfDischarge,
