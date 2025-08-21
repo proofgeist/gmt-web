@@ -17,6 +17,7 @@ import { getMyShipmentsByGMTNumberAction } from "../../actions";
 import { useEffect, useState } from "react";
 import { useReleaseShipperHold } from "../hooks/use-release-shipper-hold";
 import { IconRefresh } from "@tabler/icons-react";
+import { useUser } from "@/components/auth/use-user";
 
 export default function BookingDetails() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function BookingDetails() {
   const bookingNumberFromParams = searchParams.get("bookingNumber");
   const [bookingNumber, setBookingNumber] = useState<string | null>(null);
   const pathname = usePathname();
-
+  const { user } = useUser();
   useEffect(() => {
     setBookingNumber(bookingNumberFromParams ?? null);
   }, [bookingNumberFromParams]);
@@ -190,7 +191,10 @@ export default function BookingDetails() {
               <Stack gap="xs">
                 <Title order={4}>Status</Title>
 
-                {shipmentDetails.onHoldByShipperTStamp && (
+                {(
+                  shipmentDetails.onHoldByShipperTStamp &&
+                  shipmentDetails._kfnShipperCompanyID === user?.company_id
+                ) ?
                   <Group justify="space-between" align="center" wrap="nowrap">
                     <Text fw={500}>On Hold By Shipper</Text>
 
@@ -227,7 +231,15 @@ export default function BookingDetails() {
                       </Button>
                     </Tooltip>
                   </Group>
-                )}
+                : <Group justify="space-between">
+                    <Text fw={500}>On Hold By Shipper</Text>
+                    <Text>
+                      {dayjs(shipmentDetails.onHoldByShipperTStamp).format(
+                        "MMM D, YYYY"
+                      )}
+                    </Text>
+                  </Group>
+                }
                 {shipmentDetails.onHoldGmtTStamp && (
                   <Group justify="space-between">
                     <Text fw={500}>On Hold By GMT</Text>

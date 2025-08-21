@@ -16,9 +16,11 @@ import { toProperCase } from "@/utils/functions";
 import dayjs from "dayjs";
 import { IconCheck, IconCopy, IconX } from "@tabler/icons-react";
 import { useReleaseShipperHold } from "@/app/(protected)/my-shipments/hooks/use-release-shipper-hold";
+import { useUser } from "../auth/use-user";
 
 function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
   const { releaseHold } = useReleaseShipperHold();
+  const { user } = useUser();
   const value = cell.getValue<TBookings["holdStatusList"]>();
   if (!value) return null;
 
@@ -26,7 +28,7 @@ function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
     <Group>
       {value.length > 0 &&
         value.map((status) =>
-          status === "Shipper Hold" ?
+          status === "Shipper Hold" && cell.row.original._kfnShipperCompanyID === user?.company_id ?
             <Badge
               key={status}
               color="red"
