@@ -17,6 +17,7 @@ export type Tsessions = {
   "proofkit_auth_users::username": string;
   "proofkit_auth_users::contact_id": string;
   "pka_company::reportReferenceCustomer": string;
+  "pka_company::__kpnID": string;
   "proofkit_auth_users::phone_number_mfa": string;
   "proofkit_auth_users::preferredLanguage": "en" | "es";
   "proofkit_auth_users::active": number | null;

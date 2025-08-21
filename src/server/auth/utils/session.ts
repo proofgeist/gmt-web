@@ -12,6 +12,7 @@ import { Tsessions as _Session } from "../db/sessions";
 
 export interface UserSession extends User {
   reportReferenceCustomer: string;
+  company_id: string;
 }
 
 /**
@@ -108,6 +109,7 @@ export async function validateSessionToken(
     contact_id: fmResult["proofkit_auth_users::contact_id"],
     reportReferenceCustomer: fmResult["pka_company::reportReferenceCustomer"],
     phone_number_mfa: fmResult["proofkit_auth_users::phone_number_mfa"],
+    company_id: fmResult["pka_company::__kpnID"],
   };
 
   // delete session if it has expired
