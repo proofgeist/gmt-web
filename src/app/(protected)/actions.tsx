@@ -38,11 +38,18 @@ export const getActiveShipmentsAction = authedActionClient
   .schema(getMyShipmentsSchema)
   .action(async ({ ctx }) => {
     const data = await BookingsLayout.findAll({
-      query: {
-        reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
-        ETADatePort: `>=${dayjs().format("MM/DD/YYYY")}`,
-        ETDDatePort: `<=${dayjs().format("MM/DD/YYYY")}`,
-      },
+      query: [
+        {
+          reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+          ETADatePort: `>=${dayjs().format("MM/DD/YYYY")}`,
+          ETDDatePort: `<=${dayjs().format("MM/DD/YYYY")}`,
+        },
+        {
+          _kfnShipperCompanyID: ctx.user?.company_id,
+          ETADatePort: `>=${dayjs().format("MM/DD/YYYY")}`,
+          ETDDatePort: `<=${dayjs().format("MM/DD/YYYY")}`,
+        },
+      ],
       limit: 1000,
     });
 
@@ -52,10 +59,16 @@ export const getPendingShipmentsAction = authedActionClient
   .schema(getMyShipmentsSchema)
   .action(async ({ ctx }) => {
     const data = await BookingsLayout.findAll({
-      query: {
-        reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
-        ETDDatePort: `>${dayjs().format("MM/DD/YYYY")}`,
-      },
+      query: [
+        {
+          reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+          ETDDatePort: `>${dayjs().format("MM/DD/YYYY")}`,
+        },
+        {
+          _kfnShipperCompanyID: ctx.user?.company_id,
+          ETDDatePort: `>${dayjs().format("MM/DD/YYYY")}`,
+        },
+      ],
       limit: 1000,
     });
 
@@ -65,11 +78,18 @@ export const getPastShipmentsAction = authedActionClient
   .schema(getMyShipmentsSchema)
   .action(async ({ ctx }) => {
     const data = await BookingsLayout.findAll({
-      query: {
-        reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
-        ETADatePort: `<${dayjs().format("MM/DD/YYYY")}`,
-        ETDDatePort: `>${dayjs().subtract(1, "year").format("MM/DD/YYYY")}`,
-      },
+      query: [
+        {
+          reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+          ETADatePort: `<${dayjs().format("MM/DD/YYYY")}`,
+          ETDDatePort: `>${dayjs().subtract(1, "year").format("MM/DD/YYYY")}`,
+        },
+        {
+          _kfnShipperCompanyID: ctx.user?.company_id,
+          ETADatePort: `<${dayjs().format("MM/DD/YYYY")}`,
+          ETDDatePort: `>${dayjs().subtract(1, "year").format("MM/DD/YYYY")}`,
+        },
+      ],
       limit: 1000,
     });
 
