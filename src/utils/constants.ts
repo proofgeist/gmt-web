@@ -30,16 +30,12 @@ export type FMScript<
   output: TOutput;
 };
 
-export const fmsScripts: {
-  releaseShipperHold: FMScript<
-    z.ZodObject<{ gmt_no: z.ZodString }>,
-    typeof errorObject
-  >;
-} = {
+export const fmsScripts = {
   releaseShipperHold: {
     name: "Release Shipper Hold",
     input: z.object({
       gmt_no: z.string(),
+      contact_id: z.string(),
     }),
     output: errorObject,
   },

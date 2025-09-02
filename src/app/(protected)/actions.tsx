@@ -24,6 +24,8 @@ export const getShipmentByTypeAction = authedActionClient
           return getPendingShipmentsAction({ ctx }).then((data) => data?.data);
         case "completed":
           return getPastShipmentsAction({ ctx }).then((data) => data?.data);
+        case "holds":
+          return getHoldsShipmentsAction({ ctx }).then((data) => data?.data);
         default:
           throw new Error(`Unhandled shipment type`);
       }
@@ -45,9 +47,14 @@ export const getActiveShipmentsAction = authedActionClient
           ETDDatePort: `<=${dayjs().format("MM/DD/YYYY")}`,
         },
         {
-          _kfnShipperCompanyID: ctx.user?.company_id,
+          "bookings_COMPANIES.shipper::reportReferenceCustomer":
+            ctx.user?.reportReferenceCustomer,
           ETADatePort: `>=${dayjs().format("MM/DD/YYYY")}`,
           ETDDatePort: `<=${dayjs().format("MM/DD/YYYY")}`,
+        },
+        {
+          holdStatusList: "*",
+          omit: "true"
         },
       ],
       limit: 1000,
@@ -65,8 +72,12 @@ export const getPendingShipmentsAction = authedActionClient
           ETDDatePort: `>${dayjs().format("MM/DD/YYYY")}`,
         },
         {
-          _kfnShipperCompanyID: ctx.user?.company_id,
+          "bookings_COMPANIES.shipper::reportReferenceCustomer": ctx.user?.reportReferenceCustomer,
           ETDDatePort: `>${dayjs().format("MM/DD/YYYY")}`,
+        },
+        {
+          holdStatusList: "*",
+          omit: "true"
         },
       ],
       limit: 1000,
@@ -85,9 +96,32 @@ export const getPastShipmentsAction = authedActionClient
           ETDDatePort: `>${dayjs().subtract(1, "year").format("MM/DD/YYYY")}`,
         },
         {
-          _kfnShipperCompanyID: ctx.user?.company_id,
+          "bookings_COMPANIES.shipper::reportReferenceCustomer": ctx.user?.reportReferenceCustomer,
           ETADatePort: `<${dayjs().format("MM/DD/YYYY")}`,
           ETDDatePort: `>${dayjs().subtract(1, "year").format("MM/DD/YYYY")}`,
+        },
+        {
+          holdStatusList: "*",
+          omit: "true"
+        },
+      ],
+      limit: 1000,
+    });
+
+    return data.map((record) => record.fieldData);
+  });
+export const getHoldsShipmentsAction = authedActionClient
+  .schema(getMyShipmentsSchema)
+  .action(async ({ ctx }) => {
+    const data = await BookingsLayout.findAll({
+      query: [
+        {
+          holdStatusList: "*",
+          reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+        },
+        {
+          holdStatusList: "*",
+          "bookings_COMPANIES.shipper::reportReferenceCustomer": ctx.user?.reportReferenceCustomer,
         },
       ],
       limit: 1000,

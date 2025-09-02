@@ -7,9 +7,10 @@ import { columns } from "@/components/tables/bookings-columns";
 import { Group, Text } from "@mantine/core";
 import { useUser } from "@/components/auth/use-user";
 import useShipments from "../use-shipments";
+import { ShipmentType } from "../my-shipments/schema";
 
 interface MyTableProps {
-  shipmentType: "active" | "pending" | "completed";
+  shipmentType: ShipmentType;
 }
 
 export default function MyTable({ shipmentType }: MyTableProps) {
