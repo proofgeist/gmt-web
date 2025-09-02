@@ -135,11 +135,18 @@ export const getMyShipmentsByGMTNumberAction = authedActionClient
   .action(async ({ parsedInput, ctx }) => {
     const { gmtNumber } = parsedInput;
 
-    const data = await BookingDetailsLayout.findOne({
-      query: {
-        reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
-        "_GMT#": gmtNumber,
-      },
+    const data = await BookingsLayout.findOne({
+      query: [
+        {
+          reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+          "_GMT#": gmtNumber,
+        },
+        {
+          "bookings_COMPANIES.shipper::reportReferenceCustomer":
+            ctx.user?.reportReferenceCustomer,
+          "_GMT#": gmtNumber,
+        },
+      ],
     });
 
     return data;

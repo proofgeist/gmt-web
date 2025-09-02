@@ -31,6 +31,14 @@ export const ZBookings = z.object({
         "holdStatusList": z.string(),
         "_kfnShipperCompanyID": z.string(),
         "bookings_COMPANIES.shipper::reportReferenceCustomer": z.string(),
+        "SSLineVessel": z.string(),
+        "SSLineVoyage": z.string(),
+        "onHoldByShipperTStamp": z.string(),
+        "onHoldGmtTStamp": z.string(),
+        "agentOnHoldTStamp": z.string(),
+        "customsHoldTStamp": z.string(),
+        "directShipmentOnHoldTStamp": z.string(),
+        "SSLineInstructionsRemarks": z.string(),
     });
 
 export type TBookings = z.infer<typeof ZBookings>;

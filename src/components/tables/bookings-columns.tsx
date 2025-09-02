@@ -28,7 +28,7 @@ function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
     <Group>
       {value.length > 0 &&
         value.map((status) =>
-          status === "Shipper Hold" && cell.row.original._kfnShipperCompanyID === user?.company_id ?
+          status === "Shipper Hold" && cell.row.original["bookings_COMPANIES.shipper::reportReferenceCustomer"] === user?.reportReferenceCustomer ?
             <Badge
               key={status}
               color="red"
@@ -62,51 +62,19 @@ function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
     </Group>
   );
 }
-
-function copyButton(value: string) {
-  return (
-    <CopyButton value={value} timeout={2000}>
-      {({ copied, copy }) => (
-        <Tooltip label={copied ? "Copied" : "Copy"} withArrow position="right">
-          <ActionIcon
-            color={copied ? "teal" : "gray"}
-            variant="subtle"
-            onClick={(e) => {
-              e.stopPropagation();
-              copy();
-            }}
-          >
-            {copied ?
-              <IconCheck size={16} />
-            : <IconCopy size={16} />}
-          </ActionIcon>
-        </Tooltip>
-      )}
-    </CopyButton>
-  );
-}
-
 export const columns: MRT_ColumnDef<TBookings>[] = [
   {
     accessorKey: "_GMT#",
     header: "GMT #",
-    Cell: ({ cell }) =>
-      cell.getValue<string>() && (
-        <Group gap="xs">
-          <Text>{cell.getValue<string>()}</Text>
-          {copyButton(cell.getValue<string>())}
-        </Group>
-      ),
+    enableClickToCopy: true,
   },
   {
     accessorKey: "_shipperReference#",
     header: "Shipper Ref",
+    enableClickToCopy: true,
     Cell: ({ cell }) =>
       cell.getValue<string>() && (
-        <Group gap="xs">
-          <Text>{cell.getValue<string>().toUpperCase()}</Text>
-          {copyButton(cell.getValue<string>())}
-        </Group>
+        <Text>{cell.getValue<string>().toUpperCase()}</Text>
       ),
   },
   {
@@ -155,7 +123,7 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
   },
   {
     accessorKey: "ETDDatePort",
-    size: 100,  
+    size: 100,
     header: "ETD",
     filterFn: (row, _, filterValue: string) => {
       return dayjs(row.original.ETDDatePort).isSame(dayjs(filterValue));
