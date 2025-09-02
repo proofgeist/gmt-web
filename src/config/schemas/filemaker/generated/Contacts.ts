@@ -15,3 +15,5 @@ export const ZContacts = z.object({
     });
 
 export type TContacts = z.infer<typeof ZContacts>;
+
+export const layoutName = "api.Contacts";

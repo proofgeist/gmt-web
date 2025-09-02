@@ -9,7 +9,7 @@
     "lint": "doppler run -- next lint",
     "proofkit": "proofkit",
     "start": "next start",
-    "typegen": "doppler run -- pnpm dlx @proofkit/typegen@latest",
+    "typegen": "doppler run -- pnpm dlx @proofkit/typegen@latest --skip-env-check",
     "check:types": "tsc --noEmit",
     "check:all": "./scripts/check-code-quality.sh",
     "postbuild": "next-sitemap"

@@ -19,3 +19,5 @@ export type TwebAccessRequests = {
         "password_hash": string,
         "contact_id": string,
     };
+
+export const layoutName = "web_access_requests";

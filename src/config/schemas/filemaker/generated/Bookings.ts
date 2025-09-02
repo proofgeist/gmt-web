@@ -9,27 +9,30 @@ import { z } from "zod/v3";
 // prettier-ignore
 /* eslint-disable */
 export const ZBookings = z.object({
-  "_GMT#": z.string(),
-  "_Booking#": z.string(),
-  _kfnShipperCompanyID: z.string(),
-  portOfDischargeCity: z.string(),
-  portOfDischargeCountry: z.string(),
-  placeOfDeliveryCity: z.string(),
-  placeOfDeliveryCountry: z.string(),
-  ETDDatePort: z.string(),
-  ETADatePort: z.string(),
-  ETADateCity: z.string(),
-  reportReferenceCustomer: z.string(),
-  SSLineCompany: z.string(),
-  "_shipperReference#": z.string(),
-  zctListContainersWithSizes: z.string(),
-  placeOfReceiptCity: z.string(),
-  placeOfReceiptState: z.string(),
-  placeOfReceiptZipCode: z.string(),
-  placeOfReceiptCountry: z.string(),
-  portOfLoadingCity: z.string(),
-  portOfLoadingCountry: z.string(),
-  holdStatusList: z.string(),
-});
+        "_GMT#": z.string(),
+        "_Booking#": z.string(),
+        "portOfDischargeCity": z.string(),
+        "portOfDischargeCountry": z.string(),
+        "placeOfDeliveryCity": z.string(),
+        "placeOfDeliveryCountry": z.string(),
+        "ETDDatePort": z.string(),
+        "ETADatePort": z.string(),
+        "ETADateCity": z.string(),
+        "reportReferenceCustomer": z.string(),
+        "SSLineCompany": z.string(),
+        "_shipperReference#": z.string(),
+        "zctListContainersWithSizes": z.string(),
+        "placeOfReceiptCity": z.string(),
+        "placeOfReceiptState": z.string(),
+        "placeOfReceiptZipCode": z.string(),
+        "placeOfReceiptCountry": z.string(),
+        "portOfLoadingCity": z.string(),
+        "portOfLoadingCountry": z.string(),
+        "holdStatusList": z.string(),
+        "_kfnShipperCompanyID": z.string(),
+        "bookings_COMPANIES.shipper::reportReferenceCustomer": z.string(),
+    });
 
 export type TBookings = z.infer<typeof ZBookings>;
+
+export const layoutName = "api.Bookings";
