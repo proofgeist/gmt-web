@@ -36,6 +36,10 @@ export const WelcomeEmail = ({
     <Head />
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
+        <div style={emailStyles.brandingContainer}>
+          <Text style={emailStyles.brandingMy}>my</Text>
+          <Text style={emailStyles.brandingGMT}>GMT</Text>
+        </div>
         <Heading style={emailStyles.secondary}>
           {firstName ? `Welcome ${firstName}!` : "Welcome!"}
         </Heading>

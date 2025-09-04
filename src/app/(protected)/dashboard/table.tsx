@@ -76,28 +76,30 @@ export default function MyTable({ shipmentType }: MyTableProps) {
           }`}
         </Text>
 
-        <Chip
-          color="red"
-          icon={null}
-          variant="light"
-          style={{ cursor: "pointer" }}
-          value={
-            columnFilters.find((filter) => filter.id === "holds")
-              ?.value as string
-          }
-          onClick={() => {
-            const currentFilter = columnFilters.find(
-              (filter) => filter.id === "holds"
-            );
-            if (currentFilter?.value && currentFilter.value === "*") {
-              setColumnFilters(columnFilters.filter((f) => f.id !== "holds"));
-            } else {
-              setColumnFilters([{ id: "holds", value: "*" }]);
+        {holdsCount > 0 && (
+          <Chip
+            color="red"
+            icon={null}
+            variant="light"
+            style={{ cursor: "pointer" }}
+            value={
+              columnFilters.find((filter) => filter.id === "holds")
+                ?.value as string
             }
-          }}
-        >
-          Holds: {holdsCount}
-        </Chip>
+            onClick={() => {
+              const currentFilter = columnFilters.find(
+                (filter) => filter.id === "holds"
+              );
+              if (currentFilter?.value && currentFilter.value === "*") {
+                setColumnFilters(columnFilters.filter((f) => f.id !== "holds"));
+              } else {
+                setColumnFilters([{ id: "holds", value: "*" }]);
+              }
+            }}
+          >
+            Holds: {holdsCount}
+          </Chip>
+        )}
       </Group>
     ),
   });

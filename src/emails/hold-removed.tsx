@@ -58,6 +58,10 @@ export const HoldRemovedEmail = ({
     <Head />
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
+        <div style={emailStyles.brandingContainer}>
+          <Text style={emailStyles.brandingMy}>my</Text>
+          <Text style={emailStyles.brandingGMT}>GMT</Text>
+        </div>
         <Text style={emailStyles.tertiary}>Shipment Notification</Text>
         <Heading style={emailStyles.secondary}>Shipment Hold Removed</Heading>
         <Text style={emailStyles.paragraph}>
