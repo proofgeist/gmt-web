@@ -176,8 +176,13 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
     header: "Status",
     accessorFn: (row) => row.holdStatusList,
     Cell: ({ cell }) => <HoldsCell cell={cell} />,
-    filterVariant: "multi-select",
-    filterFn: "arrIncludesSome",
+    filterVariant: "select",
+    filterFn: (row, columnId: string, filterValue: string) => {
+      if (!filterValue) return true;
+      if (filterValue === "*")
+        return row.getValue<string[]>(columnId)?.length > 0;
+      return row.getValue<string[]>(columnId)?.includes(filterValue) ?? false;
+    },
     mantineFilterSelectProps: {
       data: HoldStatusEnum.options,
     },

@@ -28,7 +28,7 @@ export default function ShipmentCards({
   shipmentType,
   setShipmentType,
 }: ShipmentCardsProps) {
-  const { activeShipments, pendingShipments, pastShipments, holdsShipments } =
+  const { activeShipments, pendingShipments, pastShipments } =
     useShipments();
   const theme = useMantineTheme();
   const [hovered, setHovered] = useState<number | null>(null);
@@ -46,12 +46,6 @@ export default function ShipmentCards({
       type: "pending" as ShipmentType,
     },
     {
-      icon: IconFlag3,
-      title: "Holds",
-      value: holdsShipments?.data?.data?.length || 0,
-      type: "holds" as ShipmentType,
-    },
-    {
       icon: IconCircleCheck,
       title: "Arrived Shipments",
       value: pastShipments?.data?.data?.length || 0,
@@ -60,7 +54,7 @@ export default function ShipmentCards({
   ];
 
   return (
-    <SimpleGrid cols={{ base: 2, sm: 4, md: 4 }}>
+    <SimpleGrid cols={3}>
       {cardData.map((card, index) => (
         <UnstyledButton
           key={index}
