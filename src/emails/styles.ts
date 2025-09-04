@@ -1,6 +1,22 @@
 import type { CSSProperties } from "react";
 
 export const emailStyles = {
+  brandingMy: {
+    fontFamily: "Yellowtail, cursive",
+    fontSize: "24px",
+    fontWeight: 400,
+  },
+
+  brandingGMT: {
+    fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
+    fontSize: "24px",
+    fontWeight: 700,
+  },
+
+  brandingContainer: {
+    textAlign: "center" as const,
+    marginBottom: "20px",
+  },
   main: {
     backgroundColor: "#ffffff",
     fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",

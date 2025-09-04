@@ -27,6 +27,10 @@ export const ActivatedEmail = ({ name }: ActivatedEmailProps) => (
     <Head />
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
+        <div style={emailStyles.brandingContainer}>
+          <Text style={emailStyles.brandingMy}>my</Text>
+          <Text style={emailStyles.brandingGMT}>GMT</Text>
+        </div>
         <Heading style={emailStyles.secondary}>
           {name ? `Welcome ${name}!` : "Welcome!"}
         </Heading>

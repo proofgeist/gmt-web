@@ -62,7 +62,11 @@ export const WebRequestEmail = ({
     <Head />
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
-        
+        <div style={emailStyles.brandingContainer}>
+          <Text style={emailStyles.brandingMy}>my</Text>
+          <Text style={emailStyles.brandingGMT}>GMT</Text>
+        </div>
+
         <Text style={emailStyles.tertiary}>Global Marine Web</Text>
         <Heading style={emailStyles.secondary}>New Web Access Request</Heading>
 
