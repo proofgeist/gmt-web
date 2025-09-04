@@ -12,6 +12,7 @@ export type User = Partial<
 };
 
 import { hashPassword, verifyPasswordHash } from "./password";
+import { cookies } from "next/headers";
 
 /**
  * An internal helper function to fetch a user from the database.
@@ -304,5 +305,45 @@ export async function updateUserPreferences(
   await usersLayout.update({
     recordId,
     fieldData: { preferredLanguage: preferences.language },
+  });
+}
+
+export async function getPendingUserId(): Promise<string | undefined> {
+  const cookieStore = await cookies();
+  return cookieStore.get("pending_user_id")?.value;
+}
+
+export async function deletePendingUserId() {
+  const cookieStore = await cookies();
+  cookieStore.delete("pending_user_id");
+}
+
+export async function setPendingUserId(userId: string) {
+  const cookieStore = await cookies();
+  cookieStore.set("pending_user_id", userId, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
+  });
+}
+
+export async function getPendingPhoneNumber(): Promise<string | undefined> {
+  const cookieStore = await cookies();
+  return cookieStore.get("pending_phone_number")?.value;
+}
+
+export async function deletePendingPhoneNumber() {
+  const cookieStore = await cookies();
+  cookieStore.delete("pending_phone_number");
+}
+
+export async function setPendingPhoneNumber(phoneNumber: string) {
+  const cookieStore = await cookies();
+  cookieStore.set("pending_phone_number", phoneNumber, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
   });
 }

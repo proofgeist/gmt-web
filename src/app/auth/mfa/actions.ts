@@ -2,7 +2,6 @@
 
 import { actionClient } from "@/server/safe-action";
 import { z } from "zod";
-import { cookies } from "next/headers";
 // import { verifyCode } from "./mfa";
 import { redirect } from "next/navigation";
 import { getRedirectCookie } from "@/server/auth/utils/redirect";
@@ -17,6 +16,7 @@ import {
   setDeviceTokenCookie,
 } from "@/server/auth/utils/device-token";
 import twilio from "twilio";
+import { deletePendingPhoneNumber, deletePendingUserId, getPendingPhoneNumber, getPendingUserId } from "@/server/auth/utils/user";
 
 const client = twilio(
   process.env.TWILIO_ACCOUNT_SID,
@@ -60,10 +60,9 @@ export const verifyMFAAction = actionClient
   .schema(verifyMFASchema)
   .action(async ({ parsedInput }) => {
     const { code, rememberDevice } = parsedInput;
-    const cookieStore = await cookies();
 
-    const phoneNumber = cookieStore.get("pending_phone_number")?.value;
-    const pendingUserID = cookieStore.get("pending_user_id")?.value;
+    const phoneNumber = await getPendingPhoneNumber();
+    const pendingUserID = await getPendingUserId();
 
     if (!phoneNumber || !pendingUserID) {
       return { error: "Session expired. Please login again." };
@@ -82,8 +81,8 @@ export const verifyMFAAction = actionClient
       }
 
       // Clean up pending cookies
-      cookieStore.delete("pending_phone_number");
-      cookieStore.delete("pending_user_id");
+      await deletePendingPhoneNumber();
+      await deletePendingUserId();
 
       // Set the actual session cookie
       const sessionToken = generateSessionToken();

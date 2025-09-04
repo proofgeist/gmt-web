@@ -52,10 +52,6 @@ export const getActiveShipmentsAction = authedActionClient
           ETADatePort: `>=${dayjs().format("MM/DD/YYYY")}`,
           ETDDatePort: `<=${dayjs().format("MM/DD/YYYY")}`,
         },
-        {
-          holdStatusList: "*",
-          omit: "true"
-        },
       ],
       limit: 1000,
     });
@@ -74,10 +70,6 @@ export const getPendingShipmentsAction = authedActionClient
         {
           "bookings_COMPANIES.shipper::reportReferenceCustomer": ctx.user?.reportReferenceCustomer,
           ETDDatePort: `>${dayjs().format("MM/DD/YYYY")}`,
-        },
-        {
-          holdStatusList: "*",
-          omit: "true"
         },
       ],
       limit: 1000,
@@ -99,10 +91,6 @@ export const getPastShipmentsAction = authedActionClient
           "bookings_COMPANIES.shipper::reportReferenceCustomer": ctx.user?.reportReferenceCustomer,
           ETADatePort: `<${dayjs().format("MM/DD/YYYY")}`,
           ETDDatePort: `>${dayjs().subtract(1, "year").format("MM/DD/YYYY")}`,
-        },
-        {
-          holdStatusList: "*",
-          omit: "true"
         },
       ],
       limit: 1000,
