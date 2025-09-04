@@ -7,7 +7,7 @@ import TableContent from "./table";
 import ShipmentCards from "./shipment-cards";
 import ShipmentCardsSkeleton from "./shipment-cards-skeleton";
 import TableSkeleton from "./table-skeleton";
-import { IconInfoCircle } from "@tabler/icons-react";
+import { ShipmentType } from "../my-shipments/schema";
 
 function CardsSkeleton() {
   return (
@@ -21,7 +21,7 @@ function CardsSkeleton() {
 
 export default function TablePage() {
   const [shipmentType, setShipmentType] = useLocalStorage<
-    "active" | "pending" | "completed"
+    ShipmentType
   >({
     key: "shipmentType",
     defaultValue: "active",

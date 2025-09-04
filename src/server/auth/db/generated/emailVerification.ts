@@ -14,3 +14,5 @@ export type TemailVerification = {
         "code": string,
         "expires_at": number | null,
     };
+
+export const layoutName = "proofkit_auth_email_verification";

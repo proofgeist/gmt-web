@@ -18,3 +18,5 @@ export type TpasswordReset = {
         "expires_at": number | null,
         "email_verified": number | null,
     };
+
+export const layoutName = "proofkit_auth_password_reset";

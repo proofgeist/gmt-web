@@ -2,10 +2,14 @@
 
 import { actionClient } from "@/server/safe-action";
 import { loginSchema } from "./schema";
-import { validateLogin } from "@/server/auth/utils/user";
+import { setPendingPhoneNumber, setPendingUserId, validateLogin } from "@/server/auth/utils/user";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import { sendVerificationCodeAction } from "../mfa/actions";
+import {
+  getDeviceToken,
+  parseDeviceToken,
+} from "@/server/auth/utils/device-token";
+import { verifyDeviceTokenAction } from "../mfa/verify-device-token";
 
 export const loginAction = actionClient
   .schema(loginSchema)
@@ -17,13 +21,18 @@ export const loginAction = actionClient
       return { error: "Invalid email or password" };
     }
 
-    const cookieStore = await cookies();
-    cookieStore.set("pending_user_id", user.id, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
-    });
+    const deviceToken = await getDeviceToken();
+
+    // Parse and validate the device token
+    if (deviceToken) {
+      const parsedToken = parseDeviceToken(deviceToken);
+      if (parsedToken && parsedToken.userId === user.id) {
+        await verifyDeviceTokenAction({ pendingUserId: user.id });
+      }
+    }
+
+    await setPendingUserId(user.id);
+
     if (!user.phone_number_mfa) {
       redirect("/auth/mfa/enroll");
     }
@@ -43,12 +52,7 @@ export const loginAction = actionClient
       }
 
       // Store user ID and phone number for MFA verification
-      cookieStore.set("pending_phone_number", phoneNumber, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        expires: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
-      });
+      await setPendingPhoneNumber(phoneNumber);
 
       return redirect("/auth/mfa");
     } catch (error) {

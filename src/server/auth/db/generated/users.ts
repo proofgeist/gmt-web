@@ -23,3 +23,5 @@ export type Tusers = {
   zModificationTimestamp: string;
   zModifiedBy: string;
 };
+
+export const layoutName = "proofkit_auth_users";

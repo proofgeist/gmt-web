@@ -26,7 +26,7 @@ const detailRowStyle = {
     borderBottom: "1px solid #eee",
   },
   cell: {
-    padding: "12px 20px",
+    padding: "8px 20px",
     textAlign: "left" as const,
     color: "#444",
     fontSize: "14px",
@@ -58,12 +58,11 @@ export const HoldRemovedEmail = ({
     <Head />
     <Body style={emailStyles.main}>
       <Container style={emailStyles.container}>
-        
         <Text style={emailStyles.tertiary}>Shipment Notification</Text>
         <Heading style={emailStyles.secondary}>Shipment Hold Removed</Heading>
         <Text style={emailStyles.paragraph}>
-          This email is to notify you that a hold on the shipment detailed below was
-          removed on {holdRemovedAt}.
+          This email is to notify you that a hold on the shipment detailed below
+          was removed on {holdRemovedAt}.
         </Text>
 
         <Section>
@@ -107,7 +106,7 @@ export const HoldRemovedEmail = ({
         <Section style={{ textAlign: "center", marginTop: "20px" }}>
           <Button
             style={emailStyles.button}
-            href="https://www.mygmt.com/my-shipments"
+            href="https://www.mygmt.com/dashboard"
           >
             View My Shipments
           </Button>

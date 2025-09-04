@@ -193,7 +193,7 @@ export default function BookingDetails() {
 
                 {(
                   shipmentDetails.onHoldByShipperTStamp &&
-                  shipmentDetails._kfnShipperCompanyID === user?.company_id
+                  shipmentDetails["bookings_COMPANIES.shipper::reportReferenceCustomer"] === user?.reportReferenceCustomer
                 ) ?
                   <Group justify="space-between" align="center" wrap="nowrap">
                     <Text fw={500}>On Hold By Shipper</Text>

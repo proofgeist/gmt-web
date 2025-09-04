@@ -10,11 +10,14 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import React, { useState } from "react";
-import { IconShip, IconClockHour4, IconCircleCheck } from "@tabler/icons-react";
-import QuotesCard from "./quotes-card";
+import {
+  IconShip,
+  IconClockHour4,
+  IconCircleCheck,
+  IconFlag3,
+} from "@tabler/icons-react";
 import useShipments from "../use-shipments";
-
-type ShipmentType = "active" | "pending" | "completed";
+import type { ShipmentType } from "../my-shipments/schema";
 
 interface ShipmentCardsProps {
   shipmentType: ShipmentType;
@@ -25,7 +28,8 @@ export default function ShipmentCards({
   shipmentType,
   setShipmentType,
 }: ShipmentCardsProps) {
-  const { activeShipments, pendingShipments, pastShipments } = useShipments();
+  const { activeShipments, pendingShipments, pastShipments } =
+    useShipments();
   const theme = useMantineTheme();
   const [hovered, setHovered] = useState<number | null>(null);
   const cardData = [
@@ -43,14 +47,14 @@ export default function ShipmentCards({
     },
     {
       icon: IconCircleCheck,
-      title: "Previous Shipments",
+      title: "Arrived Shipments",
       value: pastShipments?.data?.data?.length || 0,
       type: "completed" as ShipmentType,
     },
   ];
 
   return (
-    <SimpleGrid cols={{ base: 2, sm: 4, md: 4 }}>
+    <SimpleGrid cols={3}>
       {cardData.map((card, index) => (
         <UnstyledButton
           key={index}
@@ -100,7 +104,6 @@ export default function ShipmentCards({
           </Card>
         </UnstyledButton>
       ))}
-      <QuotesCard />
     </SimpleGrid>
   );
 }

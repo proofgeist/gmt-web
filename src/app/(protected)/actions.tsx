@@ -24,6 +24,8 @@ export const getShipmentByTypeAction = authedActionClient
           return getPendingShipmentsAction({ ctx }).then((data) => data?.data);
         case "completed":
           return getPastShipmentsAction({ ctx }).then((data) => data?.data);
+        case "holds":
+          return getHoldsShipmentsAction({ ctx }).then((data) => data?.data);
         default:
           throw new Error(`Unhandled shipment type`);
       }
@@ -45,7 +47,8 @@ export const getActiveShipmentsAction = authedActionClient
           ETDDatePort: `<=${dayjs().format("MM/DD/YYYY")}`,
         },
         {
-          _kfnShipperCompanyID: ctx.user?.company_id,
+          "bookings_COMPANIES.shipper::reportReferenceCustomer":
+            ctx.user?.reportReferenceCustomer,
           ETADatePort: `>=${dayjs().format("MM/DD/YYYY")}`,
           ETDDatePort: `<=${dayjs().format("MM/DD/YYYY")}`,
         },
@@ -65,7 +68,7 @@ export const getPendingShipmentsAction = authedActionClient
           ETDDatePort: `>${dayjs().format("MM/DD/YYYY")}`,
         },
         {
-          _kfnShipperCompanyID: ctx.user?.company_id,
+          "bookings_COMPANIES.shipper::reportReferenceCustomer": ctx.user?.reportReferenceCustomer,
           ETDDatePort: `>${dayjs().format("MM/DD/YYYY")}`,
         },
       ],
@@ -85,9 +88,28 @@ export const getPastShipmentsAction = authedActionClient
           ETDDatePort: `>${dayjs().subtract(1, "year").format("MM/DD/YYYY")}`,
         },
         {
-          _kfnShipperCompanyID: ctx.user?.company_id,
+          "bookings_COMPANIES.shipper::reportReferenceCustomer": ctx.user?.reportReferenceCustomer,
           ETADatePort: `<${dayjs().format("MM/DD/YYYY")}`,
           ETDDatePort: `>${dayjs().subtract(1, "year").format("MM/DD/YYYY")}`,
+        },
+      ],
+      limit: 1000,
+    });
+
+    return data.map((record) => record.fieldData);
+  });
+export const getHoldsShipmentsAction = authedActionClient
+  .schema(getMyShipmentsSchema)
+  .action(async ({ ctx }) => {
+    const data = await BookingsLayout.findAll({
+      query: [
+        {
+          holdStatusList: "*",
+          reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+        },
+        {
+          holdStatusList: "*",
+          "bookings_COMPANIES.shipper::reportReferenceCustomer": ctx.user?.reportReferenceCustomer,
         },
       ],
       limit: 1000,
@@ -101,11 +123,18 @@ export const getMyShipmentsByGMTNumberAction = authedActionClient
   .action(async ({ parsedInput, ctx }) => {
     const { gmtNumber } = parsedInput;
 
-    const data = await BookingDetailsLayout.findOne({
-      query: {
-        reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
-        "_GMT#": gmtNumber,
-      },
+    const data = await BookingsLayout.findOne({
+      query: [
+        {
+          reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+          "_GMT#": gmtNumber,
+        },
+        {
+          "bookings_COMPANIES.shipper::reportReferenceCustomer":
+            ctx.user?.reportReferenceCustomer,
+          "_GMT#": gmtNumber,
+        },
+      ],
     });
 
     return data;

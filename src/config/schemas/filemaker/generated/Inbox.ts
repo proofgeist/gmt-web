@@ -16,3 +16,5 @@ export const ZInbox = z.object({
     });
 
 export type TInbox = z.infer<typeof ZInbox>;
+
+export const layoutName = "api.Inbox";
