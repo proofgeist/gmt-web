@@ -1,10 +1,7 @@
 "use server";
 
 import { authedActionClient } from "@/server/safe-action";
-import {
-  BookingsLayout,
-  BookingDetailsLayout,
-} from "@/config/schemas/filemaker/server";
+import { BookingsLayout } from "@/config/schemas/filemaker/server";
 import dayjs from "dayjs";
 import {
   getMyShipmentsSchema,

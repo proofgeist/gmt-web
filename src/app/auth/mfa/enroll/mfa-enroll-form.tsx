@@ -2,15 +2,7 @@
 
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Button,
-  Paper,
-  Stack,
-  Text,
-  TextInput,
-  PinInput,
-  Group,
-} from "@mantine/core";
+import { Button, Paper, Stack, Text, PinInput } from "@mantine/core";
 import { mfaEnrollSchema } from "./schema";
 import { mfaEnrollAction } from "./actions";
 import { useState, useEffect } from "react";

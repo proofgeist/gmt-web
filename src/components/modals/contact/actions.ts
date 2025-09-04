@@ -21,7 +21,7 @@ export const contactAction = actionClient
         cell: cell || "",
       });
       return { success: true };
-    } catch (error) {
+    } catch {
       return { success: false, error: "Failed to submit inquiry" };
     }
   });

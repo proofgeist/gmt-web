@@ -10,7 +10,6 @@ import useShipments from "../use-shipments";
 import { ShipmentType } from "../my-shipments/schema";
 import { useMemo, useState } from "react";
 import { MRT_ColumnFiltersState } from "mantine-react-table";
-import { IconClockX } from "@tabler/icons-react";
 
 interface MyTableProps {
   shipmentType: ShipmentType;
@@ -26,7 +25,7 @@ export default function MyTable({ shipmentType }: MyTableProps) {
 
   // Fetch shipment details based on the selected type
   const {
-    shipmentsByType: { data, isLoading, error },
+    shipmentsByType: { data, isLoading, error: _error },
   } = useShipments(shipmentType);
 
   const holdsCount = useMemo(() => {
