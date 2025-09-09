@@ -28,6 +28,7 @@ const countries = Object.entries(en)
   .map(([country, label]) => ({
     value: country,
     label: `${label} (+${getCountryCallingCode(country as CountryCode)})`,
+    name: label,
     code: getCountryCallingCode(country as CountryCode),
   }))
   .sort((a, b) => a.label.localeCompare(b.label));
@@ -122,8 +123,25 @@ export function PhoneNumberInput({
               disabled={disabled}
               w="100%"
             >
-              {countries.find((item) => item.value === selectedCountry)
-                ?.label || "Select country"}
+              <Group justify="space-between">
+                {countries.find((item) => item.value === selectedCountry)
+                  ?.name || "Select country"}
+                {CountryFlag && (
+                  <Box
+                    w={30}
+                    ml={1}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      height: "100%",
+                      borderRadius: "4px",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <CountryFlag title={selectedCountry} />
+                  </Box>
+                )}
+              </Group>
             </InputBase>
           </Combobox.Target>
 
@@ -153,26 +171,7 @@ export function PhoneNumberInput({
         </Combobox>
         <Grid align="center" gutter="xs">
           <Grid.Col span="content">
-            {CountryFlag && (
-              <Box
-                w={45}
-                ml={1}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  height: "100%",
-                  borderRadius: "4px",
-                  overflow: "hidden",
-                }}
-              >
-                <CountryFlag
-                  title={
-                    countries.find((c) => c.value === selectedCountry)?.label ||
-                    selectedCountry
-                  }
-                />
-              </Box>
-            )}
+            <Text size="sm" c="dimmed">+{getCountryCallingCode(selectedCountry)}</Text>
           </Grid.Col>
           <Grid.Col span="auto">
             <TextInput
