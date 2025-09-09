@@ -4,7 +4,6 @@ import {
   Head,
   Heading,
   Html,
-  Img,
   Section,
   Text,
   Link,

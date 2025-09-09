@@ -4,17 +4,10 @@ import {
   HoldStatusEnum,
   type TBookings,
 } from "@/config/schemas/filemaker/Bookings";
-import {
-  ActionIcon,
-  Badge,
-  CopyButton,
-  Group,
-  Text,
-  Tooltip,
-} from "@mantine/core";
+import { Badge, Group, Text } from "@mantine/core";
 import { toProperCase } from "@/utils/functions";
 import dayjs from "dayjs";
-import { IconCheck, IconCopy, IconX } from "@tabler/icons-react";
+import { IconX } from "@tabler/icons-react";
 import { useReleaseShipperHold } from "@/app/(protected)/my-shipments/hooks/use-release-shipper-hold";
 import { useUser } from "../auth/use-user";
 

@@ -21,7 +21,6 @@ import {
   updateUserPreferences,
   updateUserEmailAndSetEmailAsVerified,
 } from "@/server/auth/utils/user";
-import { redirect } from "next/navigation";
 import { verifyPasswordStrength } from "@/server/auth/utils/password";
 import twilio from "twilio";
 
@@ -136,7 +135,7 @@ export const updatePhoneNumberAction = actionClient
           });
 
         return { codeSent: true };
-      } catch (error) {
+      } catch {
         return { error: "Failed to send verification code" };
       }
     }
@@ -158,7 +157,7 @@ export const updatePhoneNumberAction = actionClient
       await updateUserPhoneNumber(user.id, phoneNumber);
 
       return { success: true, message: "Phone number updated successfully" };
-    } catch (error) {
+    } catch {
       return { error: "Failed to verify code" };
     }
   });

@@ -2,11 +2,7 @@
 import { Anchor, Container, Skeleton, Text, Title } from "@mantine/core";
 import SignupForm from "./signup-form";
 import { Suspense } from "react";
-import {
-  getCountries,
-  getCountryCallingCode,
-  CountryCode,
-} from "libphonenumber-js";
+import { getCountries, CountryCode } from "libphonenumber-js";
 
 
 export default async function Page() {

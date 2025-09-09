@@ -18,7 +18,7 @@ import {
   getCountryCallingCode,
   isSupportedCountry,
 } from "libphonenumber-js";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import en from "react-phone-number-input/locale/en";
 import flags from "react-phone-number-input/flags";
 
@@ -28,6 +28,7 @@ const countries = Object.entries(en)
   .map(([country, label]) => ({
     value: country,
     label: `${label} (+${getCountryCallingCode(country as CountryCode)})`,
+    name: label,
     code: getCountryCallingCode(country as CountryCode),
   }))
   .sort((a, b) => a.label.localeCompare(b.label));
@@ -61,14 +62,17 @@ export function PhoneNumberInput({
     },
   });
 
-  const handlePhoneChange = (value: string) => {
-    // Always ensure there's a + at the start
-    const normalizedValue =
-      value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
-    const formatter = new AsYouType();
-    const formattedNumber = formatter.input(normalizedValue);
-    onChange(formattedNumber);
-  };
+  const handlePhoneChange = useCallback(
+    (value: string) => {
+      // Always ensure there's a + at the start
+      const normalizedValue =
+        value.startsWith("+") ? value : `+${value.replace(/^\+*/g, "")}`;
+      const formatter = new AsYouType();
+      const formattedNumber = formatter.input(normalizedValue);
+      onChange(formattedNumber);
+    },
+    [onChange]
+  );
 
   // Initialize phone number with country code if empty
   useEffect(() => {
@@ -76,16 +80,16 @@ export function PhoneNumberInput({
       const countryCode = getCountryCallingCode(selectedCountry);
       handlePhoneChange(`+${countryCode}`);
     }
-  }, [selectedCountry, value]);
+  }, [selectedCountry, value, handlePhoneChange]);
 
   const CountryFlag = flags[selectedCountry];
-  
+
   const getPlaceholder = () => {
     const countryCode = getCountryCallingCode(selectedCountry);
     const formatter = new AsYouType();
     const formattedNumber = formatter.input(`+${countryCode} 234 555 6789`);
     return formattedNumber.replace(/^\+\d+\s*/, "");
-  }
+  };
 
   return (
     <Box>
@@ -119,8 +123,25 @@ export function PhoneNumberInput({
               disabled={disabled}
               w="100%"
             >
-              {countries.find((item) => item.value === selectedCountry)
-                ?.label || "Select country"}
+              <Group justify="space-between">
+                {countries.find((item) => item.value === selectedCountry)
+                  ?.name || "Select country"}
+                {CountryFlag && (
+                  <Box
+                    w={30}
+                    ml={1}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      height: "100%",
+                      borderRadius: "4px",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <CountryFlag title={selectedCountry} />
+                  </Box>
+                )}
+              </Group>
             </InputBase>
           </Combobox.Target>
 
@@ -150,16 +171,7 @@ export function PhoneNumberInput({
         </Combobox>
         <Grid align="center" gutter="xs">
           <Grid.Col span="content">
-            {CountryFlag && (
-              <Box w={45} ml={1}  style={{ display: "flex", alignItems: "center", height: "100%", borderRadius: "4px", overflow: "hidden" }}>
-                <CountryFlag
-                  title={
-                    countries.find((c) => c.value === selectedCountry)?.label ||
-                    selectedCountry
-                  }
-                />
-              </Box>
-            )}
+            <Text size="sm" c="dimmed">+{getCountryCallingCode(selectedCountry)}</Text>
           </Grid.Col>
           <Grid.Col span="auto">
             <TextInput

@@ -10,12 +10,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import React, { useState } from "react";
-import {
-  IconShip,
-  IconClockHour4,
-  IconCircleCheck,
-  IconFlag3,
-} from "@tabler/icons-react";
+import { IconShip, IconClockHour4, IconCircleCheck } from "@tabler/icons-react";
 import useShipments from "../use-shipments";
 import type { ShipmentType } from "../my-shipments/schema";
 
