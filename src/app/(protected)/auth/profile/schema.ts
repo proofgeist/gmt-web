@@ -30,7 +30,7 @@ export const updatePhoneNumberSchema = z.object({
   phoneNumber: z
     .string()
     .refine((value) => isValidPhoneNumber(value), {
-      message: "Please enter a valid phone number with country code",
+      message: "Please enter a valid phone number",
     })
     .transform((value) => {
       const phoneNumber = parsePhoneNumberWithError(value);
