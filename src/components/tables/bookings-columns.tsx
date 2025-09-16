@@ -62,6 +62,12 @@ export const columns: MRT_ColumnDef<TBookings>[] = [
     enableClickToCopy: true,
   },
   {
+    accessorKey: "_Booking#",
+    header: "SS Line Booking",
+    enableClickToCopy: true,
+    filterVariant: "text",
+  },
+  {
     accessorKey: "_shipperReference#",
     header: "Shipper Ref",
     enableClickToCopy: true,
