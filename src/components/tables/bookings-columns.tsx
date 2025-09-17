@@ -57,6 +57,18 @@ function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
 }
 export const columns: MRT_ColumnDef<TBookings>[] = [
   {
+    accessorKey: "bookings_COMPANIES.shipper::reportReferenceCustomer",
+    accessorFn: (row) =>
+      row["bookings_COMPANIES.shipper::reportReferenceCustomer"],
+    id: "rrShipper",
+    header: "RR of Shipper",
+    enableClickToCopy: true,
+    filterVariant: "text",
+    filterFn: (row, columnId, filterValue) => {
+      return row.getValue<string>(columnId) === filterValue;
+    },
+  },
+  {
     accessorKey: "_GMT#",
     header: "GMT #",
     enableClickToCopy: true,

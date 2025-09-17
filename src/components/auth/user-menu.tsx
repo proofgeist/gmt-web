@@ -11,12 +11,13 @@ import {
   IconUserPlus,
 } from "@tabler/icons-react";
 import { yellowtail } from "@/config/theme/fonts";
+import { SessionValidationResult } from "@/server/auth/utils/session";
 
-export default function UserMenu({ isPublic }: { isPublic: boolean }) {
-  const { state, user, logout } = useUser();
+export default function UserMenu({ isPublic, initialSession }: { isPublic: boolean, initialSession: SessionValidationResult }) {
+  const { logout } = useUser();
 
 
-  if (state === "unauthenticated" || state === "loading") {
+  if (!initialSession.session) {
     return (
       <Menu
         position="bottom-end"
@@ -78,7 +79,7 @@ export default function UserMenu({ isPublic }: { isPublic: boolean }) {
           rightSection={<IconChevronDown size={px("1rem")} />}
           c="inherit"
         >
-          {user.email}
+          {initialSession.user.email}
         </Button>
       </Menu.Target>
       <Menu.Dropdown>
@@ -101,13 +102,10 @@ export default function UserMenu({ isPublic }: { isPublic: boolean }) {
   );
 }
 
-export function UserMobileMenu() {
-  const { state,logout } = useUser();
+export function UserMobileMenu({ initialSession }: { initialSession: SessionValidationResult }) {
+  const { logout } = useUser();
 
-  if (state === "loading") {
-    return <Skeleton w={100} h={20} />;
-  }
-  if (state === "unauthenticated") {
+  if (!initialSession.session) {
     return (
       <Menu.Item component="a" href="/auth/login">
         Sign in

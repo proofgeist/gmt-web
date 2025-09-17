@@ -6,13 +6,16 @@ import classes from "./Header.module.css";
 
 import SlotHeaderMobileMenuContent from "../slot-header-mobile-content";
 import { Route } from "@/app/navigation";
+import { SessionValidationResult } from "@/server/auth/utils/session";
 
 export default function HeaderMobileMenu({
   burgerColor = "brand.9",
   routes,
+  initialSession,
 }: {
   burgerColor?: string;
   routes: Route[];
+  initialSession: SessionValidationResult;
 }) {
   const [opened, { toggle }] = useDisclosure(false);
 
@@ -36,7 +39,7 @@ export default function HeaderMobileMenu({
         />
       </Menu.Target>
       <Menu.Dropdown w={"90%"}>
-        <SlotHeaderMobileMenuContent closeMenu={toggle} routes={routes} />
+        <SlotHeaderMobileMenuContent closeMenu={toggle} routes={routes} initialSession={initialSession} />
       </Menu.Dropdown>
     </Menu>
   );

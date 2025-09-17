@@ -1,53 +1,42 @@
-"use client";
-
-import { Group, Stack, Alert } from "@mantine/core";
-import React, { Suspense } from "react";
-import { useLocalStorage } from "@mantine/hooks";
-import TableContent from "./table";
+import { Suspense } from "react";
+import { Stack } from "@mantine/core";
+import {
+  getActiveShipments,
+  getPastShipments,
+  getPendingShipments,
+} from "@/lib/shipments/queries";
+import { getCurrentSession } from "@/server/auth/utils/session";
 import ShipmentCards from "./shipment-cards";
+import TableContent from "./table";
 import ShipmentCardsSkeleton from "./shipment-cards-skeleton";
 import TableSkeleton from "./table-skeleton";
-import { ShipmentType } from "../my-shipments/schema";
+import ShipmentAlert from "./shipment-alert";
 
-function CardsSkeleton() {
-  return (
-    <Group grow align="stretch" preventGrowOverflow>
-      <ShipmentCardsSkeleton label="In-Transit" />
-      <ShipmentCardsSkeleton label="Scheduled to Sail" />
-      <ShipmentCardsSkeleton label="Previous Shipments" />
-    </Group>
-  );
-}
+export default async function DashboardPage() {
+  const { user } = await getCurrentSession();
 
-export default function TablePage() {
-  const [shipmentType, setShipmentType] = useLocalStorage<
-    ShipmentType
-  >({
-    key: "shipmentType",
-    defaultValue: "active",
-  });
+  // Fetch initial data in parallel
+  const [activeShipments, pendingShipments, pastShipments] = await Promise.all([
+    getActiveShipments({ user }),
+    getPendingShipments({ user }),
+    getPastShipments({ user }),
+  ]);
 
   return (
     <Stack>
-      <Suspense fallback={<CardsSkeleton />}>
+      <Suspense fallback={<ShipmentCardsSkeleton label="Loading Shipments" />}>
         <ShipmentCards
-          shipmentType={shipmentType}
-          setShipmentType={setShipmentType}
+          initialData={{
+            active: activeShipments,
+            pending: pendingShipments,
+            completed: pastShipments,
+          }}
         />
       </Suspense>
       <Suspense fallback={<TableSkeleton />}>
-        <TableContent shipmentType={shipmentType} />
+        <TableContent initialData={activeShipments} />
       </Suspense>
-      {(shipmentType === "active" || shipmentType === "pending") && (
-        <Alert
-          color="blue"
-          variant="light"
-          radius="md"
-          my="xs"
-        >
-         <em>Schedules are estimates and subject to change.</em>
-        </Alert>
-      )}
+      <ShipmentAlert />
     </Stack>
   );
 }

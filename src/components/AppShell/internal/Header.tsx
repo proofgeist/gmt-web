@@ -10,13 +10,16 @@ import classes from "./Header.module.css";
 import HeaderMobileMenu from "./HeaderMobileMenu";
 import { Route } from "@/app/navigation";
 import { headerColor, headerTextColor } from "@/config/theme/mantine-theme";
+import { SessionValidationResult } from "@/server/auth/utils/session";
 
 export function Header({
   routes,
   isPublic = true,
+  initialSession,
 }: {
   routes: Route[];
   isPublic?: boolean;
+  initialSession: SessionValidationResult;
 }) {
   const [scroll] = useWindowScroll();
   const [hidden, setHidden] = useState(false);
@@ -58,10 +61,18 @@ export function Header({
           <SlotHeaderLeft />
 
           <Box visibleFrom="sm">
-            <SlotHeaderRight routes={routes} isPublic={isPublic} />
+            <SlotHeaderRight
+              routes={routes}
+              isPublic={isPublic}
+              initialSession={initialSession}
+            />
           </Box>
           <Box hiddenFrom="sm">
-            <HeaderMobileMenu routes={routes} burgerColor={headerTextColor} />
+            <HeaderMobileMenu
+              routes={routes}
+              burgerColor={headerTextColor}
+              initialSession={initialSession}
+            />
           </Box>
         </Group>
       </Container>

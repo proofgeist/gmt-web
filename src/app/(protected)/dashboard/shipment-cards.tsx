@@ -11,39 +11,42 @@ import {
 } from "@mantine/core";
 import React, { useState } from "react";
 import { IconShip, IconClockHour4, IconCircleCheck } from "@tabler/icons-react";
-import useShipments from "../use-shipments";
 import type { ShipmentType } from "../my-shipments/schema";
+import { TBookings } from "@/config/schemas/filemaker/Bookings";
+import { useShipmentStore } from "@/lib/shipments/store";
 
 interface ShipmentCardsProps {
-  shipmentType: ShipmentType;
-  setShipmentType: (value: ShipmentType) => void;
+  initialData: {
+    active: TBookings[];
+    pending: TBookings[];
+    completed: TBookings[];
+  };
 }
 
-export default function ShipmentCards({
-  shipmentType,
-  setShipmentType,
-}: ShipmentCardsProps) {
-  const { activeShipments, pendingShipments, pastShipments } =
-    useShipments();
+export default function ShipmentCards({ initialData }: ShipmentCardsProps) {
+  const shipmentType = useShipmentStore((state) => state.shipmentType);
+  const setShipmentType = useShipmentStore((state) => state.setShipmentType);
+  const { active, pending, completed } = initialData;
+
   const theme = useMantineTheme();
   const [hovered, setHovered] = useState<number | null>(null);
   const cardData = [
     {
       icon: IconShip,
       title: "In-Transit",
-      value: activeShipments?.data?.data?.length || 0,
+      value: active.length,
       type: "active" as ShipmentType,
     },
     {
       icon: IconClockHour4,
       title: "Scheduled to Sail",
-      value: pendingShipments?.data?.data?.length || 0,
+      value: pending.length,
       type: "pending" as ShipmentType,
     },
     {
       icon: IconCircleCheck,
       title: "Arrived Shipments",
-      value: pastShipments?.data?.data?.length || 0,
+      value: completed.length,
       type: "completed" as ShipmentType,
     },
   ];

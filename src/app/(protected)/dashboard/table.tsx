@@ -4,18 +4,21 @@ import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
 
 import { useRouter } from "next/navigation";
 import { columns } from "@/components/tables/bookings-columns";
-import { Chip, Group, Text } from "@mantine/core";
+import { Chip, Group, Text, Menu } from "@mantine/core";
 import { useUser } from "@/components/auth/use-user";
 import useShipments from "../use-shipments";
 import { ShipmentType } from "../my-shipments/schema";
+import { useShipmentStore } from "@/lib/shipments/store";
 import { useMemo, useState } from "react";
 import { MRT_ColumnFiltersState } from "mantine-react-table";
+import type { TBookings } from "@/config/schemas/filemaker/Bookings";
 
 interface MyTableProps {
-  shipmentType: ShipmentType;
+  initialData?: TBookings[];
 }
 
-export default function MyTable({ shipmentType }: MyTableProps) {
+export default function MyTable({ initialData }: MyTableProps) {
+  const shipmentType = useShipmentStore((state) => state.shipmentType);
   const router = useRouter();
   const { user } = useUser();
 
@@ -26,7 +29,7 @@ export default function MyTable({ shipmentType }: MyTableProps) {
   // Fetch shipment details based on the selected type
   const {
     shipmentsByType: { data, isLoading, error: _error },
-  } = useShipments(shipmentType);
+  } = useShipments(shipmentType, initialData);
 
   const holdsCount = useMemo(() => {
     return (
@@ -34,10 +37,19 @@ export default function MyTable({ shipmentType }: MyTableProps) {
       0
     );
   }, [data]);
+  const myShipmentsCount = useMemo(() => {
+    return (
+      data?.filter(
+        (shipment) =>
+          shipment["bookings_COMPANIES.shipper::reportReferenceCustomer"] ===
+          user?.reportReferenceCustomer
+      ).length || 0
+    );
+  }, [data, user?.reportReferenceCustomer]);
 
   const table = useMantineReactTable({
     data: data ?? [],
-    state: { isLoading, columnFilters },
+    state: { isLoading, columnFilters, columnVisibility: { rrShipper: false } },
     onColumnFiltersChange: setColumnFilters,
     layoutMode: "grid",
     columns,
@@ -75,32 +87,81 @@ export default function MyTable({ shipmentType }: MyTableProps) {
           }`}
         </Text>
 
-        {holdsCount > 0 && (
+        <Group gap="sm">
           <Chip
-            color="red"
+            color="blue"
             icon={null}
             variant="light"
             style={{ cursor: "pointer" }}
             value={
-              columnFilters.find((filter) => filter.id === "holds")
+              columnFilters.find((filter) => filter.id === "rrShipper")
                 ?.value as string
             }
             onClick={() => {
               const currentFilter = columnFilters.find(
-                (filter) => filter.id === "holds"
+                (filter) => filter.id === "rrShipper"
               );
-              if (currentFilter?.value && currentFilter.value === "*") {
-                setColumnFilters(columnFilters.filter((f) => f.id !== "holds"));
+              if (currentFilter?.value === user?.reportReferenceCustomer) {
+                setColumnFilters(
+                  columnFilters.filter((f) => f.id !== "rrShipper")
+                );
               } else {
-                setColumnFilters([{ id: "holds", value: "*" }]);
+                setColumnFilters([
+                  ...columnFilters.filter((f) => f.id !== "rrShipper"),
+                  {
+                    id: "rrShipper",
+                    value: user?.reportReferenceCustomer,
+                  },
+                ]);
               }
             }}
+            disabled={myShipmentsCount === 0}
           >
-            Holds: {holdsCount}
+            My Shipments: {myShipmentsCount}
           </Chip>
-        )}
+
+          {
+            <Chip
+              color="red"
+              icon={null}
+              variant="light"
+              style={{ cursor: "pointer" }}
+              value={
+                columnFilters.find((filter) => filter.id === "holds")
+                  ?.value as string
+              }
+              onClick={() => {
+                const currentFilter = columnFilters.find(
+                  (filter) => filter.id === "holds"
+                );
+                if (currentFilter?.value && currentFilter.value === "*") {
+                  setColumnFilters(
+                    columnFilters.filter((f) => f.id !== "holds")
+                  );
+                } else {
+                  setColumnFilters([
+                    ...columnFilters.filter((f) => f.id !== "holds"),
+                    { id: "holds", value: "*" },
+                  ]);
+                }
+              }}
+              disabled={holdsCount === 0}
+            >
+              Holds: {holdsCount}
+            </Chip>
+          }
+        </Group>
       </Group>
     ),
+    enableRowActions: true,
+    renderRowActionMenuItems: ({ row }) => (
+      <>
+        <Menu.Item onClick={() => console.info("Edit")}>
+          Request Shipper Hold
+        </Menu.Item>
+      </>
+    ),
+    positionActionsColumn: "last",
   });
   return <MantineReactTable table={table} />;
 }
