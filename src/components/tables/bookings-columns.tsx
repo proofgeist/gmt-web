@@ -4,27 +4,35 @@ import {
   HoldStatusEnum,
   type TBookings,
 } from "@/config/schemas/filemaker/Bookings";
-import { Badge, Group, Text } from "@mantine/core";
+import { Badge, Group, Text, Tooltip } from "@mantine/core";
 import { toProperCase } from "@/utils/functions";
 import dayjs from "dayjs";
-import { IconX } from "@tabler/icons-react";
+import { IconShip, IconX } from "@tabler/icons-react";
 import { useReleaseShipperHold } from "@/app/(protected)/my-shipments/hooks/use-release-shipper-hold";
-import { useUser } from "../auth/use-user";
+import { useUser } from "@/hooks/use-user";
 import { useMemo } from "react";
 
 function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
   const { releaseHold } = useReleaseShipperHold();
   const value = cell.getValue<TBookings["holdStatusList"]>();
+  const isShipper = cell.row.getValue<string>("isShipper");
   if (!value) return null;
 
   return (
     <Group>
+      {isShipper && (
+        <Tooltip label="My Shipment">
+          <Badge key="Shipper" p="xs">
+            <IconShip
+              size={12}
+              style={{ display: "block", margin: "0 auto" }}
+            />
+          </Badge>
+        </Tooltip>
+      )}
       {value.length > 0 &&
         value.map((status) =>
-          (
-            status === "Shipper Hold" &&
-            cell.row.getValue<string>("isShipper")
-          ) ?
+          status === "Shipper Hold" && isShipper ?
             <Badge
               key={status}
               color="red"
@@ -89,7 +97,7 @@ export function useBookingColumns() {
         enableClickToCopy: true,
         filterVariant: "text",
         grow: false,
-        size: 100,
+        size: 120,
       },
       {
         accessorKey: "_shipperReference#",

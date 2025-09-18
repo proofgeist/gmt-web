@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Menu, px, Skeleton, Text } from "@mantine/core";
-import { useUser } from "./use-user";
+import { useUser } from "@/hooks/use-user";
 import Link from "next/link";
 import {
   IconChevronDown,

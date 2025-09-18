@@ -19,7 +19,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { CountryCode, getCountryCallingCode } from "libphonenumber-js";
 import { SignupStatus } from "./signup-result";
-import { useUser } from "@/components/auth/use-user";
+import { useUser } from "@/hooks/use-user";
 import { redirectAction } from "@/server/auth/utils/redirect-action";
 import { PhoneNumberInput } from "@/components/ui/PhoneNumberInput";
 

@@ -3,7 +3,7 @@ import { Group } from "@mantine/core";
 
 import HeaderNavLink from "./internal/HeaderNavLink";
 import UserMenu from "@/components/auth/user-menu";
-import { useUser } from "../auth/use-user";
+import { useUser } from "@/hooks/use-user";
 import { SessionValidationResult } from "@/server/auth/utils/session";
 /**
  * DO NOT REMOVE / RENAME THIS FILE

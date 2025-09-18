@@ -13,11 +13,13 @@ import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { getMyShipmentsByGMTNumberAction } from "../../actions";
+import { getMyShipmentsByGMTNumberAction } from "../../app/(protected)/actions";
 import { useEffect, useState } from "react";
-import { useReleaseShipperHold } from "../hooks/use-release-shipper-hold";
-import { IconRefresh } from "@tabler/icons-react";
-import { useUser } from "@/components/auth/use-user";
+import { useReleaseShipperHold } from "../../app/(protected)/my-shipments/hooks/use-release-shipper-hold";
+import { useRequestShipperHold } from "../../app/(protected)/my-shipments/hooks/use-request-shipper-hold";
+import { useCancelShipperHoldRequest } from "../../app/(protected)/my-shipments/hooks/use-cancel-shipper-hold";
+import { IconRefresh, IconLock, IconLockOpen } from "@tabler/icons-react";
+import { useUser } from "@/hooks/use-user";
 
 export default function BookingDetails() {
   const router = useRouter();
@@ -42,7 +44,13 @@ export default function BookingDetails() {
     },
     enabled: !!bookingNumber,
   });
+  const isShipper =
+    shipmentDetails?.["bookings_COMPANIES.shipper::reportReferenceCustomer"] ===
+    user?.reportReferenceCustomer;
+
   const { releaseHold } = useReleaseShipperHold();
+  const { requestHold } = useRequestShipperHold();
+  const { cancelHoldRequest } = useCancelShipperHoldRequest();
   return (
     <Drawer
       opened={!!bookingNumber}
@@ -190,48 +198,55 @@ export default function BookingDetails() {
             <Card withBorder padding="sm" my={0}>
               <Stack gap="xs">
                 <Title order={4}>Status</Title>
+                {shipmentDetails.onHoldByShipperTStamp &&
+                  (isShipper ?
+                    <Group justify="space-between" align="center" wrap="nowrap">
+                      <Text fw={500}>On Hold By Shipper</Text>
 
-                {(
-                  shipmentDetails.onHoldByShipperTStamp &&
-                  shipmentDetails["bookings_COMPANIES.shipper::reportReferenceCustomer"] === user?.reportReferenceCustomer
-                ) ?
-                  <Group justify="space-between" align="center" wrap="nowrap">
-                    <Text fw={500}>On Hold By Shipper</Text>
-
-                    <Tooltip label="Release Shipper Hold" withArrow>
-                      <Button
-                        size="compact-md"
-                        color="red"
-                        px="xs"
-                        leftSection={<IconRefresh size={16} />}
-                        onClick={() => {
-                          releaseHold({
-                            gmt_no: shipmentDetails["_GMT#"],
-                            portOfLoading: [
-                              shipmentDetails.portOfLoadingCity,
-                              shipmentDetails.portOfLoadingCountry,
-                            ]
-                              .filter(Boolean)
-                              .join(", "),
-                            portOfDischarge: [
-                              shipmentDetails.portOfDischargeCity,
-                              shipmentDetails.portOfDischargeCountry,
-                            ]
-                              .filter(Boolean)
-                              .join(", "),
-                            vesselName: shipmentDetails.SSLineVessel,
-                          });
-                        }}
-                        variant="light"
-                        style={{ minWidth: 0 }}
-                      >
+                      <Tooltip label="Release Shipper Hold" withArrow>
+                        <Button
+                          size="compact-md"
+                          color="red"
+                          px="xs"
+                          leftSection={<IconRefresh size={16} />}
+                          onClick={() => {
+                            releaseHold({
+                              gmt_no: shipmentDetails["_GMT#"],
+                              portOfLoading: [
+                                shipmentDetails.portOfLoadingCity,
+                                shipmentDetails.portOfLoadingCountry,
+                              ]
+                                .filter(Boolean)
+                                .join(", "),
+                              portOfDischarge: [
+                                shipmentDetails.portOfDischargeCity,
+                                shipmentDetails.portOfDischargeCountry,
+                              ]
+                                .filter(Boolean)
+                                .join(", "),
+                              vesselName: shipmentDetails.SSLineVessel,
+                            });
+                          }}
+                          variant="light"
+                          style={{ minWidth: 0 }}
+                        >
+                          {dayjs(shipmentDetails.onHoldByShipperTStamp).format(
+                            "MMM D, YYYY"
+                          )}
+                        </Button>
+                      </Tooltip>
+                    </Group>
+                  : <Group justify="space-between">
+                      <Text fw={500}>On Hold By Shipper</Text>
+                      <Text>
                         {dayjs(shipmentDetails.onHoldByShipperTStamp).format(
                           "MMM D, YYYY"
                         )}
-                      </Button>
-                    </Tooltip>
-                  </Group>
-                : <Group justify="space-between">
+                      </Text>
+                    </Group>)}
+
+                {shipmentDetails.onHoldByShipperTStamp && (
+                  <Group justify="space-between">
                     <Text fw={500}>On Hold By Shipper</Text>
                     <Text>
                       {dayjs(shipmentDetails.onHoldByShipperTStamp).format(
@@ -239,7 +254,7 @@ export default function BookingDetails() {
                       )}
                     </Text>
                   </Group>
-                }
+                )}
                 {shipmentDetails.onHoldGmtTStamp && (
                   <Group justify="space-between">
                     <Text fw={500}>On Hold By GMT</Text>
@@ -270,6 +285,72 @@ export default function BookingDetails() {
                     </Text>
                   </Group>
                 )}
+              </Stack>
+            </Card>
+          )}
+
+          {isShipper && (
+            <Card withBorder padding="sm" my={0}>
+              <Stack gap="xs">
+                <Title order={4}>Shipper Actions</Title>
+                <Group justify="space-between" align="center" wrap="nowrap">
+                  <Text fw={500}>Shipper Hold</Text>
+                  {shipmentDetails.holdStatusList?.includes("Shipper Hold") ?
+                    <Button
+                      size="compact-md"
+                      color="red"
+                      px="xs"
+                      leftSection={<IconLockOpen size={16} />}
+                      onClick={() => {
+                        releaseHold({
+                          gmt_no: shipmentDetails["_GMT#"],
+                          portOfLoading: shipmentDetails.portOfLoadingCity,
+                          portOfDischarge: shipmentDetails.portOfDischargeCity,
+                          vesselName: shipmentDetails.SSLineCompany,
+                        });
+                      }}
+                      variant="light"
+                    >
+                      Release Hold
+                    </Button>
+                  : (
+                    shipmentDetails.holdStatusList?.includes(
+                      "Shipper Hold Requested"
+                    )
+                  ) ?
+                    <Button
+                      size="compact-md"
+                      color="yellow"
+                      px="xs"
+                      leftSection={<IconRefresh size={16} />}
+                      onClick={() => {
+                        cancelHoldRequest({
+                          gmt_no: shipmentDetails["_GMT#"],
+                        });
+                      }}
+                      variant="light"
+                    >
+                      Cancel Request
+                    </Button>
+                  : <Button
+                      size="compact-md"
+                      color="blue"
+                      px="xs"
+                      leftSection={<IconLock size={16} />}
+                      onClick={() => {
+                        requestHold({
+                          gmt_no: shipmentDetails["_GMT#"],
+                          portOfLoading: shipmentDetails.portOfLoadingCity,
+                          portOfDischarge: shipmentDetails.portOfDischargeCity,
+                          vesselName: shipmentDetails.SSLineCompany,
+                        });
+                      }}
+                      variant="light"
+                    >
+                      Request Hold
+                    </Button>
+                  }
+                </Group>
               </Stack>
             </Card>
           )}

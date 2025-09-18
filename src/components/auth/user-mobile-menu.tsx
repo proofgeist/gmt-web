@@ -1,7 +1,7 @@
 "use client";
 
 import { Menu, px, Skeleton } from "@mantine/core";
-import { useUser } from "./use-user";
+import { useUser } from "@/hooks/use-user";
 import Link from "next/link";
 import { IconLogout, IconUser } from "@tabler/icons-react";
 
