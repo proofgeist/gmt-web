@@ -1,5 +1,5 @@
 import { resend } from "@/server/services/resend";
-import { EMAIL_FROM } from "@/config/email";
+import { DEFAULT_SIGNUP_EMAIL } from "@/config/email";
 import InquiryEmail from "@/emails/inquiry";
 export async function sendContactEmail({
   to,
@@ -19,7 +19,7 @@ export async function sendContactEmail({
   cell: string;
 }) {
   await resend.emails.send({
-    from: EMAIL_FROM,
+    from: DEFAULT_SIGNUP_EMAIL,
     to,
     subject: "New Contact Inquiry",
     react: InquiryEmail({

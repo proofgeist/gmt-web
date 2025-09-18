@@ -1,4 +1,3 @@
-"use client";
 
 import { PublicAppShell } from "@/components/AppShell/AppShell";
 import React from "react";

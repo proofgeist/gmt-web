@@ -5,6 +5,7 @@ import { UserMobileMenu } from "../auth/user-menu";
 import { Route } from "@/app/navigation";
 import { useState } from "react";
 import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
+import { SessionValidationResult } from "@/server/auth/utils/session";
 
 /**
  * DO NOT REMOVE / RENAME THIS FILE
@@ -17,9 +18,11 @@ import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 export function SlotHeaderMobileMenuContent({
   closeMenu,
   routes,
+  initialSession,
 }: {
   closeMenu: () => void;
   routes: Route[];
+  initialSession: SessionValidationResult;
 }) {
   const router = useRouter();
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -104,7 +107,7 @@ export function SlotHeaderMobileMenuContent({
           </Menu.Item>
         );
       })}
-      <UserMobileMenu />
+      <UserMobileMenu initialSession={initialSession} />
     </>
   );
 }

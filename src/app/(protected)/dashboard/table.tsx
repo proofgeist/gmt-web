@@ -1,24 +1,37 @@
 "use client";
 
-import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
+import {
+  MantineReactTable,
+  MRT_Row,
+  MRT_TableInstance,
+  useMantineReactTable,
+} from "mantine-react-table";
 
 import { useRouter } from "next/navigation";
-import { columns } from "@/components/tables/bookings-columns";
-import { Chip, Group, Text } from "@mantine/core";
+import { useBookingColumns } from "@/components/tables/bookings-columns";
+import { Chip, Group, Text, Menu } from "@mantine/core";
 import { useUser } from "@/components/auth/use-user";
 import useShipments from "../use-shipments";
 import { ShipmentType } from "../my-shipments/schema";
+import { useShipmentStore } from "@/lib/shipments/store";
 import { useMemo, useState } from "react";
 import { MRT_ColumnFiltersState } from "mantine-react-table";
-
+import type { TBookings } from "@/config/schemas/filemaker/Bookings";
+import { useRequestShipperHold } from "../my-shipments/hooks/use-request-shipper-hold";
+import { useReleaseShipperHold } from "../my-shipments/hooks/use-release-shipper-hold";
+import { useCancelShipperHoldRequest } from "../my-shipments/hooks/use-cancel-shipper-hold";
 interface MyTableProps {
-  shipmentType: ShipmentType;
+  initialData?: TBookings[];
 }
 
-export default function MyTable({ shipmentType }: MyTableProps) {
+export default function MyTable({ initialData }: MyTableProps) {
+  const shipmentType = useShipmentStore((state) => state.shipmentType);
   const router = useRouter();
   const { user } = useUser();
-
+  const columns = useBookingColumns();
+  const { requestHold } = useRequestShipperHold();
+  const { releaseHold } = useReleaseShipperHold();
+  const { cancelHoldRequest } = useCancelShipperHoldRequest();
   const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
     []
   );
@@ -26,7 +39,7 @@ export default function MyTable({ shipmentType }: MyTableProps) {
   // Fetch shipment details based on the selected type
   const {
     shipmentsByType: { data, isLoading, error: _error },
-  } = useShipments(shipmentType);
+  } = useShipments(shipmentType, initialData);
 
   const holdsCount = useMemo(() => {
     return (
@@ -34,13 +47,86 @@ export default function MyTable({ shipmentType }: MyTableProps) {
       0
     );
   }, [data]);
+  const myShipmentsCount = useMemo(() => {
+    return (
+      data?.filter(
+        (shipment) =>
+          shipment["bookings_COMPANIES.shipper::reportReferenceCustomer"] ===
+          user?.reportReferenceCustomer
+      ).length || 0
+    );
+  }, [data, user?.reportReferenceCustomer]);
+
+  const RowActionItems = ({
+    row,
+  }: {
+    row: MRT_Row<TBookings>;
+    table: MRT_TableInstance<TBookings>;
+    renderedRowIndex?: number;
+  }) => {
+    return (
+      <>
+        <Menu.Label>Actions</Menu.Label>
+        <Menu.Item
+          onClick={() => {
+            router.push(`/dashboard?bookingNumber=${row.original["_GMT#"]}`);
+          }}
+        >
+          View Booking
+        </Menu.Item>
+        <Menu.Item disabled>Download Invoice</Menu.Item>
+        {row.getValue<string>("isShipper") && (
+          <>
+            <Menu.Divider />
+            <Menu.Label>Shipper Actions</Menu.Label>
+            {row.original.holdStatusList?.includes("Shipper Hold") ?
+              <Menu.Item
+                onClick={() => {
+                  releaseHold({
+                    gmt_no: row.original["_GMT#"],
+                    portOfLoading: row.original.portOfLoadingCity,
+                    portOfDischarge: row.original.portOfDischargeCity,
+                    vesselName: row.original.SSLineCompany,
+                  });
+                }}
+              >
+                Release Shipper Hold
+              </Menu.Item>
+            : row.original.holdStatusList?.includes("Shipper Hold Requested") ?
+              <Menu.Item
+                onClick={() => {
+                  cancelHoldRequest({
+                    gmt_no: row.original["_GMT#"],
+                  });
+                }}
+              >
+                Cancel Hold Request
+              </Menu.Item>
+            : <Menu.Item
+                onClick={() =>
+                  requestHold({
+                    gmt_no: row.original["_GMT#"],
+                    portOfLoading: row.original.portOfLoadingCity,
+                    portOfDischarge: row.original.portOfDischargeCity,
+                    vesselName: row.original.SSLineCompany,
+                  })
+                }
+              >
+                Request Shipper Hold
+              </Menu.Item>
+            }
+          </>
+        )}
+      </>
+    );
+  };
 
   const table = useMantineReactTable({
     data: data ?? [],
-    state: { isLoading, columnFilters },
+    state: { isLoading, columnFilters, columnVisibility: { isShipper: false } },
     onColumnFiltersChange: setColumnFilters,
     layoutMode: "grid",
-    columns,
+    columns: columns,
     enableFullScreenToggle: false,
     enableHiding: false,
     enableColumnActions: false,
@@ -75,32 +161,78 @@ export default function MyTable({ shipmentType }: MyTableProps) {
           }`}
         </Text>
 
-        {holdsCount > 0 && (
+        <Group gap="sm">
           <Chip
-            color="red"
+            color="blue"
             icon={null}
             variant="light"
             style={{ cursor: "pointer" }}
             value={
-              columnFilters.find((filter) => filter.id === "holds")
+              columnFilters.find((filter) => filter.id === "isShipper")
                 ?.value as string
             }
             onClick={() => {
               const currentFilter = columnFilters.find(
-                (filter) => filter.id === "holds"
+                (filter) => filter.id === "isShipper"
               );
-              if (currentFilter?.value && currentFilter.value === "*") {
-                setColumnFilters(columnFilters.filter((f) => f.id !== "holds"));
+              if (currentFilter?.value === true) {
+                setColumnFilters(
+                  columnFilters.filter((f) => f.id !== "isShipper")
+                );
               } else {
-                setColumnFilters([{ id: "holds", value: "*" }]);
+                setColumnFilters([
+                  ...columnFilters.filter((f) => f.id !== "isShipper"),
+                  {
+                    id: "isShipper",
+                    value: true,
+                  },
+                ]);
               }
             }}
+            disabled={myShipmentsCount === 0}
           >
-            Holds: {holdsCount}
+            My Shipments: {myShipmentsCount}
           </Chip>
-        )}
+
+          {
+            <Chip
+              color="red"
+              icon={null}
+              variant="light"
+              style={{ cursor: "pointer" }}
+              value={
+                columnFilters.find((filter) => filter.id === "holds")
+                  ?.value as string
+              }
+              onClick={() => {
+                const currentFilter = columnFilters.find(
+                  (filter) => filter.id === "holds"
+                );
+                if (currentFilter?.value && currentFilter.value === "*") {
+                  setColumnFilters(
+                    columnFilters.filter((f) => f.id !== "holds")
+                  );
+                } else {
+                  setColumnFilters([
+                    ...columnFilters.filter((f) => f.id !== "holds"),
+                    { id: "holds", value: "*" },
+                  ]);
+                }
+              }}
+              disabled={holdsCount === 0}
+            >
+              Holds: {holdsCount}
+            </Chip>
+          }
+        </Group>
       </Group>
     ),
+    enableRowActions: true,
+    renderRowActionMenuItems: RowActionItems,
+    positionActionsColumn: "last",
+    displayColumnDefOptions: {
+      "mrt-row-actions": { header: "" },
+    },
   });
   return <MantineReactTable table={table} />;
 }

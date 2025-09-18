@@ -4,6 +4,7 @@ import { Group } from "@mantine/core";
 import HeaderNavLink from "./internal/HeaderNavLink";
 import UserMenu from "@/components/auth/user-menu";
 import { useUser } from "../auth/use-user";
+import { SessionValidationResult } from "@/server/auth/utils/session";
 /**
  * DO NOT REMOVE / RENAME THIS FILE
  *
@@ -12,7 +13,15 @@ import { useUser } from "../auth/use-user";
  *
  * If you don't want it to be used, you may return null or an empty fragment
  */
-export function SlotHeaderRight({ routes, isPublic }: { routes: Route[], isPublic: boolean }) {
+export function SlotHeaderRight({
+  routes,
+  isPublic,
+  initialSession,
+}: {
+  routes: Route[];
+  isPublic: boolean;
+  initialSession: SessionValidationResult;
+}) {
   const { session } = useUser();
 
   return (
@@ -30,7 +39,7 @@ export function SlotHeaderRight({ routes, isPublic }: { routes: Route[], isPubli
               <HeaderNavLink key={route.label} {...route} />
             ))}
         </Group>
-        <UserMenu isPublic={isPublic} />
+        <UserMenu isPublic={isPublic} initialSession={initialSession} />
       </Group>
     </>
   );
