@@ -8,6 +8,7 @@ import { ZBookings as ZBookings_generated } from "./generated/Bookings";
 export const HoldStatusEnum = z.enum([
   "Customs Hold",
   "Shipper Hold",
+  "Shipper Hold Requested",
   "Finance Hold",
   "GMT Hold",
   "Agent Hold",

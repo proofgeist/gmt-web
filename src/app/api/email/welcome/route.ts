@@ -4,7 +4,7 @@ import { WelcomeEmail } from "@/emails/welcome";
 import { z } from "zod";
 import { ReactElement } from "react";
 import { env } from "@/config/env";
-import { EMAIL_FROM } from "@/config/email";
+import { DEFAULT_SIGNUP_EMAIL } from "@/config/email";
 
 const welcomeEmailSchema = z.object({
   email: z.string().email(),
@@ -39,10 +39,16 @@ export async function POST(request: Request) {
     const { email, firstName, lastName, company, phoneNumber } = welcomeEmailSchema.parse(body);
 
     await resend.emails.send({
-      from: EMAIL_FROM,
+      from: DEFAULT_SIGNUP_EMAIL,
       to: email,
       subject: "Welcome to Global Marine Transportation Inc.",
-      react: WelcomeEmail({ email, firstName, lastName, company, phoneNumber }) as ReactElement,
+      react: WelcomeEmail({
+        email,
+        firstName,
+        lastName,
+        company,
+        phoneNumber,
+      }) as ReactElement,
     });
 
     return NextResponse.json(

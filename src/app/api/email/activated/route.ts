@@ -3,7 +3,7 @@ import { resend } from "@/server/services/resend";
 import { z } from "zod";
 import { ReactElement } from "react";
 import { env } from "@/config/env";
-import { EMAIL_FROM } from "@/config/email";
+import { DEFAULT_SIGNUP_EMAIL } from "@/config/email";
 import { ActivatedEmail } from "@/emails/activated";
 const activatedEmailSchema = z.object({
   email: z.string().email(),
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     const { email, name } = activatedEmailSchema.parse(body);
 
     await resend.emails.send({
-      from: EMAIL_FROM,
+      from: DEFAULT_SIGNUP_EMAIL,
       to: email,
       subject: "Your account has been activated",
       react: ActivatedEmail({ name }) as ReactElement,

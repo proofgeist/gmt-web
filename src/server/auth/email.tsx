@@ -1,6 +1,6 @@
 import { AuthCodeEmail } from "@/emails/auth-code";
 import { resend } from "../services/resend";
-import { EMAIL_FROM } from "@/config/email";
+import { DEFAULT_SIGNUP_EMAIL } from "@/config/email";
 
 export async function sendAuthEmail({
   to,
@@ -15,7 +15,7 @@ export async function sendAuthEmail({
     type === "verification" ? "Verify Your Email" : "Reset Your Password";
 
   const result = await resend.emails.send({
-    from: EMAIL_FROM,
+    from: DEFAULT_SIGNUP_EMAIL,
     to,
     subject,
     react: <AuthCodeEmail validationCode={code} type={type} />,

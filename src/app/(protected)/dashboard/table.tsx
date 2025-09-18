@@ -1,9 +1,14 @@
 "use client";
 
-import { MantineReactTable, useMantineReactTable } from "mantine-react-table";
+import {
+  MantineReactTable,
+  MRT_Row,
+  MRT_TableInstance,
+  useMantineReactTable,
+} from "mantine-react-table";
 
 import { useRouter } from "next/navigation";
-import { columns } from "@/components/tables/bookings-columns";
+import { useBookingColumns } from "@/components/tables/bookings-columns";
 import { Chip, Group, Text, Menu } from "@mantine/core";
 import { useUser } from "@/components/auth/use-user";
 import useShipments from "../use-shipments";
@@ -12,7 +17,9 @@ import { useShipmentStore } from "@/lib/shipments/store";
 import { useMemo, useState } from "react";
 import { MRT_ColumnFiltersState } from "mantine-react-table";
 import type { TBookings } from "@/config/schemas/filemaker/Bookings";
-
+import { useRequestShipperHold } from "../my-shipments/hooks/use-request-shipper-hold";
+import { useReleaseShipperHold } from "../my-shipments/hooks/use-release-shipper-hold";
+import { useCancelShipperHoldRequest } from "../my-shipments/hooks/use-cancel-shipper-hold";
 interface MyTableProps {
   initialData?: TBookings[];
 }
@@ -21,7 +28,10 @@ export default function MyTable({ initialData }: MyTableProps) {
   const shipmentType = useShipmentStore((state) => state.shipmentType);
   const router = useRouter();
   const { user } = useUser();
-
+  const columns = useBookingColumns();
+  const { requestHold } = useRequestShipperHold();
+  const { releaseHold } = useReleaseShipperHold();
+  const { cancelHoldRequest } = useCancelShipperHoldRequest();
   const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
     []
   );
@@ -47,12 +57,76 @@ export default function MyTable({ initialData }: MyTableProps) {
     );
   }, [data, user?.reportReferenceCustomer]);
 
+  const RowActionItems = ({
+    row,
+  }: {
+    row: MRT_Row<TBookings>;
+    table: MRT_TableInstance<TBookings>;
+    renderedRowIndex?: number;
+  }) => {
+    return (
+      <>
+        <Menu.Label>Actions</Menu.Label>
+        <Menu.Item
+          onClick={() => {
+            router.push(`/dashboard?bookingNumber=${row.original["_GMT#"]}`);
+          }}
+        >
+          View Booking
+        </Menu.Item>
+        <Menu.Item disabled>Download Invoice</Menu.Item>
+        {row.getValue<string>("isShipper") && (
+          <>
+            <Menu.Divider />
+            <Menu.Label>Shipper Actions</Menu.Label>
+            {row.original.holdStatusList?.includes("Shipper Hold") ?
+              <Menu.Item
+                onClick={() => {
+                  releaseHold({
+                    gmt_no: row.original["_GMT#"],
+                    portOfLoading: row.original.portOfLoadingCity,
+                    portOfDischarge: row.original.portOfDischargeCity,
+                    vesselName: row.original.SSLineCompany,
+                  });
+                }}
+              >
+                Release Shipper Hold
+              </Menu.Item>
+            : row.original.holdStatusList?.includes("Shipper Hold Requested") ?
+              <Menu.Item
+                onClick={() => {
+                  cancelHoldRequest({
+                    gmt_no: row.original["_GMT#"],
+                  });
+                }}
+              >
+                Cancel Hold Request
+              </Menu.Item>
+            : <Menu.Item
+                onClick={() =>
+                  requestHold({
+                    gmt_no: row.original["_GMT#"],
+                    portOfLoading: row.original.portOfLoadingCity,
+                    portOfDischarge: row.original.portOfDischargeCity,
+                    vesselName: row.original.SSLineCompany,
+                  })
+                }
+              >
+                Request Shipper Hold
+              </Menu.Item>
+            }
+          </>
+        )}
+      </>
+    );
+  };
+
   const table = useMantineReactTable({
     data: data ?? [],
-    state: { isLoading, columnFilters, columnVisibility: { rrShipper: false } },
+    state: { isLoading, columnFilters, columnVisibility: { isShipper: false } },
     onColumnFiltersChange: setColumnFilters,
     layoutMode: "grid",
-    columns,
+    columns: columns,
     enableFullScreenToggle: false,
     enableHiding: false,
     enableColumnActions: false,
@@ -94,23 +168,23 @@ export default function MyTable({ initialData }: MyTableProps) {
             variant="light"
             style={{ cursor: "pointer" }}
             value={
-              columnFilters.find((filter) => filter.id === "rrShipper")
+              columnFilters.find((filter) => filter.id === "isShipper")
                 ?.value as string
             }
             onClick={() => {
               const currentFilter = columnFilters.find(
-                (filter) => filter.id === "rrShipper"
+                (filter) => filter.id === "isShipper"
               );
-              if (currentFilter?.value === user?.reportReferenceCustomer) {
+              if (currentFilter?.value === true) {
                 setColumnFilters(
-                  columnFilters.filter((f) => f.id !== "rrShipper")
+                  columnFilters.filter((f) => f.id !== "isShipper")
                 );
               } else {
                 setColumnFilters([
-                  ...columnFilters.filter((f) => f.id !== "rrShipper"),
+                  ...columnFilters.filter((f) => f.id !== "isShipper"),
                   {
-                    id: "rrShipper",
-                    value: user?.reportReferenceCustomer,
+                    id: "isShipper",
+                    value: true,
                   },
                 ]);
               }
@@ -154,14 +228,11 @@ export default function MyTable({ initialData }: MyTableProps) {
       </Group>
     ),
     enableRowActions: true,
-    renderRowActionMenuItems: ({ row }) => (
-      <>
-        <Menu.Item onClick={() => console.info("Edit")}>
-          Request Shipper Hold
-        </Menu.Item>
-      </>
-    ),
+    renderRowActionMenuItems: RowActionItems,
     positionActionsColumn: "last",
+    displayColumnDefOptions: {
+      "mrt-row-actions": { header: "" },
+    },
   });
   return <MantineReactTable table={table} />;
 }

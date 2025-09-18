@@ -1,7 +1,8 @@
 import { HoldRemovedEmail } from "@/emails/hold-removed";
 import { resend } from "@/server/services/resend";
-import { EMAIL_FROM } from "@/config/email";
+import { DEFAULT_INBOX, DEFAULT_SIGNUP_EMAIL } from "@/config/email";
 import { WebRequestEmail } from "@/emails/web-requests";
+import HoldRequestedEmail from "@/emails/hold-requested";
 
 interface HoldRemovedEmailProps {
   to: string;
@@ -11,6 +12,14 @@ interface HoldRemovedEmailProps {
   portOfDischarge: string;
   vesselName: string;
   holdRemovedAt: string;
+}
+
+interface HoldRequestedEmailProps {
+  to: string;
+  bookingNumber: string;
+  portOfLoading: string;
+  portOfDischarge: string;
+  vesselName: string;
 }
 
 export async function sendHoldRemovedEmail({
@@ -24,7 +33,7 @@ export async function sendHoldRemovedEmail({
   const subject = `Shipment Hold Removed for Booking #${bookingNumber}`;
 
   const result = await resend.emails.send({
-    from: EMAIL_FROM,
+    from: DEFAULT_INBOX,
     to,
     subject,
     react: (
@@ -41,6 +50,29 @@ export async function sendHoldRemovedEmail({
   return result;
 }
 
+export async function sendShipperHoldRequestedEmail({
+  to,
+  bookingNumber,
+  portOfLoading,
+  portOfDischarge,
+  vesselName,
+}: HoldRequestedEmailProps) {
+  const subject = `Shipper Hold Requested for Booking #${bookingNumber}`;
+  const result = await resend.emails.send({
+    from: DEFAULT_INBOX,
+    to,
+    subject,
+    react: (
+      <HoldRequestedEmail
+        bookingNumber={bookingNumber}
+        portOfLoading={portOfLoading}
+        portOfDischarge={portOfDischarge}
+        vesselName={vesselName}
+      />
+    ),
+  });
+  return result;
+}
 
 export async function sendWebRequestEmail({
   to,
@@ -56,7 +88,7 @@ export async function sendWebRequestEmail({
   company: string;
 }) {
   const result = await resend.emails.send({
-    from: EMAIL_FROM,
+    from: DEFAULT_SIGNUP_EMAIL,
     to,
     subject: "New web request",
     react: (
