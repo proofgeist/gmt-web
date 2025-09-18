@@ -10,7 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useBookingColumns } from "@/components/tables/bookings-columns";
 import { Chip, Group, Text, Menu } from "@mantine/core";
-import { useUser } from "@/components/auth/use-user";
+import { useUser } from "@/hooks/use-user";
 import useShipments from "../use-shipments";
 import { ShipmentType } from "../my-shipments/schema";
 import { useShipmentStore } from "@/lib/shipments/store";
@@ -138,6 +138,9 @@ export default function MyTable({ initialData }: MyTableProps) {
     },
     defaultColumn: {
       size: 160,
+    },
+    mantineTableProps: {
+      striped: true,
     },
     mantineTableBodyRowProps: ({ row }) => ({
       style: { cursor: "pointer" },

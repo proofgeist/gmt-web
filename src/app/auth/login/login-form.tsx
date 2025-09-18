@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 import { TextInput } from "@mantine/core";
 import { Stack } from "@mantine/core";
-import { useUser } from "@/components/auth/use-user";
+import { useUser } from "@/hooks/use-user";
 import { redirectAction } from "@/server/auth/utils/redirect-action";
 
 export default function LoginForm() {
