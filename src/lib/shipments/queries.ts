@@ -111,7 +111,5 @@ export async function getShipmentsByType(ctx: QueryContext, type: "active" | "pe
       return getPastShipments(ctx);
     case "holds":
       return getHoldsShipments(ctx);
-    default:
-      throw new Error(`Unhandled shipment type: ${type}`);
   }
 }
