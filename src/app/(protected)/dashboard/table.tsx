@@ -66,7 +66,6 @@ export default function MyTable({ initialData }: MyTableProps) {
   }) => {
     return (
       <>
-        <Menu.Label>Actions</Menu.Label>
         <Menu.Item
           onClick={() => {
             router.push(`/dashboard?bookingNumber=${row.original["_GMT#"]}`);
@@ -77,8 +76,6 @@ export default function MyTable({ initialData }: MyTableProps) {
         <Menu.Item disabled>Download Invoice</Menu.Item>
         {row.getValue<string>("isShipper") && (
           <>
-            <Menu.Divider />
-            <Menu.Label>Shipper Actions</Menu.Label>
             {row.original.holdStatusList?.includes("Shipper Hold") ?
               <Menu.Item
                 onClick={() => {

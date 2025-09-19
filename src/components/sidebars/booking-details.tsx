@@ -245,16 +245,6 @@ export default function BookingDetails() {
                       </Text>
                     </Group>)}
 
-                {shipmentDetails.onHoldByShipperTStamp && (
-                  <Group justify="space-between">
-                    <Text fw={500}>On Hold By Shipper</Text>
-                    <Text>
-                      {dayjs(shipmentDetails.onHoldByShipperTStamp).format(
-                        "MMM D, YYYY"
-                      )}
-                    </Text>
-                  </Group>
-                )}
                 {shipmentDetails.onHoldGmtTStamp && (
                   <Group justify="space-between">
                     <Text fw={500}>On Hold By GMT</Text>

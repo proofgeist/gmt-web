@@ -1,6 +1,6 @@
 import { HoldRemovedEmail } from "@/emails/hold-removed";
 import { resend } from "@/server/services/resend";
-import { DEFAULT_INBOX, DEFAULT_SIGNUP_EMAIL } from "@/config/email";
+import { DEFAULT_FROM_EMAIL, DEFAULT_SIGNUP_EMAIL } from "@/config/email";
 import { WebRequestEmail } from "@/emails/web-requests";
 import HoldRequestedEmail from "@/emails/hold-requested";
 
@@ -33,7 +33,7 @@ export async function sendHoldRemovedEmail({
   const subject = `Shipment Hold Removed for Booking #${bookingNumber}`;
 
   const result = await resend.emails.send({
-    from: DEFAULT_INBOX,
+    from: DEFAULT_FROM_EMAIL,
     to,
     subject,
     react: (
@@ -57,9 +57,10 @@ export async function sendShipperHoldRequestedEmail({
   portOfDischarge,
   vesselName,
 }: HoldRequestedEmailProps) {
+  console.log("sending email to", to);
   const subject = `Shipper Hold Requested for Booking #${bookingNumber}`;
   const result = await resend.emails.send({
-    from: DEFAULT_INBOX,
+    from: DEFAULT_FROM_EMAIL,
     to,
     subject,
     react: (
@@ -71,6 +72,7 @@ export async function sendShipperHoldRequestedEmail({
       />
     ),
   });
+  console.log("email sent");
   return result;
 }
 
