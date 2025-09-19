@@ -7,19 +7,31 @@ interface QueryContext {
 }
 
 /**
- * Base function to fetch shipments with common query patterns
+ * Get active shipments (in transit)
  */
-async function queryShipments(ctx: QueryContext, queryConditions: Record<string, string>[]) {
+export async function getActiveShipments(ctx: QueryContext) {
+  const today = dayjs().format("MM/DD/YYYY");
   const data = await BookingsLayout.findAll({
     query: [
       {
         reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
-        ...Object.assign({}, ...queryConditions),
+        ETADatePort: `>=${today}`,
+        ETDDatePort: `<=${today}`,
       },
       {
         "bookings_COMPANIES.shipper::reportReferenceCustomer":
           ctx.user?.reportReferenceCustomer,
-        ...Object.assign({}, ...queryConditions),
+        ETADatePort: `>=${today}`,
+        ETDDatePort: `<=${today}`,
+      },
+      {
+        reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+        holdStatusList: "*",
+      },
+      {
+        "bookings_COMPANIES.shipper::reportReferenceCustomer":
+          ctx.user?.reportReferenceCustomer,
+        holdStatusList: "*",
       },
     ],
     limit: 1000,
@@ -29,28 +41,30 @@ async function queryShipments(ctx: QueryContext, queryConditions: Record<string,
 }
 
 /**
- * Get active shipments (in transit)
- */
-export async function getActiveShipments(ctx: QueryContext) {
-  const today = dayjs().format("MM/DD/YYYY");
-  return queryShipments(ctx, [
-    {
-      ETADatePort: `>=${today}`,
-      ETDDatePort: `<=${today}`,
-    }
-  ]);
-}
-
-/**
  * Get pending shipments (scheduled to sail)
  */
 export async function getPendingShipments(ctx: QueryContext) {
   const today = dayjs().format("MM/DD/YYYY");
-  return queryShipments(ctx, [
-    {
-      ETDDatePort: `>${today}`,
-    }
-  ]);
+  const data = await BookingsLayout.findAll({
+    query: [
+      {
+        reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+        ETDDatePort: `>${today}`,
+      },
+      {
+        "bookings_COMPANIES.shipper::reportReferenceCustomer":
+          ctx.user?.reportReferenceCustomer,
+        ETDDatePort: `>${today}`,
+      },
+      {
+        holdStatusList: "*",
+        omit: "true",
+      },
+    ],
+    limit: 1000,
+  });
+
+  return data.map((record) => record.fieldData);
 }
 
 /**
@@ -59,23 +73,50 @@ export async function getPendingShipments(ctx: QueryContext) {
 export async function getPastShipments(ctx: QueryContext) {
   const today = dayjs().format("MM/DD/YYYY");
   const yearAgo = dayjs().subtract(1, "year").format("MM/DD/YYYY");
-  return queryShipments(ctx, [
-    {
-      ETADatePort: `<${today}`,
-      ETDDatePort: `>${yearAgo}`,
-    }
-  ]);
+  const data = await BookingsLayout.findAll({
+    query: [
+      {
+        reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+        ETADatePort: `<${today}`,
+        ETDDatePort: `>${yearAgo}`,
+      },
+      {
+        "bookings_COMPANIES.shipper::reportReferenceCustomer":
+          ctx.user?.reportReferenceCustomer,
+        ETADatePort: `<${today}`,
+        ETDDatePort: `>${yearAgo}`,
+      },
+      {
+        holdStatusList: "*",
+        omit: "true",
+      },
+    ],
+    limit: 1000,
+  });
+
+  return data.map((record) => record.fieldData);
 }
 
 /**
  * Get shipments on hold
  */
 export async function getHoldsShipments(ctx: QueryContext) {
-  return queryShipments(ctx, [
-    {
-      holdStatusList: "*",
-    }
-  ]);
+  const data = await BookingsLayout.findAll({
+    query: [
+      {
+        reportReferenceCustomer: ctx.user?.reportReferenceCustomer,
+        holdStatusList: "*",
+      },
+      {
+        "bookings_COMPANIES.shipper::reportReferenceCustomer":
+          ctx.user?.reportReferenceCustomer,
+        holdStatusList: "*",
+      },
+    ],
+    limit: 1000,
+  });
+
+  return data.map((record) => record.fieldData);
 }
 
 /**
