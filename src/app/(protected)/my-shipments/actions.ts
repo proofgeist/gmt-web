@@ -70,6 +70,7 @@ export const requestShipperHoldAction = authedActionClient
       throw new Error(result.text);
     }
 
+    console.log("sending email to", DEFAULT_RELEASE_INBOX);
     sendShipperHoldRequestedEmail({
       to: DEFAULT_RELEASE_INBOX,
       bookingNumber: parsedInput.gmt_no,
@@ -77,7 +78,7 @@ export const requestShipperHoldAction = authedActionClient
       portOfDischarge: parsedInput.portOfDischarge,
       vesselName: parsedInput.vesselName,
     });
-
+    console.log("email sent");
     return result;
   });
 

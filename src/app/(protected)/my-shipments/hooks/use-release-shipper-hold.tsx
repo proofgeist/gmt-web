@@ -39,6 +39,7 @@ export function useReleaseShipperHold() {
         queryClient.invalidateQueries({ queryKey: ["pendingShipments"] }),
         queryClient.invalidateQueries({ queryKey: ["pastShipments"] }),
         queryClient.invalidateQueries({ queryKey: ["shipmentData"] }),
+        queryClient.invalidateQueries({ queryKey: ["booking-detail"] }),
       ]);
       closeAllModals();
       notifications.update({
