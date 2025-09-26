@@ -25,7 +25,7 @@ interface MyTableProps {
 }
 
 export default function MyTable({ initialData }: MyTableProps) {
-  const shipmentType = useShipmentStore((state) => state.shipmentType);
+  const { shipmentType } = useShipmentStore();
   const router = useRouter();
   const { user } = useUser();
   const columns = useBookingColumns();
@@ -74,7 +74,7 @@ export default function MyTable({ initialData }: MyTableProps) {
           View Booking
         </Menu.Item>
         <Menu.Item disabled>Download Invoice</Menu.Item>
-        {row.getValue<string>("isShipper") && (
+        {row.getValue<string>("isShipper") && shipmentType === "active" && (
           <>
             {row.original.holdStatusList?.includes("Shipper Hold") ?
               <Menu.Item
@@ -194,7 +194,7 @@ export default function MyTable({ initialData }: MyTableProps) {
             My Shipments: {myShipmentsCount}
           </Chip>
 
-          {
+          {shipmentType === "active" && (
             <Chip
               color="red"
               icon={null}
@@ -223,7 +223,7 @@ export default function MyTable({ initialData }: MyTableProps) {
             >
               Holds: {holdsCount}
             </Chip>
-          }
+          )}
         </Group>
       </Group>
     ),

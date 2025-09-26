@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { useReleaseShipperHold } from "../../app/(protected)/my-shipments/hooks/use-release-shipper-hold";
 import { useRequestShipperHold } from "../../app/(protected)/my-shipments/hooks/use-request-shipper-hold";
 import { useCancelShipperHoldRequest } from "../../app/(protected)/my-shipments/hooks/use-cancel-shipper-hold";
-import { IconRefresh, IconLock, IconLockOpen } from "@tabler/icons-react";
+import { IconRefresh, IconLock, IconLockOpen, IconCircleX } from "@tabler/icons-react";
 import { useUser } from "@/hooks/use-user";
 
 export default function BookingDetails() {
@@ -208,7 +208,7 @@ export default function BookingDetails() {
                           size="compact-md"
                           color="red"
                           px="xs"
-                          leftSection={<IconRefresh size={16} />}
+                          leftSection={<IconLockOpen size={16} />}
                           onClick={() => {
                             releaseHold({
                               gmt_no: shipmentDetails["_GMT#"],
@@ -242,6 +242,39 @@ export default function BookingDetails() {
                         {dayjs(shipmentDetails.onHoldByShipperTStamp).format(
                           "MMM D, YYYY"
                         )}
+                      </Text>
+                    </Group>)}
+                {shipmentDetails.onHoldByShipperRequestedTStamp &&
+                  (isShipper ?
+                    <Group justify="space-between" align="center" wrap="nowrap">
+                      <Text fw={500}>Shipper Hold Requested</Text>
+
+                      <Tooltip label="Cancel Shipper Hold Request" withArrow>
+                        <Button
+                          size="compact-md"
+                          color="yellow"
+                          px="xs"
+                          leftSection={<IconLockOpen size={16} />}
+                          onClick={() => {
+                            cancelHoldRequest({
+                              gmt_no: shipmentDetails["_GMT#"],
+                            });
+                          }}
+                          variant="light"
+                          style={{ minWidth: 0 }}
+                        >
+                          {dayjs(
+                            shipmentDetails.onHoldByShipperRequestedTStamp
+                          ).format("MMM D, YYYY")}
+                        </Button>
+                      </Tooltip>
+                    </Group>
+                  : <Group justify="space-between">
+                      <Text fw={500}>Shipper Hold Requested</Text>
+                      <Text>
+                        {dayjs(
+                          shipmentDetails.onHoldByShipperRequestedTStamp
+                        ).format("MMM D, YYYY")}
                       </Text>
                     </Group>)}
 
@@ -312,7 +345,7 @@ export default function BookingDetails() {
                       size="compact-md"
                       color="yellow"
                       px="xs"
-                      leftSection={<IconRefresh size={16} />}
+                      leftSection={<IconLockOpen size={16} />}
                       onClick={() => {
                         cancelHoldRequest({
                           gmt_no: shipmentDetails["_GMT#"],

@@ -39,6 +39,7 @@ export const ZBookings = z.object({
         "customsHoldTStamp": z.string(),
         "directShipmentOnHoldTStamp": z.string(),
         "SSLineInstructionsRemarks": z.string(),
+        "onHoldByShipperRequestedTStamp": z.string(),
     });
 
 export type TBookings = z.infer<typeof ZBookings>;
