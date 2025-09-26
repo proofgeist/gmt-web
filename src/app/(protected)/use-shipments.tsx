@@ -1,6 +1,5 @@
 import {
   getActiveShipmentsAction,
-  getPendingShipmentsAction,
   getPastShipmentsAction,
   getHoldsShipmentsAction,
   getShipmentByTypeAction,
@@ -16,14 +15,6 @@ export default function useShipments(
   const activeShipments = useQuery({
     queryKey: ["activeShipments"],
     queryFn: () => getActiveShipmentsAction({}).then((data) => data?.data),
-    staleTime: 1000 * 60 * 5,
-    refetchOnMount: true,
-    placeholderData: (previousData) => initialData ?? previousData,
-  });
-
-  const pendingShipments = useQuery({
-    queryKey: ["pendingShipments"],
-    queryFn: () => getPendingShipmentsAction({}).then((data) => data?.data),
     staleTime: 1000 * 60 * 5,
     refetchOnMount: true,
     placeholderData: (previousData) => initialData ?? previousData,
@@ -58,7 +49,6 @@ export default function useShipments(
 
   return {
     activeShipments,
-    pendingShipments,
     pastShipments,
     holdsShipments,
     shipmentsByType,

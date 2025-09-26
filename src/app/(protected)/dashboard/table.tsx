@@ -155,9 +155,7 @@ export default function MyTable({ initialData }: MyTableProps) {
         <Text size="lg">
           <strong>{user?.reportReferenceCustomer}</strong>
           {` ${
-            shipmentType === "active" ? "In-Transit Shipments"
-            : shipmentType === "pending" ? "Scheduled to Sail Shipments"
-            : "Previous Shipments"
+            shipmentType === "active" ? "Active Shipments" : "Arrived Shipments"
           }`}
         </Text>
 
@@ -167,10 +165,9 @@ export default function MyTable({ initialData }: MyTableProps) {
             icon={null}
             variant="light"
             style={{ cursor: "pointer" }}
-            value={
-              columnFilters.find((filter) => filter.id === "isShipper")
-                ?.value as string
-            }
+            checked={columnFilters.some(
+              (filter) => filter.id === "isShipper" && filter.value === true
+            )}
             onClick={() => {
               const currentFilter = columnFilters.find(
                 (filter) => filter.id === "isShipper"
@@ -200,10 +197,9 @@ export default function MyTable({ initialData }: MyTableProps) {
               icon={null}
               variant="light"
               style={{ cursor: "pointer" }}
-              value={
-                columnFilters.find((filter) => filter.id === "holds")
-                  ?.value as string
-              }
+              checked={columnFilters.some(
+                (filter) => filter.id === "holds" && filter.value === "*"
+              )}
               onClick={() => {
                 const currentFilter = columnFilters.find(
                   (filter) => filter.id === "holds"

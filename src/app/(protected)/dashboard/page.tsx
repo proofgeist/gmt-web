@@ -3,7 +3,6 @@ import { Stack } from "@mantine/core";
 import {
   getActiveShipments,
   getPastShipments,
-  getPendingShipments,
 } from "@/lib/shipments/queries";
 import { getCurrentSession } from "@/server/auth/utils/session";
 import ShipmentCards from "./shipment-cards";
@@ -16,9 +15,8 @@ export default async function DashboardPage() {
   const { user } = await getCurrentSession();
 
   // Fetch initial data in parallel
-  const [activeShipments, pendingShipments, pastShipments] = await Promise.all([
+  const [activeShipments, pastShipments] = await Promise.all([
     getActiveShipments({ user }),
-    getPendingShipments({ user }),
     getPastShipments({ user }),
   ]);
 
@@ -28,7 +26,6 @@ export default async function DashboardPage() {
         <ShipmentCards
           initialData={{
             active: activeShipments,
-            pending: pendingShipments,
             completed: pastShipments,
           }}
         />

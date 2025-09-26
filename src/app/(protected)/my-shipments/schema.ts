@@ -1,7 +1,6 @@
 import { z } from "zod";
 export const shipmentTypeEnum = z.enum([
   "active",
-  "pending",
   "completed",
 ]);
 export type ShipmentType = z.infer<typeof shipmentTypeEnum>;
