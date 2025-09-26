@@ -6,7 +6,7 @@ import { useShipmentStore } from "@/lib/shipments/store";
 export default function ShipmentAlert() {
   const shipmentType = useShipmentStore((state) => state.shipmentType);
   
-  if (shipmentType !== "active" && shipmentType !== "pending") {
+  if (shipmentType !== "active") {
     return null;
   }
 

@@ -8,7 +8,6 @@ import {
 } from "./my-shipments/schema";
 import {
   getActiveShipments,
-  getPendingShipments,
   getPastShipments,
   getHoldsShipments,
   getShipmentByGMTNumber,
@@ -31,11 +30,6 @@ export const getActiveShipmentsAction = authedActionClient
   .schema(getMyShipmentsSchema)
   .action(async ({ ctx }) => {
     return getActiveShipments(ctx);
-  });
-export const getPendingShipmentsAction = authedActionClient
-  .schema(getMyShipmentsSchema)
-  .action(async ({ ctx }) => {
-    return getPendingShipments(ctx);
   });
 export const getPastShipmentsAction = authedActionClient
   .schema(getMyShipmentsSchema)

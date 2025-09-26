@@ -139,17 +139,17 @@ export function useBookingColumns() {
           ),
         filterVariant: "text",
       },
-      // {
-      //   header: "PO Delivery",
-      //   accessorKey: "placeOfDeliveryCity",
-      //   Cell: ({ cell }) =>
-      //     cell.getValue<string>() && (
-      //       <Group gap="xs">
-      //         <Text>{toProperCase(cell.getValue<string>())}</Text>
-      //       </Group>
-      //     ),
-      //   filterVariant: "text",
-      // },
+      {
+        header: "PO Delivery",
+        accessorKey: "placeOfDeliveryCity",
+        Cell: ({ cell }) =>
+          cell.getValue<string>() && (
+            <Group gap="xs">
+              <Text>{toProperCase(cell.getValue<string>())}</Text>
+            </Group>
+          ),
+        filterVariant: "text",
+      },
       {
         accessorKey: "ETDDatePort",
         size: 100,
