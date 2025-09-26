@@ -118,11 +118,6 @@ export default function MyTable({ initialData }: MyTableProps) {
     );
   };
 
-  console.log(
-    columnFilters,
-    columnFilters.find((filter) => filter.id === "holds")?.value as string
-  );
-
   const table = useMantineReactTable({
     data: data ?? [],
     state: { isLoading, columnFilters, columnVisibility: { isShipper: false } },
