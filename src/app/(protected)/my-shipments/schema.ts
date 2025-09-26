@@ -3,7 +3,6 @@ export const shipmentTypeEnum = z.enum([
   "active",
   "pending",
   "completed",
-  "holds",
 ]);
 export type ShipmentType = z.infer<typeof shipmentTypeEnum>;
 export const getMyShipmentsSchema = z.object({});

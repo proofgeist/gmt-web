@@ -27,7 +27,7 @@
     "@oslojs/binary": "^1.0.0",
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
-    "@proofkit/fmdapi": "5.0.0-beta.0",
+    "@proofkit/fmdapi": "5.0.2",
     "@react-email/components": "^0.0.31",
     "@react-email/render": "1.0.3",
     "@t3-oss/env-nextjs": "^0.11.1",

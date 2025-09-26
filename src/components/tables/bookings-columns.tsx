@@ -12,6 +12,14 @@ import { useReleaseShipperHold } from "@/app/(protected)/my-shipments/hooks/use-
 import { useUser } from "@/hooks/use-user";
 import { useMemo } from "react";
 
+const statusColors = {
+  "Shipper Hold": "red",
+  "Shipper Hold Requested": "yellow",
+  "Finance Hold": "blue",
+  "GMT Hold": "green",
+  "Agent Hold": "purple",
+  "Customs Hold": "orange",
+} as const;
 function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
   const { releaseHold } = useReleaseShipperHold();
   const value = cell.getValue<TBookings["holdStatusList"]>();
@@ -19,23 +27,13 @@ function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
   if (!value) return null;
 
   return (
-    <Group>
-      {isShipper && (
-        <Tooltip label="My Shipment">
-          <Badge key="Shipper" p="xs">
-            <IconShip
-              size={12}
-              style={{ display: "block", margin: "0 auto" }}
-            />
-          </Badge>
-        </Tooltip>
-      )}
+    <Group gap="xs">
       {value.length > 0 &&
         value.map((status) =>
           status === "Shipper Hold" && isShipper ?
             <Badge
               key={status}
-              color="red"
+              color={statusColors[status]}
               onClick={(e) => {
                 e.stopPropagation();
                 const row = cell.row.original;
@@ -61,7 +59,7 @@ function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
             >
               {status}
             </Badge>
-          : <Badge key={status}>{status}</Badge>
+          : <Badge key={status} color={statusColors[status]}>{status}</Badge>
         )}
     </Group>
   );
@@ -141,17 +139,17 @@ export function useBookingColumns() {
           ),
         filterVariant: "text",
       },
-      {
-        header: "PO Delivery",
-        accessorKey: "placeOfDeliveryCity",
-        Cell: ({ cell }) =>
-          cell.getValue<string>() && (
-            <Group gap="xs">
-              <Text>{toProperCase(cell.getValue<string>())}</Text>
-            </Group>
-          ),
-        filterVariant: "text",
-      },
+      // {
+      //   header: "PO Delivery",
+      //   accessorKey: "placeOfDeliveryCity",
+      //   Cell: ({ cell }) =>
+      //     cell.getValue<string>() && (
+      //       <Group gap="xs">
+      //         <Text>{toProperCase(cell.getValue<string>())}</Text>
+      //       </Group>
+      //     ),
+      //   filterVariant: "text",
+      // },
       {
         accessorKey: "ETDDatePort",
         size: 100,
@@ -208,6 +206,7 @@ export function useBookingColumns() {
         accessorFn: (row) => row.holdStatusList,
         Cell: ({ cell }) => <HoldsCell cell={cell} />,
         filterVariant: "select",
+        grow: true,
         filterFn: (row, columnId: string, filterValue: string) => {
           if (!filterValue) return true;
           if (filterValue === "*")
