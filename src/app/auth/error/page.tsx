@@ -13,10 +13,10 @@ import {
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useSearchParams } from "next/navigation";
 import { ContactForm } from "./contact-form";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { DEFAULT_INBOX } from "@/config/email";
 
-export default function AuthErrorPage() {
+function ErrorContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
   const [showContactForm, setShowContactForm] = useState(false);
@@ -108,4 +108,20 @@ export default function AuthErrorPage() {
   );
 }
 
+export default function AuthErrorPage() {
+  return (
+    <Suspense fallback={
+      <Container size="sm" py={80}>
+        <Paper shadow="md" p="xl" radius="md" withBorder>
+          <Stack align="center" gap="lg">
+            <IconAlertCircle size={64} color="var(--mantine-color-red-6)" />
+            <Title order={1} ta="center">Loading...</Title>
+          </Stack>
+        </Paper>
+      </Container>
+    }>
+      <ErrorContent />
+    </Suspense>
+  );
+}
 
