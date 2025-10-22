@@ -102,6 +102,15 @@ export async function validateSessionToken(
     return { session: null, user: null };
   }
 
+  // Validate that the user's company has a web access type configured
+  if (!fmResult["pka_company::webAccessType"]) {
+    // Delete the session since the account is not properly configured
+    await sessionsLayout.delete({ recordId });
+    throw new Error(
+      "ACCOUNT_NOT_CONFIGURED: Your account is not properly configured for web access. Please contact support."
+    );
+  }
+
   const user: UserSession = {
     id: session.id_user,
     email: fmResult["proofkit_auth_users::email"],

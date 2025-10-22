@@ -39,6 +39,9 @@ export const ZBookings = z.object({
         "directShipmentOnHoldTStamp": z.string(),
         "SSLineInstructionsRemarks": z.string(),
         "onHoldByShipperRequestedTStamp": z.string(),
+        "maerskDepartureEventTS": z.string(),
+        "maerskArrivalEventTS": z.string(),
+        "maerskRefreshTS": z.string(),
     });
 
 export type TBookings = z.infer<typeof ZBookings>;

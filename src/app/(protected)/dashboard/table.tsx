@@ -113,7 +113,7 @@ export default function MyTable({ initialData }: MyTableProps) {
 
   const table = useMantineReactTable({
     data: data ?? [],
-    state: { isLoading, columnFilters},
+    state: { isLoading, columnFilters },
     onColumnFiltersChange: setColumnFilters,
     layoutMode: "grid",
     columns: columns,
@@ -121,7 +121,7 @@ export default function MyTable({ initialData }: MyTableProps) {
     enableHiding: false,
     enableColumnActions: false,
     initialState: {
-      sorting: [{ id: "ETADatePort", desc: true }],
+      sorting: [{ id: "ETADatePort", desc: false }],
       pagination: { pageIndex: 0, pageSize: 10 },
       density: "xs",
       showGlobalFilter: true,
@@ -132,13 +132,6 @@ export default function MyTable({ initialData }: MyTableProps) {
     mantineTableProps: {
       striped: true,
     },
-    mantineTableBodyRowProps: ({ row }) => ({
-      style: { cursor: "pointer" },
-      onClick: () => {
-        const gmtNumber = row.original["_GMT#"];
-        router.push(`/dashboard?bookingNumber=${gmtNumber}`);
-      },
-    }),
     renderTopToolbarCustomActions: () => (
       <Group
         justify="space-between"
