@@ -70,19 +70,6 @@ export function useBookingColumns() {
   return useMemo(() => {
     const columns: MRT_ColumnDef<TBookings>[] = [
       {
-        accessorKey: "bookings_COMPANIES.shipper::reportReferenceCustomer",
-        accessorFn: (row) =>
-          row["bookings_COMPANIES.shipper::reportReferenceCustomer"] ===
-          user?.reportReferenceCustomer,
-        id: "isShipper",
-        header: "RR of Shipper",
-        enableClickToCopy: true,
-        filterVariant: "text",
-        filterFn: (row, columnId, filterValue) => {
-          return row.getValue<string>(columnId) === filterValue;
-        },
-      },
-      {
         accessorKey: "_GMT#",
         header: "GMT #",
         enableClickToCopy: true,

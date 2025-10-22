@@ -30,7 +30,6 @@ export const ZBookings = z.object({
         "portOfLoadingCountry": z.string(),
         "holdStatusList": z.string(),
         "_kfnShipperCompanyID": z.string(),
-        "bookings_COMPANIES.shipper::reportReferenceCustomer": z.string(),
         "SSLineVessel": z.string(),
         "SSLineVoyage": z.string(),
         "onHoldByShipperTStamp": z.string(),

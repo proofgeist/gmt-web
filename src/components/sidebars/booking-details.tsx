@@ -28,6 +28,7 @@ export default function BookingDetails() {
   const [bookingNumber, setBookingNumber] = useState<string | null>(null);
   const pathname = usePathname();
   const { user } = useUser();
+  const isShipper = user?.webAccessType === "shipper";
   useEffect(() => {
     setBookingNumber(bookingNumberFromParams ?? null);
   }, [bookingNumberFromParams]);
@@ -44,9 +45,7 @@ export default function BookingDetails() {
     },
     enabled: !!bookingNumber,
   });
-  const isShipper =
-    shipmentDetails?.["bookings_COMPANIES.shipper::reportReferenceCustomer"] ===
-    user?.reportReferenceCustomer;
+  
 
   const { releaseHold } = useReleaseShipperHold();
   const { requestHold } = useRequestShipperHold();
