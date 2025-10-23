@@ -28,6 +28,7 @@ export default function MyTable({ initialData }: MyTableProps) {
   const { shipmentType } = useShipmentStore();
   const router = useRouter();
   const { user } = useUser();
+  const isShipper = user?.webAccessType === "shipper";
   const columns = useBookingColumns();
   const { requestHold } = useRequestShipperHold();
   const { releaseHold } = useReleaseShipperHold();
@@ -47,15 +48,7 @@ export default function MyTable({ initialData }: MyTableProps) {
       0
     );
   }, [data]);
-  const myShipmentsCount = useMemo(() => {
-    return (
-      data?.filter(
-        (shipment) =>
-          shipment["bookings_COMPANIES.shipper::reportReferenceCustomer"] ===
-          user?.reportReferenceCustomer
-      ).length || 0
-    );
-  }, [data, user?.reportReferenceCustomer]);
+  
 
   const RowActionItems = ({
     row,
@@ -74,7 +67,7 @@ export default function MyTable({ initialData }: MyTableProps) {
           View Booking
         </Menu.Item>
         <Menu.Item disabled>Download Invoice</Menu.Item>
-        {row.getValue<string>("isShipper") && shipmentType === "active" && (
+        {isShipper && shipmentType === "active" && (
           <>
             {row.original.holdStatusList?.includes("Shipper Hold") ?
               <Menu.Item
@@ -120,7 +113,7 @@ export default function MyTable({ initialData }: MyTableProps) {
 
   const table = useMantineReactTable({
     data: data ?? [],
-    state: { isLoading, columnFilters, columnVisibility: { isShipper: false } },
+    state: { isLoading, columnFilters },
     onColumnFiltersChange: setColumnFilters,
     layoutMode: "grid",
     columns: columns,
@@ -128,7 +121,7 @@ export default function MyTable({ initialData }: MyTableProps) {
     enableHiding: false,
     enableColumnActions: false,
     initialState: {
-      sorting: [{ id: "ETADatePort", desc: true }],
+      sorting: [{ id: "ETADatePort", desc: false }],
       pagination: { pageIndex: 0, pageSize: 10 },
       density: "xs",
       showGlobalFilter: true,
@@ -139,13 +132,6 @@ export default function MyTable({ initialData }: MyTableProps) {
     mantineTableProps: {
       striped: true,
     },
-    mantineTableBodyRowProps: ({ row }) => ({
-      style: { cursor: "pointer" },
-      onClick: () => {
-        const gmtNumber = row.original["_GMT#"];
-        router.push(`/dashboard?bookingNumber=${gmtNumber}`);
-      },
-    }),
     renderTopToolbarCustomActions: () => (
       <Group
         justify="space-between"
@@ -160,37 +146,6 @@ export default function MyTable({ initialData }: MyTableProps) {
         </Text>
 
         <Group gap="sm">
-          <Chip
-            color="blue"
-            icon={null}
-            variant="light"
-            style={{ cursor: "pointer" }}
-            checked={columnFilters.some(
-              (filter) => filter.id === "isShipper" && filter.value === true
-            )}
-            onClick={() => {
-              const currentFilter = columnFilters.find(
-                (filter) => filter.id === "isShipper"
-              );
-              if (currentFilter?.value === true) {
-                setColumnFilters(
-                  columnFilters.filter((f) => f.id !== "isShipper")
-                );
-              } else {
-                setColumnFilters([
-                  ...columnFilters.filter((f) => f.id !== "isShipper"),
-                  {
-                    id: "isShipper",
-                    value: true,
-                  },
-                ]);
-              }
-            }}
-            disabled={myShipmentsCount === 0}
-          >
-            My Shipments: {myShipmentsCount}
-          </Chip>
-
           {shipmentType === "active" && (
             <Chip
               color="red"

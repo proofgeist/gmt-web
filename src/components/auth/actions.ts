@@ -8,7 +8,19 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function currentSessionAction() {
-  return await getCurrentSession();
+  try {
+    return await getCurrentSession();
+  } catch (error) {
+    // If the error is about account configuration, return it as a structured error
+    if (
+      error instanceof Error &&
+      error.message.includes("ACCOUNT_NOT_CONFIGURED")
+    ) {
+      throw error;
+    }
+    // For other errors, return null session
+    return { session: null, user: null };
+  }
 }
 
 export async function logoutAction() {

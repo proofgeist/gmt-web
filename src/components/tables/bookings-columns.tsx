@@ -11,6 +11,8 @@ import { IconShip, IconX } from "@tabler/icons-react";
 import { useReleaseShipperHold } from "@/app/(protected)/my-shipments/hooks/use-release-shipper-hold";
 import { useUser } from "@/hooks/use-user";
 import { useMemo } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 const statusColors = {
   "Shipper Hold": "red",
@@ -59,7 +61,9 @@ function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
             >
               {status}
             </Badge>
-          : <Badge key={status} color={statusColors[status]}>{status}</Badge>
+          : <Badge key={status} color={statusColors[status]}>
+              {status}
+            </Badge>
         )}
     </Group>
   );
@@ -69,19 +73,6 @@ export function useBookingColumns() {
 
   return useMemo(() => {
     const columns: MRT_ColumnDef<TBookings>[] = [
-      {
-        accessorKey: "bookings_COMPANIES.shipper::reportReferenceCustomer",
-        accessorFn: (row) =>
-          row["bookings_COMPANIES.shipper::reportReferenceCustomer"] ===
-          user?.reportReferenceCustomer,
-        id: "isShipper",
-        header: "RR of Shipper",
-        enableClickToCopy: true,
-        filterVariant: "text",
-        filterFn: (row, columnId, filterValue) => {
-          return row.getValue<string>(columnId) === filterValue;
-        },
-      },
       {
         accessorKey: "_GMT#",
         header: "GMT #",
@@ -155,20 +146,49 @@ export function useBookingColumns() {
         size: 100,
         header: "ETD",
         filterFn: (row, _, filterValue: string) => {
-          return dayjs(row.original.ETDDatePort).isSame(dayjs(filterValue));
+          const dateToUse =
+            row.original.maerskDepartureEventTS || row.original.ETDDatePort;
+          return dayjs(dateToUse).isSame(dayjs(filterValue));
         },
         sortingFn: (a, b) => {
-          return (
-            dayjs(a.original.ETDDatePort).unix() -
-            dayjs(b.original.ETDDatePort).unix()
-          );
+          const dateA =
+            a.original.maerskDepartureEventTS || a.original.ETDDatePort;
+          const dateB =
+            b.original.maerskDepartureEventTS || b.original.ETDDatePort;
+          return dayjs(dateA).unix() - dayjs(dateB).unix();
         },
         Cell: ({ cell }) => {
-          const value = cell.getValue<string | null>();
+          const row = cell.row.original;
+          const maerskDate = row.maerskDepartureEventTS;
+          const defaultDate = cell.getValue<string | null>();
+          const dateToShow = maerskDate || defaultDate;
+          const refreshTS = row.maerskRefreshTS;
+
           return (
-            value && (
-              <Group gap="xs">
-                <Text>{dayjs(value).format("M/DD/YYYY")}</Text>
+            dateToShow && (
+              <Group gap="xs" align="center">
+                <Text>{dayjs(dateToShow).format("M/DD/YYYY")}</Text>
+                {maerskDate && refreshTS && (
+                  <Tooltip
+                    label={`Verified by Maersk: ${dayjs(refreshTS).format("M/DD/YYYY h:mm A")}`}
+                    withArrow
+                  >
+                    <Link
+                      href={`https://www.maersk.com/tracking/${row["_Booking#"]}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ display: "inline-flex", alignItems: "center" }}
+                    >
+                      <Image
+                        src="/Maersk Logo.svg"
+                        alt="Maersk"
+                        width={16}
+                        height={16}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </Link>
+                  </Tooltip>
+                )}
               </Group>
             )
           );
@@ -180,20 +200,49 @@ export function useBookingColumns() {
         header: "ETA",
         size: 100,
         filterFn: (row, _, filterValue: string) => {
-          return dayjs(row.original.ETADatePort).isSame(dayjs(filterValue));
+          const dateToUse =
+            row.original.maerskArrivalEventTS || row.original.ETADatePort;
+          return dayjs(dateToUse).isSame(dayjs(filterValue));
         },
         sortingFn: (a, b) => {
-          return (
-            dayjs(a.original.ETADatePort).unix() -
-            dayjs(b.original.ETADatePort).unix()
-          );
+          const dateA =
+            a.original.maerskArrivalEventTS || a.original.ETADatePort;
+          const dateB =
+            b.original.maerskArrivalEventTS || b.original.ETADatePort;
+          return dayjs(dateA).unix() - dayjs(dateB).unix();
         },
         Cell: ({ cell }) => {
-          const value = cell.getValue<string | null>();
+          const row = cell.row.original;
+          const maerskDate = row.maerskArrivalEventTS;
+          const defaultDate = cell.getValue<string | null>();
+          const dateToShow = maerskDate || defaultDate;
+          const refreshTS = row.maerskRefreshTS;
+
           return (
-            value && (
-              <Group gap="xs">
-                <Text>{dayjs(value).format("M/DD/YYYY")}</Text>
+            dateToShow && (
+              <Group gap="xs" align="center">
+                <Text>{dayjs(dateToShow).format("M/DD/YYYY")}</Text>
+                {maerskDate && refreshTS && (
+                  <Tooltip
+                    label={`Verified by Maersk: ${dayjs(refreshTS).format("M/DD/YYYY h:mm A")}`}
+                    withArrow
+                  >
+                    <Link
+                      href={`https://www.maersk.com/tracking/${row["_Booking#"]}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ display: "inline-flex", alignItems: "center" }}
+                    >
+                      <Image
+                        src="/Maersk Logo.svg"
+                        alt="Maersk"
+                        width={16}
+                        height={16}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </Link>
+                  </Tooltip>
+                )}
               </Group>
             )
           );

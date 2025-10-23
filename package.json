@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "doppler run -- next build",
     "dev": "doppler run -- next dev --turbopack",
     "email:preview": "cp .env ./node_modules/react-email/dist/preview && email dev --port 3010 --dir=src/emails",
     "lint": "doppler run -- next lint",
@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "@proofgeist/kit": "^0.3.2",
-    "@proofkit/typegen": "1.0.0-beta.4",
+    "@proofkit/typegen": "1.0.10",
     "@tanstack/eslint-plugin-query": "^5.72.1",
     "@tanstack/react-query-devtools": "^5.72.1",
     "@types/js-cookie": "^3.0.6",

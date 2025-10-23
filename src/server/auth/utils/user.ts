@@ -3,7 +3,7 @@ import { usersLayout, webAccessRequestsLayout } from "../db/client";
 import { Tusers as _User } from "../db/users";
 
 export type User = Partial<
-  Omit<_User, "id" | "password_hash" | "recovery_code" | "emailVerified">
+  Omit<_User, "id" | "password_hash" | "recovery_code" | "emailVerified" | "zCreationTimestamp" | "zCreatedBy" | "zModificationTimestamp" | "zModifiedBy">
 > & {
   id: string;
   email: string;

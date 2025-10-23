@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { currentSessionAction, logoutAction } from "@/components/auth/actions";
 import { Session, UserSession } from "@/server/auth/utils/session";
+import { useRouter } from "next/navigation";
 
 type LogoutAction = () => Promise<void>;
 type UseUserResult =
@@ -19,6 +20,7 @@ type UseUserResult =
   | { state: "loading"; session: null; user: null; logout: LogoutAction };
 
 export function useUser(): UseUserResult {
+  const router = useRouter();
   const query = useQuery({
     queryKey: ["current-user"],
     queryFn: () => currentSessionAction(),
@@ -26,6 +28,14 @@ export function useUser(): UseUserResult {
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
   const queryClient = useQueryClient();
+
+  // Handle account configuration errors
+  if (
+    query.error instanceof Error &&
+    query.error.message.includes("ACCOUNT_NOT_CONFIGURED")
+  ) {
+    router.push(`/auth/error?error=${encodeURIComponent(query.error.message)}`);
+  }
 
   const { mutateAsync } = useMutation({
     mutationFn: logoutAction,

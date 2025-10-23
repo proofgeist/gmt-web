@@ -108,8 +108,15 @@ export const verifyMFAAction = actionClient
       const redirectTo = await getRedirectCookie();
       return redirect(redirectTo);
     } catch (error) {
-      if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
-        throw error;
+      if (error instanceof Error) {
+        if (error.message.includes("NEXT_REDIRECT")) {
+          throw error;
+        }
+        if (error.message.includes("ACCOUNT_NOT_CONFIGURED")) {
+          return redirect(
+            `/auth/error?error=${encodeURIComponent(error.message)}`
+          );
+        }
       }
       return { error: "Failed to verify code" };
     }

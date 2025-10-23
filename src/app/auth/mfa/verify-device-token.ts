@@ -30,12 +30,26 @@ export const verifyDeviceTokenAction = actionClient
       return { error: "Invalid device token" };
     }
 
-    // Set the actual session cookie
-    const sessionToken = generateSessionToken();
-    const session = await createSession(sessionToken, pendingUserId);
-    setSessionTokenCookie(sessionToken, session.expiresAt);
+    try {
+      // Set the actual session cookie
+      const sessionToken = generateSessionToken();
+      const session = await createSession(sessionToken, pendingUserId);
+      setSessionTokenCookie(sessionToken, session.expiresAt);
 
-    // Get and clear redirect cookie, then redirect
-    const redirectTo = await getRedirectCookie();
-    return redirect(redirectTo);
+      // Get and clear redirect cookie, then redirect
+      const redirectTo = await getRedirectCookie();
+      return redirect(redirectTo);
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message.includes("NEXT_REDIRECT")) {
+          throw error;
+        }
+        if (error.message.includes("ACCOUNT_NOT_CONFIGURED")) {
+          return redirect(
+            `/auth/error?error=${encodeURIComponent(error.message)}`
+          );
+        }
+      }
+      return { error: "Failed to create session" };
+    }
   });
