@@ -12,6 +12,7 @@ export const HoldStatusEnum = z.enum([
   "Finance Hold",
   "GMT Hold",
   "Agent Hold",
+  "Vendor Hold",
 ]);
 
 export const ZBookings = ZBookings_generated.extend({
