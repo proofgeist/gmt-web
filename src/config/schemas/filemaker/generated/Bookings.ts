@@ -42,6 +42,8 @@ export const ZBookings = z.object({
         "maerskDepartureEventTS": z.string(),
         "maerskArrivalEventTS": z.string(),
         "maerskRefreshTS": z.string(),
+        "bookings_COMPANIES.agent::reportReferenceCustomer": z.string(),
+        "bookings_COMPANIES.shipper::reportReferenceCustomer": z.string(),
     });
 
 export type TBookings = z.infer<typeof ZBookings>;

@@ -16,12 +16,19 @@ export const HoldStatusEnum = z.enum([
 
 export const ZBookings = ZBookings_generated.extend({
   holdStatusList: z.preprocess((val) => {
+    // First, split the string into an array if needed
+    let arr: string[] = [];
     if (typeof val === "string" && val) {
-      return val.split("\r");
+      arr = val.split("\r");
     } else if (Array.isArray(val)) {
-      return val as string[];
+      arr = val as string[];
     }
-    return [];
+
+    // Filter out invalid enum values (like "GMT hold")
+    return arr.filter((item) => {
+      const result = HoldStatusEnum.safeParse(item);
+      return result.success;
+    });
   }, z.array(HoldStatusEnum)),
 });
 

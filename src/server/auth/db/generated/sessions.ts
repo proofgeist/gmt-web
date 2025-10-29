@@ -21,7 +21,6 @@ export type Tsessions = {
   "proofkit_auth_users::phone_number_mfa": string;
   "proofkit_auth_users::preferredLanguage": "en" | "es";
   "proofkit_auth_users::active": number | null;
-  "pka_company::__kpnID": string;
   "pka_company::webAccessType": "agent" | "shipper" | "customer";
 };
 
