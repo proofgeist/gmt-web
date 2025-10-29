@@ -14,13 +14,13 @@ import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const statusColors = {
+const statusColors: Record<typeof HoldStatusEnum.options[number], string> = {
   "Shipper Hold": "red",
   "Shipper Hold Requested": "yellow",
   "Finance Hold": "blue",
-  "GMT Hold": "green",
   "Agent Hold": "purple",
   "Customs Hold": "orange",
+  "Vendor Hold": "green",
 } as const;
 function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
   const { releaseHold } = useReleaseShipperHold();

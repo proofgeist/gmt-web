@@ -10,7 +10,6 @@ export const HoldStatusEnum = z.enum([
   "Shipper Hold",
   "Shipper Hold Requested",
   "Finance Hold",
-  "GMT Hold",
   "Agent Hold",
   "Vendor Hold",
 ]);
