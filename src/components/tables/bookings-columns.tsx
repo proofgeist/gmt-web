@@ -14,13 +14,13 @@ import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const statusColors = {
+const statusColors: Record<typeof HoldStatusEnum.options[number], string> = {
   "Shipper Hold": "red",
   "Shipper Hold Requested": "yellow",
   "Finance Hold": "blue",
-  "GMT Hold": "green",
   "Agent Hold": "purple",
   "Customs Hold": "orange",
+  "Vendor Hold": "green",
 } as const;
 function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
   const { releaseHold } = useReleaseShipperHold();
@@ -143,7 +143,7 @@ export function useBookingColumns() {
       },
       {
         accessorKey: "ETDDatePort",
-        size: 100,
+        size: 140,
         header: "ETD",
         filterFn: (row, _, filterValue: string) => {
           const dateToUse =
@@ -198,7 +198,7 @@ export function useBookingColumns() {
       {
         accessorKey: "ETADatePort",
         header: "ETA",
-        size: 100,
+        size: 140,
         filterFn: (row, _, filterValue: string) => {
           const dateToUse =
             row.original.maerskArrivalEventTS || row.original.ETADatePort;
