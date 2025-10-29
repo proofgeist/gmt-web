@@ -23,9 +23,10 @@ const statusColors: Record<typeof HoldStatusEnum.options[number], string> = {
   "Vendor Hold": "green",
 } as const;
 function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
+  const { user } = useUser();
   const { releaseHold } = useReleaseShipperHold();
   const value = cell.getValue<TBookings["holdStatusList"]>();
-  const isShipper = cell.row.getValue<string>("isShipper");
+  const isShipper = user?.webAccessType === "shipper";
   if (!value) return null;
 
   return (
