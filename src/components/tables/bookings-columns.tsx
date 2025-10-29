@@ -143,7 +143,7 @@ export function useBookingColumns() {
       },
       {
         accessorKey: "ETDDatePort",
-        size: 100,
+        size: 140,
         header: "ETD",
         filterFn: (row, _, filterValue: string) => {
           const dateToUse =
@@ -198,7 +198,7 @@ export function useBookingColumns() {
       {
         accessorKey: "ETADatePort",
         header: "ETA",
-        size: 100,
+        size: 140,
         filterFn: (row, _, filterValue: string) => {
           const dateToUse =
             row.original.maerskArrivalEventTS || row.original.ETADatePort;
