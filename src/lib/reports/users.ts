@@ -36,6 +36,7 @@ export async function getOptedInUsers(): Promise<UserSession[]> {
       reportReferenceCustomer: userData["pka_company::reportReferenceCustomer"],
       phone_number_mfa: userData.phone_number_mfa,
       webAccessType: userData["pka_company::webAccessType"],
+      user_role: userData.user_role,
       preferredLanguage: userData.preferredLanguage,
     };
 
