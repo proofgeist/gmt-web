@@ -3,7 +3,11 @@ import { getCurrentSession } from "./auth/utils/session";
 
 export const actionClient = createSafeActionClient({
   handleServerError: (error) => {
-    throw error;
+    // Log the actual error for debugging (server-side only)
+    console.error("Server action error:", error);
+    
+    // Return a generic error message to the client
+    return "An unexpected error occurred. Please try again.";
   },
 });
 export const authedActionClient = actionClient.use(async ({ next, ctx }) => {
@@ -12,7 +16,7 @@ export const authedActionClient = actionClient.use(async ({ next, ctx }) => {
     throw new Error("Unauthorized");
   }
   if (!user?.reportReferenceCustomer) {
-    throw new Error("Missing Report Reference Customer");
+    throw new Error("Account configuration required");
   }
 
   return next({ ctx: { ...ctx, session, user } });

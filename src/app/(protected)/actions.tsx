@@ -20,9 +20,10 @@ export const getShipmentByTypeAction = authedActionClient
       const { type } = parsedInput;
       return getShipmentsByType(ctx, type);
     } catch (error) {
-      throw error instanceof Error ? error : (
-          new Error("Failed to fetch shipments")
-        );
+      // Log actual error for debugging
+      console.error("Error fetching shipments:", error);
+      // Throw generic error
+      throw new Error("Failed to fetch shipments");
     }
   });
 

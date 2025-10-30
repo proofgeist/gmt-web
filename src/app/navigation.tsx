@@ -9,6 +9,7 @@ import {
   IconPhone,
   IconShield,
   IconRuler,
+  IconLayoutDashboard,
 } from "@tabler/icons-react";
 
 export interface SubRouteLink {
@@ -105,6 +106,15 @@ export const publicRoutes: Route[] = [
   }
 ];
 
-export const privateRoutes: Route[] = [];
+export const privateRoutes: Route[] = [
+  {
+    label: "Dashboard",
+    type: "link",
+    href: "/dashboard",
+    visibility: "private",
+    icon: <IconLayoutDashboard size={18} />,
+    exactMatch: false,
+  },
+];
 
 export const secondaryRoutes: Route[] = [];

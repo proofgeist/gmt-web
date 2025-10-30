@@ -6,6 +6,7 @@ import { Route } from "@/app/navigation";
 import { useState } from "react";
 import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 import { SessionValidationResult } from "@/server/auth/utils/session";
+import { useUser } from "@/hooks/use-user";
 
 /**
  * DO NOT REMOVE / RENAME THIS FILE
@@ -26,14 +27,31 @@ export function SlotHeaderMobileMenuContent({
 }) {
   const router = useRouter();
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const { session, user } = useUser();
 
   const toggleSubmenu = (label: string) => {
     setOpenSubmenu(openSubmenu === label ? null : label);
   };
 
+  // Filter routes based on visibility and user role
+  const filteredRoutes = routes.filter((route) => {
+    // Base visibility filter
+    const baseVisibilityMatch =
+      (session && route.visibility === "private") ||
+      (!session && route.visibility === "public") ||
+      route.visibility === "all";
+    
+    // If admin route, only show if user is admin
+    if (route.type === "link" && route.href === "/admin" && route.visibility === "private") {
+      return baseVisibilityMatch && user?.user_role === "admin";
+    }
+    
+    return baseVisibilityMatch;
+  });
+
   return (
     <>
-      {routes.map((route) => {
+      {filteredRoutes.map((route) => {
         // If the route has subItems, render a submenu
         if (route.subItems && route.subItems.length > 0) {
           const isOpen = openSubmenu === route.label;
