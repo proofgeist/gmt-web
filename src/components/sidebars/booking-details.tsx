@@ -15,6 +15,7 @@ import {
   Loader,
   Center,
   Box,
+  Image,
 } from "@mantine/core";
 import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
@@ -27,6 +28,7 @@ import { useRequestShipperHold } from "../../app/(protected)/my-shipments/hooks/
 import { useCancelShipperHoldRequest } from "../../app/(protected)/my-shipments/hooks/use-cancel-shipper-hold";
 import { IconLock, IconLockOpen } from "@tabler/icons-react";
 import { useUser } from "@/hooks/use-user";
+import Link from "next/link";
 
 export default function BookingDetails() {
   const router = useRouter();
@@ -124,21 +126,91 @@ export default function BookingDetails() {
                     <Text size="sm" fw={500} c="dimmed">
                       Sailing Date (ETD)
                     </Text>
-                    <Text fw={500}>
-                      {shipmentDetails.ETDDatePort ?
-                        dayjs(shipmentDetails.ETDDatePort).format("MMM D, YYYY")
-                      : "-"}
-                    </Text>
+                    {(() => {
+                      const maerskDate = shipmentDetails.maerskDepartureEventTS;
+                      const defaultDate = shipmentDetails.ETDDatePort;
+                      const dateToShow = maerskDate || defaultDate;
+                      const refreshTS = shipmentDetails.maerskRefreshTS;
+
+                      return (
+                        <Group gap="xs" align="center" wrap="nowrap">
+                          <Text fw={500}>
+                            {dateToShow ?
+                              dayjs(dateToShow).format("MMM D, YYYY")
+                            : "-"}
+                          </Text>
+                          {maerskDate && refreshTS && (
+                            <Tooltip
+                              label={`Verified by Maersk: ${dayjs(refreshTS).format("MMM D, YYYY h:mm A")}`}
+                              withArrow
+                            >
+                              <Link
+                                href={`https://www.maersk.com/tracking/${shipmentDetails["_Booking#"]}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Image
+                                  src="/Maersk Logo.svg"
+                                  alt="Maersk"
+                                  width={16}
+                                  height={16}
+                                  style={{ cursor: "pointer" }}
+                                />
+                              </Link>
+                            </Tooltip>
+                          )}
+                        </Group>
+                      );
+                    })()}
                   </Group>
                   <Group justify="space-between" wrap="nowrap">
                     <Text size="sm" fw={500} c="dimmed">
                       Arrival Date (ETA)
                     </Text>
-                    <Text fw={500}>
-                      {shipmentDetails.ETADatePort ?
-                        dayjs(shipmentDetails.ETADatePort).format("MMM D, YYYY")
-                      : "-"}
-                    </Text>
+                    {(() => {
+                      const maerskDate = shipmentDetails.maerskArrivalEventTS;
+                      const defaultDate = shipmentDetails.ETADatePort;
+                      const dateToShow = maerskDate || defaultDate;
+                      const refreshTS = shipmentDetails.maerskRefreshTS;
+
+                      return (
+                        <Group gap="xs" align="center" wrap="nowrap">
+                          <Text fw={500}>
+                            {dateToShow ?
+                              dayjs(dateToShow).format("MMM D, YYYY")
+                            : "-"}
+                          </Text>
+                          {maerskDate && refreshTS && (
+                            <Tooltip
+                              label={`Verified by Maersk: ${dayjs(refreshTS).format("MMM D, YYYY h:mm A")}`}
+                              withArrow
+                            >
+                              <Link
+                                href={`https://www.maersk.com/tracking/${shipmentDetails["_Booking#"]}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Image
+                                  src="/Maersk Logo.svg"
+                                  alt="Maersk"
+                                  width={16}
+                                  height={16}
+                                  style={{ cursor: "pointer" }}
+                                />
+                              </Link>
+                            </Tooltip>
+                          )}
+                        </Group>
+                      );
+                    })()}
                   </Group>
                   {shipmentDetails.ETADateCity && (
                     <Group justify="space-between" wrap="nowrap">
