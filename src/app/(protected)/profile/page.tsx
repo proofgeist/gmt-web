@@ -2,10 +2,10 @@ import { getCurrentSession } from "@/server/auth/utils/session";
 import { Container, Paper, Stack, Title } from "@mantine/core";
 import { redirect } from "next/navigation";
 import { usersLayout } from "@/server/auth/db/client";
-import UpdateEmailForm from "./update-email-form";
-import UpdatePasswordForm from "./reset-password-form";
-import UpdatePhoneForm from "./update-phone-form";
-import UpdatePreferencesForm from "./update-preferences-form";
+import UpdateEmailForm from "./email-update-form";
+import UpdatePasswordForm from "./password-reset-form";
+import UpdatePhoneForm from "./phone-update-form";
+import UpdatePreferencesForm from "./preferences-update-form";
 import DailyReportToggle from "./daily-report-toggle";
 // import EmailVerificationForm from "./email-verification-form";
 
