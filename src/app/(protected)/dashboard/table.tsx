@@ -12,7 +12,6 @@ import { useBookingColumns } from "@/components/tables/bookings-columns";
 import { Chip, Group, Text, Menu } from "@mantine/core";
 import { useUser } from "@/hooks/use-user";
 import useShipments from "../use-shipments";
-import { ShipmentType } from "../my-shipments/schema";
 import { useShipmentStore } from "@/lib/shipments/store";
 import { useMemo, useState } from "react";
 import { MRT_ColumnFiltersState } from "mantine-react-table";

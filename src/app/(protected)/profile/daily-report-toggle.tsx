@@ -53,8 +53,12 @@ export default function DailyReportToggle({
     form.setValue("optIn", checked, { shouldDirty: true });
     // Trigger form submission programmatically using a synthetic event
     const syntheticEvent = {
-      preventDefault: () => {},
-      stopPropagation: () => {},
+      preventDefault: () => {
+        // No-op: preventDefault is required for form event compatibility
+      },
+      stopPropagation: () => {
+        // No-op: stopPropagation is required for form event compatibility
+      },
     } as React.FormEvent<HTMLFormElement>;
     await handleSubmitWithAction(syntheticEvent);
   };

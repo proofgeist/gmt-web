@@ -94,7 +94,7 @@ export const cancelShipperHoldRequestAction = authedActionClient
       throw new Error("User not found");
     }
 
-    const result = await runFMScript(fmsScripts.requestShipperHold, {
+    await runFMScript(fmsScripts.requestShipperHold, {
       action: "cancel",
       gmt_no: parsedInput.gmt_no,
       contact_id: user.contact_id,

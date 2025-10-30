@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { useReleaseShipperHold } from "../../app/(protected)/my-shipments/hooks/use-release-shipper-hold";
 import { useRequestShipperHold } from "../../app/(protected)/my-shipments/hooks/use-request-shipper-hold";
 import { useCancelShipperHoldRequest } from "../../app/(protected)/my-shipments/hooks/use-cancel-shipper-hold";
-import { IconRefresh, IconLock, IconLockOpen, IconCircleX } from "@tabler/icons-react";
+import { IconLock, IconLockOpen } from "@tabler/icons-react";
 import { useUser } from "@/hooks/use-user";
 
 export default function BookingDetails() {

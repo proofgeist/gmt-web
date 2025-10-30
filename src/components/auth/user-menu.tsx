@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Menu, px, Skeleton, Text } from "@mantine/core";
+import { Button, Menu, px, Text } from "@mantine/core";
 import { useUser } from "@/hooks/use-user";
 import Link from "next/link";
 import {
