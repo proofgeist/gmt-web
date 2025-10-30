@@ -48,6 +48,7 @@ export async function createUser(
       emailVerified: 1,
       contact_id: contactID,
       active: active ? 1 : 0,
+      dailyReportOptIn: 1,
     },
   });
   const fmResult = await usersLayout.get({ recordId });
