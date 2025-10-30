@@ -44,6 +44,7 @@ export async function getActiveShipments(ctx: QueryContext) {
         [field]: ctx.user?.reportReferenceCustomer,
         holdStatusList: "*",
       },
+      { onHoldGmtTStamp: "*", omit: "true" },
     ],
     limit: 1000,
   });
