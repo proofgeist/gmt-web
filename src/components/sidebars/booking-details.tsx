@@ -12,6 +12,9 @@ import {
   Divider,
   Badge,
   ScrollArea,
+  Loader,
+  Center,
+  Box,
 } from "@mantine/core";
 import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
@@ -38,7 +41,7 @@ export default function BookingDetails() {
   }, [bookingNumberFromParams]);
 
   // Fetch shipment details when a booking is selected
-  const { data: shipmentDetails } = useQuery({
+  const { data: shipmentDetails, isLoading } = useQuery({
     queryKey: ["booking-detail", bookingNumber],
     queryFn: async () => {
       if (!bookingNumber) return null;
@@ -66,7 +69,18 @@ export default function BookingDetails() {
       centered
       scrollAreaComponent={ScrollArea}
     >
-      {shipmentDetails && (
+      {isLoading ?
+        <Box
+          style={{
+            minHeight: "400px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Loader size="md" />
+        </Box>
+      : shipmentDetails ?
         <Stack gap="md">
           {/* Header with Key Reference Numbers */}
           <Card withBorder padding="md" radius="md">
@@ -462,7 +476,7 @@ export default function BookingDetails() {
             </Card>
           )}
         </Stack>
-      )}
+      : null}
     </Modal>
   );
 }

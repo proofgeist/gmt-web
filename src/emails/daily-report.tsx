@@ -1,4 +1,4 @@
-import { Heading, Section, Text, Link } from "@react-email/components";
+import { Heading, Text, Link } from "@react-email/components";
 import * as React from "react";
 import { env } from "@/config/env";
 import { emailStyles } from "./styles";
