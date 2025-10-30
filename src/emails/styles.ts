@@ -18,8 +18,10 @@ export const emailStyles = {
     marginBottom: "20px",
   },
   main: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f5f5f5",
     fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
+    minHeight: "100vh",
+    padding: "20px 0",
   },
 
   container: {
@@ -30,7 +32,8 @@ export const emailStyles = {
     marginTop: "20px",
     maxWidth: "720px",
     margin: "0 auto",
-    padding: "68px 0 68px",
+    padding: "0",
+    minHeight: "600px",
   },
 
   logo: {

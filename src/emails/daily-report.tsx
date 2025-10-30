@@ -1,18 +1,10 @@
-import {
-  Body,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Section,
-  Text,
-  Link,
-} from "@react-email/components";
+import { Heading, Section, Text, Link } from "@react-email/components";
 import * as React from "react";
 import { env } from "@/config/env";
 import { emailStyles } from "./styles";
 import type { TBookings } from "@/config/schemas/filemaker/Bookings";
 import dayjs from "dayjs";
+import { EmailLayout } from "./components/EmailLayout";
 
 const BASE_URL =
   env.NODE_ENV === "production" ?
@@ -93,98 +85,69 @@ export const DailyReportEmail = ({
   };
 
   return (
-    <Html>
-      <Head />
-      <Body style={emailStyles.main}>
-        <Container style={emailStyles.container}>
-          <Heading style={emailStyles.secondary}>
-            {userName ? `Hello ${userName},` : "Hello,"}
-          </Heading>
+    <EmailLayout unsubscribeToken={unsubscribeToken} fullHeight={true}>
+      <Heading style={emailStyles.secondary}>
+        {userName ? `Hello ${userName},` : "Hello,"}
+      </Heading>
 
-          <Text style={emailStyles.paragraph}>
-            Here is your daily booking report for {today}. You have{" "}
-            {bookings.length} active booking{bookings.length !== 1 ? "s" : ""}.
-          </Text>
+      <Text style={emailStyles.paragraph}>
+        Here is your daily booking report for {today}. You have{" "}
+        {bookings.length} active booking{bookings.length !== 1 ? "s" : ""}.
+      </Text>
 
-          {bookings.length > 0 ? (
-            <table style={tableStyles.table}>
-              <thead style={tableStyles.thead}>
-                <tr>
-                  <th style={tableStyles.th}>GMT Number</th>
-                  <th style={tableStyles.th}>Booking Number</th>
-                  <th style={tableStyles.th}>Status</th>
-                  <th style={tableStyles.th}>ETD</th>
-                  <th style={tableStyles.th}>ETA</th>
-                  <th style={tableStyles.th}>Route</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bookings.map((booking) => (
-                  <tr key={booking["_GMT#"]}>
-                    <td style={tableStyles.td}>
-                      <Link
-                        href={`${BASE_URL}/dashboard?bookingNumber=${encodeURIComponent(booking["_GMT#"])}`}
-                        style={tableStyles.link}
-                      >
-                        {booking["_GMT#"]}
-                      </Link>
-                    </td>
-                    <td style={tableStyles.td}>
-                      {booking["_Booking#"] || "-"}
-                    </td>
-                    <td style={tableStyles.td}>
-                      {getStatusBadge(booking)}
-                    </td>
-                    <td style={tableStyles.td}>
-                      {formatDate(booking.ETDDatePort)}
-                    </td>
-                    <td style={tableStyles.td}>
-                      {formatDate(booking.ETADatePort)}
-                    </td>
-                    <td style={tableStyles.td}>
-                      {booking.portOfLoadingCity && booking.portOfDischargeCity ?
-                        `${booking.portOfLoadingCity} → ${booking.portOfDischargeCity}`
-                      : "-"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <Text style={emailStyles.paragraph}>
-              You currently have no active bookings.
-            </Text>
-          )}
+      {bookings.length > 0 ?
+        <table style={tableStyles.table}>
+          <thead style={tableStyles.thead}>
+            <tr>
+              <th style={tableStyles.th}>GMT Number</th>
+              <th style={tableStyles.th}>Booking Number</th>
+              <th style={tableStyles.th}>Status</th>
+              <th style={tableStyles.th}>ETD</th>
+              <th style={tableStyles.th}>ETA</th>
+              <th style={tableStyles.th}>Route</th>
+            </tr>
+          </thead>
+          <tbody>
+            {bookings.map((booking) => (
+              <tr key={booking["_GMT#"]}>
+                <td style={tableStyles.td}>
+                  <Link
+                    href={`${BASE_URL}/dashboard?bookingNumber=${encodeURIComponent(booking["_GMT#"])}`}
+                    style={tableStyles.link}
+                  >
+                    {booking["_GMT#"]}
+                  </Link>
+                </td>
+                <td style={tableStyles.td}>{booking["_Booking#"] || "-"}</td>
+                <td style={tableStyles.td}>{getStatusBadge(booking)}</td>
+                <td style={tableStyles.td}>
+                  {formatDate(booking.ETDDatePort)}
+                </td>
+                <td style={tableStyles.td}>
+                  {formatDate(booking.ETADatePort)}
+                </td>
+                <td style={tableStyles.td}>
+                  {booking.portOfLoadingCity && booking.portOfDischargeCity ?
+                    `${booking.portOfLoadingCity} → ${booking.portOfDischargeCity}`
+                  : "-"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      : <Text style={emailStyles.paragraph}>
+          You currently have no active bookings.
+        </Text>
+      }
 
-          <Text style={emailStyles.paragraph}>
-            Click on any GMT Number above to view detailed shipment information
-            on{" "}
-            <Link href={BASE_URL} style={tableStyles.link}>
-              MyGMT.com
-            </Link>
-            .
-          </Text>
-
-          <Section style={{ textAlign: "center", marginTop: "30px" }}>
-            <Text
-              style={{
-                ...emailStyles.paragraph,
-                fontSize: "12px",
-                color: "#888",
-              }}
-            >
-              Don&apos;t want to receive these daily reports?{" "}
-              <Link
-                href={`${BASE_URL}/api/reports/unsubscribe?token=${unsubscribeToken}`}
-                style={tableStyles.link}
-              >
-                Unsubscribe
-              </Link>
-            </Text>
-          </Section>
-        </Container>
-      </Body>
-    </Html>
+      <Text style={emailStyles.paragraph}>
+        Click on any GMT Number above to view detailed shipment information on{" "}
+        <Link href={BASE_URL} style={tableStyles.link}>
+          MyGMT.com
+        </Link>
+        .
+      </Text>
+    </EmailLayout>
   );
 };
 
@@ -233,4 +196,3 @@ DailyReportEmail.PreviewProps = {
 } as DailyReportEmailProps;
 
 export default DailyReportEmail;
-

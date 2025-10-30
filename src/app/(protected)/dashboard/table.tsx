@@ -131,6 +131,14 @@ export default function MyTable({ initialData }: MyTableProps) {
     mantineTableProps: {
       striped: true,
     },
+    mantineTableBodyRowProps: ({ row }) => ({
+      onClick: () => {
+        router.push(`/dashboard?bookingNumber=${row.original["_GMT#"]}`);
+      },
+      style: {
+        cursor: "pointer",
+      },
+    }),
     renderTopToolbarCustomActions: () => (
       <Group
         justify="space-between"
@@ -179,7 +187,7 @@ export default function MyTable({ initialData }: MyTableProps) {
     ),
     enableRowActions: true,
     renderRowActionMenuItems: RowActionItems,
-    positionActionsColumn: "last",
+    positionActionsColumn: "first",
     displayColumnDefOptions: {
       "mrt-row-actions": { header: "" },
     },

@@ -1,13 +1,7 @@
-import {
-  Body,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Text,
-} from "@react-email/components";
+import { Heading, Text } from "@react-email/components";
 import * as React from "react";
 import { emailStyles } from "./styles";
+import { EmailLayout } from "./components/EmailLayout";
 
 interface WebRequestEmailProps {
   email: string;
@@ -57,59 +51,49 @@ export const WebRequestEmail = ({
   lastName,
   company,
 }: WebRequestEmailProps) => (
-  <Html>
-    <Head />
-    <Body style={emailStyles.main}>
-      <Container style={emailStyles.container}>
-        <div style={emailStyles.brandingContainer}>
-          <Text style={emailStyles.brandingMy}>my</Text>
-          <Text style={emailStyles.brandingGMT}>GMT</Text>
-        </div>
+  <EmailLayout fullHeight={false}>
+    <Text style={emailStyles.tertiary}>Global Marine Web</Text>
+    <Heading style={emailStyles.secondary}>New Web Access Request</Heading>
 
-        <Text style={emailStyles.tertiary}>Global Marine Web</Text>
-        <Heading style={emailStyles.secondary}>New Web Access Request</Heading>
+    <table style={webRequestStyles.table}>
+      <tbody>
+        <tr style={webRequestStyles.row}>
+          <td
+            style={{ ...webRequestStyles.cell, ...webRequestStyles.label }}
+          >
+            Name
+          </td>
+          <td
+            style={{ ...webRequestStyles.cell, ...webRequestStyles.value }}
+          >
+            {firstName} {lastName}
+          </td>
+        </tr>
+        <tr style={webRequestStyles.row}>
+          <td
+            style={{ ...webRequestStyles.cell, ...webRequestStyles.label }}
+          >
+            Company
+          </td>
+          <td
+            style={{ ...webRequestStyles.cell, ...webRequestStyles.value }}
+          >
+            {company}
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-        <table style={webRequestStyles.table}>
-          <tbody>
-            <tr style={webRequestStyles.row}>
-              <td
-                style={{ ...webRequestStyles.cell, ...webRequestStyles.label }}
-              >
-                Name
-              </td>
-              <td
-                style={{ ...webRequestStyles.cell, ...webRequestStyles.value }}
-              >
-                {firstName} {lastName}
-              </td>
-            </tr>
-            <tr style={webRequestStyles.row}>
-              <td
-                style={{ ...webRequestStyles.cell, ...webRequestStyles.label }}
-              >
-                Company
-              </td>
-              <td
-                style={{ ...webRequestStyles.cell, ...webRequestStyles.value }}
-              >
-                {company}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <div style={webRequestStyles.actionText}>
+      Please log in to FileMaker Pro to review and process this request.
+    </div>
 
-        <div style={webRequestStyles.actionText}>
-          Please log in to FileMaker Pro to review and process this request.
-        </div>
-
-        <Text
-          style={{ ...emailStyles.paragraph, color: "#666", fontSize: "13px" }}
-        >
-          If you did not expect this request, you can safely ignore this email.
-        </Text>
-      </Container>
-    </Body>
-  </Html>
+    <Text
+      style={{ ...emailStyles.paragraph, color: "#666", fontSize: "13px" }}
+    >
+      If you did not expect this request, you can safely ignore this email.
+    </Text>
+  </EmailLayout>
 );
 
 WebRequestEmail.PreviewProps = {

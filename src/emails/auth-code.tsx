@@ -1,16 +1,8 @@
-import {
-  Body,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Section,
-  Text,
-  Link,
-} from "@react-email/components";
+import { Heading, Section, Text, Link } from "@react-email/components";
 import * as React from "react";
 import { env } from "@/config/env";
 import { emailStyles } from "./styles";
+import { EmailLayout } from "./components/EmailLayout";
 
 const BASE_URL =
   env.NODE_ENV === "production" ?
@@ -49,45 +41,31 @@ const authCodeStyles = {
 };
 
 export const AuthCodeEmail = ({ validationCode, type }: AuthCodeEmailProps) => (
-  <Html>
-    <Head />
-    <Body style={emailStyles.main}>
-      <Container style={emailStyles.container}>
-        <div style={emailStyles.brandingContainer}>
-          <Text style={emailStyles.brandingMy}>my</Text>
-          <Text style={emailStyles.brandingGMT}>GMT</Text>
-        </div>
-
-        <Text style={emailStyles.tertiary}>
-          {type === "verification" ?
-            "Verify Your Email"
-          : "Reset Your Password"}
-        </Text>
-        <Heading style={emailStyles.secondary}>
-          Enter the following code to{" "}
-          {type === "verification" ?
-            "verify your email"
-          : "reset your password"}
-        </Heading>
-        <Section style={authCodeStyles.codeContainer}>
-          <Text style={authCodeStyles.code}>{validationCode}</Text>
-        </Section>
-        {type === "verification" && (
-          <Section style={{ textAlign: "center", marginTop: "20px" }}>
-            <Link
-              href={`${BASE_URL}/auth/verify-email?code=${validationCode}`}
-              style={emailStyles.button}
-            >
-              Click to Verify Email
-            </Link>
-          </Section>
-        )}
-        <Text style={emailStyles.paragraph}>
-          If you did not request this code, you can ignore this email.
-        </Text>
-      </Container>
-    </Body>
-  </Html>
+  <EmailLayout fullHeight={false}>
+    <Text style={emailStyles.tertiary}>
+      {type === "verification" ? "Verify Your Email" : "Reset Your Password"}
+    </Text>
+    <Heading style={emailStyles.secondary}>
+      Enter the following code to{" "}
+      {type === "verification" ? "verify your email" : "reset your password"}
+    </Heading>
+    <Section style={authCodeStyles.codeContainer}>
+      <Text style={authCodeStyles.code}>{validationCode}</Text>
+    </Section>
+    {type === "verification" && (
+      <Section style={{ textAlign: "center", marginTop: "20px" }}>
+        <Link
+          href={`${BASE_URL}/auth/verify-email?code=${validationCode}`}
+          style={emailStyles.button}
+        >
+          Click to Verify Email
+        </Link>
+      </Section>
+    )}
+    <Text style={emailStyles.paragraph}>
+      If you did not request this code, you can ignore this email.
+    </Text>
+  </EmailLayout>
 );
 
 AuthCodeEmail.PreviewProps = {
