@@ -175,7 +175,7 @@ DailyReportEmail.PreviewProps = {
       maerskRefreshTS: "",
       "bookings_COMPANIES.agent::reportReferenceCustomer": "",
       "bookings_COMPANIES.shipper::reportReferenceCustomer": "",
-      zctListContainersSemiColon: "",
+      "bookings_CARGO::containerNumber": "",
     },
   ],
   unsubscribeToken: "test-token",
