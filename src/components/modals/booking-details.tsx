@@ -15,6 +15,12 @@ import {
   Loader,
   Box,
   Image,
+  Table,
+  TableThead,
+  TableTbody,
+  TableTr,
+  TableTd,
+  TableTh,
 } from "@mantine/core";
 import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
@@ -28,6 +34,7 @@ import { useCancelShipperHoldRequest } from "../../app/(protected)/my-shipments/
 import { IconLock, IconLockOpen } from "@tabler/icons-react";
 import { useUser } from "@/hooks/use-user";
 import Link from "next/link";
+import { useBookingDetails } from "@/app/(protected)/my-shipments/hooks/use-booking-details";
 
 export default function BookingDetails() {
   const router = useRouter();
@@ -41,18 +48,7 @@ export default function BookingDetails() {
     setBookingNumber(bookingNumberFromParams ?? null);
   }, [bookingNumberFromParams]);
 
-  // Fetch shipment details when a booking is selected
-  const { data: shipmentDetails, isLoading } = useQuery({
-    queryKey: ["booking-detail", bookingNumber],
-    queryFn: async () => {
-      if (!bookingNumber) return null;
-      const result = await getMyShipmentsByGMTNumberAction({
-        gmtNumber: bookingNumber,
-      });
-      return result?.data?.data?.fieldData ?? null;
-    },
-    enabled: !!bookingNumber,
-  });
+  const { data: shipmentDetails, isLoading } = useBookingDetails(bookingNumber);
 
   const { releaseHold } = useReleaseShipperHold();
   const { requestHold } = useRequestShipperHold();
@@ -68,7 +64,7 @@ export default function BookingDetails() {
       }
       size="xl"
       centered
-      scrollAreaComponent={ScrollArea}
+      scrollAreaComponent={ScrollArea.Autosize}
     >
       {isLoading ?
         <Box
@@ -134,20 +130,19 @@ export default function BookingDetails() {
                           alignItems: "center",
                           textDecoration: "none",
                         }}
-                        >
-                          <Group gap="xs" wrap="nowrap">
-
-                        <Text size="sm" fw={500} c="dimmed">
-                          Verified by Maersk
-                        </Text>
-                        <Image
-                          src="/Maersk Logo.svg"
-                          alt="Maersk"
-                          width={16}
-                          height={16}
-                          style={{ cursor: "pointer" }}
+                      >
+                        <Group gap="xs" wrap="nowrap">
+                          <Text size="sm" fw={500} c="dimmed">
+                            Verified by Maersk
+                          </Text>
+                          <Image
+                            src="/Maersk Logo.svg"
+                            alt="Maersk"
+                            width={16}
+                            height={16}
+                            style={{ cursor: "pointer" }}
                           />
-                          </Group>
+                        </Group>
                       </Link>
                     </Tooltip>
                   )}
@@ -527,6 +522,43 @@ export default function BookingDetails() {
                 <Text size="sm" style={{ whiteSpace: "pre-wrap" }}>
                   {shipmentDetails.SSLineInstructionsRemarks}
                 </Text>
+              </Stack>
+            </Card>
+          )}
+
+          {/* Cargo Section */}
+          {shipmentDetails.cargo && shipmentDetails.cargo.length > 0 && (
+            <Card withBorder padding="md" radius="md">
+              <Stack gap="sm">
+                <Title order={4}>Cargo</Title>
+                <Divider />
+                <Table
+                  striped
+                  highlightOnHover
+                  withTableBorder
+                  withColumnBorders
+                >
+                  <TableThead>
+                    <TableTr>
+                      <TableTh>Container Number</TableTh>
+                      <TableTh>Size</TableTh>
+                      <TableTh>Seal Number</TableTh>
+                    </TableTr>
+                  </TableThead>
+                  <TableTbody>
+                    {shipmentDetails.cargo.map((item, index) => (
+                      <TableTr key={index}>
+                        <TableTd>
+                          {item["bookings_CARGO::containerNumber"] || "-"}
+                        </TableTd>
+                        <TableTd>{item["bookings_CARGO::size"] || "-"}</TableTd>
+                        <TableTd>
+                          {item["bookings_CARGO::sealNumber"] || "-"}
+                        </TableTd>
+                      </TableTr>
+                    ))}
+                  </TableTbody>
+                </Table>
               </Stack>
             </Card>
           )}

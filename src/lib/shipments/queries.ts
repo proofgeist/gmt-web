@@ -1,4 +1,5 @@
-import { BookingsLayout } from "@/config/schemas/filemaker/server";
+import { BookingsLayout } from "@/config/schemas/filemaker/client";
+import { BookingsDetailsLayout } from "@/config/schemas/filemaker/client";
 import dayjs from "dayjs";
 import type { UserSession } from "@/server/auth/utils/session";
 import type { ShipmentType } from "@/app/(protected)/my-shipments/schema";
@@ -103,7 +104,7 @@ export async function getShipmentByGMTNumber(
 ) {
   const field = getReferenceCustomerField(ctx.user?.webAccessType);
 
-  const data = await BookingsLayout.findOne({
+  const data = await BookingsDetailsLayout.findOne({
     query: {
       [field]: ctx.user?.reportReferenceCustomer,
       "_GMT#": gmtNumber,
