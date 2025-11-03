@@ -250,7 +250,7 @@ export function useBookingColumns() {
       },
       {
         accessorKey: "bookings_CARGO::containerNumber",
-        header: "Container Number",
+        header: "Container #",
         Cell: ({ cell }) => {
           const value = cell.getValue<string>();
           return <Text>{value}</Text>;
