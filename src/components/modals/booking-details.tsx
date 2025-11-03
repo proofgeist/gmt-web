@@ -25,8 +25,6 @@ import {
 import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { getMyShipmentsByGMTNumberAction } from "../../app/(protected)/actions";
 import { useEffect, useState } from "react";
 import { useReleaseShipperHold } from "../../app/(protected)/my-shipments/hooks/use-release-shipper-hold";
 import { useRequestShipperHold } from "../../app/(protected)/my-shipments/hooks/use-request-shipper-hold";
@@ -177,7 +175,6 @@ export default function BookingDetails() {
                       const maerskDate = shipmentDetails.maerskArrivalEventTS;
                       const defaultDate = shipmentDetails.ETADatePort;
                       const dateToShow = maerskDate || defaultDate;
-                      const refreshTS = shipmentDetails.maerskRefreshTS;
 
                       return (
                         <Group gap="xs" align="center" wrap="nowrap">
