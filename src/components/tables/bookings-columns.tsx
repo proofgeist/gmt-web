@@ -249,6 +249,14 @@ export function useBookingColumns() {
         filterVariant: "date",
       },
       {
+        accessorKey: "bookings_CARGO::containerNumber",
+        header: "Container Number",
+        Cell: ({ cell }) => {
+          const value = cell.getValue<string>();
+          return <Text>{value}</Text>;
+        },
+      },
+      {
         id: "holds",
         header: "Status",
         accessorFn: (row) => row.holdStatusList,

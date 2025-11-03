@@ -29,7 +29,7 @@ export const ZBookings = z.object({
         "maerskRefreshTS": z.string(),
         "bookings_COMPANIES.agent::reportReferenceCustomer": z.string(),
         "bookings_COMPANIES.shipper::reportReferenceCustomer": z.string(),
-        "zctListContainersSemiColon": z.string(),
+        "bookings_CARGO::containerNumber": z.string(),
     });
 
 export type TBookings = z.infer<typeof ZBookings>;
