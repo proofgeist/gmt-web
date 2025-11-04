@@ -19,6 +19,7 @@ export const signupSchema = z
         const phoneNumber = parsePhoneNumberWithError(value);
         return phoneNumber.format("E.164"); // Returns number in +12345678900 format
       }),
+    dailyReportOptIn: z.boolean().default(true),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],

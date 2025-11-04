@@ -25,6 +25,7 @@ export const signupAction = actionClient
       lastName,
       company,
       phoneNumber,
+      dailyReportOptIn,
     } = parsedInput;
     const emailAvailable = await checkEmailAvailability(email);
     if (!emailAvailable) {
@@ -69,7 +70,8 @@ export const signupAction = actionClient
         password,
         contactIDs[0],
         language,
-        isWebEnabled
+        isWebEnabled,
+        dailyReportOptIn
       );
       // Store user ID and phone number for MFA verification
       const cookieStore = await cookies();

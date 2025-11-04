@@ -32,13 +32,16 @@ async function fetchUser(userId: string) {
  * @param password - The password of the user.
  * @param contactID - The contact ID of the user.
  * @param language - The language of the user.
+ * @param active - Whether the user is active.
+ * @param dailyReportOptIn - Whether the user wants to receive daily booking reports via email.
  */
 export async function createUser(
   email: string,
   password: string,
   contactID: string,
   language: "en" | "es",
-  active: boolean
+  active: boolean,
+  dailyReportOptIn: boolean = true
 ): Promise<User> {
   const password_hash = await hashPassword(password);
   const { recordId } = await usersLayout.create({
@@ -48,7 +51,7 @@ export async function createUser(
       emailVerified: 1,
       contact_id: contactID,
       active: active ? 1 : 0,
-      dailyReportOptIn: 1,
+      dailyReportOptIn: dailyReportOptIn ? 1 : 0,
     },
   });
   const fmResult = await usersLayout.get({ recordId });
