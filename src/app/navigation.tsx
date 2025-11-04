@@ -27,6 +27,8 @@ export interface RouteLink {
   /** If true, the route will only be considered active if the path is exactly this value. */
   exactMatch?: boolean;
   visibility?: "public" | "private" | "all" | "none";
+  /** If specified, the route will only be visible to users with this role. */
+  requiredRole?: string;
   customStyles?: string;
   component?: React.ReactNode;
   subItems?: SubRouteLink[];
@@ -40,6 +42,8 @@ export interface RouteFunction {
   /** If true, the route will only be considered active if the path is exactly this value. */
   exactMatch?: boolean;
   visibility?: "public" | "private" | "all" | "none";
+  /** If specified, the route will only be visible to users with this role. */
+  requiredRole?: string;
   customStyles?: string;
   component?: React.ReactNode;
   subItems?: SubRouteLink[];

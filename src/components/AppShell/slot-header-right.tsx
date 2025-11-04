@@ -36,9 +36,9 @@ export function SlotHeaderRight({
                 (!session && route.visibility === "public") ||
                 route.visibility === "all";
               
-              // If admin route, only show if user is admin
-              if (route.type === "link" && route.href === "/admin" && route.visibility === "private") {
-                return baseVisibilityMatch && user?.user_role === "admin";
+              // If route requires a specific role, check user role
+              if (route.requiredRole && user?.user_role !== route.requiredRole) {
+                return false;
               }
               
               return baseVisibilityMatch;
