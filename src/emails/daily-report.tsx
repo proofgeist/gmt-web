@@ -68,13 +68,13 @@ export const DailyReportEmail = ({
     const dateB = b.ETADatePort ? dayjs(b.ETADatePort, "MM/DD/YYYY") : null;
 
     // If both have valid dates, sort by earliest first
-    if (dateA && dateA.isValid() && dateB && dateB.isValid()) {
+    if (dateA?.isValid() && dateB?.isValid()) {
       return dateA.valueOf() - dateB.valueOf();
     }
     // If only A has a valid date, it comes first
-    if (dateA && dateA.isValid()) return -1;
+    if (dateA?.isValid()) return -1;
     // If only B has a valid date, it comes first
-    if (dateB && dateB.isValid()) return 1;
+    if (dateB?.isValid()) return 1;
     // If neither has a valid date, keep original order
     return 0;
   });

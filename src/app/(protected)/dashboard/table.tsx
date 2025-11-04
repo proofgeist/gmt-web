@@ -49,7 +49,7 @@ export default function MyTable({ initialData }: MyTableProps) {
   }, [data]);
   
 
-  const RowActionItems = ({
+  const _RowActionItems = ({
     row,
   }: {
     row: MRT_Row<TBookings>;

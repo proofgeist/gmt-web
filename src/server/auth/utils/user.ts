@@ -41,7 +41,7 @@ export async function createUser(
   contactID: string,
   language: "en" | "es",
   active: boolean,
-  dailyReportOptIn: boolean = true
+  dailyReportOptIn = true
 ): Promise<User> {
   const password_hash = await hashPassword(password);
   const { recordId } = await usersLayout.create({
