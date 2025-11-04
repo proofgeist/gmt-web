@@ -48,8 +48,8 @@ export function EmailLayout({
                 <tr>
                   <td
                     style={{
-                      height: "100px",
-                      lineHeight: "100px",
+                      height: "25px",
+                      lineHeight: "25px",
                       fontSize: "1px",
                     }}
                   >

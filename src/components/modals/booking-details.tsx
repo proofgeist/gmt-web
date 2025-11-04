@@ -311,140 +311,156 @@ export default function BookingDetails() {
           </Card>
 
           {/* Status Section */}
-          {shipmentDetails.holdStatusList.length > 0 && (
-            <Card withBorder padding="md" radius="md">
-              <Stack gap="sm">
-                <Title order={4}>Hold Status</Title>
-                <Divider />
-                <Stack gap="xs">
-                  {shipmentDetails.onHoldByShipperTStamp &&
-                    (isShipper ?
-                      <Group
-                        justify="space-between"
-                        align="center"
-                        wrap="nowrap"
-                      >
-                        <Group gap="xs" wrap="nowrap">
-                          <Badge color="red" variant="light">
-                            On Hold By Shipper
-                          </Badge>
-                          <Text size="sm" c="dimmed">
-                            {dayjs(
-                              shipmentDetails.onHoldByShipperTStamp
-                            ).format("MMM D, YYYY")}
-                          </Text>
-                        </Group>
-                        <Tooltip label="Release Shipper Hold" withArrow>
-                          <Button
-                            size="sm"
-                            color="red"
-                            leftSection={<IconLockOpen size={16} />}
-                            onClick={() => {
-                              releaseHold({
-                                gmt_no: shipmentDetails["_GMT#"],
-                                portOfLoading: [
-                                  shipmentDetails.portOfLoadingCity,
-                                  shipmentDetails.portOfLoadingCountry,
-                                ]
-                                  .filter(Boolean)
-                                  .join(", "),
-                                portOfDischarge: [
-                                  shipmentDetails.portOfDischargeCity,
-                                  shipmentDetails.portOfDischargeCountry,
-                                ]
-                                  .filter(Boolean)
-                                  .join(", "),
-                                vesselName: shipmentDetails.SSLineVessel,
-                              });
-                            }}
-                            variant="light"
-                          >
-                            Release
-                          </Button>
-                        </Tooltip>
-                      </Group>
-                    : <Group justify="space-between" wrap="nowrap">
-                        <Badge color="red" variant="light">
-                          On Hold By Shipper
-                        </Badge>
-                        <Text size="sm">
-                          {dayjs(shipmentDetails.onHoldByShipperTStamp).format(
-                            "MMM D, YYYY"
-                          )}
-                        </Text>
-                      </Group>)}
-                  {shipmentDetails.onHoldByShipperRequestedTStamp &&
-                    (isShipper ?
-                      <Group
-                        justify="space-between"
-                        align="center"
-                        wrap="nowrap"
-                      >
-                        <Group gap="xs" wrap="nowrap">
-                          <Badge color="yellow" variant="light">
-                            Shipper Hold Requested
-                          </Badge>
-                          <Text size="sm" c="dimmed">
-                            {dayjs(
-                              shipmentDetails.onHoldByShipperRequestedTStamp
-                            ).format("MMM D, YYYY")}
-                          </Text>
-                        </Group>
-                        <Tooltip label="Cancel Shipper Hold Request" withArrow>
-                          <Button
-                            size="sm"
-                            color="yellow"
-                            leftSection={<IconLockOpen size={16} />}
-                            onClick={() => {
-                              cancelHoldRequest({
-                                gmt_no: shipmentDetails["_GMT#"],
-                              });
-                            }}
-                            variant="light"
-                          >
-                            Cancel
-                          </Button>
-                        </Tooltip>
-                      </Group>
-                    : <Group justify="space-between" wrap="nowrap">
-                        <Badge color="yellow" variant="light">
-                          Shipper Hold Requested
-                        </Badge>
-                        <Text size="sm">
-                          {dayjs(
-                            shipmentDetails.onHoldByShipperRequestedTStamp
-                          ).format("MMM D, YYYY")}
-                        </Text>
-                      </Group>)}
+          {shipmentDetails.holdStatusList.length > 0 &&
+            (() => {
+              const holdStatusCount = [
+                shipmentDetails.onHoldByShipperTStamp,
+                shipmentDetails.onHoldByShipperRequestedTStamp,
+                shipmentDetails.agentOnHoldTStamp,
+                shipmentDetails.customsHoldTStamp,
+              ].filter(Boolean).length;
 
-                  {shipmentDetails.agentOnHoldTStamp && (
-                    <Group justify="space-between" wrap="nowrap">
-                      <Badge color="blue" variant="light">
-                        On Hold By Agent
-                      </Badge>
-                      <Text size="sm">
-                        {dayjs(shipmentDetails.agentOnHoldTStamp).format(
-                          "MMM D, YYYY"
-                        )}
-                      </Text>
-                    </Group>
-                  )}
-                  {shipmentDetails.customsHoldTStamp && (
-                    <Group justify="space-between" wrap="nowrap">
-                      <Badge color="purple" variant="light">
-                        On Hold By Customs
-                      </Badge>
-                      <Text size="sm">
-                        {dayjs(shipmentDetails.customsHoldTStamp).format(
-                          "MMM D, YYYY"
-                        )}
-                      </Text>
-                    </Group>
-                  )}
-                </Stack>
-              </Stack>
-            </Card>
-          )}
+              return (
+                <Card withBorder padding="md" radius="md">
+                  <Stack gap="sm">
+                    <Title order={4}>Hold Status</Title>
+                    <Divider />
+                    <SimpleGrid
+                      cols={{ base: 1, sm: holdStatusCount > 1 ? 2 : 1 }}
+                      spacing="xs"
+                    >
+                      {shipmentDetails.onHoldByShipperTStamp &&
+                        (isShipper ?
+                          <Group
+                            justify="space-between"
+                            align="center"
+                            wrap="nowrap"
+                          >
+                            <Group gap="xs" wrap="nowrap">
+                              <Badge color="red" variant="light">
+                                On Hold By Shipper
+                              </Badge>
+                              <Text size="sm" c="dimmed">
+                                {dayjs(
+                                  shipmentDetails.onHoldByShipperTStamp
+                                ).format("MMM D, YYYY")}
+                              </Text>
+                            </Group>
+                            <Tooltip label="Release Shipper Hold" withArrow>
+                              <Button
+                                size="sm"
+                                color="red"
+                                leftSection={<IconLockOpen size={16} />}
+                                onClick={() => {
+                                  releaseHold({
+                                    gmt_no: shipmentDetails["_GMT#"],
+                                    portOfLoading: [
+                                      shipmentDetails.portOfLoadingCity,
+                                      shipmentDetails.portOfLoadingCountry,
+                                    ]
+                                      .filter(Boolean)
+                                      .join(", "),
+                                    portOfDischarge: [
+                                      shipmentDetails.portOfDischargeCity,
+                                      shipmentDetails.portOfDischargeCountry,
+                                    ]
+                                      .filter(Boolean)
+                                      .join(", "),
+                                    vesselName: shipmentDetails.SSLineVessel,
+                                  });
+                                }}
+                                variant="light"
+                              >
+                                Release
+                              </Button>
+                            </Tooltip>
+                          </Group>
+                        : <Group justify="space-between" wrap="nowrap">
+                            <Badge color="red" variant="light">
+                              On Hold By Shipper
+                            </Badge>
+                            <Text size="sm">
+                              {dayjs(
+                                shipmentDetails.onHoldByShipperTStamp
+                              ).format("MMM D, YYYY")}
+                            </Text>
+                          </Group>)}
+                      {shipmentDetails.onHoldByShipperRequestedTStamp &&
+                        (isShipper ?
+                          <Group
+                            justify="space-between"
+                            align="center"
+                            wrap="nowrap"
+                          >
+                            <Group gap="xs" wrap="nowrap">
+                              <Badge color="yellow" variant="light">
+                                Shipper Hold Requested
+                              </Badge>
+                              <Text size="sm" c="dimmed">
+                                {dayjs(
+                                  shipmentDetails.onHoldByShipperRequestedTStamp
+                                ).format("MMM D, YYYY")}
+                              </Text>
+                            </Group>
+                            <Tooltip
+                              label="Cancel Shipper Hold Request"
+                              withArrow
+                            >
+                              <Button
+                                size="sm"
+                                color="yellow"
+                                leftSection={<IconLockOpen size={16} />}
+                                onClick={() => {
+                                  cancelHoldRequest({
+                                    gmt_no: shipmentDetails["_GMT#"],
+                                  });
+                                }}
+                                variant="light"
+                              >
+                                Cancel
+                              </Button>
+                            </Tooltip>
+                          </Group>
+                        : <Group justify="space-between" wrap="nowrap">
+                            <Badge color="yellow" variant="light">
+                              Shipper Hold Requested
+                            </Badge>
+                            <Text size="sm">
+                              {dayjs(
+                                shipmentDetails.onHoldByShipperRequestedTStamp
+                              ).format("MMM D, YYYY")}
+                            </Text>
+                          </Group>)}
+
+                      {shipmentDetails.agentOnHoldTStamp && (
+                        <Group justify="space-between" wrap="nowrap">
+                          <Badge color="blue" variant="light">
+                            On Hold By Agent
+                          </Badge>
+                          <Text size="sm">
+                            {dayjs(shipmentDetails.agentOnHoldTStamp).format(
+                              "MMM D, YYYY"
+                            )}
+                          </Text>
+                        </Group>
+                      )}
+                      {shipmentDetails.customsHoldTStamp && (
+                        <Group justify="space-between" wrap="nowrap">
+                          <Badge color="purple" variant="light">
+                            On Hold By Customs
+                          </Badge>
+                          <Text size="sm">
+                            {dayjs(shipmentDetails.customsHoldTStamp).format(
+                              "MMM D, YYYY"
+                            )}
+                          </Text>
+                        </Group>
+                      )}
+                    </SimpleGrid>
+                  </Stack>
+                </Card>
+              );
+            })()}
 
           {/* Shipper Actions */}
           {isShipper && (
