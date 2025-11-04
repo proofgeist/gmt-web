@@ -60,6 +60,27 @@ export const DailyReportEmail = ({
   unsubscribeToken,
 }: DailyReportEmailProps) => {
   const today = dayjs().format("MMMM D, YYYY");
+  const MAX_BOOKINGS_TO_SHOW = 10;
+
+  // Sort bookings by soonest arrival date (ETA), with bookings without dates at the end
+  const sortedBookings = [...bookings].sort((a, b) => {
+    const dateA = a.ETADatePort ? dayjs(a.ETADatePort, "MM/DD/YYYY") : null;
+    const dateB = b.ETADatePort ? dayjs(b.ETADatePort, "MM/DD/YYYY") : null;
+
+    // If both have valid dates, sort by earliest first
+    if (dateA && dateA.isValid() && dateB && dateB.isValid()) {
+      return dateA.valueOf() - dateB.valueOf();
+    }
+    // If only A has a valid date, it comes first
+    if (dateA && dateA.isValid()) return -1;
+    // If only B has a valid date, it comes first
+    if (dateB && dateB.isValid()) return 1;
+    // If neither has a valid date, keep original order
+    return 0;
+  });
+
+  const displayedBookings = sortedBookings.slice(0, MAX_BOOKINGS_TO_SHOW);
+  const hasMoreBookings = sortedBookings.length > MAX_BOOKINGS_TO_SHOW;
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "-";
@@ -87,49 +108,64 @@ export const DailyReportEmail = ({
 
       <Text style={emailStyles.paragraph}>
         Here is your daily booking report for {today}. You have{" "}
-        {bookings.length} active booking{bookings.length !== 1 ? "s" : ""}.
+        {sortedBookings.length} active booking
+        {sortedBookings.length !== 1 ? "s" : ""}.
+        {hasMoreBookings &&
+          ` Showing ${MAX_BOOKINGS_TO_SHOW} of ${sortedBookings.length} below.`}
       </Text>
 
-      {bookings.length > 0 ?
-        <table style={tableStyles.table}>
-          <thead style={tableStyles.thead}>
-            <tr>
-              <th style={tableStyles.th}>GMT Number</th>
-              <th style={tableStyles.th}>Booking Number</th>
-              <th style={tableStyles.th}>Status</th>
-              <th style={tableStyles.th}>ETD</th>
-              <th style={tableStyles.th}>ETA</th>
-              <th style={tableStyles.th}>Route</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.map((booking) => (
-              <tr key={booking["_GMT#"]}>
-                <td style={tableStyles.td}>
-                  <Link
-                    href={`${EMAIL_BASE_URL}/dashboard?bookingNumber=${encodeURIComponent(booking["_GMT#"])}`}
-                    style={tableStyles.link}
-                  >
-                    {booking["_GMT#"]}
-                  </Link>
-                </td>
-                <td style={tableStyles.td}>{booking["_Booking#"] || "-"}</td>
-                <td style={tableStyles.td}>{getStatusBadge(booking)}</td>
-                <td style={tableStyles.td}>
-                  {formatDate(booking.ETDDatePort)}
-                </td>
-                <td style={tableStyles.td}>
-                  {formatDate(booking.ETADatePort)}
-                </td>
-                <td style={tableStyles.td}>
-                  {booking.portOfLoadingCity && booking.portOfDischargeCity ?
-                    `${booking.portOfLoadingCity} → ${booking.portOfDischargeCity}`
-                  : "-"}
-                </td>
+      {sortedBookings.length > 0 ?
+        <>
+          <table style={tableStyles.table}>
+            <thead style={tableStyles.thead}>
+              <tr>
+                <th style={tableStyles.th}>GMT Number</th>
+                <th style={tableStyles.th}>Booking Number</th>
+                <th style={tableStyles.th}>Status</th>
+                <th style={tableStyles.th}>ETD</th>
+                <th style={tableStyles.th}>ETA</th>
+                <th style={tableStyles.th}>Route</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {displayedBookings.map((booking) => (
+                <tr key={booking["_GMT#"]}>
+                  <td style={tableStyles.td}>
+                    <Link
+                      href={`${EMAIL_BASE_URL}/dashboard?bookingNumber=${encodeURIComponent(booking["_GMT#"])}`}
+                      style={tableStyles.link}
+                    >
+                      {booking["_GMT#"]}
+                    </Link>
+                  </td>
+                  <td style={tableStyles.td}>{booking["_Booking#"] || "-"}</td>
+                  <td style={tableStyles.td}>{getStatusBadge(booking)}</td>
+                  <td style={tableStyles.td}>
+                    {formatDate(booking.ETDDatePort)}
+                  </td>
+                  <td style={tableStyles.td}>
+                    {formatDate(booking.ETADatePort)}
+                  </td>
+                  <td style={tableStyles.td}>
+                    {booking.portOfLoadingCity && booking.portOfDischargeCity ?
+                      `${booking.portOfLoadingCity} → ${booking.portOfDischargeCity}`
+                    : "-"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {hasMoreBookings && (
+            <Text style={emailStyles.paragraph}>
+              <Link
+                href={`${EMAIL_BASE_URL}/dashboard`}
+                style={tableStyles.link}
+              >
+                View all {sortedBookings.length} bookings →
+              </Link>
+            </Text>
+          )}
+        </>
       : <Text style={emailStyles.paragraph}>
           You currently have no active bookings.
         </Text>
