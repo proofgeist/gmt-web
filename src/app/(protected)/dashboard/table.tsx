@@ -49,7 +49,7 @@ export default function MyTable({ initialData }: MyTableProps) {
   }, [data]);
   
 
-  const RowActionItems = ({
+  const _RowActionItems = ({
     row,
   }: {
     row: MRT_Row<TBookings>;
@@ -185,9 +185,6 @@ export default function MyTable({ initialData }: MyTableProps) {
         </Group>
       </Group>
     ),
-    enableRowActions: true,
-    renderRowActionMenuItems: RowActionItems,
-    positionActionsColumn: "first",
     displayColumnDefOptions: {
       "mrt-row-actions": { header: "" },
     },

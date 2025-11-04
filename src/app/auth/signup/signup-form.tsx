@@ -14,6 +14,7 @@ import {
   Select,
   Divider,
   Group,
+  Switch,
 } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -48,6 +49,7 @@ export default function SignupForm({ userCountryCode }: { userCountryCode?: Coun
       formProps: {
         defaultValues: {
           language: "en",
+          dailyReportOptIn: true,
         },
       },
     }
@@ -193,6 +195,26 @@ export default function SignupForm({ userCountryCode }: { userCountryCode?: Coun
               });
             }}
           />
+          <Divider />
+          <Group justify="space-between" align="flex-start">
+            <div style={{ flex: 1 }}>
+              <Text fw={500} size="sm">
+                Daily Booking Reports
+              </Text>
+              <Text size="xs" c="dimmed">
+                Receive a daily email with your active bookings and their current
+                status
+              </Text>
+            </div>
+            <Switch
+              checked={form.watch("dailyReportOptIn")}
+              onChange={(event) =>
+                form.setValue("dailyReportOptIn", event.currentTarget.checked)
+              }
+              disabled={action.isPending}
+              size="md"
+            />
+          </Group>
 
           {isErrorResult(action.result.data) ?
             <Text c="red">{action.result.data.error}</Text>

@@ -86,7 +86,7 @@ export default function UserMenu({ isPublic, initialSession }: { isPublic: boole
       <Menu.Dropdown>
         <Menu.Item
           component={Link}
-          href="/auth/profile"
+          href="/profile"
           leftSection={<IconUser size={px("1rem")} />}
         >
           My Profile

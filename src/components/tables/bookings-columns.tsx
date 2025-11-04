@@ -97,6 +97,16 @@ export function useBookingColumns() {
           ),
       },
       {
+        accessorKey: "bookings_CARGO::containerNumber",
+        header: "Container #",
+        enableClickToCopy: true,
+
+        Cell: ({ cell }) => {
+          const value = cell.getValue<string>();
+          return <Text>{value}</Text>;
+        },
+      },
+      {
         accessorKey: "placeOfReceiptCity",
         header: "PO Receipt",
         Cell: ({ cell }) =>
@@ -121,17 +131,6 @@ export function useBookingColumns() {
       {
         header: "PO Discharge",
         accessorKey: "portOfDischargeCity",
-        Cell: ({ cell }) =>
-          cell.getValue<string>() && (
-            <Group gap="xs">
-              <Text>{toProperCase(cell.getValue<string>())}</Text>
-            </Group>
-          ),
-        filterVariant: "text",
-      },
-      {
-        header: "PO Delivery",
-        accessorKey: "placeOfDeliveryCity",
         Cell: ({ cell }) =>
           cell.getValue<string>() && (
             <Group gap="xs">
@@ -247,14 +246,6 @@ export function useBookingColumns() {
           );
         },
         filterVariant: "date",
-      },
-      {
-        accessorKey: "bookings_CARGO::containerNumber",
-        header: "Container #",
-        Cell: ({ cell }) => {
-          const value = cell.getValue<string>();
-          return <Text>{value}</Text>;
-        },
       },
       {
         id: "holds",

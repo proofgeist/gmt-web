@@ -23,7 +23,7 @@ export function UserMobileMenu() {
       <Menu.Divider />
       <Menu.Item
         component={Link}
-        href="/auth/profile"
+        href="/profile"
         leftSection={<IconUser size={px("1rem")} />}
       >
         My Profile
