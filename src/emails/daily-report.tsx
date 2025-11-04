@@ -16,9 +16,12 @@ interface DailyReportEmailProps {
 const tableStyles = {
   table: {
     width: "100%",
-    borderCollapse: "collapse" as const,
+    borderCollapse: "separate" as const,
+    borderSpacing: "0",
     margin: "20px 0",
     border: "1px solid #ddd",
+    borderRadius: "8px",
+    overflow: "hidden",
   },
   thead: {
     backgroundColor: "#f5f5f5",
@@ -38,6 +41,18 @@ const tableStyles = {
     color: "#444",
     fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
     borderBottom: "1px solid #eee",
+  },
+  tfoot: {
+    backgroundColor: "#f8f9fa",
+    borderTop: "2px solid #ddd",
+  },
+  tfootTd: {
+    padding: "14px 12px",
+    fontSize: "14px",
+    color: "#333",
+    fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
+    textAlign: "center" as const,
+    borderBottom: "none",
   },
   link: {
     color: "#171796",
@@ -110,8 +125,6 @@ export const DailyReportEmail = ({
         Here is your daily booking report for {today}. You have{" "}
         {sortedBookings.length} active booking
         {sortedBookings.length !== 1 ? "s" : ""}.
-        {hasMoreBookings &&
-          ` Showing ${MAX_BOOKINGS_TO_SHOW} of ${sortedBookings.length} below.`}
       </Text>
 
       {sortedBookings.length > 0 ?
@@ -128,43 +141,53 @@ export const DailyReportEmail = ({
               </tr>
             </thead>
             <tbody>
-              {displayedBookings.map((booking) => (
-                <tr key={booking["_GMT#"]}>
-                  <td style={tableStyles.td}>
+              {displayedBookings.map((booking, index) => {
+                const isLastRow = index === displayedBookings.length - 1;
+                const tdStyle =
+                  isLastRow && hasMoreBookings ?
+                    { ...tableStyles.td, borderBottom: "none" }
+                  : tableStyles.td;
+
+                return (
+                  <tr key={booking["_GMT#"]}>
+                    <td style={tdStyle}>
+                      <Link
+                        href={`${EMAIL_BASE_URL}/dashboard?bookingNumber=${encodeURIComponent(booking["_GMT#"])}`}
+                        style={tableStyles.link}
+                      >
+                        {booking["_GMT#"]}
+                      </Link>
+                    </td>
+                    <td style={tdStyle}>{booking["_Booking#"] || "-"}</td>
+                    <td style={tdStyle}>{getStatusBadge(booking)}</td>
+                    <td style={tdStyle}>{formatDate(booking.ETDDatePort)}</td>
+                    <td style={tdStyle}>{formatDate(booking.ETADatePort)}</td>
+                    <td style={tdStyle}>
+                      {(
+                        booking.portOfLoadingCity && booking.portOfDischargeCity
+                      ) ?
+                        `${booking.portOfLoadingCity} → ${booking.portOfDischargeCity}`
+                      : "-"}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+            {hasMoreBookings && (
+              <tfoot style={tableStyles.tfoot}>
+                <tr>
+                  <td colSpan={6} style={tableStyles.tfootTd}>
                     <Link
-                      href={`${EMAIL_BASE_URL}/dashboard?bookingNumber=${encodeURIComponent(booking["_GMT#"])}`}
+                      href={`${EMAIL_BASE_URL}/dashboard`}
                       style={tableStyles.link}
                     >
-                      {booking["_GMT#"]}
+                      View all {sortedBookings.length} bookings →
                     </Link>
                   </td>
-                  <td style={tableStyles.td}>{booking["_Booking#"] || "-"}</td>
-                  <td style={tableStyles.td}>{getStatusBadge(booking)}</td>
-                  <td style={tableStyles.td}>
-                    {formatDate(booking.ETDDatePort)}
-                  </td>
-                  <td style={tableStyles.td}>
-                    {formatDate(booking.ETADatePort)}
-                  </td>
-                  <td style={tableStyles.td}>
-                    {booking.portOfLoadingCity && booking.portOfDischargeCity ?
-                      `${booking.portOfLoadingCity} → ${booking.portOfDischargeCity}`
-                    : "-"}
-                  </td>
                 </tr>
-              ))}
-            </tbody>
+              </tfoot>
+            )}
           </table>
-          {hasMoreBookings && (
-            <Text style={emailStyles.paragraph}>
-              <Link
-                href={`${EMAIL_BASE_URL}/dashboard`}
-                style={tableStyles.link}
-              >
-                View all {sortedBookings.length} bookings →
-              </Link>
-            </Text>
-          )}
         </>
       : <Text style={emailStyles.paragraph}>
           You currently have no active bookings.
