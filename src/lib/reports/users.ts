@@ -13,7 +13,6 @@ export async function getOptedInUsers(): Promise<UserSession[]> {
       dailyReportOptIn: "==1",
       active: "==1",
     },
-    limit: 1000,
   });
 
   const userSessions: UserSession[] = [];

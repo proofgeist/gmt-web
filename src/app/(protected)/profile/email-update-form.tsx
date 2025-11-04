@@ -34,7 +34,7 @@ export default function UpdateEmailForm({
     {action.result.data?.error ? (
      <Text c="red">{action.result.data.error}</Text>
     ) : action.hasErrored ? (
-     <Text c="red">An error occured</Text>
+     <Text c="red">An error occurred</Text>
     ) : null}
 
     {form.formState.isDirty && (

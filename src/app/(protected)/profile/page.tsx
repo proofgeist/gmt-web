@@ -17,10 +17,18 @@ export default async function Page() {
   }
 
   // Fetch user's dailyReportOptIn status
-  const userRecord = await usersLayout.findOne({
-    query: { id: `==${user.id}` },
-  });
-  const dailyReportOptIn = Boolean(userRecord.data.fieldData?.dailyReportOptIn);
+  let dailyReportOptIn = false;
+  try {
+    const userRecord = await usersLayout.findOne({
+      query: { id: `==${user.id}` },
+    });
+    const optInValue = userRecord.data.fieldData?.dailyReportOptIn;
+    dailyReportOptIn = optInValue != null ? Boolean(optInValue) : false;
+  } catch (error) {
+    console.error("Failed to fetch user record:", error);
+    // Consider redirecting to error page or showing error message
+    throw error; // Let error boundary handle it
+  }
 
   return (
     <Container size={420} my={40}>

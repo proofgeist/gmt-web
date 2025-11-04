@@ -71,12 +71,16 @@ export default function UpdatePasswordForm() {
           autoComplete="new-password"
           withAsterisk={false}
           {...form.register("confirmNewPassword")}
+          error={form.formState.errors.confirmNewPassword?.message}
+          aria-invalid={
+            form.formState.errors.confirmNewPassword ? "true" : "false"
+          }
         />
-        {action.result.data?.error ? (
+        {action.result.data?.error ?
           <Text c="red">{action.result.data.error}</Text>
-        ) : action.hasErrored ? (
+        : action.hasErrored ?
           <Text c="red">An error occured</Text>
-        ) : null}
+        : null}
         <Group justify="end">
           <Button
             type="submit"

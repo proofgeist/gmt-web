@@ -26,10 +26,20 @@ import { verifyPasswordStrength } from "@/server/auth/utils/password";
 import { usersLayout } from "@/server/auth/db/client";
 import twilio from "twilio";
 
-const client = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
+const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
+const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
+
+const missingVars: string[] = [];
+if (!TWILIO_ACCOUNT_SID) missingVars.push("TWILIO_ACCOUNT_SID");
+if (!TWILIO_AUTH_TOKEN) missingVars.push("TWILIO_AUTH_TOKEN");
+
+if (missingVars.length > 0) {
+  throw new Error(
+    `Missing required Twilio environment variables: ${missingVars.join(", ")}`
+  );
+}
+
+const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 export const updatePreferencesAction = actionClient
   .schema(updatePreferencesSchema)
@@ -55,7 +65,7 @@ export const updateEmailAction = actionClient
     const { session, user } = await getCurrentSession();
     if (session === null) {
       return {
-        message: "Not authenticated",
+        error: "Not authenticated",
       };
     }
 
@@ -129,23 +139,30 @@ export const updatePhoneNumberAction = actionClient
     // If no code provided, send verification code
     if (!code) {
       try {
+        if (!process.env.TWILIO_VERIFY_SERVICE_SID) {
+          return { error: "Twilio service not configured" };
+        }
         await client.verify.v2
-          .services(process.env.TWILIO_VERIFY_SERVICE_SID!)
+          .services(process.env.TWILIO_VERIFY_SERVICE_SID)
           .verifications.create({
             to: phoneNumber,
             channel: "sms",
           });
 
         return { codeSent: true };
-      } catch {
+      } catch (error) {
+        console.error("Failed to send verification code:", error);
         return { error: "Failed to send verification code" };
       }
     }
 
     // If code is provided, verify it
     try {
+      if (!process.env.TWILIO_VERIFY_SERVICE_SID) {
+        return { error: "Twilio service not configured" };
+      }
       const verification = await client.verify.v2
-        .services(process.env.TWILIO_VERIFY_SERVICE_SID!)
+        .services(process.env.TWILIO_VERIFY_SERVICE_SID)
         .verificationChecks.create({
           to: phoneNumber,
           code,
@@ -159,7 +176,8 @@ export const updatePhoneNumberAction = actionClient
       await updateUserPhoneNumber(user.id, phoneNumber);
 
       return { success: true, message: "Phone number updated successfully" };
-    } catch {
+    } catch (error) {
+      console.error("Failed to verify code:", error);
       return { error: "Failed to verify code" };
     }
   });

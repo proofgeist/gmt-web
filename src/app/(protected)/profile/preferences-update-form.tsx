@@ -47,7 +47,7 @@ export default function UpdatePreferencesForm({
     {action.result.data?.error ?
      <Text c="red">{action.result.data.error}</Text>
     : action.hasErrored ?
-     <Text c="red">An error occured</Text>
+     <Text c="red">An error occurred</Text>
     : action.result.data?.message ?
      <Text c="green">{action.result.data.message}</Text>
     : null}
