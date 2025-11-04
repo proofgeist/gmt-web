@@ -1,13 +1,8 @@
 import { Heading, Section, Text, Link } from "@react-email/components";
 import * as React from "react";
-import { env } from "@/config/env";
 import { emailStyles } from "./styles";
 import { EmailLayout } from "./components/EmailLayout";
-
-const BASE_URL =
-  env.NODE_ENV === "production" ?
-    "https://www.mygmt.com/"
-  : "http://localhost:3000";
+import { EMAIL_BASE_URL } from "./config";
 
 interface WelcomeEmailProps {
   email: string;
@@ -37,7 +32,7 @@ export const WelcomeEmail = ({
     </Text>
     <Section style={{ textAlign: "center", marginTop: "20px" }}>
       <Link
-        href={`${BASE_URL}/auth/signup?email=${encodeURIComponent(email)}&firstName=${encodeURIComponent(firstName ?? "")}&lastName=${encodeURIComponent(lastName ?? "")}&company=${encodeURIComponent(company ?? "")}&phoneNumber=${encodeURIComponent(phoneNumber ?? "")}`}
+        href={`${EMAIL_BASE_URL}/auth/signup?email=${encodeURIComponent(email)}&firstName=${encodeURIComponent(firstName ?? "")}&lastName=${encodeURIComponent(lastName ?? "")}&company=${encodeURIComponent(company ?? "")}&phoneNumber=${encodeURIComponent(phoneNumber ?? "")}`}
         style={emailStyles.button}
       >
         Create Your Account

@@ -1,9 +1,6 @@
 import { Text, Link } from "@react-email/components";
 import { emailStyles } from "../styles";
-import { env } from "@/config/env";
-
-const BASE_URL =
-  env.NODE_ENV === "production" ? "https://www.mygmt.com" : "http://localhost:3000";
+import { EMAIL_BASE_URL } from "../config";
 
 interface EmailFooterProps {
   unsubscribeToken?: string;
@@ -41,7 +38,7 @@ export function EmailFooter({ unsubscribeToken, customText }: EmailFooterProps) 
           <>
             Don&apos;t want to receive these daily reports?{" "}
             <Link
-              href={`${BASE_URL}/api/reports/unsubscribe?token=${unsubscribeToken}`}
+              href={`${EMAIL_BASE_URL}/api/reports/unsubscribe?token=${unsubscribeToken}`}
               style={tableStyles.link}
             >
               Unsubscribe
@@ -50,7 +47,7 @@ export function EmailFooter({ unsubscribeToken, customText }: EmailFooterProps) 
         ) : (
           <>
             Questions? Visit{" "}
-            <Link href={BASE_URL} style={tableStyles.link}>
+            <Link href={EMAIL_BASE_URL} style={tableStyles.link}>
               MyGMT.com
             </Link>{" "}
             or contact us.

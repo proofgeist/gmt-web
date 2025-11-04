@@ -3,6 +3,7 @@ import * as React from "react";
 import { emailStyles } from "./styles";
 import { EmailLayout } from "./components/EmailLayout";
 import dayjs from "dayjs";
+import { EMAIL_BASE_URL } from "./config";
 interface HoldRequestedEmailProps {
   firstName?: string;
   bookingNumber: string;
@@ -90,7 +91,7 @@ export const HoldRequestedEmail = ({
       </table>
     </Section>
     <Section style={{ textAlign: "center", marginTop: "20px" }}>
-      <Button style={emailStyles.button} href="https://www.mygmt.com/dashboard">
+      <Button style={emailStyles.button} href={`${EMAIL_BASE_URL}/dashboard`}>
         View My Shipments
       </Button>
     </Section>

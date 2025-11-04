@@ -1,13 +1,8 @@
 import { Heading, Section, Text, Link } from "@react-email/components";
 import * as React from "react";
-import { env } from "@/config/env";
 import { emailStyles } from "./styles";
 import { EmailLayout } from "./components/EmailLayout";
-
-const BASE_URL =
-  env.NODE_ENV === "production" ?
-    "https://www.mygmt.com/"
-  : "https://www.mygmt.com/";
+import { EMAIL_BASE_URL } from "./config";
 
 interface AuthCodeEmailProps {
   validationCode: string;
@@ -55,7 +50,7 @@ export const AuthCodeEmail = ({ validationCode, type }: AuthCodeEmailProps) => (
     {type === "verification" && (
       <Section style={{ textAlign: "center", marginTop: "20px" }}>
         <Link
-          href={`${BASE_URL}/auth/verify-email?code=${validationCode}`}
+          href={`${EMAIL_BASE_URL}/auth/verify-email?code=${validationCode}`}
           style={emailStyles.button}
         >
           Click to Verify Email

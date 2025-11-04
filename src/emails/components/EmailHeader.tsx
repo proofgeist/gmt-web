@@ -1,8 +1,5 @@
 import { Section, Img, Text } from "@react-email/components";
-import { env } from "@/config/env";
-
-const BASE_URL =
-  env.NODE_ENV === "production" ? "https://www.mygmt.com" : "http://localhost:3000";
+import { EMAIL_BASE_URL } from "../config";
 
 export function EmailHeader() {
   return (
@@ -34,7 +31,7 @@ export function EmailHeader() {
               }}
             >
               <Img
-                src={`${BASE_URL}/gmt-icon.png`}
+                src={`${EMAIL_BASE_URL}/gmt-icon.png`}
                 alt="GMT"
                 width="45"
                 height="32"

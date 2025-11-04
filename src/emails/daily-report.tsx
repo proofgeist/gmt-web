@@ -1,15 +1,10 @@
 import { Heading, Text, Link } from "@react-email/components";
 import * as React from "react";
-import { env } from "@/config/env";
 import { emailStyles } from "./styles";
 import type { TBookings } from "@/config/schemas/filemaker/Bookings";
 import dayjs from "dayjs";
 import { EmailLayout } from "./components/EmailLayout";
-
-const BASE_URL =
-  env.NODE_ENV === "production" ?
-    "https://www.mygmt.com"
-  : "http://localhost:3000";
+import { EMAIL_BASE_URL } from "./config";
 
 interface DailyReportEmailProps {
   userName?: string;
@@ -112,7 +107,7 @@ export const DailyReportEmail = ({
               <tr key={booking["_GMT#"]}>
                 <td style={tableStyles.td}>
                   <Link
-                    href={`${BASE_URL}/dashboard?bookingNumber=${encodeURIComponent(booking["_GMT#"])}`}
+                    href={`${EMAIL_BASE_URL}/dashboard?bookingNumber=${encodeURIComponent(booking["_GMT#"])}`}
                     style={tableStyles.link}
                   >
                     {booking["_GMT#"]}
@@ -142,7 +137,7 @@ export const DailyReportEmail = ({
 
       <Text style={emailStyles.paragraph}>
         Click on any GMT Number above to view detailed shipment information on{" "}
-        <Link href={BASE_URL} style={tableStyles.link}>
+        <Link href={EMAIL_BASE_URL} style={tableStyles.link}>
           MyGMT.com
         </Link>
         .

@@ -2,6 +2,7 @@ import { Button, Heading, Section, Text } from "@react-email/components";
 import * as React from "react";
 import { emailStyles } from "./styles";
 import { EmailLayout } from "./components/EmailLayout";
+import { EMAIL_BASE_URL } from "./config";
 
 interface HoldRemovedEmailProps {
   firstName?: string;
@@ -92,7 +93,7 @@ export const HoldRemovedEmail = ({
       </table>
     </Section>
     <Section style={{ textAlign: "center", marginTop: "20px" }}>
-      <Button style={emailStyles.button} href="https://www.mygmt.com/dashboard">
+      <Button style={emailStyles.button} href={`${EMAIL_BASE_URL}/dashboard`}>
         View My Shipments
       </Button>
     </Section>
