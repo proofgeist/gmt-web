@@ -1,13 +1,7 @@
-import {
-  Body,
-  Container,
-  Head,
-  Heading,
-  Html,
-  Text,
-} from "@react-email/components";
+import { Heading, Text } from "@react-email/components";
 import * as React from "react";
 import { emailStyles } from "./styles";
+import { EmailLayout } from "./components/EmailLayout";
 
 interface InquiryEmailProps {
   email: string;
@@ -43,7 +37,6 @@ const inquiryStyles = {
   value: {
     width: "70%",
   },
-
 };
 
 export const InquiryEmail = ({
@@ -54,74 +47,64 @@ export const InquiryEmail = ({
   message,
   cell,
 }: InquiryEmailProps) => (
-  <Html>
-    <Head />
-    <Body style={emailStyles.main}>
-      <Container style={emailStyles.container}>
-        <div style={emailStyles.brandingContainer}>
-          <Text style={emailStyles.brandingMy}>my</Text>
-          <Text style={emailStyles.brandingGMT}>GMT</Text>
-        </div>
+  <EmailLayout fullHeight={false}>
+    <Text style={emailStyles.tertiary}>Global Marine Web</Text>
+    <Heading style={emailStyles.secondary}>New Contact Inquiry</Heading>
 
-        <Text style={emailStyles.tertiary}>Global Marine Web</Text>
-        <Heading style={emailStyles.secondary}>New Contact Inquiry</Heading>
+    <table style={inquiryStyles.table}>
+      <tbody>
+        <tr style={inquiryStyles.row}>
+          <td style={{ ...inquiryStyles.cell, ...inquiryStyles.label }}>
+            Name
+          </td>
+          <td style={{ ...inquiryStyles.cell, ...inquiryStyles.value }}>
+            {firstName} {lastName}
+          </td>
+        </tr>
+        <tr style={inquiryStyles.row}>
+          <td style={{ ...inquiryStyles.cell, ...inquiryStyles.label }}>
+            Company
+          </td>
+          <td style={{ ...inquiryStyles.cell, ...inquiryStyles.value }}>
+            {companyName}
+          </td>
+        </tr>
+        <tr style={inquiryStyles.row}>
+          <td style={{ ...inquiryStyles.cell, ...inquiryStyles.label }}>
+            Email
+          </td>
+          <td style={{ ...inquiryStyles.cell, ...inquiryStyles.value }}>
+            {email}
+          </td>
+        </tr>
+        <tr style={inquiryStyles.row}>
+          <td style={{ ...inquiryStyles.cell, ...inquiryStyles.label }}>
+            Phone
+          </td>
+          <td style={{ ...inquiryStyles.cell, ...inquiryStyles.value }}>
+            {cell}
+          </td>
+        </tr>
+        <tr style={inquiryStyles.row}>
+          <td style={{ ...inquiryStyles.cell, ...inquiryStyles.label }}>
+            Message
+          </td>
+          <td
+            style={{
+              ...inquiryStyles.cell,
+              ...inquiryStyles.value,
+            }}
+          >
+            {message}
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-        <table style={inquiryStyles.table}>
-          <tbody>
-            <tr style={inquiryStyles.row}>
-              <td style={{ ...inquiryStyles.cell, ...inquiryStyles.label }}>
-                Name
-              </td>
-              <td style={{ ...inquiryStyles.cell, ...inquiryStyles.value }}>
-                {firstName} {lastName}
-              </td>
-            </tr>
-            <tr style={inquiryStyles.row}>
-              <td style={{ ...inquiryStyles.cell, ...inquiryStyles.label }}>
-                Company
-              </td>
-              <td style={{ ...inquiryStyles.cell, ...inquiryStyles.value }}>
-                {companyName}
-              </td>
-            </tr>
-            <tr style={inquiryStyles.row}>
-              <td style={{ ...inquiryStyles.cell, ...inquiryStyles.label }}>
-                Email
-              </td>
-              <td style={{ ...inquiryStyles.cell, ...inquiryStyles.value }}>
-                {email}
-              </td>
-            </tr>
-            <tr style={inquiryStyles.row}>
-              <td style={{ ...inquiryStyles.cell, ...inquiryStyles.label }}>
-                Phone
-              </td>
-              <td style={{ ...inquiryStyles.cell, ...inquiryStyles.value }}>
-                {cell}
-              </td>
-            </tr>
-            <tr style={inquiryStyles.row}>
-              <td style={{ ...inquiryStyles.cell, ...inquiryStyles.label }}>
-                Message
-              </td>
-              <td
-                style={{
-                  ...inquiryStyles.cell,
-                  ...inquiryStyles.value,
-                }}
-              >
-                {message}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <Text style={{ ...emailStyles.paragraph, marginTop: "20px" }}>
-          To respond to this inquiry, please log into FileMaker.
-        </Text>
-      </Container>
-    </Body>
-  </Html>
+    <Text style={{ ...emailStyles.paragraph, marginTop: "20px" }}>
+      To respond to this inquiry, please log into FileMaker.
+    </Text>
+  </EmailLayout>
 );
 
 InquiryEmail.PreviewProps = {
@@ -129,7 +112,8 @@ InquiryEmail.PreviewProps = {
   firstName: "John",
   lastName: "Doe",
   companyName: "Global Marine",
-  message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  message:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   cell: "1234567890",
 } as InquiryEmailProps;
 

@@ -9,6 +9,7 @@ import {
   IconPhone,
   IconShield,
   IconRuler,
+  IconLayoutDashboard,
 } from "@tabler/icons-react";
 
 export interface SubRouteLink {
@@ -26,6 +27,8 @@ export interface RouteLink {
   /** If true, the route will only be considered active if the path is exactly this value. */
   exactMatch?: boolean;
   visibility?: "public" | "private" | "all" | "none";
+  /** If specified, the route will only be visible to users with this role. */
+  requiredRole?: string;
   customStyles?: string;
   component?: React.ReactNode;
   subItems?: SubRouteLink[];
@@ -39,6 +42,8 @@ export interface RouteFunction {
   /** If true, the route will only be considered active if the path is exactly this value. */
   exactMatch?: boolean;
   visibility?: "public" | "private" | "all" | "none";
+  /** If specified, the route will only be visible to users with this role. */
+  requiredRole?: string;
   customStyles?: string;
   component?: React.ReactNode;
   subItems?: SubRouteLink[];
@@ -105,6 +110,15 @@ export const publicRoutes: Route[] = [
   }
 ];
 
-export const privateRoutes: Route[] = [];
+export const privateRoutes: Route[] = [
+  {
+    label: "Dashboard",
+    type: "link",
+    href: "/dashboard",
+    visibility: "private",
+    icon: <IconLayoutDashboard size={18} />,
+    exactMatch: false,
+  },
+];
 
 export const secondaryRoutes: Route[] = [];

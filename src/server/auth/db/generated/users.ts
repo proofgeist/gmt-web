@@ -8,6 +8,8 @@
 // prettier-ignore
 /* eslint-disable */
 export type TVLlanguage = "en" | "es";
+export type TVLwebaccesstypes = "agent" | "shipper" | "customer";
+export type TVLuser_roles = "admin" | "user";
 export type Tusers = {
   id: string;
   email: string;
@@ -22,6 +24,10 @@ export type Tusers = {
   zCreatedBy: string;
   zModificationTimestamp: string;
   zModifiedBy: string;
+  dailyReportOptIn: number | null;
+  "pka_company::reportReferenceCustomer": string;
+  "pka_company::webAccessType": "agent" | "shipper" | "customer";
+  user_role: "admin" | "user";
 };
 
 export const layoutName = "proofkit_auth_users";

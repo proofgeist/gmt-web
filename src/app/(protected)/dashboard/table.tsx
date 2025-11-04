@@ -12,7 +12,6 @@ import { useBookingColumns } from "@/components/tables/bookings-columns";
 import { Chip, Group, Text, Menu } from "@mantine/core";
 import { useUser } from "@/hooks/use-user";
 import useShipments from "../use-shipments";
-import { ShipmentType } from "../my-shipments/schema";
 import { useShipmentStore } from "@/lib/shipments/store";
 import { useMemo, useState } from "react";
 import { MRT_ColumnFiltersState } from "mantine-react-table";
@@ -132,6 +131,14 @@ export default function MyTable({ initialData }: MyTableProps) {
     mantineTableProps: {
       striped: true,
     },
+    mantineTableBodyRowProps: ({ row }) => ({
+      onClick: () => {
+        router.push(`/dashboard?bookingNumber=${row.original["_GMT#"]}`);
+      },
+      style: {
+        cursor: "pointer",
+      },
+    }),
     renderTopToolbarCustomActions: () => (
       <Group
         justify="space-between"
@@ -180,7 +187,7 @@ export default function MyTable({ initialData }: MyTableProps) {
     ),
     enableRowActions: true,
     renderRowActionMenuItems: RowActionItems,
-    positionActionsColumn: "last",
+    positionActionsColumn: "first",
     displayColumnDefOptions: {
       "mrt-row-actions": { header: "" },
     },

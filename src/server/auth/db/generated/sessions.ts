@@ -9,6 +9,7 @@
 /* eslint-disable */
 export type TVLlanguage = "en" | "es";
 export type TVLwebaccesstypes = "agent" | "shipper" | "customer";
+export type TVLuser_roles = "admin" | "user";
 export type Tsessions = {
   id: string;
   expiresAt: number | null;
@@ -21,8 +22,8 @@ export type Tsessions = {
   "proofkit_auth_users::phone_number_mfa": string;
   "proofkit_auth_users::preferredLanguage": "en" | "es";
   "proofkit_auth_users::active": number | null;
-  "pka_company::__kpnID": string;
   "pka_company::webAccessType": "agent" | "shipper" | "customer";
+  "proofkit_auth_users::user_role": "admin" | "user";
 };
 
 export const layoutName = "proofkit_auth_sessions";

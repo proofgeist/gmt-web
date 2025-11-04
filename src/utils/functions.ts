@@ -1,6 +1,6 @@
-export function toProperCase(str: string): string {
+export function toProperCase(str: string | undefined): string {
   // Handle empty or null strings
-  if (!str) return str;
+  if (!str) return "";
 
   // Split on spaces and hyphens
   return str

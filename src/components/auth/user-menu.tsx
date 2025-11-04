@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Menu, px, Skeleton, Text } from "@mantine/core";
+import { Button, Menu, px, Text } from "@mantine/core";
 import { useUser } from "@/hooks/use-user";
 import Link from "next/link";
 import {
@@ -9,6 +9,7 @@ import {
   IconLogout,
   IconUser,
   IconUserPlus,
+  IconShield,
 } from "@tabler/icons-react";
 import { yellowtail } from "@/config/theme/fonts";
 import { SessionValidationResult } from "@/server/auth/utils/session";
@@ -90,6 +91,18 @@ export default function UserMenu({ isPublic, initialSession }: { isPublic: boole
         >
           My Profile
         </Menu.Item>
+        {initialSession.user?.user_role === "admin" && (
+          <>
+            <Menu.Divider />
+            <Menu.Item
+              component={Link}
+              href="/admin"
+              leftSection={<IconShield size={px("1rem")} />}
+            >
+              Admin
+            </Menu.Item>
+          </>
+        )}
         <Menu.Divider />
         <Menu.Item
           leftSection={<IconLogout size={px("1rem")} />}
@@ -122,6 +135,15 @@ export function UserMobileMenu({ initialSession }: { initialSession: SessionVali
       >
         My Profile
       </Menu.Item>
+      {initialSession.user?.user_role === "admin" && (
+        <Menu.Item
+          component={Link}
+          href="/admin"
+          leftSection={<IconShield size={px("1rem")} />}
+        >
+          Admin
+        </Menu.Item>
+      )}
       <Menu.Item
         leftSection={<IconLogout size={px("1rem")} />}
         onClick={logout}

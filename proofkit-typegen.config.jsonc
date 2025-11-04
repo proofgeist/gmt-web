@@ -13,6 +13,11 @@
 
         },
         {
+          "schemaName": "BookingsDetails",
+          "valueLists": "allowEmpty",
+          "layoutName": "api.BookingsDetails"
+        },
+        {
           "schemaName": "Contacts",
           "valueLists": "allowEmpty",
           "layoutName": "api.Contacts"

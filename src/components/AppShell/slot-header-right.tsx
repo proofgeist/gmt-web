@@ -22,19 +22,27 @@ export function SlotHeaderRight({
   isPublic: boolean;
   initialSession: SessionValidationResult;
 }) {
-  const { session } = useUser();
+  const { session, user } = useUser();
 
   return (
     <>
       <Group gap={5}>
         <Group gap={5} visibleFrom="xs">
           {routes
-            .filter(
-              (route) =>
+            .filter((route) => {
+              // Base visibility filter
+              const baseVisibilityMatch =
                 (session && route.visibility === "private") ||
                 (!session && route.visibility === "public") ||
-                route.visibility === "all"
-            )
+                route.visibility === "all";
+              
+              // If route requires a specific role, check user role
+              if (route.requiredRole && user?.user_role !== route.requiredRole) {
+                return false;
+              }
+              
+              return baseVisibilityMatch;
+            })
             .map((route) => (
               <HeaderNavLink key={route.label} {...route} />
             ))}

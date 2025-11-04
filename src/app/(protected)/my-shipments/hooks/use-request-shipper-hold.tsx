@@ -4,7 +4,6 @@ import { notifications } from "@mantine/notifications";
 import { closeAllModals, openConfirmModal } from "@mantine/modals";
 import { requestShipperHoldAction } from "../actions";
 import { Text } from "@mantine/core";
-import dayjs from "dayjs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type ShipmentData = {

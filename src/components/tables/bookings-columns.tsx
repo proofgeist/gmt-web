@@ -7,7 +7,7 @@ import {
 import { Badge, Group, Text, Tooltip } from "@mantine/core";
 import { toProperCase } from "@/utils/functions";
 import dayjs from "dayjs";
-import { IconShip, IconX } from "@tabler/icons-react";
+import { IconX } from "@tabler/icons-react";
 import { useReleaseShipperHold } from "@/app/(protected)/my-shipments/hooks/use-release-shipper-hold";
 import { useUser } from "@/hooks/use-user";
 import { useMemo } from "react";
@@ -70,8 +70,6 @@ function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
   );
 }
 export function useBookingColumns() {
-  const { user } = useUser();
-
   return useMemo(() => {
     const columns: MRT_ColumnDef<TBookings>[] = [
       {
@@ -251,6 +249,14 @@ export function useBookingColumns() {
         filterVariant: "date",
       },
       {
+        accessorKey: "bookings_CARGO::containerNumber",
+        header: "Container #",
+        Cell: ({ cell }) => {
+          const value = cell.getValue<string>();
+          return <Text>{value}</Text>;
+        },
+      },
+      {
         id: "holds",
         header: "Status",
         accessorFn: (row) => row.holdStatusList,
@@ -271,5 +277,5 @@ export function useBookingColumns() {
       },
     ];
     return columns;
-  }, [user]);
+  }, []);
 }
