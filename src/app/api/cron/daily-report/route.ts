@@ -5,21 +5,38 @@ import { getUserActiveBookings } from "@/lib/reports/queries";
 import { sendDailyReportEmail } from "@/server/services/daily-report";
 
 export async function GET(request: Request) {
-  // Check for valid authentication
+  // Check for Vercel cron header (automatically added by Vercel cron jobs)
+  const vercelCronHeader = request.headers.get("x-vercel-cron");
   const authHeader = request.headers.get("Authorization");
+
+  // Require Bearer token authentication
   if (!authHeader?.startsWith("Bearer ")) {
     return NextResponse.json(
-      { error: "Missing bearer token" },
+      { error: "Missing authentication" },
       { status: 401 }
     );
   }
 
   const token = authHeader.split(" ")[1];
-  if (token !== env.OTTO_API_KEY) {
-    return NextResponse.json(
-      { error: "Invalid authentication token" },
-      { status: 401 }
-    );
+
+  // If it's a Vercel cron job, verify CRON_SECRET
+  // Otherwise, verify OTTO_API_KEY (for manual/admin calls)
+  if (vercelCronHeader === "1") {
+    // Vercel cron job - must use CRON_SECRET
+    if (token !== env.CRON_SECRET) {
+      return NextResponse.json(
+        { error: "Invalid cron secret" },
+        { status: 401 }
+      );
+    }
+  } else {
+    // Manual/admin call - must use OTTO_API_KEY
+    if (token !== env.OTTO_API_KEY) {
+      return NextResponse.json(
+        { error: "Invalid authentication token" },
+        { status: 401 }
+      );
+    }
   }
 
   try {

@@ -1,56 +1,63 @@
 "use server";
 
 import { actionClient } from "@/server/safe-action";
-import { getOptedInUsers } from "@/lib/reports/users";
-import { getUserActiveBookings } from "@/lib/reports/queries";
-import { sendDailyReportEmail } from "@/server/services/daily-report";
+import { env } from "@/config/env";
 import { z } from "zod";
+
+type RouteResponse =
+  | {
+    message: string;
+    emailsSent: number;
+    usersProcessed: number;
+    errors?: number;
+  }
+  | {
+    error: string;
+  };
 
 export const testDailyReportAction = actionClient
   .schema(z.object({}))
   .action(async () => {
     try {
-      // Get all opted-in users
-      const optedInUsers = await getOptedInUsers();
+      // Construct the internal API URL
+      const baseUrl =
+        env.NODE_ENV === "production"
+          ? process.env.VERCEL_URL
+            ? `https://${process.env.VERCEL_URL}`
+            : "https://www.mygmt.com"
+          : "http://localhost:3000";
 
-      if (optedInUsers.length === 0) {
-        return {
-          success: true,
-          message: "No opted-in users found",
-          emailsSent: 0,
-          usersProcessed: 0,
-          errors: 0,
-        };
+      const url = `${baseUrl}/api/cron/daily-report`;
+
+      // Call the route with proper authentication
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${env.OTTO_API_KEY}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = (await response.json().catch(() => ({}))) as RouteResponse;
+        const errorMessage =
+          "error" in errorData ? errorData.error : `HTTP error! status: ${response.status}`;
+        throw new Error(errorMessage);
       }
 
-      let emailsSent = 0;
-      let errors = 0;
-      const errorDetails: string[] = [];
+      const data = (await response.json()) as RouteResponse;
 
-      // Process each user
-      for (const user of optedInUsers) {
-        try {
-          // Get user's active bookings
-          const bookings = await getUserActiveBookings(user);
-
-          // Send email (even if no bookings - user might want to know)
-          await sendDailyReportEmail(user, bookings);
-          emailsSent++;
-        } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : "Unknown error";
-          console.error(`Error sending email to ${user.email}:`, error);
-          errors++;
-          errorDetails.push(`${user.email}: ${errorMessage}`);
-        }
+      // Check if response contains an error
+      if ("error" in data) {
+        throw new Error(data.error);
       }
 
+      // Transform the route response to match the action's expected format
       return {
         success: true,
-        message: "Daily report processing completed",
-        emailsSent,
-        usersProcessed: optedInUsers.length,
-        errors,
-        errorDetails: errorDetails.length > 0 ? errorDetails : undefined,
+        message: data.message || "Daily report processing completed",
+        emailsSent: data.emailsSent ?? 0,
+        usersProcessed: data.usersProcessed ?? 0,
+        errors: data.errors ?? 0,
       };
     } catch (error) {
       console.error("Error processing daily reports:", error);
