@@ -11,6 +11,7 @@ export const env = createEnv({
     FM_SERVER: z.string().url(),
     OTTO_API_KEY: z.string().startsWith("dk_") as z.ZodType<OttoAPIKey>,
     RESEND_API_KEY: z.string().startsWith("re_"),
+    CRON_SECRET: z.string().min(16).default("dev-cron-secret-change-in-production"),
   },
   client: {},
   // For Next.js >= 13.4.4, you only need to destructure client variables:

@@ -77,23 +77,9 @@ export default function AdminPage() {
                       Emails sent: {result.data.emailsSent || 0}
                     </Text>
                     {result.data.errors !== undefined && result.data.errors > 0 && (
-                      <>
-                        <Text size="sm" c="red">
-                          Errors: {result.data.errors}
-                        </Text>
-                        {result.data.errorDetails && result.data.errorDetails.length > 0 && (
-                          <Stack gap={4} mt="xs">
-                            <Text size="xs" fw={500} c="red">
-                              Error Details:
-                            </Text>
-                            {result.data.errorDetails.map((detail: string, idx: number) => (
-                              <Text key={idx} size="xs" c="red">
-                                • {detail}
-                              </Text>
-                            ))}
-                          </Stack>
-                        )}
-                      </>
+                      <Text size="sm" c="red">
+                        Errors: {result.data.errors}
+                      </Text>
                     )}
                   </>
                 )}
