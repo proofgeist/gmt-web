@@ -34,6 +34,7 @@
     "@tabler/icons-react": "^3.31.0",
     "@tanstack/react-query": "^5.72.1",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/kv": "^3.0.0",
     "dayjs": "^1.11.13",
     "embla-carousel-autoplay": "^7.1.0",
     "embla-carousel-react": "^7.1.0",

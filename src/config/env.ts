@@ -12,6 +12,10 @@ export const env = createEnv({
     OTTO_API_KEY: z.string().startsWith("dk_") as z.ZodType<OttoAPIKey>,
     RESEND_API_KEY: z.string().startsWith("re_"),
     CRON_SECRET: z.string().min(16).default("dev-cron-secret-change-in-production"),
+    // Redis/KV configuration (optional - falls back to FileMaker if not set)
+    KV_URL: z.string().url().optional(),
+    KV_REST_API_URL: z.string().url().optional(),
+    KV_REST_API_TOKEN: z.string().optional(),
   },
   client: {},
   // For Next.js >= 13.4.4, you only need to destructure client variables:

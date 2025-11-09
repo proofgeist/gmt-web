@@ -9,6 +9,12 @@ import type { User } from "./user";
 
 import { sessionsLayout } from "../db/client/index";
 import { Tsessions as _Session } from "../db/sessions";
+import {
+  getCachedSession,
+  setCachedSession,
+  invalidateCachedSession,
+  calculateCacheTTL,
+} from "./redis-cache";
 
 export interface UserSession extends User {
   reportReferenceCustomer: string;
@@ -57,10 +63,14 @@ export async function createSession(
 }
 
 /**
- * Invalidate a session by deleting it from the database.
+ * Invalidate a session by deleting it from the database and cache.
  * @param sessionId - The ID of the session to invalidate.
  */
 export async function invalidateSession(sessionId: string): Promise<void> {
+  // Invalidate cache first (faster)
+  await invalidateCachedSession(sessionId);
+  
+  // Then delete from FileMaker (source of truth)
   const fmResult = await sessionsLayout.maybeFindFirst({
     query: { id: `==${sessionId}` },
   });
@@ -72,6 +82,7 @@ export async function invalidateSession(sessionId: string): Promise<void> {
 
 /**
  * Validate a session token to make sure it still exists in the database and hasn't expired.
+ * Uses Redis cache for performance, with FileMaker as the source of truth.
  * @param token - The session token.
  * @returns The session, or null if it doesn't exist.
  */
@@ -80,6 +91,20 @@ export async function validateSessionToken(
 ): Promise<SessionValidationResult> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 
+  // Try to get from Redis cache first
+  const cachedResult = await getCachedSession(sessionId);
+  if (cachedResult !== null) {
+    // Validate cached result hasn't expired
+    if (cachedResult.session && Date.now() < cachedResult.session.expiresAt.getTime()) {
+      return cachedResult;
+    }
+    // Cache hit but expired - invalidate cache and continue to FileMaker
+    if (cachedResult.session) {
+      await invalidateCachedSession(sessionId);
+    }
+  }
+
+  // Cache miss or expired - query FileMaker (source of truth)
   const result = await sessionsLayout.maybeFindFirst({
     query: { id: `==${sessionId}` },
   });
@@ -106,6 +131,7 @@ export async function validateSessionToken(
   if (!fmResult["pka_company::webAccessType"]) {
     // Delete the session since the account is not properly configured
     await sessionsLayout.delete({ recordId });
+    await invalidateCachedSession(sessionId);
     throw new Error(
       "ACCOUNT_NOT_CONFIGURED: Your account is not properly configured for web access. Please contact support."
     );
@@ -126,9 +152,11 @@ export async function validateSessionToken(
   // delete session if it has expired
   if (Date.now() >= session.expiresAt.getTime()) {
     await sessionsLayout.delete({ recordId });
+    await invalidateCachedSession(sessionId);
     return { session: null, user: null };
   }
 
+  let sessionUpdated = false;
   // extend session if it's going to expire soon
   // You may want to customize this logic to better suit your app's requirements
   if (Date.now() >= session.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
@@ -139,9 +167,19 @@ export async function validateSessionToken(
         expiresAt: Math.floor(session.expiresAt.getTime() / 1000),
       },
     });
+    sessionUpdated = true;
   }
 
-  return { session, user };
+  const validationResult: SessionValidationResult = { session, user };
+
+  // Cache the result (async, don't wait)
+  const ttl = calculateCacheTTL(session.expiresAt);
+  setCachedSession(sessionId, validationResult, ttl).catch((error) => {
+    // Log but don't throw - caching is best effort
+    console.error("Failed to cache session:", error);
+  });
+
+  return validationResult;
 }
 
 /**
@@ -162,7 +200,7 @@ export const getCurrentSession = cache(
 );
 
 /**
- * Invalidate all sessions for a user by deleting them from the database.
+ * Invalidate all sessions for a user by deleting them from the database and cache.
  * @param userId - The ID of the user.
  */
 export async function invalidateUserSessions(userId: string): Promise<void> {
@@ -170,8 +208,10 @@ export async function invalidateUserSessions(userId: string): Promise<void> {
     query: { id_user: `==${userId}` },
   });
 
-  // Use regular for...of since sessions is a regular array
+  // Invalidate cache and delete from FileMaker for each session
   for (const session of sessions) {
+    const sessionId = session.fieldData.id;
+    await invalidateCachedSession(sessionId);
     await sessionsLayout.delete({ recordId: session.recordId });
   }
 }
