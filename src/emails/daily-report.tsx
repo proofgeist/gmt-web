@@ -117,14 +117,17 @@ export const DailyReportEmail = ({
 
   return (
     <EmailLayout unsubscribeToken={unsubscribeToken} fullHeight={true}>
-      <Heading style={emailStyles.secondary}>
-        {userName ? `Hello ${userName},` : "Hello,"}
-      </Heading>
 
       <Text style={emailStyles.paragraph}>
         Here is your daily booking report for {today}. You have{" "}
         {sortedBookings.length} active booking
         {sortedBookings.length !== 1 ? "s" : ""}.
+      </Text>
+      <Text style={emailStyles.paragraph}>
+        View all {sortedBookings.length} bookings on{" "}
+        <Link href={`${EMAIL_BASE_URL}/dashboard`} style={tableStyles.link}>
+          MyGMT.com
+        </Link>
       </Text>
 
       {sortedBookings.length > 0 ?
@@ -146,7 +149,7 @@ export const DailyReportEmail = ({
                 const tdStyle =
                   isLastRow && hasMoreBookings ?
                     { ...tableStyles.td, borderBottom: "none" }
-                  : tableStyles.td;
+                    : tableStyles.td;
 
                 return (
                   <tr key={booking["_GMT#"]}>
@@ -167,7 +170,7 @@ export const DailyReportEmail = ({
                         booking.portOfLoadingCity && booking.portOfDischargeCity
                       ) ?
                         `${booking.portOfLoadingCity} → ${booking.portOfDischargeCity}`
-                      : "-"}
+                        : "-"}
                     </td>
                   </tr>
                 );
@@ -189,18 +192,11 @@ export const DailyReportEmail = ({
             )}
           </table>
         </>
-      : <Text style={emailStyles.paragraph}>
+        : <Text style={emailStyles.paragraph}>
           You currently have no active bookings.
         </Text>
       }
 
-      <Text style={emailStyles.paragraph}>
-        Click on any GMT Number above to view detailed shipment information on{" "}
-        <Link href={EMAIL_BASE_URL} style={tableStyles.link}>
-          MyGMT.com
-        </Link>
-        .
-      </Text>
     </EmailLayout>
   );
 };

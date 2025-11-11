@@ -19,9 +19,18 @@ import { DEFAULT_INBOX } from "@/config/email";
 function ErrorContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
+  const messageParam = searchParams.get("message");
   const [showContactForm, setShowContactForm] = useState(false);
 
   const getErrorMessage = () => {
+    // If a custom message is provided, use it
+    if (messageParam) {
+      return {
+        title: "Error",
+        message: messageParam,
+      };
+    }
+    
     if (error?.includes("ACCOUNT_NOT_CONFIGURED")) {
       return {
         title: "Account Not Configured",

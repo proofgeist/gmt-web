@@ -7,18 +7,23 @@ export async function GET(request: Request) {
   const token = searchParams.get("token");
 
   if (!token) {
+    console.error("[Unsubscribe] No token provided");
     return NextResponse.redirect(
       new URL("/auth/error?message=Invalid unsubscribe link", request.url)
     );
   }
 
+  console.log("[Unsubscribe] Token received:", token.substring(0, 50) + "...");
   const userInfo = validateUnsubscribeToken(token);
 
   if (!userInfo) {
+    console.error("[Unsubscribe] Token validation failed for token:", token.substring(0, 50) + "...");
     return NextResponse.redirect(
       new URL("/auth/error?message=Invalid or expired unsubscribe link", request.url)
     );
   }
+
+  console.log("[Unsubscribe] Token validated successfully for user:", userInfo.email);
 
   try {
     // Find user record and update opt-in status
