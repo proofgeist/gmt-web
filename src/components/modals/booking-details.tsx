@@ -30,14 +30,14 @@ import dayjs from "dayjs";
 import { toProperCase } from "@/utils/functions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useReleaseShipperHold } from "../../app/(protected)/my-shipments/hooks/use-release-shipper-hold";
-import { useRequestShipperHold } from "../../app/(protected)/my-shipments/hooks/use-request-shipper-hold";
-import { useCancelShipperHoldRequest } from "../../app/(protected)/my-shipments/hooks/use-cancel-shipper-hold";
+import { useReleaseShipperHold } from "@/app/(protected)/dashboard/hooks/use-release-shipper-hold";
+import { useRequestShipperHold } from "@/app/(protected)/dashboard/hooks/use-request-shipper-hold";
+import { useCancelShipperHoldRequest } from "@/app/(protected)/dashboard/hooks/use-cancel-shipper-hold";
 import { IconLock, IconLockOpen, IconDownload, IconFile } from "@tabler/icons-react";
 import { useUser } from "@/hooks/use-user";
 import Link from "next/link";
-import { useBookingDetails } from "@/app/(protected)/my-shipments/hooks/use-booking-details";
-import { useDownloadBookingConfirmation } from "@/app/(protected)/my-shipments/hooks/use-download-booking-confirmation";
+import { useBookingDetails } from "@/app/(protected)/dashboard/hooks/use-booking-details";
+import { useDownloadBookingConfirmation } from "@/app/(protected)/dashboard/hooks/use-download-booking-confirmation";
 
 export default function BookingDetails() {
   const router = useRouter();

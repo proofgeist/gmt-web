@@ -5,7 +5,7 @@ import {
   getShipmentByTypeAction,
 } from "./actions";
 import { useQuery } from "@tanstack/react-query";
-import { ShipmentType } from "./my-shipments/schema";
+import { ShipmentType } from "./dashboard/schema";
 import type { TBookings } from "@/config/schemas/filemaker/Bookings";
 
 export default function useShipments(
