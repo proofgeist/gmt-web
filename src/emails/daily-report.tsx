@@ -1,4 +1,4 @@
-import { Heading, Text, Link } from "@react-email/components";
+import { Text, Link } from "@react-email/components";
 import * as React from "react";
 import { emailStyles } from "./styles";
 import type { TBookings } from "@/config/schemas/filemaker/Bookings";
@@ -70,7 +70,7 @@ const tableStyles = {
 };
 
 export const DailyReportEmail = ({
-  userName,
+  userName: _userName,
   bookings,
   unsubscribeToken,
 }: DailyReportEmailProps) => {

@@ -48,7 +48,7 @@ export function useDownloadBookingConfirmation() {
                 notifications.update({
                     id: "download-booking-confirmation",
                     title: "Error",
-                    message: error.message || "Failed to download booking confirmation",
+                    message: error instanceof Error ? error.message : "Failed to download booking confirmation",
                     color: "red",
                     loading: false,
                     autoClose: 5000,

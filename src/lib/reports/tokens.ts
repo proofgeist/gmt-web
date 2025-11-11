@@ -49,7 +49,7 @@ export function validateUnsubscribeToken(token: string): {
     let decoded: string;
     try {
       decoded = Buffer.from(token, "base64").toString("utf-8");
-    } catch (base64Error) {
+    } catch (_base64Error) {
       // If base64 decoding fails, try URL-decoding first (in case of double-encoding)
       try {
         const urlDecoded = decodeURIComponent(token);
