@@ -45,4 +45,13 @@ export const fmsScripts = {
     }),
     output: errorObject,
   },
+  downloadBookingConfirmation: {
+    name: "Download Booking Confirmation",
+    input: z.object({
+      gmt_no: z.string(),
+    }),
+    output: z.object({
+      url: z.union([errorObject, z.string().url()]),
+    }),
+  },
 };
