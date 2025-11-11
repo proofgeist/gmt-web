@@ -16,9 +16,9 @@ import { useShipmentStore } from "@/lib/shipments/store";
 import { useMemo, useState } from "react";
 import { MRT_ColumnFiltersState } from "mantine-react-table";
 import type { TBookings } from "@/config/schemas/filemaker/Bookings";
-import { useRequestShipperHold } from "../my-shipments/hooks/use-request-shipper-hold";
-import { useReleaseShipperHold } from "../my-shipments/hooks/use-release-shipper-hold";
-import { useCancelShipperHoldRequest } from "../my-shipments/hooks/use-cancel-shipper-hold";
+import { useRequestShipperHold } from "@/app/(protected)/dashboard/hooks/use-request-shipper-hold";
+import { useReleaseShipperHold } from "@/app/(protected)/dashboard/hooks/use-release-shipper-hold";
+import { useCancelShipperHoldRequest } from "@/app/(protected)/dashboard/hooks/use-cancel-shipper-hold";
 interface MyTableProps {
   initialData?: TBookings[];
 }
@@ -47,7 +47,7 @@ export default function MyTable({ initialData }: MyTableProps) {
       0
     );
   }, [data]);
-  
+
 
   const _RowActionItems = ({
     row,
@@ -81,28 +81,28 @@ export default function MyTable({ initialData }: MyTableProps) {
               >
                 Release Shipper Hold
               </Menu.Item>
-            : row.original.holdStatusList?.includes("Shipper Hold Requested") ?
-              <Menu.Item
-                onClick={() => {
-                  cancelHoldRequest({
-                    gmt_no: row.original["_GMT#"],
-                  });
-                }}
-              >
-                Cancel Hold Request
-              </Menu.Item>
-            : <Menu.Item
-                onClick={() =>
-                  requestHold({
-                    gmt_no: row.original["_GMT#"],
-                    portOfLoading: row.original.portOfLoadingCity,
-                    portOfDischarge: row.original.portOfDischargeCity,
-                    vesselName: row.original.SSLineCompany,
-                  })
-                }
-              >
-                Request Shipper Hold
-              </Menu.Item>
+              : row.original.holdStatusList?.includes("Shipper Hold Requested") ?
+                <Menu.Item
+                  onClick={() => {
+                    cancelHoldRequest({
+                      gmt_no: row.original["_GMT#"],
+                    });
+                  }}
+                >
+                  Cancel Hold Request
+                </Menu.Item>
+                : <Menu.Item
+                  onClick={() =>
+                    requestHold({
+                      gmt_no: row.original["_GMT#"],
+                      portOfLoading: row.original.portOfLoadingCity,
+                      portOfDischarge: row.original.portOfDischargeCity,
+                      vesselName: row.original.SSLineCompany,
+                    })
+                  }
+                >
+                  Request Shipper Hold
+                </Menu.Item>
             }
           </>
         )}
@@ -147,9 +147,8 @@ export default function MyTable({ initialData }: MyTableProps) {
       >
         <Text size="lg">
           <strong>{user?.reportReferenceCustomer}</strong>
-          {` ${
-            shipmentType === "active" ? "Active Shipments" : "Arrived Shipments"
-          }`}
+          {` ${shipmentType === "active" ? "Active Shipments" : "Arrived Shipments"
+            }`}
         </Text>
 
         <Group gap="sm">
