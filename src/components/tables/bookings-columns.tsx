@@ -8,7 +8,7 @@ import { Badge, Group, Text, Tooltip } from "@mantine/core";
 import { toProperCase } from "@/utils/functions";
 import dayjs from "dayjs";
 import { IconX } from "@tabler/icons-react";
-import { useReleaseShipperHold } from "@/app/(protected)/my-shipments/hooks/use-release-shipper-hold";
+import { useReleaseShipperHold } from "@/app/(protected)/dashboard/hooks/use-release-shipper-hold";
 import { useUser } from "@/hooks/use-user";
 import { useMemo } from "react";
 import Image from "next/image";
@@ -62,7 +62,7 @@ function HoldsCell({ cell }: { cell: MRT_Cell<TBookings> }) {
             >
               {status}
             </Badge>
-          : <Badge key={status} color={statusColors[status]}>
+            : <Badge key={status} color={statusColors[status]}>
               {status}
             </Badge>
         )}

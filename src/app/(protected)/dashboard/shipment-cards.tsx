@@ -11,7 +11,7 @@ import {
 } from "@mantine/core";
 import React, { useState } from "react";
 import { IconShip, IconCircleCheck } from "@tabler/icons-react";
-import type { ShipmentType } from "../my-shipments/schema";
+import type { ShipmentType } from "./schema";
 import { TBookings } from "@/config/schemas/filemaker/Bookings";
 import { useShipmentStore } from "@/lib/shipments/store";
 
@@ -67,12 +67,12 @@ export default function ShipmentCards({ initialData }: ShipmentCardsProps) {
               borderColor:
                 shipmentType === card.type ?
                   theme.colors?.brand?.[9]
-                : undefined,
+                  : undefined,
               borderWidth: shipmentType === card.type ? 2 : 1,
               backgroundColor:
                 hovered === index || shipmentType === card.type ?
                   theme.colors.brand[0]
-                : undefined,
+                  : undefined,
               transition: "background-color 0.3s ease",
               height: "100%",
             }}

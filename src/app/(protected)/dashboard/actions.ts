@@ -100,3 +100,27 @@ export const cancelShipperHoldRequestAction = authedActionClient
       contact_id: user.contact_id,
     });
   });
+
+export const downloadBookingConfirmationAction = authedActionClient
+  .schema(
+    z.object({
+      gmt_no: z.string(),
+    })
+  )
+  .action(async ({ parsedInput }) => {
+    const result = await runFMScript(
+      fmsScripts.downloadBookingConfirmation,
+      {
+        gmt_no: parsedInput.gmt_no,
+      }
+    );
+
+    // Check if result.url is an error object
+    if (typeof result.url === "object" && result.url !== null) {
+      const error = result.url as { text?: string; code?: number };
+      throw new Error(error.text || "Failed to generate download URL");
+    }
+
+    // result.url is a string URL
+    return { url: result.url };
+  });

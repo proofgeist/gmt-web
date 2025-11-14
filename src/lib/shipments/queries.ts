@@ -2,7 +2,7 @@ import { BookingsLayout } from "@/config/schemas/filemaker/client";
 import { BookingsDetailsLayout } from "@/config/schemas/filemaker/client";
 import dayjs from "dayjs";
 import type { UserSession } from "@/server/auth/utils/session";
-import type { ShipmentType } from "@/app/(protected)/my-shipments/schema";
+import type { ShipmentType } from "@/app/(protected)/dashboard/schema";
 
 interface QueryContext {
   user: Pick<UserSession, "reportReferenceCustomer" | "webAccessType"> | null;
@@ -45,7 +45,6 @@ export async function getActiveShipments(ctx: QueryContext) {
         [field]: ctx.user?.reportReferenceCustomer,
         holdStatusList: "*",
       },
-      { onHoldGmtTStamp: "*", omit: "true" },
     ],
     limit: 1000,
   });

@@ -5,7 +5,7 @@ import {
   getMyShipmentsSchema,
   getMyShipmentsByGMTNumberSchema,
   getShipmentByTypeSchema,
-} from "./my-shipments/schema";
+} from "./dashboard/schema";
 import {
   getActiveShipments,
   getPastShipments,

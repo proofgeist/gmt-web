@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { ShipmentType } from "@/app/(protected)/my-shipments/schema";
+import type { ShipmentType } from "@/app/(protected)/dashboard/schema";
 
 interface ShipmentStore {
   shipmentType: ShipmentType;
