@@ -275,17 +275,6 @@ export default function BookingDetails() {
                       </Text>
                       <Text fw={500}>{shipmentDetails.SSLineVoyage || "-"}</Text>
                     </Group>
-                    {shipmentDetails["bookings_QUOTE::freeDaysAtDestination"] !== undefined &&
-                      shipmentDetails["bookings_QUOTE::freeDaysAtDestination"] !== null && (
-                        <Group justify="space-between" wrap="nowrap">
-                          <Text size="sm" fw={500} c="dimmed">
-                            Free Time at Destination
-                          </Text>
-                          <Text fw={500}>
-                            {`${shipmentDetails["bookings_QUOTE::freeDaysAtDestination"]} days`}
-                          </Text>
-                        </Group>
-                      )}
                   </Stack>
                 </Stack>
               </Card>
@@ -296,7 +285,7 @@ export default function BookingDetails() {
               <Stack gap="sm">
                 <Title order={4}>Locations</Title>
                 <Divider />
-                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+                <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="sm">
                   <Stack gap={4}>
                     <Text size="sm" fw={500} c="dimmed">
                       Place of Receipt
@@ -359,6 +348,14 @@ export default function BookingDetails() {
                           .filter(Boolean)
                           .join(", ")
                       ) || "-"}
+                    </Text>
+                  </Stack>
+                  <Stack gap={4}>
+                    <Text size="sm" fw={500} c="dimmed">
+                      Free Time at Destination
+                    </Text>
+                    <Text>
+                      {shipmentDetails["bookings_QUOTE::freeDaysAtDestination"] ? `${shipmentDetails["bookings_QUOTE::freeDaysAtDestination"]} days` : "-"}
                     </Text>
                   </Stack>
                 </SimpleGrid>
