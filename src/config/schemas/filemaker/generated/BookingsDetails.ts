@@ -52,6 +52,7 @@ export const ZBookingsDetails = z.object({
   placeOfDeliveryCountry: z.string(),
   SSLineVessel: z.string(),
   SSLineVoyage: z.string(),
+  "bookings_QUOTE::freeDaysAtDestination": z.union([z.string(), z.number()]),
 });
 
 export type TBookingsDetails = z.infer<typeof ZBookingsDetails>;

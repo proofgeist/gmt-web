@@ -275,6 +275,17 @@ export default function BookingDetails() {
                       </Text>
                       <Text fw={500}>{shipmentDetails.SSLineVoyage || "-"}</Text>
                     </Group>
+                    {shipmentDetails["bookings_QUOTE::freeDaysAtDestination"] !== undefined &&
+                      shipmentDetails["bookings_QUOTE::freeDaysAtDestination"] !== null && (
+                        <Group justify="space-between" wrap="nowrap">
+                          <Text size="sm" fw={500} c="dimmed">
+                            Free Time at Destination
+                          </Text>
+                          <Text fw={500}>
+                            {`${shipmentDetails["bookings_QUOTE::freeDaysAtDestination"]} days`}
+                          </Text>
+                        </Group>
+                      )}
                   </Stack>
                 </Stack>
               </Card>
