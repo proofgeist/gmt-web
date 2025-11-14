@@ -123,12 +123,7 @@ export const DailyReportEmail = ({
         {sortedBookings.length} active booking
         {sortedBookings.length !== 1 ? "s" : ""}.
       </Text>
-      <Text style={emailStyles.paragraph}>
-        View all {sortedBookings.length} bookings on{" "}
-        <Link href={`${EMAIL_BASE_URL}/dashboard`} style={tableStyles.link}>
-          MyGMT.com
-        </Link>
-      </Text>
+
 
       {sortedBookings.length > 0 ?
         <>
