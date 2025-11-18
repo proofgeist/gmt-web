@@ -47,7 +47,6 @@ export default function BookingDetails() {
   const pathname = usePathname();
   const { user } = useUser();
   const isShipper = user?.webAccessType === "shipper";
-  const isAgent = user?.webAccessType === "agent";
   useEffect(() => {
     setBookingNumber(bookingNumberFromParams ?? null);
   }, [bookingNumberFromParams]);
@@ -73,7 +72,7 @@ export default function BookingDetails() {
           <Text fw={700} size="xl">
             Shipment Details
           </Text>
-          {isAgent &&
+          {isShipper &&
             <Box style={{ marginLeft: "auto", marginRight: "10px" }}>
               <Menu shadow="md" width={200} position="bottom-end">
                 <MenuTarget>
