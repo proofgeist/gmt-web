@@ -19,6 +19,7 @@ import type { TBookings } from "@/config/schemas/filemaker/Bookings";
 import { useRequestShipperHold } from "@/app/(protected)/dashboard/hooks/use-request-shipper-hold";
 import { useReleaseShipperHold } from "@/app/(protected)/dashboard/hooks/use-release-shipper-hold";
 import { useCancelShipperHoldRequest } from "@/app/(protected)/dashboard/hooks/use-cancel-shipper-hold";
+import { usePrefetchBookingDetails } from "@/app/(protected)/dashboard/hooks/use-booking-details";
 
 export default function MyTable() {
   const { shipmentType } = useShipmentStore();
@@ -29,6 +30,7 @@ export default function MyTable() {
   const { requestHold } = useRequestShipperHold();
   const { releaseHold } = useReleaseShipperHold();
   const { cancelHoldRequest } = useCancelShipperHoldRequest();
+  const prefetchBookingDetails = usePrefetchBookingDetails();
   const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
     []
   );
@@ -138,6 +140,10 @@ export default function MyTable() {
     mantineTableBodyRowProps: ({ row }) => ({
       onClick: () => {
         router.push(`/dashboard?bookingNumber=${row.original["_GMT#"]}`);
+      },
+      onMouseEnter: () => {
+        // Prefetch booking details for instant modal load
+        prefetchBookingDetails(row.original["_GMT#"]);
       },
       style: {
         cursor: "pointer",

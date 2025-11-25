@@ -110,7 +110,10 @@ export async function getShipmentByGMTNumber(
     },
   });
 
-  return data;
+  return {
+    ...data.data.fieldData,
+    cargo: data.data.portalData?.bookings_CARGO ?? [],
+  };
 }
 
 /**
