@@ -30,6 +30,8 @@ export const ZBookings = z.object({
         "bookings_COMPANIES.agent::reportReferenceCustomer": z.string(),
         "bookings_COMPANIES.shipper::reportReferenceCustomer": z.string(),
         "bookings_CARGO::containerNumber": z.string(),
+        "SSLineVessel": z.string(),
+        "SSLineVoyage": z.string(),
     });
 
 export type TBookings = z.infer<typeof ZBookings>;

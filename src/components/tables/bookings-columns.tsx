@@ -24,12 +24,12 @@ const statusColors: Record<typeof HoldStatusEnum.options[number], string> = {
   "Vendor Hold": "green",
 } as const;
 
-function VesselAndStatusCell({ cell }: { cell: MRT_Cell<TBookings> }) {
+function VoyageAndStatusCell({ cell }: { cell: MRT_Cell<TBookings> }) {
   const { user } = useUser();
 
   const { releaseHold } = useReleaseShipperHold();
   const row = cell.row.original;
-  const vesselValue = row.SSLineCompany;
+  const voyageValue = row.SSLineVessel + " " + row.SSLineVoyage;
   const holdStatusList = row.holdStatusList;
   const isShipper = user?.webAccessType === "shipper";
 
@@ -41,10 +41,10 @@ function VesselAndStatusCell({ cell }: { cell: MRT_Cell<TBookings> }) {
     <Stack gap={3} align="flex-start">
       <Stack gap={1} align="flex-start">
         <Text c="dimmed" size="xs" lineClamp={1}>
-          Vessel
+          Vessel & Voyage
         </Text>
         <Text fw={500} lineClamp={2}>
-          {vesselValue || "-"}
+          {voyageValue || "-"}
         </Text>
       </Stack>
       <Stack gap={1} align="flex-start">
@@ -330,7 +330,7 @@ export function useBookingColumns() {
       },
       {
         id: "dates",
-        accessorFn: (row) => row.maerskDepartureEventTS + " - " + row.maerskArrivalEventTS,
+        accessorFn: (row) => row.ETDDatePort + " - " + row.ETADatePort + " - " + row.maerskDepartureEventTS + " - " + row.maerskArrivalEventTS,
         header: "Dates",
         size: 150,
         Cell: ({ cell }) => {
@@ -355,21 +355,13 @@ export function useBookingColumns() {
                       label={`Verified by Maersk: ${dayjs(refreshTS).format("M/DD/YYYY h:mm A")}`}
                       withArrow
                     >
-                      <Link
-                        href={`https://www.maersk.com/tracking/${row["_Booking#"]}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ display: "inline-flex", alignItems: "center" }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <Image
-                          src="/Maersk Logo.svg"
-                          alt="Maersk"
-                          width={12}
-                          height={12}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </Link>
+                      <Image
+                        src="/Maersk Logo.svg"
+                        alt="Maersk"
+                        width={12}
+                        height={12}
+                        style={{ cursor: "pointer" }}
+                      />
                     </Tooltip>
                   )}
                 </Group>
@@ -407,14 +399,16 @@ export function useBookingColumns() {
       {
         id: "vesselAndStatus",
         header: "Vessel",
+        enableSorting: false,
         size: 250,
-        accessorFn: (row) => row.SSLineCompany + " - " + row.holdStatusList.join(", "),
-        Cell: ({ cell }) => <VesselAndStatusCell cell={cell} />,
+        accessorFn: (row) => row.SSLineVessel + " " + row.SSLineVoyage + " - " + row.holdStatusList.join(", "),
+        Cell: ({ cell }) => <VoyageAndStatusCell cell={cell} />,
         filterVariant: "text",
         filterFn: (row, columnId: string, filterValue: string) => {
           if (!filterValue) return true;
           const filterLower = filterValue.toLowerCase();
-          const vessel = row.original.SSLineCompany?.toLowerCase() || "";
+          const vessel = row.original.SSLineVessel?.toLowerCase() || "";
+          const voyage = row.original.SSLineVoyage?.toLowerCase() || "";
           const statuses = row.original.holdStatusList || [];
 
           // Support the "*" filter for any holds (used by the Holds chip)
@@ -426,7 +420,7 @@ export function useBookingColumns() {
           const statusMatch = statuses.some((status) =>
             status.toLowerCase().includes(filterLower)
           );
-          return vessel.includes(filterLower) || statusMatch;
+          return vessel.includes(filterLower) || voyage.includes(filterLower) || statusMatch;
         },
         mantineFilterSelectProps: {
           data: HoldStatusEnum.options,
