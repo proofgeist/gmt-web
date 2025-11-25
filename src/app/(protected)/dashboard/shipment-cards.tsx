@@ -12,20 +12,15 @@ import {
 import React, { useState } from "react";
 import { IconShip, IconCircleCheck } from "@tabler/icons-react";
 import type { ShipmentType } from "./schema";
-import { TBookings } from "@/config/schemas/filemaker/Bookings";
 import { useShipmentStore } from "@/lib/shipments/store";
+import { useActiveShipments, useCompletedShipments } from "../use-shipments";
 
-interface ShipmentCardsProps {
-  initialData: {
-    active: TBookings[];
-    completed: TBookings[];
-  };
-}
-
-export default function ShipmentCards({ initialData }: ShipmentCardsProps) {
+export default function ShipmentCards() {
   const shipmentType = useShipmentStore((state) => state.shipmentType);
   const setShipmentType = useShipmentStore((state) => state.setShipmentType);
-  const { active, completed } = initialData;
+
+  const { data: active = [] } = useActiveShipments();
+  const { data: completed = [] } = useCompletedShipments();
 
   const theme = useMantineTheme();
   const [hovered, setHovered] = useState<number | null>(null);

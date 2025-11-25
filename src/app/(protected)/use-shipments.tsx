@@ -1,56 +1,40 @@
-import {
-  getActiveShipmentsAction,
-  getPastShipmentsAction,
-  getHoldsShipmentsAction,
-  getShipmentByTypeAction,
-} from "./actions";
+import { getShipmentByTypeAction } from "./actions";
 import { useQuery } from "@tanstack/react-query";
 import { ShipmentType } from "./dashboard/schema";
-import type { TBookings } from "@/config/schemas/filemaker/Bookings";
 
-export default function useShipments(
-  shipmentType?: ShipmentType,
-  initialData?: TBookings[]
-) {
-  const activeShipments = useQuery({
-    queryKey: ["activeShipments"],
-    queryFn: () => getActiveShipmentsAction({}).then((data) => data?.data),
-    staleTime: 1000 * 60 * 5,
-    refetchOnMount: true,
-    placeholderData: (previousData) => initialData ?? previousData,
+/**
+ * Hook to fetch active shipments
+ * Uses the same queryKey as server prefetch for instant hydration
+ */
+export function useActiveShipments() {
+  return useQuery({
+    queryKey: ["shipmentData", "active"],
+    queryFn: () => getShipmentByTypeAction({ type: "active" }).then((data) => data?.data ?? []),
   });
+}
 
-  const pastShipments = useQuery({
-    queryKey: ["pastShipments"],
-    queryFn: () => getPastShipmentsAction({}).then((data) => data?.data),
-    staleTime: 1000 * 60 * 5,
-    refetchOnMount: true,
-    placeholderData: (previousData) => initialData ?? previousData,
+/**
+ * Hook to fetch completed shipments
+ * Uses the same queryKey as server prefetch for instant hydration
+ */
+export function useCompletedShipments() {
+  return useQuery({
+    queryKey: ["shipmentData", "completed"],
+    queryFn: () => getShipmentByTypeAction({ type: "completed" }).then((data) => data?.data ?? []),
   });
+}
 
-  const holdsShipments = useQuery({
-    queryKey: ["holdsShipments"],
-    queryFn: () => getHoldsShipmentsAction({}).then((data) => data?.data),
-    staleTime: 1000 * 60 * 5,
-    refetchOnMount: true,
-    placeholderData: (previousData) => initialData ?? previousData,
-  });
-
-  const shipmentsByType = useQuery({
+/**
+ * Hook to fetch shipments by dynamic type
+ * Used when the shipment type can change (e.g., user selection)
+ */
+export function useShipmentsByType(shipmentType?: ShipmentType) {
+  return useQuery({
     queryKey: ["shipmentData", shipmentType],
     queryFn: async () => {
       if (!shipmentType) return [];
       return getShipmentByTypeAction({ type: shipmentType }).then((data) => data?.data);
     },
     enabled: !!shipmentType,
-    staleTime: 1000 * 60 * 5,
-    refetchOnMount: true,
   });
-
-  return {
-    activeShipments,
-    pastShipments,
-    holdsShipments,
-    shipmentsByType,
-  };
 }
