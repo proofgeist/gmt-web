@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { useBookingColumns } from "@/components/tables/bookings-columns";
 import { Chip, Group, Text, Menu } from "@mantine/core";
 import { useUser } from "@/hooks/use-user";
-import useShipments from "../use-shipments";
+import { useShipmentsByType } from "../use-shipments";
 import { useShipmentStore } from "@/lib/shipments/store";
 import { useMemo, useState } from "react";
 import { MRT_ColumnFiltersState } from "mantine-react-table";
@@ -19,11 +19,8 @@ import type { TBookings } from "@/config/schemas/filemaker/Bookings";
 import { useRequestShipperHold } from "@/app/(protected)/dashboard/hooks/use-request-shipper-hold";
 import { useReleaseShipperHold } from "@/app/(protected)/dashboard/hooks/use-release-shipper-hold";
 import { useCancelShipperHoldRequest } from "@/app/(protected)/dashboard/hooks/use-cancel-shipper-hold";
-interface MyTableProps {
-  initialData?: TBookings[];
-}
 
-export default function MyTable({ initialData }: MyTableProps) {
+export default function MyTable() {
   const { shipmentType } = useShipmentStore();
   const router = useRouter();
   const { user } = useUser();
@@ -37,9 +34,7 @@ export default function MyTable({ initialData }: MyTableProps) {
   );
 
   // Fetch shipment details based on the selected type
-  const {
-    shipmentsByType: { data, isLoading, error: _error },
-  } = useShipments(shipmentType, initialData);
+  const { data, isLoading, error: _error } = useShipmentsByType(shipmentType);
 
   const holdsCount = useMemo(() => {
     return (
@@ -119,8 +114,10 @@ export default function MyTable({ initialData }: MyTableProps) {
     enableFullScreenToggle: false,
     enableHiding: false,
     enableColumnActions: false,
+    enableDensityToggle: false,
+    enableColumnFilters: false,
     initialState: {
-      sorting: [{ id: "ETADatePort", desc: false }],
+      sorting: [{ id: "dates", desc: false }],
       pagination: { pageIndex: 0, pageSize: 10 },
       density: "xs",
       showGlobalFilter: true,
@@ -130,6 +127,13 @@ export default function MyTable({ initialData }: MyTableProps) {
     },
     mantineTableProps: {
       striped: true,
+
+    },
+    mantineTableHeadCellProps: {
+      style: { padding: "8px 12px" },
+    },
+    mantineTableBodyCellProps: {
+      style: { padding: "12px", verticalAlign: "top", textAlign: "left", },
     },
     mantineTableBodyRowProps: ({ row }) => ({
       onClick: () => {
@@ -159,20 +163,20 @@ export default function MyTable({ initialData }: MyTableProps) {
               variant="light"
               style={{ cursor: "pointer" }}
               checked={columnFilters.some(
-                (filter) => filter.id === "holds" && filter.value === "*"
+                (filter) => filter.id === "vesselAndStatus" && filter.value === "*"
               )}
               onClick={() => {
                 const currentFilter = columnFilters.find(
-                  (filter) => filter.id === "holds"
+                  (filter) => filter.id === "vesselAndStatus"
                 );
                 if (currentFilter?.value && currentFilter.value === "*") {
                   setColumnFilters(
-                    columnFilters.filter((f) => f.id !== "holds")
+                    columnFilters.filter((f) => f.id !== "vesselAndStatus")
                   );
                 } else {
                   setColumnFilters([
-                    ...columnFilters.filter((f) => f.id !== "holds"),
-                    { id: "holds", value: "*" },
+                    ...columnFilters.filter((f) => f.id !== "vesselAndStatus"),
+                    { id: "vesselAndStatus", value: "*" },
                   ]);
                 }
               }}
