@@ -1,6 +1,9 @@
 import { getOptedInUsers } from "./users";
 import { getUserActiveBookings } from "./queries";
-import { sendDailyReportEmail } from "@/server/services/daily-report";
+import {
+  prepareDailyReportEmail,
+  sendDailyReportEmailsBatch,
+} from "@/server/services/daily-report";
 
 export type DailyReportResult = {
   message: string;
@@ -12,6 +15,7 @@ export type DailyReportResult = {
 /**
  * Process daily reports for all opted-in users
  * This is the core logic shared between the cron route and admin action
+ * Uses batch email sending to avoid rate limiting
  */
 export async function processDailyReports(): Promise<DailyReportResult> {
   // Get all opted-in users
@@ -26,30 +30,52 @@ export async function processDailyReports(): Promise<DailyReportResult> {
     };
   }
 
-  let emailsSent = 0;
-  let errors = 0;
-
-  // Process each user
-  for (const user of optedInUsers) {
+  // Prepare all email data first
+  const emailDataPromises = optedInUsers.map(async (user) => {
     try {
       // Get user's active bookings
       const bookings = await getUserActiveBookings(user);
-
-      // Send email (even if no bookings - user might want to know)
-      await sendDailyReportEmail(user, bookings);
-      emailsSent++;
+      // Prepare email data (even if no bookings - user might want to know)
+      return prepareDailyReportEmail(user, bookings);
     } catch (error) {
-      console.error(`Error sending email to ${user.email}:`, error);
-      errors++;
-      // Continue processing other users even if one fails
+      console.error(`Error preparing email for ${user.email}:`, error);
+      return null;
     }
+  });
+
+  // Wait for all email data to be prepared
+  const emailDataArray = await Promise.all(emailDataPromises);
+  // Filter out any null values (failed preparations)
+  const validEmailData = emailDataArray.filter(
+    (email): email is NonNullable<typeof email> => email !== null
+  );
+
+  if (validEmailData.length === 0) {
+    return {
+      message: "No valid emails to send",
+      emailsSent: 0,
+      usersProcessed: optedInUsers.length,
+      errors: optedInUsers.length,
+    };
+  }
+
+  // Send all emails in batches
+  const { sent: emailsSent, errors: batchErrors } =
+    await sendDailyReportEmailsBatch(validEmailData);
+
+  // Log any errors
+  if (batchErrors.length > 0) {
+    console.error(
+      `Batch sending errors: ${batchErrors.length} emails failed`,
+      batchErrors
+    );
   }
 
   return {
     message: "Daily report processing completed",
     emailsSent,
     usersProcessed: optedInUsers.length,
-    errors,
+    errors: batchErrors.length + (optedInUsers.length - validEmailData.length),
   };
 }
 
