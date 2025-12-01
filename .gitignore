@@ -38,3 +38,10 @@ next-env.d.ts
 
 #sitemaps
 public/sitemaps*
+
+# MSC Certificate files (sensitive)
+*.pem
+*.pfx
+*.b64
+
+test-auth.js

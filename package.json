@@ -12,9 +12,12 @@
     "typegen": "doppler run -- pnpm dlx @proofkit/typegen@latest --skip-env-check",
     "check:types": "tsc --noEmit",
     "check:all": "./scripts/check-code-quality.sh",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
+    "@azure/msal-node": "^3.8.3",
     "@hookform/resolvers": "^3.10.0",
     "@mantine/carousel": "^7.17.4",
     "@mantine/core": "^7.17.4",
@@ -34,9 +37,11 @@
     "@tabler/icons-react": "^3.31.0",
     "@tanstack/react-query": "^5.72.1",
     "@vercel/analytics": "^1.5.0",
+    "axios": "^1.13.2",
     "dayjs": "^1.11.13",
     "embla-carousel-autoplay": "^7.1.0",
     "embla-carousel-react": "^7.1.0",
+    "express": "^5.2.0",
     "jiti": "^2.4.2",
     "js-cookie": "^3.0.5",
     "libphonenumber-js": "^1.12.6",
@@ -65,6 +70,8 @@
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "@typescript-eslint/eslint-plugin": "^8.35.1",
     "@typescript-eslint/parser": "^8.35.1",
+    "@vitejs/plugin-react": "^5.1.1",
+    "dotenv": "^17.2.3",
     "eslint": "^9.30.0",
     "eslint-config-next": "15.3.4",
     "eslint-plugin-react": "^7.37.5",
@@ -73,7 +80,8 @@
     "postcss-preset-mantine": "^1.17.0",
     "postcss-simple-vars": "^7.0.1",
     "react-email": "^4.0.11",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^4.0.14"
   },
   "packageManager": "pnpm@9.12.3",
   "pnpm": {

@@ -213,6 +213,8 @@ DailyReportEmail.PreviewProps = {
       holdStatusList: [],
       reportReferenceCustomer: "CUST-001",
       SSLineCompany: "Maersk",
+      SSLineVessel: "MSC ANNA",
+      SSLineVoyage: "534W",
       "_shipperReference#": "SHP-001",
       _kfnShipperCompanyID: "123",
       maerskDepartureEventTS: "",
