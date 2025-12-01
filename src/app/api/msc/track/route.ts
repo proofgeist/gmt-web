@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { env } from "@/config/env";
+import type { TrackingEvent, ProxyErrorResponse } from "./types";
 
 // Cache the MSAL client and token
 let msalClient: ConfidentialClientApplication | null = null;
@@ -76,6 +77,13 @@ export async function GET(request: NextRequest) {
         const transportDocumentReference = searchParams.get("bol");
         const carrierBookingReference = searchParams.get("booking");
 
+        // Optional filters (pass-through to DCSA API)
+        const eventType = searchParams.get("eventType"); // SHIPMENT, TRANSPORT, EQUIPMENT (comma-separated)
+        const equipmentEventTypeCode = searchParams.get("equipmentEventTypeCode"); // LOAD, DISC, GTIN, GTOT, etc.
+        const transportEventTypeCode = searchParams.get("transportEventTypeCode"); // ARRI, DEPA
+        const limit = searchParams.get("limit");
+        const sort = searchParams.get("sort");
+
         // Build MSC query params
         const mscParams = new URLSearchParams();
         if (equipmentReference) {
@@ -90,6 +98,13 @@ export async function GET(request: NextRequest) {
                 { status: 400 }
             );
         }
+
+        // Add optional filters
+        if (eventType) mscParams.set("eventType", eventType);
+        if (equipmentEventTypeCode) mscParams.set("equipmentEventTypeCode", equipmentEventTypeCode);
+        if (transportEventTypeCode) mscParams.set("transportEventTypeCode", transportEventTypeCode);
+        if (limit) mscParams.set("limit", limit);
+        if (sort) mscParams.set("sort", sort);
 
         // Get access token
         const accessToken = await getAccessToken();
@@ -111,7 +126,26 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const data = await mscResponse.json();
+        let data = (await mscResponse.json()) as TrackingEvent[];
+
+        // Client-side filtering (fallback if MSC doesn't filter server-side)
+        if (eventType && Array.isArray(data)) {
+            const allowedTypes = eventType.toUpperCase().split(",").map(t => t.trim());
+            data = data.filter(event => allowedTypes.includes(event.eventType));
+        }
+        if (equipmentEventTypeCode && Array.isArray(data)) {
+            const allowedCodes = equipmentEventTypeCode.toUpperCase().split(",").map(c => c.trim());
+            data = data.filter(event => 
+                event.eventType === "EQUIPMENT" && allowedCodes.includes(event.equipmentEventTypeCode)
+            );
+        }
+        if (transportEventTypeCode && Array.isArray(data)) {
+            const allowedCodes = transportEventTypeCode.toUpperCase().split(",").map(c => c.trim());
+            data = data.filter(event => 
+                event.eventType === "TRANSPORT" && allowedCodes.includes(event.transportEventTypeCode)
+            );
+        }
+
         return NextResponse.json(data);
     } catch (error) {
         console.error("MSC Track & Trace error:", error);

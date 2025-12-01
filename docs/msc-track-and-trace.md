@@ -49,9 +49,34 @@ Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ;
   cURL options: "--request GET --header \"Content-Type: application/json\"" ]
 ```
 
+### Search with Filters (like Maersk API)
+
+**Get only TRANSPORT events (vessel arrivals/departures):**
+```
+Set Variable [ $url ; "https://mygmt.com/api/msc/track?booking=" & Table::BookingNumber & "&eventType=TRANSPORT" ]
+Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ; 
+  cURL options: "--request GET --header \"Content-Type: application/json\"" ]
+```
+
+**Get only vessel arrival events:**
+```
+Set Variable [ $url ; "https://mygmt.com/api/msc/track?booking=" & Table::BookingNumber & "&transportEventTypeCode=ARRI" ]
+Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ; 
+  cURL options: "--request GET --header \"Content-Type: application/json\"" ]
+```
+
+**Get only LOAD and DISC events (vessel loading/discharge):**
+```
+Set Variable [ $url ; "https://mygmt.com/api/msc/track?booking=" & Table::BookingNumber & "&equipmentEventTypeCode=LOAD,DISC" ]
+Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ; 
+  cURL options: "--request GET --header \"Content-Type: application/json\"" ]
+```
+
 ---
 
 ## Parameter Mapping
+
+### Required Parameters (pick one)
 
 | GMT Proxy Parameter | Original DCSA Parameter | Description |
 |---|---|---|
@@ -59,7 +84,17 @@ Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ;
 | `bol` | `transportDocumentReference` | Bill of Lading number |
 | `booking` | `carrierBookingReference` | Booking reference number |
 
-**Note:** Only one parameter should be provided per request.
+### Optional Filter Parameters
+
+| Parameter | Values | Description |
+|---|---|---|
+| `eventType` | `TRANSPORT`, `EQUIPMENT`, `SHIPMENT` | Filter by event type (comma-separated for multiple) |
+| `equipmentEventTypeCode` | `LOAD`, `DISC`, `GTIN`, `GTOT` | Filter equipment events by code |
+| `transportEventTypeCode` | `ARRI`, `DEPA` | Filter transport events by code |
+| `limit` | Number | Max records to return |
+| `sort` | Field name | Sort by field |
+
+**Note:** Only one required parameter should be provided per request. Filters can be combined.
 
 ---
 
