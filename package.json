@@ -13,8 +13,8 @@
     "check:types": "tsc --noEmit",
     "check:all": "./scripts/check-code-quality.sh",
     "postbuild": "next-sitemap",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "doppler run -- vitest run",
+    "test:watch": "doppler run -- vitest"
   },
   "dependencies": {
     "@azure/msal-node": "^3.8.3",
@@ -71,7 +71,6 @@
     "@typescript-eslint/eslint-plugin": "^8.35.1",
     "@typescript-eslint/parser": "^8.35.1",
     "@vitejs/plugin-react": "^5.1.1",
-    "dotenv": "^17.2.3",
     "eslint": "^9.30.0",
     "eslint-config-next": "15.3.4",
     "eslint-plugin-react": "^7.37.5",

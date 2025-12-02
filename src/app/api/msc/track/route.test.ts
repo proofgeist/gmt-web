@@ -7,68 +7,10 @@
 import { describe, it, expect } from "vitest";
 import { NextRequest } from "next/server";
 import { GET } from "./route";
-
-// Type definitions for MSC API responses
-interface DocumentReference {
-  documentReferenceType: string;
-  documentReferenceValue: string;
-}
-
-interface Vessel {
-  vesselIMONumber: string;
-  vesselName: string;
-  vesselFlag?: string;
-  vesselCallSignNumber?: string;
-}
-
-interface TransportCall {
-  transportCallID: string;
-  carrierServiceCode: string | null;
-  exportVoyageNumber: string | null;
-  importVoyageNumber: string | null;
-  unLocationCode: string;
-  facilityCode: string;
-  facilityCodeListProvider: string;
-  facilityTypeCode: string;
-  otherFacility: string | null;
-  modeOfTransport: string;
-  vessel: Vessel | null;
-}
-
-interface EventLocation {
-  locationName: string;
-  unLocationCode: string;
-  facilityCode: string;
-  facilityCodeListProvider: string;
-}
-
-interface MSCEvent {
-  eventType: "EQUIPMENT" | "TRANSPORT";
-  eventId: string;
-  eventDateTime: string;
-  eventClassifierCode: string;
-  eventCreatedDateTime: string;
-  description: string;
-  documentReferences: DocumentReference[];
-  transportCall: TransportCall;
-  // Equipment event specific
-  equipmentEventTypeCode?: string;
-  equipmentReference?: string;
-  ISOEquipmentCode?: string;
-  emptyIndicatorCode?: string;
-  eventLocation?: EventLocation;
-  seals?: { sealNumber: string; sealSource: string }[];
-  // Transport event specific
-  transportEventTypeCode?: string;
-  references?: unknown[];
-}
-
-interface ErrorResponse {
-  error: string;
-  status?: number;
-  details?: string;
-  message?: string;
-}
+import type {
+  TrackingEvent,
+  ProxyErrorResponse,
+} from "./types";
 
 // Known test data from real MSC booking
 const TEST_DATA = {
@@ -90,7 +32,7 @@ describe("MSC Track & Trace API", () => {
     it("should return 400 when no parameters provided", async () => {
       const request = createRequest();
       const response = await GET(request);
-      const data = (await response.json()) as ErrorResponse;
+      const data = (await response.json()) as ProxyErrorResponse;
 
       // If MSC is not configured, it returns 503
       if (response.status === 503) {
@@ -111,7 +53,7 @@ describe("MSC Track & Trace API", () => {
       // Skip if not configured
       if (response.status === 503) return;
 
-      const data = (await response.json()) as MSCEvent[];
+      const data = (await response.json()) as TrackingEvent[];
       expect(response.status).toBe(200);
       expect(Array.isArray(data)).toBe(true);
       expect(data.length).toBeGreaterThan(0);
@@ -129,7 +71,7 @@ describe("MSC Track & Trace API", () => {
 
       if (response.status === 503) return;
 
-      const data = (await response.json()) as MSCEvent[];
+      const data = (await response.json()) as TrackingEvent[];
       const firstEvent = data[0];
       const bookingRef = firstEvent.documentReferences.find(
         (ref) => ref.documentReferenceType === "BKG"
@@ -144,7 +86,7 @@ describe("MSC Track & Trace API", () => {
 
       if (response.status === 503) return;
 
-      const data = (await response.json()) as ErrorResponse;
+      const data = (await response.json()) as ProxyErrorResponse;
       expect(response.status).toBe(404);
       expect(data.error).toBe("MSC API error");
     });
@@ -157,7 +99,7 @@ describe("MSC Track & Trace API", () => {
 
       if (response.status === 503) return;
 
-      const data = (await response.json()) as MSCEvent[];
+      const data = (await response.json()) as TrackingEvent[];
       expect(response.status).toBe(200);
       expect(Array.isArray(data)).toBe(true);
       expect(data.length).toBeGreaterThan(0);
@@ -175,7 +117,7 @@ describe("MSC Track & Trace API", () => {
 
       if (response.status === 503) return;
 
-      const data = (await response.json()) as MSCEvent[];
+      const data = (await response.json()) as TrackingEvent[];
       expect(response.status).toBe(200);
       expect(Array.isArray(data)).toBe(true);
       expect(data.length).toBeGreaterThan(0);
@@ -197,7 +139,7 @@ describe("MSC Track & Trace API", () => {
 
       if (response.status === 503) return;
 
-      const data = (await response.json()) as MSCEvent[];
+      const data = (await response.json()) as TrackingEvent[];
       const equipmentEvent = data.find((e) => e.eventType === "EQUIPMENT");
       expect(equipmentEvent).toBeDefined();
       expect(equipmentEvent).toHaveProperty("equipmentEventTypeCode");
@@ -213,7 +155,7 @@ describe("MSC Track & Trace API", () => {
 
       if (response.status === 503) return;
 
-      const data = (await response.json()) as MSCEvent[];
+      const data = (await response.json()) as TrackingEvent[];
       const transportEvent = data.find((e) => e.eventType === "TRANSPORT");
       expect(transportEvent).toBeDefined();
       expect(transportEvent).toHaveProperty("transportEventTypeCode");
@@ -227,7 +169,7 @@ describe("MSC Track & Trace API", () => {
 
       if (response.status === 503) return;
 
-      const data = (await response.json()) as MSCEvent[];
+      const data = (await response.json()) as TrackingEvent[];
       const vesselEvent = data.find((e) => e.transportCall?.vessel !== null);
       expect(vesselEvent).toBeDefined();
       expect(vesselEvent?.transportCall.vessel).toHaveProperty("vesselIMONumber");
@@ -242,7 +184,7 @@ describe("MSC Track & Trace API", () => {
 
       if (response.status === 503) return;
 
-      const data = (await response.json()) as MSCEvent[];
+      const data = (await response.json()) as TrackingEvent[];
 
       // Events should be sorted with most recent first
       for (let i = 0; i < data.length - 1; i++) {
@@ -258,10 +200,13 @@ describe("MSC Track & Trace API", () => {
 
       if (response.status === 503) return;
 
-      const data = (await response.json()) as MSCEvent[];
-      const eventCodes = data.map(
-        (e) => e.equipmentEventTypeCode ?? e.transportEventTypeCode
-      );
+      const data = (await response.json()) as TrackingEvent[];
+      const eventCodes = data.map((e) => {
+        if (e.eventType === "EQUIPMENT") return e.equipmentEventTypeCode;
+        if (e.eventType === "TRANSPORT") return e.transportEventTypeCode;
+        if (e.eventType === "SHIPMENT") return e.shipmentEventTypeCode;
+        return undefined;
+      });
 
       // Should have loading and discharge events
       expect(eventCodes).toContain("LOAD"); // Loaded on vessel
