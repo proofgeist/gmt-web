@@ -135,13 +135,13 @@ export async function GET(request: NextRequest) {
         }
         if (equipmentEventTypeCode && Array.isArray(data)) {
             const allowedCodes = equipmentEventTypeCode.toUpperCase().split(",").map(c => c.trim());
-            data = data.filter(event => 
+            data = data.filter(event =>
                 event.eventType === "EQUIPMENT" && allowedCodes.includes(event.equipmentEventTypeCode)
             );
         }
         if (transportEventTypeCode && Array.isArray(data)) {
             const allowedCodes = transportEventTypeCode.toUpperCase().split(",").map(c => c.trim());
-            data = data.filter(event => 
+            data = data.filter(event =>
                 event.eventType === "TRANSPORT" && allowedCodes.includes(event.transportEventTypeCode)
             );
         }

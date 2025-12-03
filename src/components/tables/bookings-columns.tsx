@@ -7,6 +7,7 @@ import {
 import { Badge, Group, Text, Tooltip, Stack, Popover } from "@mantine/core";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { toProperCase } from "@/utils/functions";
+import { getCarrierInfo } from "@/utils/carrier";
 import dayjs from "dayjs";
 import { IconX } from "@tabler/icons-react";
 import { useReleaseShipperHold } from "@/app/(protected)/dashboard/hooks/use-release-shipper-hold";
@@ -330,18 +331,19 @@ export function useBookingColumns() {
       },
       {
         id: "dates",
-        accessorFn: (row) => row.ETDDatePort + " - " + row.ETADatePort + " - " + row.maerskDepartureEventTS + " - " + row.maerskArrivalEventTS,
+        accessorFn: (row) => row.ETDDatePort + " - " + row.ETADatePort + " - " + row.APIDepartureEventTS + " - " + row.APIArrivalEventTS,
         header: "Dates",
         size: 150,
         Cell: ({ cell }) => {
           const row = cell.row.original;
-          const etdMaersk = row.maerskDepartureEventTS;
+          const apiDepartureTS = row.APIDepartureEventTS;
           const etdDefault = row.ETDDatePort;
-          const etdDate = etdMaersk || etdDefault;
-          const etaMaersk = row.maerskArrivalEventTS;
+          const etdDate = apiDepartureTS || etdDefault;
+          const apiArrivalTS = row.APIArrivalEventTS;
           const etaDefault = row.ETADatePort;
-          const etaDate = etaMaersk || etaDefault;
-          const refreshTS = row.maerskRefreshTS;
+          const etaDate = apiArrivalTS || etaDefault;
+          const refreshTS = row.APIRefreshTS;
+          const carrier = getCarrierInfo(row.SSLineCompany);
 
           return (
             <Stack gap={3} align="flex-start">
@@ -350,14 +352,14 @@ export function useBookingColumns() {
                   <Text c="dimmed" size="xs" lineClamp={1}>
                     ETD
                   </Text>
-                  {etdDate && etdMaersk && refreshTS && (
+                  {etdDate && apiDepartureTS && refreshTS && carrier.logo && (
                     <Tooltip
-                      label={`Verified by Maersk: ${dayjs(refreshTS).format("M/DD/YYYY h:mm A")}`}
+                      label={`Verified by ${carrier.name}: ${dayjs(refreshTS).format("M/DD/YYYY h:mm A")}`}
                       withArrow
                     >
                       <Image
-                        src="/Maersk Logo.svg"
-                        alt="Maersk"
+                        src={carrier.logo}
+                        alt={carrier.name}
                         width={12}
                         height={12}
                         style={{ cursor: "pointer" }}
@@ -385,13 +387,13 @@ export function useBookingColumns() {
           );
         },
         filterFn: (row, _, filterValue: string) => {
-          const etdDate = row.original.maerskDepartureEventTS || row.original.ETDDatePort;
-          const etaDate = row.original.maerskArrivalEventTS || row.original.ETADatePort;
+          const etdDate = row.original.APIDepartureEventTS || row.original.ETDDatePort;
+          const etaDate = row.original.APIArrivalEventTS || row.original.ETADatePort;
           return dayjs(etdDate).isSame(dayjs(filterValue)) || dayjs(etaDate).isSame(dayjs(filterValue));
         },
         sortingFn: (a, b) => {
-          const dateA = a.original.maerskArrivalEventTS || a.original.ETADatePort;
-          const dateB = b.original.maerskArrivalEventTS || b.original.ETADatePort;
+          const dateA = a.original.APIArrivalEventTS || a.original.ETADatePort;
+          const dateB = b.original.APIArrivalEventTS || b.original.ETADatePort;
           return dayjs(dateA).unix() - dayjs(dateB).unix();
         },
         filterVariant: "date",
