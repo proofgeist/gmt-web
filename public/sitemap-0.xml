@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://mygmt.com/auth/error</loc><lastmod>2025-12-01T19:20:13.020Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://mygmt.com/auth/forgot-password</loc><lastmod>2025-12-01T19:20:13.021Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://mygmt.com/auth/signup</loc><lastmod>2025-12-01T19:20:13.021Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://mygmt.com/auth/mfa/enroll</loc><lastmod>2025-12-01T19:20:13.021Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://mygmt.com/auth/error</loc><lastmod>2025-12-04T19:20:47.109Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://mygmt.com/auth/forgot-password</loc><lastmod>2025-12-04T19:20:47.110Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://mygmt.com/auth/mfa/enroll</loc><lastmod>2025-12-04T19:20:47.110Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://mygmt.com/auth/signup</loc><lastmod>2025-12-04T19:20:47.110Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

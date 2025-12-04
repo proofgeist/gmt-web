@@ -26,7 +26,7 @@ export const verifyDeviceTokenAction = actionClient
 
     // Parse and validate the device token
     const parsedToken = parseDeviceToken(deviceToken);
-    if (!parsedToken || parsedToken.userId !== pendingUserId) {
+    if (!parsedToken?.userId || parsedToken.userId !== pendingUserId) {
       return { error: "Invalid device token" };
     }
 

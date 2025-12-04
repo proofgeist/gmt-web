@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
   },
   // Enable image optimization for better performance
   images: {
-    domains: [],
+    remotePatterns: [],
     unoptimized: false,
   },
   // Ensure prefetching is enabled (this is the default, but making it explicit)
