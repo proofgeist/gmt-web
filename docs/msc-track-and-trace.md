@@ -17,7 +17,7 @@ FileMaker cannot natively handle this authentication flow. Our proxy endpoint ha
 
 | | Original MSC API | GMT Proxy Endpoint |
 |---|---|---|
-| **Base URL** | `https://api.tech.msc.com/msc/trackandtrace/v2.2/events` | `https://mygmt.com/api/msc/track` |
+| **Base URL** | `https://api.tech.msc.com/msc/trackandtrace/v2.2/events` | `https://www.mygmt.com/api/msc/track` |
 | **Authentication** | Certificate + OAuth 2.0 Bearer Token | None (handled internally) |
 | **Parameters** | `equipmentReference`, `transportDocumentReference`, `carrierBookingReference` | `container`, `bol`, `booking` |
 
@@ -28,7 +28,7 @@ FileMaker cannot natively handle this authentication flow. Our proxy endpoint ha
 ### Search by Container Number
 
 ```
-Set Variable [ $url ; "https://mygmt.com/api/msc/track?container=" & Table::ContainerNumber ]
+Set Variable [ $url ; "https://www.mygmt.com/api/msc/track?container=" & Table::ContainerNumber ]
 Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ; 
   cURL options: "--request GET --header \"Content-Type: application/json\"" ]
 ```
@@ -36,7 +36,7 @@ Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ;
 ### Search by Bill of Lading
 
 ```
-Set Variable [ $url ; "https://mygmt.com/api/msc/track?bol=" & Table::BillOfLading ]
+Set Variable [ $url ; "https://www.mygmt.com/api/msc/track?bol=" & Table::BillOfLading ]
 Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ; 
   cURL options: "--request GET --header \"Content-Type: application/json\"" ]
 ```
@@ -44,7 +44,7 @@ Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ;
 ### Search by Booking Number
 
 ```
-Set Variable [ $url ; "https://mygmt.com/api/msc/track?booking=" & Table::BookingNumber ]
+Set Variable [ $url ; "https://www.mygmt.com/api/msc/track?booking=" & Table::BookingNumber ]
 Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ; 
   cURL options: "--request GET --header \"Content-Type: application/json\"" ]
 ```
@@ -53,21 +53,21 @@ Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ;
 
 **Get only TRANSPORT events (vessel arrivals/departures):**
 ```
-Set Variable [ $url ; "https://mygmt.com/api/msc/track?booking=" & Table::BookingNumber & "&eventType=TRANSPORT" ]
+Set Variable [ $url ; "https://www.mygmt.com/api/msc/track?booking=" & Table::BookingNumber & "&eventType=TRANSPORT" ]
 Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ; 
   cURL options: "--request GET --header \"Content-Type: application/json\"" ]
 ```
 
 **Get only vessel arrival events:**
 ```
-Set Variable [ $url ; "https://mygmt.com/api/msc/track?booking=" & Table::BookingNumber & "&transportEventTypeCode=ARRI" ]
+Set Variable [ $url ; "https://www.mygmt.com/api/msc/track?booking=" & Table::BookingNumber & "&transportEventTypeCode=ARRI" ]
 Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ; 
   cURL options: "--request GET --header \"Content-Type: application/json\"" ]
 ```
 
 **Get only LOAD and DISC events (vessel loading/discharge):**
 ```
-Set Variable [ $url ; "https://mygmt.com/api/msc/track?booking=" & Table::BookingNumber & "&equipmentEventTypeCode=LOAD,DISC" ]
+Set Variable [ $url ; "https://www.mygmt.com/api/msc/track?booking=" & Table::BookingNumber & "&equipmentEventTypeCode=LOAD,DISC" ]
 Insert from URL [ Select ; With Dialog: Off ; Target: $result ; $url ; 
   cURL options: "--request GET --header \"Content-Type: application/json\"" ]
 ```
@@ -275,7 +275,7 @@ Use these known-good test values:
 
 Example test URL:
 ```
-https://mygmt.com/api/msc/track?booking=EBKG13537905
+https://www.mygmt.com/api/msc/track?booking=EBKG13537905
 ```
 
 ---

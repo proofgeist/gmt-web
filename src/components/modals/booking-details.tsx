@@ -36,6 +36,7 @@ import { useCancelShipperHoldRequest } from "@/app/(protected)/dashboard/hooks/u
 import { IconLock, IconLockOpen, IconDownload, IconFile } from "@tabler/icons-react";
 import { useUser } from "@/hooks/use-user";
 import Link from "next/link";
+import { getCarrierInfo } from "@/utils/carrier";
 import { useBookingDetails } from "@/app/(protected)/dashboard/hooks/use-booking-details";
 import { useDownloadBookingConfirmation } from "@/app/(protected)/dashboard/hooks/use-download-booking-confirmation";
 
@@ -155,39 +156,44 @@ export default function BookingDetails() {
               {/* Dates Section */}
               <Card withBorder padding="md" radius="md">
                 <Stack gap="sm">
-                  <Group justify="space-between" wrap="nowrap">
-                    <Title order={4}>Dates</Title>
-                    {shipmentDetails.maerskRefreshTS && (
-                      <Tooltip
-                        label={`Verified on: ${dayjs(shipmentDetails.maerskRefreshTS).format("MMM D, YYYY h:mm A")}`}
-                        withArrow
-                      >
-                        <Link
-                          href={`https://www.maersk.com/tracking/${shipmentDetails["_Booking#"]}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            textDecoration: "none",
-                          }}
-                        >
-                          <Group gap="xs" wrap="nowrap">
-                            <Text size="sm" fw={500} c="dimmed">
-                              Verified by Maersk
-                            </Text>
-                            <Image
-                              src="/Maersk Logo.svg"
-                              alt="Maersk"
-                              width={16}
-                              height={16}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </Group>
-                        </Link>
-                      </Tooltip>
-                    )}
-                  </Group>
+                  {(() => {
+                    const carrier = getCarrierInfo(shipmentDetails.SSLineCompany);
+                    return (
+                      <Group justify="space-between" wrap="nowrap">
+                        <Title order={4}>Dates</Title>
+                        {shipmentDetails.APIRefreshTS && carrier.logo && (
+                          <Tooltip
+                            label={`Verified on: ${dayjs(shipmentDetails.APIRefreshTS).format("MMM D, YYYY h:mm A")}`}
+                            withArrow
+                          >
+                            <Link
+                              href={carrier.trackingUrl(shipmentDetails["_Booking#"])}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                textDecoration: "none",
+                              }}
+                            >
+                              <Group gap="xs" wrap="nowrap">
+                                <Text size="sm" fw={500} c="dimmed">
+                                  Verified by {carrier.name}
+                                </Text>
+                                <Image
+                                  src={carrier.logo}
+                                  alt={carrier.name}
+                                  width={16}
+                                  height={16}
+                                  style={{ cursor: "pointer" }}
+                                />
+                              </Group>
+                            </Link>
+                          </Tooltip>
+                        )}
+                      </Group>
+                    );
+                  })()}
                   <Divider />
                   <Stack gap="xs">
                     <Group justify="space-between" wrap="nowrap">
@@ -195,9 +201,9 @@ export default function BookingDetails() {
                         Sailing Date (ETD)
                       </Text>
                       {(() => {
-                        const maerskDate = shipmentDetails.maerskDepartureEventTS;
+                        const apiDate = shipmentDetails.APIDepartureEventTS;
                         const defaultDate = shipmentDetails.ETDDatePort;
-                        const dateToShow = maerskDate || defaultDate;
+                        const dateToShow = apiDate || defaultDate;
 
                         return (
                           <Group gap="xs" align="center" wrap="nowrap">
@@ -215,9 +221,9 @@ export default function BookingDetails() {
                         Arrival Date (ETA)
                       </Text>
                       {(() => {
-                        const maerskDate = shipmentDetails.maerskArrivalEventTS;
+                        const apiDate = shipmentDetails.APIArrivalEventTS;
                         const defaultDate = shipmentDetails.ETADatePort;
-                        const dateToShow = maerskDate || defaultDate;
+                        const dateToShow = apiDate || defaultDate;
 
                         return (
                           <Group gap="xs" align="center" wrap="nowrap">
